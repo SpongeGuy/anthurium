@@ -13,7 +13,7 @@ function create_bullet(posX, posY, dx, dy, speed)
 	return bullet
 end
 
-
+-- hi
 function create_triangle_player(x, y)
 	local posX = x or 0
 	local posY = y or 0
