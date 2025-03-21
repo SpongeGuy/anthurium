@@ -13,7 +13,7 @@ function create_bullet(posX, posY, dx, dy, speed)
 	return bullet
 end
 
--- hi
+-- hi jerster
 function create_triangle_player(x, y)
 	local posX = x or 0
 	local posY = y or 0
@@ -25,7 +25,6 @@ function create_triangle_player(x, y)
 		decel = 2500,
 		facing = 0,
 		attack_speed = 0.1
-
 	}
 	function player:shoot()
 		local bullet = {
