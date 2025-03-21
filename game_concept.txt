@@ -1,0 +1,21 @@
+---------& arena shooter game &----------
+
+survive as long as you can under an onslaught of feral beasts
+	enemies will spawn semi-randomly, with harder ones spawning later on in the game
+	maps will be a certain size
+
+camera will be fixed to the player so that they can aim using mouse without trouble
+
+game loop:
+	[live]
+	choose a starting item
+		collect coins which spawn around the map for points
+		beasts will emerge from portals
+		kill beasts
+		get item
+		(event)?
+		kill boss
+		advance to next map
+	[die]
+
+game aesthetic?

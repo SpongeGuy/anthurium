@@ -8,12 +8,7 @@ push:setupScreen(game_width, game_height, window_width, window_height, {fullscre
 local entities = {}
 local bullets = {}
 
-function create_bullet(posX, posY, dx, dy, speed)
-	
-	return bullet
-end
 
--- hi jerster
 function create_triangle_player(x, y)
 	local posX = x or 0
 	local posY = y or 0
