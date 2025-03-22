@@ -2,7 +2,7 @@ local push = require("lib/push")
 local game_width, game_height = 480, 270
 local window_width, window_height = love.window.getDesktopDimensions()
 
-local e_spawn = require("src/entities")
+local e_utils = require("src/entities")
 
 font_mitochondria = love.graphics.newFont('assets/fonts/Mitochondria.ttf', 8)
 font_press_start = love.graphics.newFont('assets/fonts/PressStart2P.ttf', 8)
@@ -12,8 +12,7 @@ love.graphics.setFont(font_press_start)
 love.graphics.setDefaultFilter("nearest", "nearest")
 push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true, pixelperfect = true, highdpi = true})
 
-local entities = {}
-local bullets = {}
+
 
 function vector_normalize(vector)
 	local length = math.sqrt(vector.x^2 + vector.y^2)
@@ -41,7 +40,7 @@ end
 
 
 function love.load()
-	player = e_spawn:create_triangle_player(100, 100)
+	player = e_utils:create_triangle_player(100, 100)
 end
 
 
@@ -51,8 +50,8 @@ function love.update(dt)
 	m_x = m_x / 4
 	m_y = m_y / 4
 	player:update(dt)
-	for i = #bullets, 1, -1 do
-		bullets[i]:update(dt)
+	for i = #e_utils.bullets, 1, -1 do
+		e_utils.bullets[i]:update(dt)
 	end
 end
 
@@ -62,8 +61,8 @@ function love.draw()
 	-- include
 	push:start()
 		player:draw()
-		for i = #bullets, 1, -1 do
-			bullets[i]:draw()
+		for i = #e_utils.bullets, 1, -1 do
+			e_utils.bullets[i]:draw()
 		end
 		love.graphics.print(player.vel.x, 0, 0)
 		love.graphics.print(player.vel.y, 0, 10)
