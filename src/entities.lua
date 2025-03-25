@@ -1,4 +1,5 @@
 local anim8 = require('lib/anim8')
+local sfxr = require('lib/sfxr')
 
 local captain_sheet = love.graphics.newImage('assets/sprites/captain/captain_sheet.png')
 local captain_ship_grid = anim8.newGrid(22, 22, captain_sheet:getWidth(), captain_sheet:getHeight())
@@ -13,6 +14,8 @@ local entity_utilities = {
 	entities = {},
 	bullets = {},
 }
+
+
 
 -- entity spawn functions should always return the object, never add it to a table directly within function
 
@@ -49,7 +52,7 @@ function entity_utilities:create_captain_player(x, y)
 		moving = false,
 	}
 	function player:shoot(direction_vector)
-		if self.shoot_cooldown > 0 then return end
+		if self.shoot_cooldown > 0 then return end -- if shoot on cooldown, do not continue
 
 		local pellet = entity_utilities:create_pellet(self.pos.x, self.pos.y, direction_vector)
 		
