@@ -1,5 +1,5 @@
 game.txt
-possible titles [Gwydion] [Anthurium] [Bromeliad]
+possible titles [Gwydion] [Anthurium] [Bromeliad] probably Anthurium
 
 arena-bound wave-based arcadey roguelite game
 score points based on certain actions
@@ -49,6 +49,7 @@ bury an item in the ground to have it grow into something later?
 ----% creature concepts %-----
 most creatures are out to eat, becoming more powerful (more threatening) (if they become powerful enough, do they become evil?)
 some creatures can be befriended by doing a miniquest (?)
+MOST CREATURES SHOULD HAVE SIMPLE ACTIONS WHICH ALLOW FOR EMERGENT BEHAVIORS
 
 honnon (organic)
 	befriend this creature to convince it to pollinate flowers faster (spawning more fruit)
@@ -81,6 +82,16 @@ crazy diamond (construct)
 
 ----% tentative outline %----
 ensure that main.lua is incredibly simple to read; no non-essential functions or code should be here
+focus on core gameplay loop first:
+	phase 1
+		gather items, interact with neutral creatures, and get more powerful
+	phase 2
+		survive waves of evil enemies for a reward at the end
+	shop
+		buy items/artifacts using points earned from phase 1 and 2
+
+don't get stuck on making things look cool, that can always be mended later!!
+focus on solid gameplay rather than aesthetic, especially early on.
 
 0.1 content:
 	DATA-ORIENTED, FUNCTIONAL DESIGN
@@ -99,6 +110,8 @@ ensure that main.lua is incredibly simple to read; no non-essential functions or
 	robust text engine & animations (optional)
 	options popup and selection
 	game settings
+	tutorial (explanation)
+	post-game results screen
 
 0.3 content:
 	phase/wave system
@@ -111,3 +124,9 @@ ensure that main.lua is incredibly simple to read; no non-essential functions or
 0.4 content:
 	1 boss and 1 miniboss
 	5-10 items/powerups
+
+0.5 content:
+	better art
+	juicy effects
+	shaders
+	music
