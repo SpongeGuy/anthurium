@@ -46,7 +46,7 @@ bury an item in the ground to have it grow into something later?
 	perhaps items could be shared between runs OR special items could appear in other people's runs
 
 
-----% neutral creature ideas %-----
+----% creature concepts %-----
 most creatures are out to eat, becoming more powerful (more threatening) (if they become powerful enough, do they become evil?)
 some creatures can be befriended by doing a miniquest (?)
 
@@ -67,6 +67,17 @@ lakkit (organic)
 monkey (organic)
 	can jump long distances
 	kills creatures for food
+
+jellyfish (organic)
+	shoots bubbles (when enemies in range)
+
+force field (construct)
+	create barriers
+
+crazy diamond (construct)
+	hive mind type behavior
+	one 'mother' enemy which guides formation attacks
+	killing the mother makes the other diamonds lose formation
 
 ----% tentative outline %----
 ensure that main.lua is incredibly simple to read; no non-essential functions or code should be here
