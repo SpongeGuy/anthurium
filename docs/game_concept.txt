@@ -1,21 +1,132 @@
----------& arena shooter game &----------
+game.txt
+possible titles [Gwydion] [Anthurium] [Bromeliad] probably Anthurium
 
-survive as long as you can under an onslaught of feral beasts
-	enemies will spawn semi-randomly, with harder ones spawning later on in the game
-	maps will be a certain size
+arena-bound wave-based arcadey roguelite game
+score points based on certain actions
+	collecting items/collectibles and killing creatures gain you points
+	collection combo: collect flowers/fruit consecutively for a points multiplier
+	killing combo: kill creatures consecutively for a points multiplier
+	points are related to multiplayer leaderboards (high scores) and ingame shops
+map is decently sized, allowing for verious random world events and maybe even structures/rooms?
+high ground / low ground system?
+meta progression: unlock new items and playable characters as you win runs
+multiplayer: leaderboards (maybe seeded runs)
 
-camera will be fixed to the player so that they can aim using mouse without trouble
 
-game loop:
-	[live]
-	choose a starting item
-		collect coins which spawn around the map for points
-		beasts will emerge from portals
-		kill beasts
-		get item
-		(event)?
-		kill boss
-		advance to next map
-	[die]
+each stage is handled in phases.
+	phase 1 (day?) (probably 7 minutes duration)
+		neutral creatures spawn, eating resources around the map and becoming more powerful
+		helpful items can be earned by completing world events, sapping flowers, or by killing powerful creatures
+		also, collect flowers/fruit for extra points
+		getting more points during this phase means more chances for generating interesting items later on
+		if there are structures on the map, include rooms with difficult creatures but good loots inside
+	phase 2 (night?)
+		waves of evil/hostile creatures spawn
+		after this phase, gain more powerful rewards
+		more points are awarded based on how fast this phase is completed
+	post-stage interdimensional shop
+		upgrade, buy/sell items <-> points
+		(might be too crazy) CREATE unique items with special names/lore whlie hand picking ability traits for the item
+			instead of hand-picking traits directly, maybe a bunch of items could be dropped into a sieve to create a new item
+after the end of the stage, certain features on the map change, like tree/plant locations, terrain, or structures
+	additionally, flowers are replenished on the map
+every three stages there is a boss fight at the end of phase 2.
 
-game aesthetic?
+
+----% map concepts and features %----
+traps, wells/fountains/springs, non-traversable terrain (pits, lava, etc), destructible terrain (boulders, gravel)
+jungle-style plants/trees which produce fruit based on certain conditions
+events like rainstorm, flash flood, wildfire, or rapid growth could happen periodically
+possible structures
+	minitemple could include treasure rooms
+	castle could have simple villagers and guards, castle could have stocks of food and valuables
+	sewer system miniboss being defeated could cause a sewer failure flood, creating more plants around the map
+	booster pads could randomly fling creatures/enemies about
+bury an item in the ground to have it grow into something later?
+	perhaps items could be shared between runs OR special items could appear in other people's runs
+
+
+----% creature concepts %-----
+most creatures are out to eat, becoming more powerful (more threatening) (if they become powerful enough, do they become evil?)
+some creatures can be befriended by doing a miniquest (?)
+MOST CREATURES SHOULD HAVE SIMPLE ACTIONS WHICH ALLOW FOR EMERGENT BEHAVIORS
+
+honnon (organic)
+	befriend this creature to convince it to pollinate flowers faster (spawning more fruit)
+	will always run away from other species unless specifically allied
+
+krusha (construct)
+	rolls along the ground, sometimes creating non-traversable terrain
+
+moth (organic)
+	fast chaotic entity, shoots dust pellets
+
+lakkit (organic)
+	brings fruit to nest to feed its babies
+	3 fruits will grow another lakkit
+
+monkey (organic)
+	can jump long distances
+	kills creatures for food
+
+jellyfish (organic)
+	shoots bubbles (when enemies in range)
+
+force field (construct)
+	create barriers
+
+crazy diamond (construct)
+	hive mind type behavior
+	one 'mother' enemy which guides formation attacks
+	killing the mother makes the other diamonds lose formation
+
+----% tentative outline %----
+ensure that main.lua is incredibly simple to read; no non-essential functions or code should be here
+focus on core gameplay loop first:
+	phase 1
+		gather items, interact with neutral creatures, and get more powerful
+	phase 2
+		survive waves of evil enemies for a reward at the end
+	shop
+		buy items/artifacts using points earned from phase 1 and 2
+
+don't get stuck on making things look cool, that can always be mended later!!
+focus on solid gameplay rather than aesthetic, especially early on.
+
+0.1 content:
+	DATA-ORIENTED, FUNCTIONAL DESIGN
+	entity/creature definition
+	robust entity state machine
+	player character
+	some neutral creatures (3-5) with unique behavior
+	flower/fruit spawners (plants)
+	points
+
+0.2 content:
+	game states (title, hub, game phases, game over, etc.)
+	title -> hub (at game launch)
+	interactable npcs placed in hub
+	npc text box
+	robust text engine & animations (optional)
+	options popup and selection
+	game settings
+	tutorial (explanation)
+	post-game results screen
+
+0.3 content:
+	phase/wave system
+		day/night
+	evil creatures (3-5) with unique behavior
+	more plant types
+	terrain definition & types
+	points combos
+
+0.4 content:
+	1 boss and 1 miniboss
+	5-10 items/powerups
+
+0.5 content:
+	better art
+	juicy effects
+	shaders
+	music

@@ -1,0 +1,152 @@
+# class definition StateMachine pseudocode
+
+local StateMachine = {}
+StateMachine.__index = StateMachine
+
+function StateMachine.new() {
+	# instantiation function for the class
+	machine = {
+		entity = {} 			# entity defined as table
+		states = {} 			# list of possible states; insert using add_state function
+		current_state = nil 	# state object to be called in update function
+	}
+	return setmetatable(machine, state_machine)
+}
+
+
+function StateMachine:add_state(name, state) {
+	# purpose is to populate a new machine with available states
+	# this should only be called when initially defining a state machine
+	self.states[name] = state
+}
+	
+
+function StateMachin:transition_to(state_name) {
+	# if the current state has an exit function, call it 
+	if self.current_state and self.current_state.exit {
+		self.current_state.exit(self.entity)
+	}
+
+	# transition to next state
+	self.current_state = self.states[state_name]
+
+	# now call the new state's enter function (if it exists)
+	if self.current_satte and self.current_state.enter {
+		self.current_state.enter(self.entity)
+	}
+}
+
+function StateMachine:update(dt) {
+	if self.current_state and self.current_state.update {
+		# call the current state's update function
+		# include return statements with the next state's name if applicable
+		# the main loop of a state should probably not include a return statement referencing itself unless you want the enter and exit functions to be called
+		local next_state = self.current_state.update(self.entity, dt)
+
+		# only transition if the state's update function returns a valid state_name
+
+		if next_state {
+			if next_state in self.states {
+				throw exception: trying to transition to state which does not exist
+			} else {
+				self:transition_to(next_state)
+			}
+		}
+	}
+}
+
+return StateMachine
+
+---
+
+# state definition example pseudocode
+
+local creature_states = {}
+
+creature_states.Idle = {
+	enter = function(self) {
+		self.moving = false
+	}
+	update = function(self, dt) {
+		if self.enemy_detected {
+			return "Example"
+		}
+	}
+}
+
+creature_states.Example = {
+	enter = function(self) {
+		# called ONCE when entering this state
+		# typical uses:
+		* reset state specific timers
+		* start animations
+		* play sound effects
+		* initialize state variables
+		* set movement flags
+
+		# example
+		self.attack_counter = 0
+		self.animation:play("sword_unsheath")
+		self:draw_sword()
+	}
+
+	update = function(self, dt) {
+		# called EVERY FRAME while in this state
+		# typical uses:
+		* handle input
+		* update AI decisions
+		* check transition conditions
+		* modify physics/velocity
+		* manage cooldowns
+
+		# example
+
+		# chase and face enemy
+		local target = self.target
+		self.vel.x = target.x - self.pos.x
+		self.vel.y = target.y - self.pos.y
+		self.facing = math.atan2(self.vel.y, self.vel.x)
+
+		# attack logic
+		if self.attack_timer <= 0 {
+			self:attack()
+			self.attack_cooldown = self.attack_cooldown + 1
+			self.attack_timer = 1.0
+		} else {
+			# decrement cooldown every frame
+			self.attack_timer = self.attack_timer - dt
+		}
+
+		# transition conditions
+		if self.target.is_dead {
+			return "Victory"
+		} else if self.health < 20 {
+			return "Flee"
+		}
+
+	}
+
+	exit = function(self) {
+		# called ONCE when leaving this state
+		# typical uses:
+		* clean up temporary modifications
+		* stop animations/sounds
+		* reset state specific flags
+		* save state data if needed
+
+		# example
+		self.moving = false
+		self.animation:stop()
+	}
+}
+
+return creature_states
+
+
+
+---
+
+remember to keep states atomic; each state should manage one clear behavior.
+design states to be self-contained
+handle all state changes in update()
+probably should include some performance profiling functions as well
