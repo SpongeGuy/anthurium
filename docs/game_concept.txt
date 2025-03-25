@@ -14,21 +14,21 @@ multiplayer: leaderboards (maybe seeded runs)
 
 
 each stage is handled in phases.
-	phase 1
+	phase 1 (day?) (probably 7 minutes duration)
 		neutral creatures spawn, eating resources around the map and becoming more powerful
 		helpful items can be earned by completing world events, sapping flowers, or by killing powerful creatures
 		also, collect flowers/fruit for extra points
 		getting more points during this phase means more chances for generating interesting items later on
 		if there are structures on the map, include rooms with difficult creatures but good loots inside
-	phase 2
+	phase 2 (night?)
 		waves of evil/hostile creatures spawn
 		after this phase, gain more powerful rewards
 		more points are awarded based on how fast this phase is completed
 	post-stage interdimensional shop
 		upgrade, buy/sell items <-> points
 		(might be too crazy) CREATE unique items with special names/lore whlie hand picking ability traits for the item
-			instead of hand-picking traits directly, maybe a bunch of items could be dropped into a pot to create a new item
-after the end of the stage, certain features on the map change, like tree/plant locations
+			instead of hand-picking traits directly, maybe a bunch of items could be dropped into a sieve to create a new item
+after the end of the stage, certain features on the map change, like tree/plant locations, terrain, or structures
 	additionally, flowers are replenished on the map
 every three stages there is a boss fight at the end of phase 2.
 
@@ -67,3 +67,36 @@ lakkit (organic)
 monkey (organic)
 	can jump long distances
 	kills creatures for food
+
+----% tentative outline %----
+ensure that main.lua is incredibly simple to read; no non-essential functions or code should be here
+
+0.1 content:
+	DATA-ORIENTED, FUNCTIONAL DESIGN
+	entity/creature definition
+	robust entity state machine
+	player character
+	some neutral creatures (3-5) with unique behavior
+	flower/fruit spawners (plants)
+	points
+
+0.2 content:
+	game states (title, hub, game phases, game over, etc.)
+	title -> hub (at game launch)
+	interactable npcs placed in hub
+	npc text box
+	robust text engine & animations (optional)
+	options popup and selection
+	game settings
+
+0.3 content:
+	phase/wave system
+		day/night
+	evil creatures (3-5) with unique behavior
+	more plant types
+	terrain definition & types
+	points combos
+
+0.4 content:
+	1 boss and 1 miniboss
+	5-10 items/powerups
