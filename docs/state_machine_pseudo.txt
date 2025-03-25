@@ -141,3 +141,12 @@ creature_states.Example = {
 }
 
 return creature_states
+
+
+
+---
+
+remember to keep states atomic; each state should manage one clear behavior.
+design states to be self-contained
+handle all state changes in update()
+probably should include some performance profiling functions as well
