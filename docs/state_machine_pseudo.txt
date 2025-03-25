@@ -150,3 +150,54 @@ remember to keep states atomic; each state should manage one clear behavior.
 design states to be self-contained
 handle all state changes in update()
 probably should include some performance profiling functions as well
+
+---
+
+# example entity which uses a StateMachine
+
+function create_entity(x, y) {
+	local entity = {
+		state_machine = StateMachine.new(self)
+		pos = {x = x or 0, y = y or 0},
+		vel = {x = 0, y = 0},
+		movement_speed,
+		facing,
+		attack_timer,
+		moving,
+		target,
+		health,
+
+		... other essential variables
+
+	}
+
+	# given a populated StateMachine EntityStates:
+	entity.state_machine:add_state("Idle", EntityStates.Idle)
+	entity.state_machine:add_state("Seeking", EntityStates.Seeking)
+	entity.state_machine:add_state("Battle", EntityStates.Battle)
+
+	# transition to initial state
+	entity.state_machine:transition_to("Idle") 
+
+	function entity:attack() {
+
+	}
+
+	function entity:update() {
+		self.state_machine:update(dt)
+
+		# logic not dependent on state machine
+		...
+	}
+
+	function entity:draw() {
+		# maybe state should include draw function? probably
+		self.state_machine.current_state:draw()
+
+		
+		# draw things not dependent on state machine
+		...
+	}
+
+	return entity
+}
