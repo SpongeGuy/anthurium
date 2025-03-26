@@ -35,10 +35,11 @@ function approach(current, target, max_change)
 	end
 end
 
-
+require("src/bromeliad")
 
 function love.load()
 	player = e_utils:create_captain_player(100, 100)
+	test_plant = create_bromeliad(300, 50)
 end
 
 

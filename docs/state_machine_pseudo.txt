@@ -10,7 +10,7 @@ function StateMachine.new() {
 		states = {} 			# list of possible states; insert using add_state function
 		current_state = nil 	# state object to be called in update function
 	}
-	return setmetatable(machine, state_machine)
+	return setmetatable(machine, StateMachine)
 }
 
 
@@ -21,7 +21,7 @@ function StateMachine:add_state(name, state) {
 }
 	
 
-function StateMachin:transition_to(state_name) {
+function StateMachine:transition_to(state_name) {
 	# if the current state has an exit function, call it 
 	if self.current_state and self.current_state.exit {
 		self.current_state.exit(self.entity)
@@ -31,7 +31,7 @@ function StateMachin:transition_to(state_name) {
 	self.current_state = self.states[state_name]
 
 	# now call the new state's enter function (if it exists)
-	if self.current_satte and self.current_state.enter {
+	if self.current_state and self.current_state.enter {
 		self.current_state.enter(self.entity)
 	}
 }
@@ -46,7 +46,7 @@ function StateMachine:update(dt) {
 		# only transition if the state's update function returns a valid state_name
 
 		if next_state {
-			if next_state in self.states {
+			if next_state not in self.states {
 				throw exception: trying to transition to state which does not exist
 			} else {
 				self:transition_to(next_state)

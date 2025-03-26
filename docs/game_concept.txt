@@ -1,6 +1,15 @@
 game.txt
 possible titles [Gwydion] [Anthurium] [Bromeliad] probably Anthurium
 
+
+   _______    _______  ________  _______   ________   _______   ________  ________  _______  
+  ╱       ╲╲╱╱   ╱   ╲╱        ╲╱    ╱  ╲╲╱    ╱   ╲╱╱       ╲ ╱        ╲╱    ╱   ╲╱       ╲╲
+ ╱        ╱╱╱        ╱        _╱        ╱╱         ╱╱        ╱_╱       ╱╱         ╱        ╱╱
+╱         ╱         ╱╱       ╱╱         ╱        ╱╱        _╱╱         ╱        ╱╱         ╱ 
+╲___╱____╱╲__╱_____╱ ╲_____╱╱ ╲___╱____╱╲_______╱╱╲____╱___╱ ╲╲_______╱╲_______╱╱╲__╱__╱__╱  
+
+
+
 arena-bound wave-based arcadey roguelite game
 score points based on certain actions
 	collecting items/collectibles and killing creatures gain you points
@@ -46,24 +55,42 @@ bury an item in the ground to have it grow into something later?
 	perhaps items could be shared between runs OR special items could appear in other people's runs
 
 
+
+
+    _______   _______  ________   ________  ________   ________   _______  ________ 
+  ╱╱       ╲╱╱   ╱   ╲╱        ╲ ╱        ╲╱        ╲ ╱        ╲╱╱       ╲╱        ╲
+ ╱╱        ╱╱        ╱        _╱_╱       ╱╱        _╱_╱       ╱╱╱        ╱        _╱
+╱        _╱         ╱╱       ╱ ╱         ╱╱       ╱ ╱         ╱        _╱-        ╱ 
+╲________╱╲__╱_____╱ ╲_____╱╱  ╲╲_______╱ ╲_____╱╱  ╲╲_______╱╲________╱╲_______╱╱  
+
+
+
+
 ----% creature concepts %-----
 most creatures are out to eat, becoming more powerful (more threatening) (if they become powerful enough, do they become evil?)
 some creatures can be befriended by doing a miniquest (?)
 MOST CREATURES SHOULD HAVE SIMPLE ACTIONS WHICH ALLOW FOR EMERGENT BEHAVIORS
 
+bromeliad (static plant)
+	unmoving plant which generates fruits at a consistent rate
+	plant can be pollinated to accelerate the generation
+
 drone (organic)
 	simple behavior
-	search for food when hungry
+	sightline 20 units
+	search for fruits/plants when hungry
 	wander when not hungry
 	attack when next to a creature
 
 shark (organic)
-	carnivorous; will actively seek out creatures to fight and eat when hungry
+	sightline 20 units
+	carnivorous; will seek out creatures to fight and eat when hungry
 	wander when not hungry
 	attack when next to a creature
 	moves faster than drone
 
 sloth (organic)
+	sightline 40 units
 	will grab fruit and carry it elsewhere to eat it slowly
 	wander when not hungry
 	passive normally
@@ -98,6 +125,17 @@ crazy diamond (construct)
 	one 'mother' enemy which guides formation attacks
 	killing the mother makes the other diamonds lose formation
 
+
+
+   _______   ________  ________   ______   ________   _______   _______ 
+  ╱       ╲╲╱    ╱   ╲╱        ╲╱╱      ╲ ╱        ╲╱╱   ╱   ╲╱╱       ╲
+ ╱        ╱╱         ╱        _╱╱       ╱_╱       ╱╱╱        ╱╱        ╱
+╱         ╱        ╱╱╱       ╱╱        ╱╱         ╱         ╱        _╱ 
+╲________╱╲_______╱╱ ╲_____╱╱ ╲________╱╲╲_______╱╲__╱_____╱╲________╱  
+
+
+
+
 ----% tentative outline %----
 ensure that main.lua is incredibly simple to read; no non-essential functions or code should be here
 focus on core gameplay loop first:
@@ -118,6 +156,7 @@ focus on solid gameplay rather than aesthetic, especially early on.
 	player character
 	some neutral creatures (3-5) with unique behavior
 	flower/fruit spawners (plants)
+	entity portals / dens
 	points
 
 0.2 content:
