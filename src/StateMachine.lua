@@ -46,4 +46,10 @@ function StateMachine:update(dt)
 	end
 end
 
+function StateMachine:draw()
+	if self.current_state and self.current_state.draw then
+		self.current_state.draw(self.entity)
+	end
+end
+
 return StateMachine

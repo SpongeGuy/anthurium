@@ -52,6 +52,7 @@ function love.update(dt)
 	for i = #e_utils.bullets, 1, -1 do
 		e_utils.bullets[i]:update(dt)
 	end
+	test_plant:update(dt)
 end
 
 
@@ -60,11 +61,10 @@ function love.draw()
 	-- include
 	push:start()
 		player:draw()
+		test_plant:draw()
 		for i = #e_utils.bullets, 1, -1 do
 			e_utils.bullets[i]:draw()
 		end
-		love.graphics.print(player.vel.x, 0, 0)
-		love.graphics.print(player.vel.y, 0, 10)
 	push:finish()
 	
 end
