@@ -51,6 +51,24 @@ most creatures are out to eat, becoming more powerful (more threatening) (if the
 some creatures can be befriended by doing a miniquest (?)
 MOST CREATURES SHOULD HAVE SIMPLE ACTIONS WHICH ALLOW FOR EMERGENT BEHAVIORS
 
+drone (organic)
+	simple behavior
+	search for food when hungry
+	wander when not hungry
+	attack when next to a creature
+
+shark (organic)
+	carnivorous; will actively seek out creatures to fight and eat when hungry
+	wander when not hungry
+	attack when next to a creature
+	moves faster than drone
+
+sloth (organic)
+	will grab fruit and carry it elsewhere to eat it slowly
+	wander when not hungry
+	passive normally
+	moves slower than a drone
+
 honnon (organic)
 	befriend this creature to convince it to pollinate flowers faster (spawning more fruit)
 	will always run away from other species unless specifically allied
