@@ -14,6 +14,7 @@ push:setupScreen(game_width, game_height, window_width, window_height, {fullscre
 
 
 
+
 function vector_normalize(vector)
 	local length = math.sqrt(vector.x^2 + vector.y^2)
 	if length == 0 then
@@ -40,6 +41,7 @@ require("src/bromeliad")
 function love.load()
 	player = e_utils:create_captain_player(100, 100)
 	test_plant = create_bromeliad(300, 50)
+	table.insert(plants, test_plant)
 end
 
 
@@ -49,10 +51,18 @@ function love.update(dt)
 	m_x = m_x / 4
 	m_y = m_y / 4
 	player:update(dt)
-	for i = #e_utils.bullets, 1, -1 do
-		e_utils.bullets[i]:update(dt)
+	for i = #bullets, 1, -1 do
+		bullets[i]:update(dt)
 	end
-	test_plant:update(dt)
+	for i = #creatures, 1, -1 do
+		creatures[i]:update(dt)
+	end
+	for i = #collectibles, 1, -1 do
+		collectibles[i]:update(dt)
+	end
+	for i = #plants, 1, -1 do
+		plants[i]:update(dt)
+	end
 end
 
 
@@ -60,11 +70,21 @@ end
 function love.draw()
 	-- include
 	push:start()
-		player:draw()
-		test_plant:draw()
-		for i = #e_utils.bullets, 1, -1 do
-			e_utils.bullets[i]:draw()
+		
+		
+		for i = #bullets, 1, -1 do
+			bullets[i]:draw()
 		end
+		for i = #creatures, 1, -1 do
+			creatures[i]:draw()
+		end
+		for i = #collectibles, 1, -1 do
+			collectibles[i]:draw()
+		end
+		for i = #plants, 1, -1 do
+			plants[i]:draw()
+		end
+		player:draw()
 	push:finish()
 	
 end

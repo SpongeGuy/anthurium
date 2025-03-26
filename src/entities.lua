@@ -9,13 +9,13 @@ local jet_plume_animation = anim8.newAnimation(jet_plume_grid('1-2', 1), 0.05)
 
 captain_sheet:setFilter("nearest", "nearest")
 
+creatures = {}
+collectibles = {}
+bullets = {}
+plants = {}
 
-local entity_utilities = {
-	entities = {},
-	bullets = {},
-}
 
-
+local entity_utilities = {}
 
 -- entity spawn functions should always return the object, never add it to a table directly within function
 
