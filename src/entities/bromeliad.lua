@@ -1,4 +1,4 @@
-local sm = require("src/StateMachine")
+
 
 function create_fruit(posX, posY, dx, dy)
 	local fruit = {
@@ -121,7 +121,7 @@ bromeliad_states.Idle = {
 function create_bromeliad(posX, posY)
 	local plant = {
 		state_machine = sm.new(),
-		pos = {x = posX or 0, y = posY or 0},
+		pos = {x = posX, y = posY},
 		energy = 0, -- used for fruiting
 		fruit_spawn_rate = 1,
 		fruits = {},

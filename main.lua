@@ -2,7 +2,7 @@ local push = require("lib/push")
 local game_width, game_height = 480, 270
 local window_width, window_height = love.window.getDesktopDimensions()
 
-local e_utils = require("src/entities")
+local e_utils = require("src/entities/entities")
 
 font_mitochondria = love.graphics.newFont('assets/fonts/Mitochondria.ttf', 8)
 font_press_start = love.graphics.newFont('assets/fonts/PressStart2P.ttf', 8)
@@ -37,10 +37,10 @@ function approach(current, target, max_change)
 	end
 end
 
-require("src/bromeliad")
+
 
 function love.load()
-	player = e_utils:create_captain_player(100, 100)
+	player = create_captain_player(100, 100)
 	test_plant = create_bromeliad(300, 50)
 	table.insert(creatures, player)
 	table.insert(plants, test_plant)
