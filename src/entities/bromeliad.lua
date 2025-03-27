@@ -32,8 +32,11 @@ function create_fruit(posX, posY, dx, dy)
 	end
 
 	function fruit:draw()
-		love.graphics.circle('fill', self.pos.x-1, self.pos.y-1, 5)
-		love.graphics.circle('fill', self.pos.x+1, self.pos.y+1, 5)
+		love.graphics.setColor(0.4, 0, 0.1)
+		love.graphics.circle('fill', self.pos.x-1, self.pos.y-1, 6)
+		love.graphics.setColor(0.5, 0.1, 0.1)
+		love.graphics.circle('fill', self.pos.x+1, self.pos.y+1, 4)
+		love.graphics.setColor(1, 1, 1)
 	end
 
 	return fruit
