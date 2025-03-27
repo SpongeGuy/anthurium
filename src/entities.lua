@@ -83,7 +83,6 @@ function entity_utilities:create_captain_player(x, y)
 
 		-- normalize movement here
 		local vel_len = math.sqrt(self.vel.x^2 + self.vel.y^2)
-		
 		if vel_len > 0 then
 			self.vel.x = self.vel.x / vel_len
 			self.vel.y = self.vel.y / vel_len
@@ -95,7 +94,6 @@ function entity_utilities:create_captain_player(x, y)
 
 		-- facing angle calculation
 		local original_angle = math.atan2(m_y - self.pos.y, m_x - self.pos.x)
-		
 		original_angle = original_angle % (2 * math.pi) -- normalize angle to [0, 2pi)
 		local snap_step = math.rad(11.25)
 		local snapped_angle = math.floor(original_angle / snap_step + 0.5) * snap_step -- compute snap step to nearest angle of snap step
@@ -111,6 +109,17 @@ function entity_utilities:create_captain_player(x, y)
 		end
 		captain_ship_animation:update(dt)
 		jet_plume_animation:update(dt)
+
+		-- collectible collector
+		for i = #collectibles, 1, -1 do
+			local collectible = collectibles[i]
+			local distX = collectible.pos.x - self.pos.x
+			local distY = collectible.pos.y - self.pos.y
+			local dist_sq = distX*distX + distY*distY
+			if dist_sq <= 150 then
+				collectible.destroy_this = true
+			end
+		end
 	end
 	function player:draw()
 

@@ -20,14 +20,15 @@ function create_fruit(posX, posY, dx, dy)
 		if vel_len > epsilon then
 			local vel_norm_x = self.vel.x / vel_len
 			local vel_norm_y = self.vel.y / vel_len
-			-- apply deceleration
 			
+			-- apply deceleration in direction of vector
 			self.vel.x = self.vel.x - vel_norm_x * (deceleration)
 			self.vel.y = self.vel.y - vel_norm_y * (deceleration)
 		else
 			self.vel.x = 0
 			self.vel.y = 0
 		end
+
 	end
 
 	function fruit:draw()
@@ -61,18 +62,26 @@ bromeliad_states.Fruiting = {
 	end,
 
 	update = function(self, dt)
+		-- fruit spawning logic
 		self.energy = self.energy + dt
-		if self.energy >= 0.5 then
+		if self.energy >= self.fruit_spawn_rate then
+			-- reset energy to prep to spawn another fruit
 			self.energy = 0
+
+			-- determine semi-random shot direction
 			local direction = degrees_to_norm_vector(self.fruit_shoot_degrees)
-			self.fruit_shoot_degrees = self.fruit_shoot_degrees * math.sqrt(2)
+			self.fruit_shoot_degrees = self.fruit_shoot_degrees * GOLDEN_RATIO
+
+			-- launch fruit at random speed (within constraints)
 			local random_factor = 25 + math.random() * (75 - 25)
 			local fruit = create_fruit(self.pos.x, self.pos.y, direction.x * random_factor, direction.y * random_factor)
+
 			table.insert(collectibles, fruit)
 			table.insert(self.fruits, fruit)
 		end
+
+		-- stop producing if more than 10 fruits, switch to Idle state
 		if #self.fruits > 10 then
-			print("hi")
 			return "Idle"
 		end
 	end,
@@ -87,13 +96,25 @@ bromeliad_states.Fruiting = {
 
 bromeliad_states.Idle = {
 	update = function(self, dt)
-		if #self.fruits < 3 then
+		-- delete fruits from the plant's personal fruit table if marked
+		for i = #self.fruits, 1, -1 do
+			local fruit = self.fruits[i]
+			if fruit.destroy_this then
+				table.remove(self.fruits, i)
+			end
+		end
+
+		-- check number of fruits after deletion
+		if #self.fruits <= 3 then
 			return "Fruiting"
 		end
 	end,
 
 	draw = function(self)
-
+		love.graphics.print(self.energy, 0, 0)
+		love.graphics.setColor(0.5, 0.5, 0.1)
+		love.graphics.circle('fill', self.pos.x, self.pos.y, 10)
+		love.graphics.setColor(1, 1, 1)
 	end,
 }
 
@@ -102,8 +123,11 @@ function create_bromeliad(posX, posY)
 		state_machine = sm.new(),
 		pos = {x = posX or 0, y = posY or 0},
 		energy = 0, -- used for fruiting
+		fruit_spawn_rate = 1,
 		fruits = {},
 	}
+
+	-- state machine instantiation
 	plant.state_machine.entity = plant
 	plant.state_machine:add_state("Fruiting", bromeliad_states.Fruiting)
 	plant.state_machine:add_state("Idle", bromeliad_states.Idle)
@@ -111,6 +135,7 @@ function create_bromeliad(posX, posY)
 
 	function plant:update(dt)
 		self.state_machine:update(dt)
+		
 	end
 
 	function plant:draw()

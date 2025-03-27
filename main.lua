@@ -12,6 +12,7 @@ love.graphics.setFont(font_press_start)
 love.graphics.setDefaultFilter("nearest", "nearest")
 push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true, pixelperfect = true, highdpi = true})
 
+GOLDEN_RATIO = math.sqrt(2)
 
 math.randomseed(os.time())
 
@@ -41,6 +42,7 @@ require("src/bromeliad")
 function love.load()
 	player = e_utils:create_captain_player(100, 100)
 	test_plant = create_bromeliad(300, 50)
+	table.insert(creatures, player)
 	table.insert(plants, test_plant)
 end
 
@@ -50,19 +52,42 @@ function love.update(dt)
 	m_x, m_y = love.mouse.getPosition()
 	m_x = m_x / 4
 	m_y = m_y / 4
-	player:update(dt)
+
+
 	for i = #bullets, 1, -1 do
-		bullets[i]:update(dt)
+		local bullet = bullets[i]
+		bullet:update(dt)
+		-- destroy_this flag
+		if bullet.destroy_this then
+			table.remove(bullets, i)
+		end
 	end
 	for i = #creatures, 1, -1 do
-		creatures[i]:update(dt)
+		local creature = creatures[i]
+		creature:update(dt)
+		-- destroy_this flag
+		if creature.destroy_this then
+			table.remove(creatures, i)
+		end
 	end
 	for i = #collectibles, 1, -1 do
-		collectibles[i]:update(dt)
+		local collectible = collectibles[i]
+		collectible:update(dt)
+		-- destroy_this flag
+		if collectible.destroy_this then
+			table.remove(collectibles, i)
+		end
 	end
 	for i = #plants, 1, -1 do
-		plants[i]:update(dt)
+		local plant = plants[i]
+		plant:update(dt)
+		-- destroy_this flag
+		if plant.destroy_this then
+			table.remove(plants, i)
+		end
 	end
+
+
 end
 
 
@@ -84,7 +109,6 @@ function love.draw()
 		for i = #plants, 1, -1 do
 			plants[i]:draw()
 		end
-		player:draw()
 	push:finish()
 	
 end
