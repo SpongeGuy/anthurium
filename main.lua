@@ -47,7 +47,7 @@ function love.load()
 end
 
 
-
+ -- Jester!
 function love.update(dt)
 	m_x, m_y = love.mouse.getPosition()
 	m_x = m_x / 4
