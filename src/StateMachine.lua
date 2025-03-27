@@ -32,8 +32,9 @@ end
 
 function StateMachine:update(dt)
 	-- call the current state's update function if it exists
+	local next_state = nil
 	if self.current_state and self.current_state.update then
-		local next_state = self.current_state.update(self.entity, dt)
+		next_state = self.current_state.update(self.entity, dt)
 	end
 
 	-- only transition if the state's update function returns not nil and a valid state_name

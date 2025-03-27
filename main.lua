@@ -13,7 +13,7 @@ love.graphics.setDefaultFilter("nearest", "nearest")
 push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true, pixelperfect = true, highdpi = true})
 
 
-
+math.randomseed(os.time())
 
 function vector_normalize(vector)
 	local length = math.sqrt(vector.x^2 + vector.y^2)

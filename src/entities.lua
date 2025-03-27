@@ -58,7 +58,7 @@ function entity_utilities:create_captain_player(x, y)
 		
 		-- set relative cooldown based on shoot_cooldown
 		self.shoot_cooldown = self.shoot_attack_speed / 6
-		table.insert(entity_utilities.bullets, pellet)
+		table.insert(bullets, pellet)
 	end
 	function player:update(dt)
 		-- use this in love:update, probably add this to some overarching table like dudes {}
