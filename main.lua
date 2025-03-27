@@ -21,8 +21,6 @@ function love.load()
 	test_plant = create_bromeliad(250, 150)
 	table.insert(creatures, player)
 	table.insert(plants, test_plant)
-
-
 end
 
 
@@ -42,7 +40,6 @@ function love.draw()
 	-- include
 	push:start()
 		draw_all()
-		
 	push:finish()
 	love.graphics.setBackgroundColor(0.1, 0.3, 0.2, 1)
 end

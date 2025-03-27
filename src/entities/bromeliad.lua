@@ -1,5 +1,3 @@
-
-
 function create_fruit(posX, posY, dx, dy)
 	local fruit = {
 		pos = {x = posX, y = posY},

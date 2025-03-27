@@ -129,6 +129,7 @@ function create_captain_player(posX, posY)
 		moving = false,
 	}
 
+	-- state machine instantiation
 	captain.state_machine.entity = captain
 	captain.state_machine:add_state("Moving", captain_states.Moving)
 	captain.state_machine:add_state("Idle", captain_states.Idle)
