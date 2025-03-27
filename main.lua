@@ -2,7 +2,7 @@ local push = require("lib/push")
 local game_width, game_height = 480, 270
 local window_width, window_height = love.window.getDesktopDimensions()
 
-local e_utils = require("src/entities")
+local e_utils = require("src/entities/entities")
 
 font_mitochondria = love.graphics.newFont('assets/fonts/Mitochondria.ttf', 8)
 font_press_start = love.graphics.newFont('assets/fonts/PressStart2P.ttf', 8)
@@ -12,7 +12,9 @@ love.graphics.setFont(font_press_start)
 love.graphics.setDefaultFilter("nearest", "nearest")
 push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true, pixelperfect = true, highdpi = true})
 
+GOLDEN_RATIO = math.sqrt(2)
 
+math.randomseed(os.time())
 
 function vector_normalize(vector)
 	local length = math.sqrt(vector.x^2 + vector.y^2)
@@ -38,7 +40,10 @@ end
 
 
 function love.load()
-	player = e_utils:create_captain_player(100, 100)
+	player = create_captain_player(100, 100)
+	test_plant = create_bromeliad(300, 50)
+	table.insert(creatures, player)
+	table.insert(plants, test_plant)
 end
 
 
@@ -47,10 +52,42 @@ function love.update(dt)
 	m_x, m_y = love.mouse.getPosition()
 	m_x = m_x / 4
 	m_y = m_y / 4
-	player:update(dt)
-	for i = #e_utils.bullets, 1, -1 do
-		e_utils.bullets[i]:update(dt)
+
+
+	for i = #bullets, 1, -1 do
+		local bullet = bullets[i]
+		bullet:update(dt)
+		-- destroy_this flag
+		if bullet.destroy_this then
+			table.remove(bullets, i)
+		end
 	end
+	for i = #creatures, 1, -1 do
+		local creature = creatures[i]
+		creature:update(dt)
+		-- destroy_this flag
+		if creature.destroy_this then
+			table.remove(creatures, i)
+		end
+	end
+	for i = #collectibles, 1, -1 do
+		local collectible = collectibles[i]
+		collectible:update(dt)
+		-- destroy_this flag
+		if collectible.destroy_this then
+			table.remove(collectibles, i)
+		end
+	end
+	for i = #plants, 1, -1 do
+		local plant = plants[i]
+		plant:update(dt)
+		-- destroy_this flag
+		if plant.destroy_this then
+			table.remove(plants, i)
+		end
+	end
+
+
 end
 
 
@@ -58,12 +95,20 @@ end
 function love.draw()
 	-- include
 	push:start()
-		player:draw()
-		for i = #e_utils.bullets, 1, -1 do
-			e_utils.bullets[i]:draw()
+		
+		
+		for i = #bullets, 1, -1 do
+			bullets[i]:draw()
 		end
-		love.graphics.print(player.vel.x, 0, 0)
-		love.graphics.print(player.vel.y, 0, 10)
+		for i = #creatures, 1, -1 do
+			creatures[i]:draw()
+		end
+		for i = #collectibles, 1, -1 do
+			collectibles[i]:draw()
+		end
+		for i = #plants, 1, -1 do
+			plants[i]:draw()
+		end
 	push:finish()
 	
 end
