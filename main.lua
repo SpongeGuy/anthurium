@@ -4,6 +4,9 @@ local window_width, window_height = love.window.getDesktopDimensions()
 
 require("src/entities/entities")
 
+-- ideally keep main.lua free from any other function definitions other than
+-- love.load, love.update, and love.draw
+
 function love.load()
 	font_mitochondria = love.graphics.newFont('assets/fonts/Mitochondria.ttf', 8)
 	font_press_start = love.graphics.newFont('assets/fonts/PressStart2P.ttf', 8)

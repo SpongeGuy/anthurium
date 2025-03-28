@@ -16,6 +16,7 @@ score points based on certain actions
 	collection combo: collect flowers/fruit consecutively for a points multiplier
 	killing combo: kill creatures consecutively for a points multiplier
 	points are related to multiplayer leaderboards (high scores) and ingame shops
+	better items will cost more points and better items are more common in later stages
 map is decently sized, allowing for verious random world events and maybe even structures/rooms?
 high ground / low ground system?
 meta progression: unlock new items and playable characters as you win runs
@@ -70,6 +71,13 @@ bury an item in the ground to have it grow into something later?
 most creatures are out to eat, becoming more powerful (more threatening) (if they become powerful enough, do they become evil?)
 some creatures can be befriended by doing a miniquest (?)
 MOST CREATURES SHOULD HAVE SIMPLE ACTIONS WHICH ALLOW FOR EMERGENT BEHAVIORS
+
+reward players who feed neutral creatures:
+	neutral creatures who are fed more will drop more powerful things
+	maybe neutral creatures will become hostile at a certain food level
+
+neutral creatures will hide (?) at the start of phase 2
+	they will persist in the world between stages
 
 bromeliad (static plant)
 	unmoving plant which generates fruits at a consistent rate
