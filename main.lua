@@ -22,6 +22,8 @@ function love.load()
 
 	player = create_captain_player(100, 100)
 	test_plant = create_bromeliad(250, 150)
+	drone = create_drone(150, 100)
+	table.insert(creatures, drone)
 	table.insert(creatures, player)
 	table.insert(plants, test_plant)
 end
@@ -39,7 +41,6 @@ end
 
 --test 5
 function love.draw()
-
 	-- include
 	push:start()
 		draw_all()

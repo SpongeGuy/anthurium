@@ -185,8 +185,10 @@ function create_captain_player(posX, posY)
 		love.graphics.rotate(self.facing + (90 * (math.pi / 180)))
 
 		captain_ship_animation:draw(captain_sheet, 0, 0, 0, 1, 1, 11, 11)
-		
+		love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
+
+
 	end
 	return captain
 end
