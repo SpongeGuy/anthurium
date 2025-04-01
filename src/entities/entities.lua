@@ -78,3 +78,39 @@ function approach(current, target, max_change)
 		return math.max(current - max_change, target)
 	end
 end
+
+function vector_normalize(vector)
+
+ 
+
+	local length = math.sqrt(vector.x^2 + vector.y^2)
+ 
+
+	if length == 0 then
+ 
+
+		return {x = 0, y = 0}
+ 
+
+	else
+ 
+
+		return {x = vector.x / length, y = vector.y / length}
+ 
+
+	end
+ 
+
+end
+ 
+
+
+ 
+
+function vector_scalar_multiply(vector, multiplier)
+ 
+
+	return {x = vector.x * multiplier, y = vector.y * multiplier}
+ 
+
+end
