@@ -53,6 +53,7 @@ drone_states.Wandering = {
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
 
+		-- stop if reach node
 		local epsilon = 1
 		if math.abs(self.pos.x - self.move_node.x) <= epsilon and math.abs(self.pos.y - self.move_node.y) <= epsilon then
 			self.vel = {x = 0, y = 0}
