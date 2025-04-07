@@ -23,7 +23,7 @@ function love.load()
 
 	player = create_captain_player(100, 100)
 	test_plant = create_bromeliad(250, 150)
-	drone = create_drone(150, 100)
+	drone = create_drone(200, 150)
 	table.insert(creatures, drone)
 	table.insert(creatures, player)
 	table.insert(plants, test_plant)

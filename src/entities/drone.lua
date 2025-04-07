@@ -38,46 +38,67 @@ local drone_states = {}
 
 drone_states.Wandering = {
 	enter = function(self)
-		self.move_node_timer = 0
 		-- create a node between 100 and 20 units away from the x, y
 		local dist = 20 + math.random() * 40
 		self.move_node = get_random_coordinate_away(self.pos.x, self.pos.y, dist)
 		-- set velocity towards move_node
 		self.vel = vector_normalize({x = self.move_node.x - self.pos.x, y = self.move_node.y - self.pos.y})
 		self.vel = {x = self.vel.x * 25, y = self.vel.y * 25}
+		self.move_branches = math.random(0, 4)
 
 	end,
 
 	update = function(self, dt)
-		self.move_node_timer = self.move_node_timer + dt
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
 
-		-- stop if reach node
+		if self.size < 4 then
+			self.size = 6
+		end
+		self.size = self.size - dt * 6
+
+		-- node reach logic
 		local epsilon = 1
 		if math.abs(self.pos.x - self.move_node.x) <= epsilon and math.abs(self.pos.y - self.move_node.y) <= epsilon then
-			self.vel = {x = 0, y = 0}
-		end
+			if self.move_branches <= 0 then
+				return "Waiting"
+			else
+				self.move_branches = self.move_branches - 1
 
-		if self.move_node_timer > 5 then
-			
+				local dist = 20 + math.random() * 160
+				local degrees = vector_to_degrees(self.vel)
+				local min_degrees = degrees - 50
+				local max_degrees = degrees + 50
+				self.move_node = get_random_coordinate_away_range(self.pos.x, self.pos.y, dist, min_degrees, max_degrees)
+
+				-- set velocity towards move_node
+				self.vel = vector_normalize({x = self.move_node.x - self.pos.x, y = self.move_node.y - self.pos.y})
+				self.vel = {x = self.vel.x * 25, y = self.vel.y * 25}
+			end
 		end
-		-- if self.move_node_timer > 1 then
-		-- 	local dist = 20 + math.random() * 160
-		-- 	local degrees = vector_to_degrees(self.vel)
-		-- 	local min_degrees = degrees - 50
-		-- 	local max_degrees = degrees + 50
-		-- 	self.move_node = get_random_coordinate_away_range(self.pos.x, self.pos.y, dist, min_degrees, max_degrees)
-		-- 	-- set velocity towards move_node
-		-- 	self.vel = vector_normalize({x = self.move_node.x - self.pos.x, y = self.move_node.y - self.pos.y})
-		-- 	self.vel = {x = self.vel.x * 25, y = self.vel.y * 25}
-		-- 	self.move_node_timer = 0
 	end,
 
 	draw = function(self)
 		love.graphics.circle('fill', self.move_node.x, self.move_node.y, 1)
 		love.graphics.line(self.pos.x, self.pos.y, self.pos.x + self.vel.x, self.pos.y + self.vel.y)
 	end
+}
+
+drone_states.Waiting = {
+	enter = function(self)
+		self.vel = {x = 0, y = 0}
+		self.timer = 0
+		self.random_wait_value = math.random(2, 5)
+		self.size = 5
+	end,
+
+	update = function(self, dt)
+		self.timer = self.timer + dt
+		self.size = (math.sin(self.timer)) + 4
+		if self.timer > self.random_wait_value then
+			return "Wandering"
+		end
+	end,
 }
 
 drone_states.Hungry = {
@@ -94,11 +115,15 @@ function create_drone(posX, posY)
 		pos = {x = posX, y = posY},
 		vel = {x = 0, y = 0},
 		hunger = 0,
+		size = 5,
 	}
 
 	drone.state_machine.entity = drone
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
-	drone.state_machine:transition_to("Wandering")
+	drone.state_machine:add_state("Waiting", drone_states.Waiting)
+	drone.state_machine:add_state("Hungry", drone_states.Hungry)
+	drone.state_machine:add_state("Attacking", drone_states.Attacking)
+	drone.state_machine:transition_to("Waiting")
 
 	function drone:update(dt)
 		self.state_machine:update(dt)
@@ -106,7 +131,7 @@ function create_drone(posX, posY)
 
 	function drone:draw()
 		self.state_machine:draw()
-		love.graphics.circle('fill', self.pos.x, self.pos.y, 5)
+		love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
 	end
 
 	return drone

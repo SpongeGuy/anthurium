@@ -124,7 +124,7 @@ function create_bromeliad(posX, posY)
 		state_machine = sm.new(),
 		pos = {x = posX, y = posY},
 		energy = 0, -- used for fruiting
-		fruit_spawn_rate = 1,
+		fruit_spawn_rate = 7,
 		fruits = {},
 	}
 
