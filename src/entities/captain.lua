@@ -152,15 +152,21 @@ function create_captain_player(posX, posY)
 
 		
 		-- face towards mouse
-		print(self.pos.x, self.pos.y, mouse_x, mouse_y, camera_x , camera_y )
-		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_x + camera_x + (game_width / 4), mouse_y + camera_y + (game_height / 4))
+
+		-- these coordinates are probably a band-aid for this problem
+		-- but this is necessary due to the camera logic
+		local mouse_cam_x = mouse_x + camera_x - (game_width / 2)
+		local mouse_cam_y = mouse_y + camera_y - (game_height / 2)
+
+		print(self.pos.x, self.pos.y, mouse_x, mouse_y, camera_x, camera_y)
+		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_cam_x, mouse_cam_y)
 
 		-- combat cooldowns
 		self.shoot_cooldown = math.max(0, self.shoot_cooldown - dt)
 
 		-- shoot mechanic, change this below to allow for dynamically switched shot types
 		if love.mouse.isDown(1) then
-			self:shoot(vector_scalar_multiply(vector_normalize({x = m_x - self.pos.x, y = m_y - self.pos.y}), self.bullet_velocity))
+			self:shoot(vector_scalar_multiply(vector_normalize({x = mouse_cam_x - self.pos.x, y = mouse_cam_y - self.pos.y}), self.bullet_velocity))
 		end
 
 
