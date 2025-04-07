@@ -158,7 +158,6 @@ function create_captain_player(posX, posY)
 		local mouse_cam_x = mouse_x + camera_x - (game_width / 2)
 		local mouse_cam_y = mouse_y + camera_y - (game_height / 2)
 
-		print(self.pos.x, self.pos.y, mouse_x, mouse_y, camera_x, camera_y)
 		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_cam_x, mouse_cam_y)
 
 		-- combat cooldowns
@@ -192,7 +191,7 @@ function create_captain_player(posX, posY)
 		love.graphics.rotate(self.facing + (90 * (math.pi / 180)))
 
 		captain_ship_animation:draw(captain_sheet, 0, 0, 0, 1, 1, 11, 11)
-		love.graphics.circle('line', 0, 0, math.sqrt(150))
+		--love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
 
 

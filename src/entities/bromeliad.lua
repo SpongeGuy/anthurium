@@ -74,7 +74,7 @@ bromeliad_states.Fruiting = {
 			self.fruit_shoot_degrees = self.fruit_shoot_degrees * GOLDEN_RATIO
 
 			-- launch fruit at random speed (within constraints)
-			local random_factor = 25 + math.random() * (75 - 25)
+			local random_factor = 50 + math.random() * (75 - 50)
 			local fruit = create_fruit(self.pos.x, self.pos.y, direction.x * random_factor, direction.y * random_factor)
 
 			table.insert(collectibles, fruit)
@@ -88,7 +88,6 @@ bromeliad_states.Fruiting = {
 	end,
 
 	draw = function(self)
-		love.graphics.print(self.energy, 0, 0)
 		love.graphics.setColor(0.2, 0.7, 0.1)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 10)
 		love.graphics.setColor(1, 1, 1)
@@ -112,7 +111,6 @@ bromeliad_states.Idle = {
 	end,
 
 	draw = function(self)
-		love.graphics.print(self.energy, 0, 0)
 		love.graphics.setColor(0.5, 0.5, 0.1)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 10)
 		love.graphics.setColor(1, 1, 1)

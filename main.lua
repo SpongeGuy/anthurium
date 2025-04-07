@@ -32,13 +32,18 @@ end
 
 
 function love.update(dt)
+	-- camera & mouse
 	mouse_x, mouse_y = love.mouse.getPosition()
 	camera_x, camera_y = camera:getPosition()
-	camera:setPosition(math.floor(player.pos.x), math.floor(player.pos.y))
 	mouse_x = (mouse_x / window_game_ratio)
 	mouse_y = (mouse_y / window_game_ratio)
 	
+
 	update_all(dt)
+
+	-- have camera set position to player
+	-- this will have to be changed when introducing game states
+	camera:setPosition(math.floor(player.pos.x), math.floor(player.pos.y))
 
 	
 
