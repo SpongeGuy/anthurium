@@ -152,7 +152,8 @@ function create_captain_player(posX, posY)
 
 		
 		-- face towards mouse
-		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, m_x, m_y)
+		print(self.pos.x, self.pos.y, mouse_x, mouse_y, camera_x , camera_y )
+		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_x + camera_x + (game_width / 4), mouse_y + camera_y + (game_height / 4))
 
 		-- combat cooldowns
 		self.shoot_cooldown = math.max(0, self.shoot_cooldown - dt)
