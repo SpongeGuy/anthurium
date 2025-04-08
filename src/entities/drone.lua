@@ -85,7 +85,7 @@ drone_states.Wandering = {
 				local distX = creature.pos.x - self.pos.x
 				local distY = creature.pos.y - self.pos.y
 				local dist_sq = distX*distX + distY*distY
-				if dist_sq <= 10000 then
+				if dist_sq <= self.aggro_range ^2 then
 					self.target = creature
 					return "Pursuing"
 				end
@@ -121,7 +121,7 @@ drone_states.Waiting = {
 				local distX = creature.pos.x - self.pos.x
 				local distY = creature.pos.y - self.pos.y
 				local dist_sq = distX*distX + distY*distY
-				if dist_sq <= 10000 then
+				if dist_sq <= self.aggro_range ^ 2 then
 					self.target = creature
 					return "Pursuing"
 				end
@@ -131,8 +131,10 @@ drone_states.Waiting = {
 }
 
 drone_states.Pursuing = {
+	-- timer is for initial
+	timer = 0,
 	enter = function(self)
-
+		timer = 0
 	end,
 
 	update = function(self, dt)
@@ -141,18 +143,32 @@ drone_states.Pursuing = {
 		self.vel = vector_normalize({x = distX, y = distY})
 		self.vel.x = self.vel.x * 25
 		self.vel.y = self.vel.y * 25
+		if timer then
+			timer = timer + dt
+			if timer > 2 then
+				timer = nil
+			end
+		end
+		
 
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
 
 		local dist_sq = distX*distX + distY*distY
-		if dist_sq >= 40000 then
+		if dist_sq >= self.forget_range ^ 2 then
 			if math.random() > 0.5 then
 				return "Wandering"
 			else
 				return "Waiting"
 			end
-			
+		end
+	end,
+
+	draw = function(self)
+		if timer then
+			love.graphics.setColor(1, 0.1, 0.3)
+			love.graphics.print("!", math.floor(self.pos.x) - 1, math.floor(self.pos.y) - 7)
+			love.graphics.setColor(1, 1, 1)
 		end
 	end
 }
@@ -172,6 +188,8 @@ function create_drone(posX, posY)
 		vel = {x = 0, y = 0},
 		hunger = 0,
 		size = 5,
+		aggro_range = 75,
+		forget_range = 125, 
 	}
 
 	drone.state_machine.entity = drone
@@ -187,8 +205,9 @@ function create_drone(posX, posY)
 	end
 
 	function drone:draw()
-		self.state_machine:draw()
+		
 		love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
+		self.state_machine:draw()
 	end
 
 	return drone
