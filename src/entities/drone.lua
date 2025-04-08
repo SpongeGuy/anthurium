@@ -133,8 +133,10 @@ drone_states.Waiting = {
 drone_states.Pursuing = {
 	-- timer is for initial
 	timer = 0,
+	mod_timer = 0,
 	enter = function(self)
 		timer = 0
+		mod_timer = 0
 	end,
 
 	update = function(self, dt)
@@ -145,6 +147,7 @@ drone_states.Pursuing = {
 		self.vel.y = self.vel.y * 25
 		if timer then
 			timer = timer + dt
+			mod_timer = mod_timer + dt * 5
 			if timer > 2 then
 				timer = nil
 			end
@@ -166,12 +169,22 @@ drone_states.Pursuing = {
 
 	draw = function(self)
 		if timer then
-			love.graphics.setColor(1, 0.1, 0.3)
-			love.graphics.print("!", math.floor(self.pos.x) - 1, math.floor(self.pos.y) - 7)
-			love.graphics.setColor(1, 1, 1)
+			draw_bouncy_exclamation_mark(self.pos.x, self.pos.y, mod_timer)
 		end
 	end
 }
+
+function draw_bouncy_exclamation_mark(x, y, timer)
+	love.graphics.setColor(1, 0.1, 0.3)
+	local A = 25
+	local l = 0.5
+	local e = 2.71828
+	local h = 0.9
+	local B = 1.5
+	-- bouncy exclamation mark equation
+	love.graphics.print("!", math.floor(x) - 1, math.floor(y - (A*e^(-l*(timer^h)) * math.abs(math.sin(B*timer))) - 7))
+	love.graphics.setColor(1, 1, 1)
+end
 
 drone_states.Hungry = {
 
