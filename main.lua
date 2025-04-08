@@ -44,20 +44,13 @@ function love.update(dt)
 	-- have camera set position to player
 	-- this will have to be changed when introducing game states
 	camera:setPosition(math.floor(player.pos.x), math.floor(player.pos.y))
-
-	
-
-end
-
-function draw_camera_stuff(l, t, w, h)
-	draw_all()
 end
 
 --test 5
 function love.draw()
 	-- include
 	push:start()
-		camera:draw(draw_camera_stuff)
+		camera:draw(draw_all)
 	push:finish()
 	love.graphics.setBackgroundColor(0.1, 0.3, 0.2, 1)
 	

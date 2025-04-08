@@ -2,7 +2,7 @@ function create_fruit(posX, posY, dx, dy)
 	local fruit = {
 		pos = {x = posX, y = posY},
 		vel = {x = dx, y = dy},
-		destroy_this = false,
+		DESTROY_THIS = false,
 	}
 
 	function fruit:update(dt)
@@ -99,7 +99,7 @@ bromeliad_states.Idle = {
 		-- delete fruits from the plant's personal fruit table if marked
 		for i = #self.fruits, 1, -1 do
 			local fruit = self.fruits[i]
-			if fruit.destroy_this then
+			if fruit.DESTROY_THIS then
 				table.remove(self.fruits, i)
 			end
 		end

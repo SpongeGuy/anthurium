@@ -121,6 +121,7 @@ function create_captain_player(posX, posY)
 		vel = {x = 0, y = 0},
 		max_speed = 100,
 		facing = 0,
+		name = "jack",
 
 		shoot_cooldown = 0,	
 		shoot_attack_speed = 1, -- this value should be used for every attack type, just divide it or multiply it when you need a faster or slower attack speed
@@ -176,7 +177,7 @@ function create_captain_player(posX, posY)
 			local distY = collectible.pos.y - self.pos.y
 			local dist_sq = distX*distX + distY*distY
 			if dist_sq <= 150 then
-				collectible.destroy_this = true
+				collectible.DESTROY_THIS = true
 			end
 		end
 	end

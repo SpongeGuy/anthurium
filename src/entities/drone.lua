@@ -63,6 +63,7 @@ drone_states.Wandering = {
 			if self.move_branches <= 0 then
 				return "Waiting"
 			else
+				-- decrement amount of nodes to create
 				self.move_branches = self.move_branches - 1
 
 				local dist = 20 + math.random() * 160
@@ -76,11 +77,25 @@ drone_states.Wandering = {
 				self.vel = {x = self.vel.x * 25, y = self.vel.y * 25}
 			end
 		end
+
+		-- search for other creature logic
+		for i = #creatures, 1, -1 do
+			local creature = creatures[i]
+			if creature ~= self then
+				local distX = creature.pos.x - self.pos.x
+				local distY = creature.pos.y - self.pos.y
+				local dist_sq = distX*distX + distY*distY
+				if dist_sq <= 10000 then
+					self.target = creature
+					return "Pursuing"
+				end
+			end
+		end
 	end,
 
 	draw = function(self)
-		love.graphics.circle('fill', self.move_node.x, self.move_node.y, 1)
-		love.graphics.line(self.pos.x, self.pos.y, self.pos.x + self.vel.x, self.pos.y + self.vel.y)
+		--love.graphics.circle('fill', self.move_node.x, self.move_node.y, 1)
+		--love.graphics.line(self.pos.x, self.pos.y, self.pos.x + self.vel.x, self.pos.y + self.vel.y)
 	end
 }
 
@@ -98,7 +113,48 @@ drone_states.Waiting = {
 		if self.timer > self.random_wait_value then
 			return "Wandering"
 		end
+
+		-- search for other creature logic
+		for i = #creatures, 1, -1 do
+			local creature = creatures[i]
+			if creature ~= self then
+				local distX = creature.pos.x - self.pos.x
+				local distY = creature.pos.y - self.pos.y
+				local dist_sq = distX*distX + distY*distY
+				if dist_sq <= 10000 then
+					self.target = creature
+					return "Pursuing"
+				end
+			end
+		end
 	end,
+}
+
+drone_states.Pursuing = {
+	enter = function(self)
+
+	end,
+
+	update = function(self, dt)
+		local distX = self.target.pos.x - self.pos.x
+		local distY = self.target.pos.y - self.pos.y
+		self.vel = vector_normalize({x = distX, y = distY})
+		self.vel.x = self.vel.x * 25
+		self.vel.y = self.vel.y * 25
+
+		self.pos.x = self.pos.x + self.vel.x * dt
+		self.pos.y = self.pos.y + self.vel.y * dt
+
+		local dist_sq = distX*distX + distY*distY
+		if dist_sq >= 40000 then
+			if math.random() > 0.5 then
+				return "Wandering"
+			else
+				return "Waiting"
+			end
+			
+		end
+	end
 }
 
 drone_states.Hungry = {
@@ -123,6 +179,7 @@ function create_drone(posX, posY)
 	drone.state_machine:add_state("Waiting", drone_states.Waiting)
 	drone.state_machine:add_state("Hungry", drone_states.Hungry)
 	drone.state_machine:add_state("Attacking", drone_states.Attacking)
+	drone.state_machine:add_state("Pursuing", drone_states.Pursuing)
 	drone.state_machine:transition_to("Waiting")
 
 	function drone:update(dt)

@@ -18,8 +18,8 @@ function update_all(dt)
 	for i = #bullets, 1, -1 do
 		local bullet = bullets[i]
 		bullet:update(dt)
-		-- destroy_this flag
-		if bullet.destroy_this then
+		-- DESTROY_THIS flag
+		if bullet.DESTROY_THIS then
 			table.remove(bullets, i)
 		end
 	end
@@ -27,8 +27,8 @@ function update_all(dt)
 	for i = #creatures, 1, -1 do
 		local creature = creatures[i]
 		creature:update(dt)
-		-- destroy_this flag
-		if creature.destroy_this then
+		-- DESTROY_THIS flag
+		if creature.DESTROY_THIS then
 			table.remove(creatures, i)
 		end
 	end
@@ -36,8 +36,8 @@ function update_all(dt)
 	for i = #collectibles, 1, -1 do
 		local collectible = collectibles[i]
 		collectible:update(dt)
-		-- destroy_this flag
-		if collectible.destroy_this then
+		-- DESTROY_THIS flag
+		if collectible.DESTROY_THIS then
 			table.remove(collectibles, i)
 		end
 	end
@@ -45,8 +45,8 @@ function update_all(dt)
 	for i = #plants, 1, -1 do
 		local plant = plants[i]
 		plant:update(dt)
-		-- destroy_this flag
-		if plant.destroy_this then
+		-- DESTROY_THIS flag
+		if plant.DESTROY_THIS then
 			table.remove(plants, i)
 		end
 	end
