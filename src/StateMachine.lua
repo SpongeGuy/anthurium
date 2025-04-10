@@ -1,4 +1,4 @@
-local StateMachine = {}
+StateMachine = {}
 StateMachine.__index = StateMachine
 
 function StateMachine.new()
@@ -52,5 +52,3 @@ function StateMachine:draw()
 		self.current_state.draw(self.entity)
 	end
 end
-
-return StateMachine

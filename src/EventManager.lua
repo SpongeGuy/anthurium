@@ -1,4 +1,5 @@
 -- global event manager which can send and receive data from other sources
+-- I HAVENT USED THIS YET
 
 EventManager = {
 	listeners = {}

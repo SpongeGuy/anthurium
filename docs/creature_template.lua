@@ -51,7 +51,7 @@ function create_template(posX, posY, dx, dy)
 		state_machine = sm.new(),
 		pos = {x = posX, y = posY},
 		vel = {x = dx, y = dy},
-		DESTROY_THIS = false, -- this one is optional, but destroy_this is a reserved value for deleting entities
+		_destroy_this = false, -- this one is optional, but _destroy_this is a reserved value for deleting entities
 	}
 
 	-- state machine boiler plate (necessary)

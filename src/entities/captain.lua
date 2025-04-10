@@ -116,10 +116,11 @@ captain_states.Moving = {
 function create_captain_player(posX, posY)
 	-- this is demo test player character
 	local captain = {
-		state_machine = sm.new(),
+		state_machine = StateMachine.new(),
 		pos = {x = posX, y = posY},
 		vel = {x = 0, y = 0},
 		max_speed = 100,
+		entity_type = EntityType.creature,
 		facing = 0,
 		name = "jack",
 
@@ -131,6 +132,8 @@ function create_captain_player(posX, posY)
 	}
 
 	-- state machine instantiation
+
+
 	captain.state_machine.entity = captain
 	captain.state_machine:add_state("Moving", captain_states.Moving)
 	captain.state_machine:add_state("Idle", captain_states.Idle)
@@ -150,15 +153,11 @@ function create_captain_player(posX, posY)
 
 	function captain:update(dt)
 		self.state_machine:update(dt)
-
-		
 		-- face towards mouse
-
 		-- these coordinates are probably a band-aid for this problem
 		-- but this is necessary due to the camera logic
 		local mouse_cam_x = mouse_x + camera_x - (game_width / 2)
 		local mouse_cam_y = mouse_y + camera_y - (game_height / 2)
-
 		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_cam_x, mouse_cam_y)
 
 		-- combat cooldowns
@@ -169,6 +168,7 @@ function create_captain_player(posX, posY)
 			self:shoot(vector_scalar_multiply(vector_normalize({x = mouse_cam_x - self.pos.x, y = mouse_cam_y - self.pos.y}), self.bullet_velocity))
 		end
 
+		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 
 		-- collectible collector
 		for i = #collectibles, 1, -1 do
@@ -177,13 +177,15 @@ function create_captain_player(posX, posY)
 			local distY = collectible.pos.y - self.pos.y
 			local dist_sq = distX*distX + distY*distY
 			if dist_sq <= 150 then
-				collectible.DESTROY_THIS = true
+				collectible._destroy_this = true
 			end
 		end
+
 	end
 
 
 	function captain:draw()
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.push()
 		self.state_machine:draw()
 
@@ -195,7 +197,11 @@ function create_captain_player(posX, posY)
 		--love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
 
-
+		love.graphics.setColor(0, 1, 0)
+		love.graphics.rectangle('line', self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h)
+		love.graphics.setColor(1, 1, 1)
 	end
+
+	SpatialManager:register_entity(captain)
 	return captain
 end

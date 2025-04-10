@@ -2,7 +2,8 @@ function create_fruit(posX, posY, dx, dy)
 	local fruit = {
 		pos = {x = posX, y = posY},
 		vel = {x = dx, y = dy},
-		DESTROY_THIS = false,
+		_destroy_this = false,
+		entity_type = EntityType.fruit,
 	}
 
 	function fruit:update(dt)
@@ -27,6 +28,7 @@ function create_fruit(posX, posY, dx, dy)
 			self.vel.y = 0
 		end
 
+
 	end
 
 	function fruit:draw()
@@ -37,6 +39,7 @@ function create_fruit(posX, posY, dx, dy)
 		love.graphics.setColor(1, 1, 1)
 	end
 
+	SpatialManager:register_entity(fruit)
 	return fruit
 end
 
@@ -99,7 +102,7 @@ bromeliad_states.Idle = {
 		-- delete fruits from the plant's personal fruit table if marked
 		for i = #self.fruits, 1, -1 do
 			local fruit = self.fruits[i]
-			if fruit.DESTROY_THIS then
+			if fruit._destroy_this then
 				table.remove(self.fruits, i)
 			end
 		end
@@ -119,8 +122,9 @@ bromeliad_states.Idle = {
 
 function create_bromeliad(posX, posY)
 	local plant = {
-		state_machine = sm.new(),
+		state_machine = StateMachine.new(),
 		pos = {x = posX, y = posY},
+		entity_type = EntityType.fruit_plant,
 		energy = 0, -- used for fruiting
 		fruit_spawn_rate = 7,
 		fruits = {},
