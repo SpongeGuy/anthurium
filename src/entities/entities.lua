@@ -1,4 +1,6 @@
 -- organization file for entity scripts
+anim8 = require('lib/anim8')
+sfxr = require('lib/sfxr')
 
 require("src/StateMachine")
 require("src/SpatialManager")
@@ -105,7 +107,15 @@ function draw_all()
 	end
 end
 
-
+function face_towards_coordinate(ex, ey, x, y)
+	-- ex, ey are coordinates of entity (these should probably be the entity's center)
+	local original_angle = math.atan2(y - ey, x - ex)
+	original_angle = original_angle % (2 * math.pi) -- normalize angle to [0, 2pi)
+	local snap_step = math.rad(11.25)
+	local snapped_angle = math.floor(original_angle / snap_step + 0.5) * snap_step -- compute snap step to nearest angle of snap step
+	snapped_angle = snapped_angle % (2 * math.pi) -- normalize new angle to [0, 2pi)
+	return snapped_angle
+end
 
 function random_float(min, max)
 		return math.random() * (max - min) + min

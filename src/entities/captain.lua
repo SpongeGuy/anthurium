@@ -1,6 +1,3 @@
-local anim8 = require('lib/anim8')
-local sfxr = require('lib/sfxr')
-
 local captain_sheet = love.graphics.newImage('assets/sprites/captain/captain_sheet.png')
 captain_sheet:setFilter("nearest", "nearest")
 local captain_ship_grid = anim8.newGrid(22, 22, captain_sheet:getWidth(), captain_sheet:getHeight())
@@ -22,16 +19,6 @@ function create_pellet(posX, posY, direction_vector)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 2.5)
 	end
 	return pellet
-end
-
-function face_towards_coordinate(ex, ey, x, y)
-	-- ex, ey are coordinates of entity (these should probably be the entity's center)
-	local original_angle = math.atan2(y - ey, x - ex)
-	original_angle = original_angle % (2 * math.pi) -- normalize angle to [0, 2pi)
-	local snap_step = math.rad(11.25)
-	local snapped_angle = math.floor(original_angle / snap_step + 0.5) * snap_step -- compute snap step to nearest angle of snap step
-	snapped_angle = snapped_angle % (2 * math.pi) -- normalize new angle to [0, 2pi)
-	return snapped_angle
 end
 
 local captain_states = {}

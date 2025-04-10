@@ -1,12 +1,9 @@
--- drone simple behavior
--- when hungry
--- - seek out plant, then fruit
--- when not hungry
--- - wander randomly
--- when near a creature
--- - point towards it and begin attacking
--- when attacking
--- - point towards assailant and do damage, move back and forth
+
+
+local drone_sheet = love.graphics.newImage('assets/sprites/drone/drone.png')
+drone_sheet:setFilter("nearest", "nearest")
+local drone_grid = anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight())
+local drone_animation = anim8.newAnimation(drone_grid('1-1', 1), 1)
 
 function get_random_coordinate_away(x, y, dist)
 	-- create a vector away from a set of coordinates
@@ -327,6 +324,8 @@ function create_drone(posX, posY)
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 		self.collision_cooldown = math.max(0, self.collision_cooldown - dt)
 		self.pursue_cooldown = math.max(0, self.pursue_cooldown - dt)
+		
+		self.facing = face_towards_coordinate(self.pos.x + drone_sheet:getWidth(), self.pos.y + drone_sheet:getHeight(), self.pos.x + self.vel.x, self.pos.y + self.vel.y)
 
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
@@ -367,13 +366,12 @@ function create_drone(posX, posY)
 
 	function drone:draw()
 		love.graphics.setColor(unpack(self.color))
-		love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
+		love.graphics.push()
+			love.graphics.translate(math.floor(self.pos.x), math.floor(self.pos.y))
+			love.graphics.rotate(self.facing)
+			drone_animation:draw(drone_sheet, 0, 0, 0, 1, 1, drone_sheet:getWidth()/2, drone_sheet:getHeight()/2)
+		love.graphics.pop()
 		self.state_machine:draw()
-		love.graphics.setColor(0, 0, 0)
-		-- love.graphics.print(self.state, math.floor(self.pos.x), math.floor(self.pos.y))
-		-- if self.target then
-		-- 	love.graphics.print("h", math.floor(self.pos.x), math.floor(self.pos.y + 8))
-		-- end
 		love.graphics.setColor(1, 1, 1)
 	end
 	
