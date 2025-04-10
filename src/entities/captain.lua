@@ -170,17 +170,6 @@ function create_captain_player(posX, posY)
 
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 
-		-- collectible collector
-		for i = #collectibles, 1, -1 do
-			local collectible = collectibles[i]
-			local distX = collectible.pos.x - self.pos.x
-			local distY = collectible.pos.y - self.pos.y
-			local dist_sq = distX*distX + distY*distY
-			if dist_sq <= 150 then
-				collectible._destroy_this = true
-			end
-		end
-
 	end
 
 
@@ -197,8 +186,6 @@ function create_captain_player(posX, posY)
 		--love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
 
-		love.graphics.setColor(0, 1, 0)
-		love.graphics.rectangle('line', self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h)
 		love.graphics.setColor(1, 1, 1)
 	end
 

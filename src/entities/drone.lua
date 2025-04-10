@@ -25,7 +25,6 @@ function get_random_coordinate_away_range(x, y, dist, min_degrees, max_degrees)
 	local nx = x + dist * math.cos(random_angle)
 	local ny = y + dist * math.sin(random_angle)
 	return {x = nx, y = ny}
-
 end
 
 function vector_to_degrees(vector)
@@ -34,14 +33,14 @@ function vector_to_degrees(vector)
 	return angle_degrees
 end
 
-function draw_bouncy_exclamation_mark(x, y, timer)
+function draw_bouncy_text(text, x, y, timer)
 	local A = 25
 	local l = 0.5
 	local e = 2.71828
 	local h = 0.9
 	local B = 1.5
 	-- bouncy exclamation mark equation
-	love.graphics.print("!", math.floor(x) - 1, math.floor(y - (A*e^(-l*(timer^h)) * math.abs(math.sin(B*timer))) - 7))
+	love.graphics.print(text, math.floor(x) - 1, math.floor(y - (A*e^(-l*(timer^h)) * math.abs(math.sin(B*timer))) - 7))
 end
 
 local drone_states = {}
@@ -88,7 +87,24 @@ drone_states.Wandering = {
 		self.pos.y = self.pos.y + self.vel.y * dt
 
 		-- search for other creature logic
-		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+		local nearby_entities
+		if self.hunger > 25 then
+			nearby_entities = SpatialManager:query(self.pos, self.aggro_range * 6)
+			for i = #nearby_entities, 1, -1 do
+				local entity = nearby_entities[i]
+				if entity ~= self and entity.entity_type == "fruit" and entity.being_eaten == false then
+					local distX = entity.pos.x - self.pos.x
+					local distY = entity.pos.y - self.pos.y
+					local dist_sq = distX*distX + distY*distY
+					if dist_sq <= (self.aggro_range * 6) ^ 2 then
+						self.target = entity
+						return "Hungry"
+					end
+				end
+			end
+		else
+			nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+		end
 		for i = #nearby_entities, 1, -1 do
 			local entity = nearby_entities[i]
 			if entity ~= self and entity.entity_type == "creature" then
@@ -200,9 +216,9 @@ drone_states.Pursuing = {
 	draw = function(self)
 		if timer then
 			love.graphics.setColor(0, 0, 0)
-			draw_bouncy_exclamation_mark(self.pos.x+1, self.pos.y+1, mod_timer)
+			draw_bouncy_text("!", self.pos.x+1, self.pos.y+1, mod_timer)
 			love.graphics.setColor(1, 0.1, 0.3)
-			draw_bouncy_exclamation_mark(self.pos.x, self.pos.y, mod_timer)
+			draw_bouncy_text("!", self.pos.x, self.pos.y, mod_timer)
 			love.graphics.setColor(1, 1, 1)
 		end
 	end
@@ -211,14 +227,72 @@ drone_states.Pursuing = {
 
 
 drone_states.Hungry = {
+	enter = function(self)
+		self.size = 5
+		self.eating_timer = 3
+		self.eating_patience = 20
+	end,
 
+	update = function(self, dt)
+		local desired = compute_desired_velocity(self, self.target.pos, 25)
+		local damping = 3
+		local t = math.min(damping * dt, 1)
+		self.vel = lerp_vector(self.vel, desired, t)
+
+		self.pos.x = self.pos.x + self.vel.x * dt
+		self.pos.y = self.pos.y + self.vel.y * dt
+
+		-- if the drone cannot reach the fruit in time, it will (probably) choose a closer target
+		self.eating_patience = math.max(0, self.eating_patience - dt)
+		if self.eating_patience == 0 then
+			return "Wandering"
+		end
+
+		if AABB_collision(self, self.target) then
+			self.target.being_eaten = true
+			self.eating = true
+		elseif self.eating == true then
+			-- toggle these booleans to allow competition
+			-- this will probably get shared between entities ?
+			self.target.being_eaten = false
+			self.eating = false
+		end
+
+		if self.target.being_eaten and not self.eating then
+			return "Wandering"
+		end
+
+		if self.eating then
+			self.eating_timer = math.max(0, self.eating_timer - dt)
+		else
+			self.eating_timer = 3
+		end
+
+		if self.eating_timer == 0 then
+			self.hunger = self.hunger - self.target.nutrition
+			self.target._destroy_this = true
+			self.target = nil
+			if self.hunger < 0 then
+				return "Wandering"
+			end
+			local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+			for i = #nearby_entities, 1, -1 do
+				local entity = nearby_entities[i]
+				if entity ~= self and entity.entity_type == "fruit" and entity.being_eaten == false then
+					local distX = entity.pos.x - self.pos.x
+					local distY = entity.pos.y - self.pos.y
+					local dist_sq = distX*distX + distY*distY
+					if dist_sq <= (self.aggro_range * 3) ^ 2 then
+						self.target = entity
+						return "Hungry"
+					end
+				end
+			end
+			return "Wandering"
+		end
+
+	end
 }
-
-drone_states.Attacking = {
-	-- figure out how to bounce
-}
-
-
 
 -- creation function
 function create_drone(posX, posY)
@@ -237,7 +311,6 @@ function create_drone(posX, posY)
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
 	drone.state_machine:add_state("Waiting", drone_states.Waiting)
 	drone.state_machine:add_state("Hungry", drone_states.Hungry)
-	drone.state_machine:add_state("Attacking", drone_states.Attacking)
 	drone.state_machine:add_state("Pursuing", drone_states.Pursuing)
 	drone.state_machine:transition_to("Waiting")
 
@@ -249,12 +322,12 @@ function create_drone(posX, posY)
 
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
-			if AABB_collision(self, entity) and self.collision_cooldown == 0 and self ~= entity then
+			if AABB_collision(self, entity) and self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" then
 				local normal = get_collision_normal(self, entity)
 				local new_vel = reflect_velocity(self.vel, normal)
 				self.vel.x = new_vel.x * 10
 				self.vel.y = new_vel.y * 10
-				self.collision_cooldown = 0.5
+				self.collision_cooldown = 0.4
 			end
 		end
 	end
@@ -265,8 +338,6 @@ function create_drone(posX, posY)
 		self.state_machine:draw()
 		love.graphics.setColor(0, 0, 0)
 		love.graphics.print(math.floor(self.hunger), math.floor(self.pos.x), math.floor(self.pos.y))
-		love.graphics.setColor(0, 1, 0)
-		love.graphics.rectangle('line', self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h)
 		love.graphics.setColor(1, 1, 1)
 	end
 

@@ -22,13 +22,15 @@ function love.load()
 	math.randomseed(os.time())
 
 	player = create_captain_player(100, 100)
-	test_plant = create_bromeliad(250, 150)
+	bromeliad1 = create_bromeliad(250, 150)
+	bromeliad2 = create_bromeliad(250, -150)
 	drone1 = create_drone(200, 150)
 	drone2 = create_drone(300, 150)
 	table.insert(creatures, drone1)
 	table.insert(creatures, drone2)
 	table.insert(creatures, player)
-	table.insert(plants, test_plant)
+	table.insert(plants, bromeliad1)
+	table.insert(plants, bromeliad2)
 end
 
 

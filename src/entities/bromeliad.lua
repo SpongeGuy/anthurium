@@ -4,6 +4,8 @@ function create_fruit(posX, posY, dx, dy)
 		vel = {x = dx, y = dy},
 		_destroy_this = false,
 		entity_type = EntityType.fruit,
+		nutrition = 15,
+		being_eaten = false,
 	}
 
 	function fruit:update(dt)
@@ -28,7 +30,7 @@ function create_fruit(posX, posY, dx, dy)
 			self.vel.y = 0
 		end
 
-
+		self.hitbox = {x = self.pos.x - 2, y = self.pos.y - 2, w = 4, h = 4}
 	end
 
 	function fruit:draw()
@@ -126,7 +128,7 @@ function create_bromeliad(posX, posY)
 		pos = {x = posX, y = posY},
 		entity_type = EntityType.fruit_plant,
 		energy = 0, -- used for fruiting
-		fruit_spawn_rate = 7,
+		fruit_spawn_rate = 3,
 		fruits = {},
 	}
 
