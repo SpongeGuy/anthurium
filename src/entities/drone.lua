@@ -309,13 +309,11 @@ function create_drone(posX, posY)
 	drone.collision_cooldown = 0
 	drone.hunger = 0
 	drone.size = 5
-	drone.aggro_range = 50
+	drone.aggro_range = 25
 	drone.forget_range = 50
 	drone.pursue_cooldown = 0
 	drone.health = 20
-	drone.color = {random_float(0.8, 1), random_float(0.6, 1), random_float(0.8, 1)}
-
-	drone.state = "h"
+	drone.color = {random_float(0.7, 1), random_float(0.7, 1), random_float(0.7, 1)}
 
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
 	drone.state_machine:add_state("Waiting", drone_states.Waiting)
@@ -332,7 +330,7 @@ function create_drone(posX, posY)
 
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
-			if AABB_collision(self, entity) and self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" then
+			if self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" and AABB_collision(self, entity) then
 				self.health = self.health - 1
 				if self.health <= 0 then
 					self._destroy_this = true
