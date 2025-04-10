@@ -90,6 +90,10 @@ function draw_all()
 end
 
 
+function random_float(min, max)
+		return math.random() * (max - min) + min
+	end
+
 -- cool vector/entity functions (important)
 function lerp_vector(current, target, t)
 	-- t is a value between 0 and 1 that controls the blend amount

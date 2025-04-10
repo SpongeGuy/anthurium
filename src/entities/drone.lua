@@ -78,8 +78,8 @@ drone_states.Wandering = {
 		end
 
 		-- lerp towards move_node
-		local desired = compute_desired_velocity(self, self.move_node, 25)
-		local damping = 1
+		local desired = compute_desired_velocity(self, self.move_node, self.move_speed)
+		local damping = 2
 		local t = math.min(damping * dt, 1)
 		self.vel = lerp_vector(self.vel, desired, t)
 
@@ -89,10 +89,11 @@ drone_states.Wandering = {
 		-- search for other creature logic
 		local nearby_entities
 		if self.hunger > 25 then
-			nearby_entities = SpatialManager:query(self.pos, self.aggro_range * 6)
+			nearby_entities = SpatialManager:query(self.pos, self.aggro_range * 6) -- self.aggro_range should be subbed w a parameter
 			for i = #nearby_entities, 1, -1 do
 				local entity = nearby_entities[i]
-				if entity ~= self and entity.entity_type == "fruit" and entity.being_eaten == false then
+				if entity ~= self and entity.entity_type == "fruit" and entity.being_eaten == false then -- conditions here should be a parameter
+					-- the function being executed here should be a parameter
 					local distX = entity.pos.x - self.pos.x
 					local distY = entity.pos.y - self.pos.y
 					local dist_sq = distX*distX + distY*distY
@@ -105,23 +106,22 @@ drone_states.Wandering = {
 		else
 			nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		end
-		for i = #nearby_entities, 1, -1 do
-			local entity = nearby_entities[i]
-			if entity ~= self and entity.entity_type == "creature" then
-				local distX = entity.pos.x - self.pos.x
-				local distY = entity.pos.y - self.pos.y
-				local dist_sq = distX*distX + distY*distY
-				if dist_sq <= self.aggro_range ^ 2 then
-					self.target = entity
-					return "Pursuing"
+		if self.pursue_cooldown == 0 then
+			local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+			for i = #nearby_entities, 1, -1 do
+				local entity = nearby_entities[i]
+				if entity ~= self and entity.entity_type == "creature" then
+					local distX = entity.pos.x - self.pos.x
+					local distY = entity.pos.y - self.pos.y
+					local dist_sq = distX*distX + distY*distY
+					if dist_sq <= self.aggro_range ^ 2 then
+						self.target = entity
+						return "Pursuing"
+					end
 				end
 			end
 		end
 	end,
-
-	draw = function(self)
-		love.graphics.circle('fill', self.move_node.x, self.move_node.y, 1)
-	end
 }
 
 drone_states.Waiting = {
@@ -156,16 +156,18 @@ drone_states.Waiting = {
 		end
 
 		-- search for other creature logic
-		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
-		for i = #nearby_entities, 1, -1 do
-			local entity = nearby_entities[i]
-			if entity ~= self and entity.entity_type == "creature" then
-				local distX = entity.pos.x - self.pos.x
-				local distY = entity.pos.y - self.pos.y
-				local dist_sq = distX*distX + distY*distY
-				if dist_sq <= self.aggro_range ^ 2 then
-					self.target = entity
-					return "Pursuing"
+		if self.pursue_cooldown == 0 then
+			local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+			for i = #nearby_entities, 1, -1 do
+				local entity = nearby_entities[i]
+				if entity ~= self and entity.entity_type == "creature" then
+					local distX = entity.pos.x - self.pos.x
+					local distY = entity.pos.y - self.pos.y
+					local dist_sq = distX*distX + distY*distY
+					if dist_sq <= self.aggro_range ^ 2 then
+						self.target = entity
+						return "Pursuing"
+					end
 				end
 			end
 		end
@@ -192,8 +194,14 @@ drone_states.Pursuing = {
 			end
 		end
 
+		-- randomly decide to lose interest
+		if math.random() < 0.001 then
+			self.pursue_cooldown = math.random(4, 8)
+			return "Wandering"
+		end
+
 		-- move towards target steadily
-		local desired = compute_desired_velocity(self, self.target.pos, 25)
+		local desired = compute_desired_velocity(self, self.target.pos, self.move_speed)
 		local damping = 5
 		local t = math.min(damping * dt, 1)
 		self.vel = lerp_vector(self.vel, desired, t)
@@ -215,11 +223,11 @@ drone_states.Pursuing = {
 
 	draw = function(self)
 		if timer then
-			love.graphics.setColor(0, 0, 0)
-			draw_bouncy_text("!", self.pos.x+1, self.pos.y+1, mod_timer)
-			love.graphics.setColor(1, 0.1, 0.3)
-			draw_bouncy_text("!", self.pos.x, self.pos.y, mod_timer)
-			love.graphics.setColor(1, 1, 1)
+			-- love.graphics.setColor(0, 0, 0)
+			-- draw_bouncy_text("!", self.pos.x+1, self.pos.y+1, mod_timer)
+			-- love.graphics.setColor(1, 0.1, 0.3)
+			-- draw_bouncy_text("!", self.pos.x, self.pos.y, mod_timer)
+			-- love.graphics.setColor(1, 1, 1)
 		end
 	end
 }
@@ -234,7 +242,7 @@ drone_states.Hungry = {
 	end,
 
 	update = function(self, dt)
-		local desired = compute_desired_velocity(self, self.target.pos, 25)
+		local desired = compute_desired_velocity(self, self.target.pos, self.move_speed)
 		local damping = 3
 		local t = math.min(damping * dt, 1)
 		self.vel = lerp_vector(self.vel, desired, t)
@@ -268,8 +276,10 @@ drone_states.Hungry = {
 			self.eating_timer = 3
 		end
 
+		-- eat fruit
 		if self.eating_timer == 0 then
 			self.hunger = self.hunger - self.target.nutrition
+			self.health = self.health + 3
 			self.target._destroy_this = true
 			self.target = nil
 			if self.hunger < 0 then
@@ -301,11 +311,14 @@ function create_drone(posX, posY)
 		pos = {x = posX, y = posY},
 		vel = {x = 0, y = 0},
 		entity_type = EntityType.creature,
+		move_speed = 35,
 		collision_cooldown = 0,
 		hunger = 0,
 		size = 5,
 		aggro_range = 50,
 		forget_range = 50,
+		pursue_cooldown = 0,
+		health = 20,
 	}
 	drone.state_machine.entity = drone
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
@@ -319,25 +332,51 @@ function create_drone(posX, posY)
 		self.hunger = self.hunger + dt
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 		self.collision_cooldown = math.max(0, self.collision_cooldown - dt)
+		self.pursue_cooldown = math.max(0, self.pursue_cooldown - dt)
 
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
 			if AABB_collision(self, entity) and self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" then
+				self.health = self.health - 1
+				if self.health <= 0 then
+					self._destroy_this = true
+					break
+				end
+
+				-- this logic is so fucked up and it's probably not gonna improve any time soon lel
+				local current_vel_length = math.sqrt(self.vel.x^2 + self.vel.y^2)
 				local normal = get_collision_normal(self, entity)
 				local new_vel = reflect_velocity(self.vel, normal)
-				self.vel.x = new_vel.x * 10
-				self.vel.y = new_vel.y * 10
+				local bounce_speed = 250
+				local entity_velocity_normalized = vector_normalize(entity.vel)
+
+				if current_vel_length < self.move_speed - 10 then
+					-- if going slow or stationary, use this logic
+					self.vel.x = (normal.x + math.random()) * bounce_speed
+					self.vel.y = (normal.y + math.random()) * bounce_speed
+				else
+					self.vel.x = (new_vel.x + math.random()) * bounce_speed / 50
+					self.vel.y = (new_vel.y + math.random()) * bounce_speed / 50
+				end
 				self.collision_cooldown = 0.4
+
+				if math.random() < 0.1 then
+					self.pursue_cooldown = math.random(4, 8)
+					self.state_machine:transition_to("Wandering")
+				end
+				
 			end
 		end
 	end
+
+
 
 	function drone:draw()
 		love.graphics.setColor(1, 1, 1)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
 		self.state_machine:draw()
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.print(math.floor(self.hunger), math.floor(self.pos.x), math.floor(self.pos.y))
+		-- love.graphics.print(math.floor(self.health), math.floor(self.pos.x), math.floor(self.pos.y))
 		love.graphics.setColor(1, 1, 1)
 	end
 

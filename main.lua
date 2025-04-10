@@ -24,10 +24,9 @@ function love.load()
 	player = create_captain_player(100, 100)
 	bromeliad1 = create_bromeliad(250, 150)
 	bromeliad2 = create_bromeliad(250, -150)
-	drone1 = create_drone(200, 150)
-	drone2 = create_drone(300, 150)
-	table.insert(creatures, drone1)
-	table.insert(creatures, drone2)
+	for i = 0, 25 do
+		table.insert(creatures, create_drone(250 + math.random(0, 10), math.random(-10, 10)))
+	end
 	table.insert(creatures, player)
 	table.insert(plants, bromeliad1)
 	table.insert(plants, bromeliad2)
