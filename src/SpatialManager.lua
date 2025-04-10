@@ -42,6 +42,7 @@ function SpatialManager:remove_entity(entity)
 end
 
 -- will return a list of entities around a radius from a {x, y} coordinate using the spatial grid
+-- remember that if you are using this in relation to an entity's position, the returned list will include that entity (duh)
 function SpatialManager:query(position, radius)
 	local results = {}
 	local min_x = math.floor((position.x - radius) / self.cell_size)

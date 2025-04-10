@@ -171,6 +171,13 @@ function compute_desired_velocity(self, speed)
 	return {x = norm.x * speed, y = norm.y * speed}
 end
 
+function compute_desired_velocity(self, target_position, speed)
+	local dist_x = target_position.x - self.pos.x
+	local dist_y = target_position.y - self.pos.y
+	local norm = vector_normalize({x = dist_x, y = dist_y})
+	return {x = norm.x * speed, y = norm.y * speed}
+end
+
 function reflect_velocity(velocity, normal)
 	local dot = velocity.x * normal.x + velocity.y * normal.y
 	return {
@@ -180,6 +187,9 @@ function reflect_velocity(velocity, normal)
 end
 
 function AABB_collision(self, target)
+	if not target.hitbox then
+		return false
+	end
 	if self.hitbox.x + self.hitbox.w < target.hitbox.x or
 		target.hitbox.x + target.hitbox.w < self.hitbox.x or
 		self.hitbox.y + self.hitbox.h < target.hitbox.y or
@@ -224,17 +234,13 @@ drone_states.Pursuing = {
 	timer = 0,
 	mod_timer = 0,
 	enter = function(self)
+		self.collision_cooldown = 0
 		timer = 0
 		mod_timer = 0
 		self.size = 5
 	end,
 
 	update = function(self, dt)
-		-- move towards target steadily
-		local desired = compute_desired_velocity(self, 25)
-		local damping = 5
-		local t = math.min(damping * dt, 1)
-		self.vel = lerp_vector(self.vel, desired, t)
 		if timer then
 			timer = timer + dt
 			mod_timer = mod_timer + dt * 5
@@ -243,12 +249,11 @@ drone_states.Pursuing = {
 			end
 		end
 
-		if AABB_collision(self, self.target) then
-			local normal = get_collision_normal(self, self.target)
-			local new_vel = reflect_velocity(self.vel, normal)
-			self.vel.x = new_vel.x
-			self.vel.y = new_vel.y
-		end
+		-- move towards target steadily
+		local desired = compute_desired_velocity(self, self.target.pos, 25)
+		local damping = 5
+		local t = math.min(damping * dt, 1)
+		self.vel = lerp_vector(self.vel, desired, t)
 		
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
@@ -295,6 +300,7 @@ function create_drone(posX, posY)
 		pos = {x = posX, y = posY},
 		vel = {x = 0, y = 0},
 		entity_type = EntityType.creature,
+		collision_cooldown = 0,
 		hunger = 0,
 		size = 5,
 		aggro_range = 50,
@@ -312,6 +318,18 @@ function create_drone(posX, posY)
 		self.state_machine:update(dt)
 		self.hunger = self.hunger + dt
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
+		self.collision_cooldown = math.max(0, self.collision_cooldown - dt)
+
+		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
+		for _, entity in ipairs(nearby_entities) do
+			if AABB_collision(self, entity) and self.collision_cooldown == 0 and self ~= entity then
+				local normal = get_collision_normal(self, entity)
+				local new_vel = reflect_velocity(self.vel, normal)
+				self.vel.x = new_vel.x * 10
+				self.vel.y = new_vel.y * 10
+				self.collision_cooldown = 0.5
+			end
+		end
 	end
 
 	function drone:draw()
