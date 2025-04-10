@@ -51,12 +51,7 @@ drone_states.Wandering = {
 		-- create a node between 100 and 20 units away from the x, y
 		local dist = 20 + math.random() * 40
 		self.move_node = get_random_coordinate_away(self.pos.x, self.pos.y, dist)
-
-		-- set velocity towards move_node
-		self.vel = vector_normalize({x = self.move_node.x - self.pos.x, y = self.move_node.y - self.pos.y})
-		self.vel = {x = self.vel.x * 25, y = self.vel.y * 25}
 		self.move_branches = math.random(0, 4)
-
 	end,
 
 	update = function(self, dt)
