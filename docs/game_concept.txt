@@ -159,9 +159,9 @@ focus on solid gameplay rather than aesthetic, especially early on.
 
 0.1 content:
 	DATA-ORIENTED, FUNCTIONAL DESIGN
-	entity/creature definition
-	robust entity state machine
-	player character
+	- entity/creature definition
+	- robust entity state machine
+	- player character
 	some neutral creatures (3-5) with unique behavior
 	flower/fruit spawners (plants)
 	entity portals / dens

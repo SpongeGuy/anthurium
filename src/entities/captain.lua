@@ -116,11 +116,13 @@ captain_states.Moving = {
 function create_captain_player(posX, posY)
 	-- this is demo test player character
 	local captain = {
-		state_machine = sm.new(),
+		state_machine = StateMachine.new(),
 		pos = {x = posX, y = posY},
 		vel = {x = 0, y = 0},
 		max_speed = 100,
+		entity_type = EntityType.creature,
 		facing = 0,
+		name = "jack",
 
 		shoot_cooldown = 0,	
 		shoot_attack_speed = 1, -- this value should be used for every attack type, just divide it or multiply it when you need a faster or slower attack speed
@@ -130,6 +132,8 @@ function create_captain_player(posX, posY)
 	}
 
 	-- state machine instantiation
+
+
 	captain.state_machine.entity = captain
 	captain.state_machine:add_state("Moving", captain_states.Moving)
 	captain.state_machine:add_state("Idle", captain_states.Idle)
@@ -149,19 +153,22 @@ function create_captain_player(posX, posY)
 
 	function captain:update(dt)
 		self.state_machine:update(dt)
-
-		
 		-- face towards mouse
-		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, m_x, m_y)
+		-- these coordinates are probably a band-aid for this problem
+		-- but this is necessary due to the camera logic
+		local mouse_cam_x = mouse_x + camera_x - (game_width / 2)
+		local mouse_cam_y = mouse_y + camera_y - (game_height / 2)
+		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, mouse_cam_x, mouse_cam_y)
 
 		-- combat cooldowns
 		self.shoot_cooldown = math.max(0, self.shoot_cooldown - dt)
 
 		-- shoot mechanic, change this below to allow for dynamically switched shot types
 		if love.mouse.isDown(1) then
-			self:shoot(vector_scalar_multiply(vector_normalize({x = m_x - self.pos.x, y = m_y - self.pos.y}), self.bullet_velocity))
+			self:shoot(vector_scalar_multiply(vector_normalize({x = mouse_cam_x - self.pos.x, y = mouse_cam_y - self.pos.y}), self.bullet_velocity))
 		end
 
+		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 
 		-- collectible collector
 		for i = #collectibles, 1, -1 do
@@ -170,13 +177,15 @@ function create_captain_player(posX, posY)
 			local distY = collectible.pos.y - self.pos.y
 			local dist_sq = distX*distX + distY*distY
 			if dist_sq <= 150 then
-				collectible.destroy_this = true
+				collectible._destroy_this = true
 			end
 		end
+
 	end
 
 
 	function captain:draw()
+		love.graphics.setColor(1, 1, 1)
 		love.graphics.push()
 		self.state_machine:draw()
 
@@ -185,8 +194,14 @@ function create_captain_player(posX, posY)
 		love.graphics.rotate(self.facing + (90 * (math.pi / 180)))
 
 		captain_ship_animation:draw(captain_sheet, 0, 0, 0, 1, 1, 11, 11)
-		
+		--love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
+
+		love.graphics.setColor(0, 1, 0)
+		love.graphics.rectangle('line', self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h)
+		love.graphics.setColor(1, 1, 1)
 	end
+
+	SpatialManager:register_entity(captain)
 	return captain
 end

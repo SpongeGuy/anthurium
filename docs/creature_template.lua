@@ -47,12 +47,11 @@ template_states.Chill = {
 
 function create_template(posX, posY, dx, dy)
 	-- define/instantiate variables
-	-- these are the only ones which are REQUIRED for every entity
 	local template = {
 		state_machine = sm.new(),
 		pos = {x = posX, y = posY},
 		vel = {x = dx, y = dy},
-		destroy_this = false,
+		_destroy_this = false, -- this one is optional, but _destroy_this is a reserved value for deleting entities
 	}
 
 	-- state machine boiler plate (necessary)

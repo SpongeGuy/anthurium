@@ -2,7 +2,8 @@ function create_fruit(posX, posY, dx, dy)
 	local fruit = {
 		pos = {x = posX, y = posY},
 		vel = {x = dx, y = dy},
-		destroy_this = false,
+		_destroy_this = false,
+		entity_type = EntityType.fruit,
 	}
 
 	function fruit:update(dt)
@@ -27,6 +28,7 @@ function create_fruit(posX, posY, dx, dy)
 			self.vel.y = 0
 		end
 
+
 	end
 
 	function fruit:draw()
@@ -37,6 +39,7 @@ function create_fruit(posX, posY, dx, dy)
 		love.graphics.setColor(1, 1, 1)
 	end
 
+	SpatialManager:register_entity(fruit)
 	return fruit
 end
 
@@ -74,7 +77,7 @@ bromeliad_states.Fruiting = {
 			self.fruit_shoot_degrees = self.fruit_shoot_degrees * GOLDEN_RATIO
 
 			-- launch fruit at random speed (within constraints)
-			local random_factor = 25 + math.random() * (75 - 25)
+			local random_factor = 50 + math.random() * (75 - 50)
 			local fruit = create_fruit(self.pos.x, self.pos.y, direction.x * random_factor, direction.y * random_factor)
 
 			table.insert(collectibles, fruit)
@@ -88,7 +91,6 @@ bromeliad_states.Fruiting = {
 	end,
 
 	draw = function(self)
-		love.graphics.print(self.energy, 0, 0)
 		love.graphics.setColor(0.2, 0.7, 0.1)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 10)
 		love.graphics.setColor(1, 1, 1)
@@ -100,7 +102,7 @@ bromeliad_states.Idle = {
 		-- delete fruits from the plant's personal fruit table if marked
 		for i = #self.fruits, 1, -1 do
 			local fruit = self.fruits[i]
-			if fruit.destroy_this then
+			if fruit._destroy_this then
 				table.remove(self.fruits, i)
 			end
 		end
@@ -112,7 +114,6 @@ bromeliad_states.Idle = {
 	end,
 
 	draw = function(self)
-		love.graphics.print(self.energy, 0, 0)
 		love.graphics.setColor(0.5, 0.5, 0.1)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 10)
 		love.graphics.setColor(1, 1, 1)
@@ -121,10 +122,11 @@ bromeliad_states.Idle = {
 
 function create_bromeliad(posX, posY)
 	local plant = {
-		state_machine = sm.new(),
+		state_machine = StateMachine.new(),
 		pos = {x = posX, y = posY},
+		entity_type = EntityType.fruit_plant,
 		energy = 0, -- used for fruiting
-		fruit_spawn_rate = 1,
+		fruit_spawn_rate = 7,
 		fruits = {},
 	}
 
