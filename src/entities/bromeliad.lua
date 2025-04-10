@@ -1,16 +1,15 @@
 function create_fruit(posX, posY, dx, dy)
-	local fruit = {
-		pos = {x = posX, y = posY},
-		vel = {x = dx, y = dy},
-		_destroy_this = false,
-		entity_type = EntityType.fruit,
-		nutrition = 15,
-		being_eaten = false,
-	}
+	local fruit = create_new_entity(posX, posY, EntityType.fruit)
+	fruit.vel.x = dx
+	fruit.vel.y = dy
+	fruit.nutrition = 15
+	fruit.being_eaten = false
 
 	function fruit:update(dt)
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
+
+		self.hitbox = {x = self.pos.x - 2, y = self.pos.y - 2, w = 4, h = 4}
 
 		local vel_len = math.sqrt(self.vel.x^2 + self.vel.y^2)
 
@@ -30,7 +29,7 @@ function create_fruit(posX, posY, dx, dy)
 			self.vel.y = 0
 		end
 
-		self.hitbox = {x = self.pos.x - 2, y = self.pos.y - 2, w = 4, h = 4}
+		
 	end
 
 	function fruit:draw()
@@ -41,7 +40,6 @@ function create_fruit(posX, posY, dx, dy)
 		love.graphics.setColor(1, 1, 1)
 	end
 
-	SpatialManager:register_entity(fruit)
 	return fruit
 end
 
@@ -123,17 +121,12 @@ bromeliad_states.Idle = {
 }
 
 function create_bromeliad(posX, posY)
-	local plant = {
-		state_machine = StateMachine.new(),
-		pos = {x = posX, y = posY},
-		entity_type = EntityType.fruit_plant,
-		energy = 0, -- used for fruiting
-		fruit_spawn_rate = 3,
-		fruits = {},
-	}
+	local plant = create_new_entity(posX, posY, EntityType.fruit_plant)
+	plant.energy = 0
+	plant.fruit_spawn_rate = 3
+	plant.fruits = {}
 
 	-- state machine instantiation
-	plant.state_machine.entity = plant
 	plant.state_machine:add_state("Fruiting", bromeliad_states.Fruiting)
 	plant.state_machine:add_state("Idle", bromeliad_states.Idle)
 	plant.state_machine:transition_to("Fruiting")

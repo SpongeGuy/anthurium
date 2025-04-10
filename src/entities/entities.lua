@@ -25,6 +25,22 @@ collectibles = {}
 bullets = {}
 plants = {}
 
+function create_new_entity(posX, posY, e_type)
+	entity = {
+		state_machine = StateMachine.new(),
+		pos = {x = posX, y = posY},
+		vel = {x = 0, y = 0},
+		entity_type = e_type,
+		_destroy_this = false,
+	}
+
+	entity.state_machine.entity = entity
+	SpatialManager:register_entity(entity)
+	return entity
+end
+
+
+-- called in main
 function update_all(dt)
 	for i = #bullets, 1, -1 do
 		local bullet = bullets[i]
@@ -88,6 +104,7 @@ function draw_all()
 		bullets[i]:draw()
 	end
 end
+
 
 
 function random_float(min, max)
@@ -177,9 +194,6 @@ function vector_normalize(vector)
 		return {x = vector.x / length, y = vector.y / length}
 	end
 end
-
-
- 
 
 function vector_scalar_multiply(vector, multiplier)
 	return {x = vector.x * multiplier, y = vector.y * multiplier}

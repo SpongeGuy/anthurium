@@ -123,6 +123,7 @@ function create_captain_player(posX, posY)
 		entity_type = EntityType.creature,
 		facing = 0,
 		name = "jack",
+		health = 20,
 
 		shoot_cooldown = 0,	
 		shoot_attack_speed = 1, -- this value should be used for every attack type, just divide it or multiply it when you need a faster or slower attack speed

@@ -40,7 +40,7 @@ function draw_bouncy_text(text, x, y, timer)
 	local h = 0.9
 	local B = 1.5
 	-- bouncy exclamation mark equation
-	love.graphics.print(text, math.floor(x) - 1, math.floor(y - (A*e^(-l*(timer^h)) * math.abs(math.sin(B*timer))) - 7))
+	love.graphics.print(text, math.floor(x), math.floor(y - (A*e^(-l*(timer^h)) * math.abs(math.sin(B*timer)))))
 end
 
 local drone_states = {}
@@ -48,9 +48,11 @@ local drone_states = {}
 drone_states.Wandering = {
 	enter = function(self)
 		-- create a node between 100 and 20 units away from the x, y
-		local dist = 20 + math.random() * 40
+		local dist = 20 + random_float(0, 40)
 		self.move_node = get_random_coordinate_away(self.pos.x, self.pos.y, dist)
 		self.move_branches = math.random(0, 4)
+		self.state = "Wn"
+		self.target = nil
 	end,
 
 	update = function(self, dt)
@@ -68,8 +70,7 @@ drone_states.Wandering = {
 			else
 				-- decrement amount of nodes to create
 				self.move_branches = self.move_branches - 1
-
-				local dist = 20 + math.random() * 160
+				local dist = 20 + random_float(0, 160)
 				local degrees = vector_to_degrees(self.vel)
 				local min_degrees = degrees - 50
 				local max_degrees = degrees + 50
@@ -103,8 +104,6 @@ drone_states.Wandering = {
 					end
 				end
 			end
-		else
-			nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		end
 		if self.pursue_cooldown == 0 then
 			local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
@@ -124,12 +123,16 @@ drone_states.Wandering = {
 	end,
 }
 
+
+
 drone_states.Waiting = {
 	enter = function(self)
 		
 		self.timer = 0
 		self.random_wait_value = math.random(2, 5)
 		self.size = 5
+		self.state = "Wt"
+		self.target = nil
 	end,
 
 	update = function(self, dt)
@@ -174,6 +177,8 @@ drone_states.Waiting = {
 	end,
 }
 
+
+
 drone_states.Pursuing = {
 	-- timer is for exclamation mark graphic
 	timer = 0,
@@ -183,6 +188,7 @@ drone_states.Pursuing = {
 		timer = 0
 		mod_timer = 0
 		self.size = 5
+		self.state = "P"
 	end,
 
 	update = function(self, dt)
@@ -194,10 +200,11 @@ drone_states.Pursuing = {
 			end
 		end
 
-		-- randomly decide to lose interest
-		if math.random() < 0.001 then
-			self.pursue_cooldown = math.random(4, 8)
-			return "Wandering"
+		-- prevent drone from freezing if target dies
+		-- i should probably figure out a way to reorganize the code so this isn't needed
+		if self.target._destroy_this then
+			self.target = nil
+			return "Waiting"
 		end
 
 		-- move towards target steadily
@@ -220,16 +227,6 @@ drone_states.Pursuing = {
 			end
 		end
 	end,
-
-	draw = function(self)
-		if timer then
-			-- love.graphics.setColor(0, 0, 0)
-			-- draw_bouncy_text("!", self.pos.x+1, self.pos.y+1, mod_timer)
-			-- love.graphics.setColor(1, 0.1, 0.3)
-			-- draw_bouncy_text("!", self.pos.x, self.pos.y, mod_timer)
-			-- love.graphics.setColor(1, 1, 1)
-		end
-	end
 }
 
 
@@ -239,6 +236,7 @@ drone_states.Hungry = {
 		self.size = 5
 		self.eating_timer = 3
 		self.eating_patience = 20
+		self.state = "H"
 	end,
 
 	update = function(self, dt)
@@ -306,21 +304,19 @@ drone_states.Hungry = {
 
 -- creation function
 function create_drone(posX, posY)
-	local drone = {
-		state_machine = StateMachine.new(),
-		pos = {x = posX, y = posY},
-		vel = {x = 0, y = 0},
-		entity_type = EntityType.creature,
-		move_speed = 35,
-		collision_cooldown = 0,
-		hunger = 0,
-		size = 5,
-		aggro_range = 50,
-		forget_range = 50,
-		pursue_cooldown = 0,
-		health = 20,
-	}
-	drone.state_machine.entity = drone
+	local drone = create_new_entity(posX, posY, EntityType.creature)
+	drone.move_speed = 35
+	drone.collision_cooldown = 0
+	drone.hunger = 0
+	drone.size = 5
+	drone.aggro_range = 50
+	drone.forget_range = 50
+	drone.pursue_cooldown = 0
+	drone.health = 20
+	drone.color = {random_float(0.8, 1), random_float(0.6, 1), random_float(0.8, 1)}
+
+	drone.state = "h"
+
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
 	drone.state_machine:add_state("Waiting", drone_states.Waiting)
 	drone.state_machine:add_state("Hungry", drone_states.Hungry)
@@ -360,11 +356,11 @@ function create_drone(posX, posY)
 				end
 				self.collision_cooldown = 0.4
 
+				-- on collision, randomly decide to wander
 				if math.random() < 0.1 then
 					self.pursue_cooldown = math.random(4, 8)
 					self.state_machine:transition_to("Wandering")
 				end
-				
 			end
 		end
 	end
@@ -372,14 +368,16 @@ function create_drone(posX, posY)
 
 
 	function drone:draw()
-		love.graphics.setColor(1, 1, 1)
+		love.graphics.setColor(unpack(self.color))
 		love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
 		self.state_machine:draw()
 		love.graphics.setColor(0, 0, 0)
-		-- love.graphics.print(math.floor(self.health), math.floor(self.pos.x), math.floor(self.pos.y))
+		-- love.graphics.print(self.state, math.floor(self.pos.x), math.floor(self.pos.y))
+		-- if self.target then
+		-- 	love.graphics.print("h", math.floor(self.pos.x), math.floor(self.pos.y + 8))
+		-- end
 		love.graphics.setColor(1, 1, 1)
 	end
-
-	SpatialManager:register_entity(drone)
+	
 	return drone
 end
