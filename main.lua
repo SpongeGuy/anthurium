@@ -24,7 +24,7 @@ function love.load()
 	player = create_captain_player(100, 100)
 	bromeliad1 = create_bromeliad(250, 150)
 	bromeliad2 = create_bromeliad(250, -150)
-	for i = 0, 25 do
+	for i = 0, 5 do
 		local drone = create_drone(250 + math.random(0, 10), math.random(-10, 10))
 		drone.hunger = math.random(-5, 10)
 		table.insert(creatures, drone)

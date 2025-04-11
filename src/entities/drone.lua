@@ -1,9 +1,20 @@
 
 
-local drone_sheet = love.graphics.newImage('assets/sprites/drone/drone.png')
+local drone_sheet = love.graphics.newImage('assets/sprites/drone/drone_sheet.png')
 drone_sheet:setFilter("nearest", "nearest")
-local drone_grid = anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight())
-local drone_animation = anim8.newAnimation(drone_grid('1-1', 1), 1)
+local drone_variants = {
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 0, 0),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 10, 0),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 20, 0),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 30, 0),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 40, 0),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 0, 10),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 10, 10),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 20, 10),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 30, 10),
+	anim8.newGrid(10, 10, drone_sheet:getWidth(), drone_sheet:getHeight(), 40, 10),
+}
+
 
 function get_random_coordinate_away(x, y, dist)
 	-- create a vector away from a set of coordinates
@@ -53,11 +64,6 @@ drone_states.Wandering = {
 	end,
 
 	update = function(self, dt)
-		-- visual bullshit
-		if self.size < 4 then
-			self.size = 6
-		end
-		self.size = self.size - dt * 6
 
 		-- node reach logic
 		local epsilon = 1
@@ -117,6 +123,8 @@ drone_states.Wandering = {
 				end
 			end
 		end
+
+		self:collide()
 	end,
 }
 
@@ -127,7 +135,6 @@ drone_states.Waiting = {
 		
 		self.timer = 0
 		self.random_wait_value = math.random(2, 5)
-		self.size = 5
 		self.state = "Wt"
 		self.target = nil
 	end,
@@ -150,7 +157,6 @@ drone_states.Waiting = {
 		self.pos.y = self.pos.y + self.vel.y * dt
 
 		self.timer = self.timer + dt
-		self.size = (math.sin(self.timer)) + 4
 		if self.timer > self.random_wait_value then
 			return "Wandering"
 		end
@@ -171,6 +177,8 @@ drone_states.Waiting = {
 				end
 			end
 		end
+
+		self:collide()
 	end,
 }
 
@@ -184,7 +192,6 @@ drone_states.Pursuing = {
 		self.collision_cooldown = 0
 		timer = 0
 		mod_timer = 0
-		self.size = 5
 		self.state = "P"
 	end,
 
@@ -223,6 +230,8 @@ drone_states.Pursuing = {
 				return "Waiting"
 			end
 		end
+
+		self:collide()
 	end,
 }
 
@@ -230,7 +239,6 @@ drone_states.Pursuing = {
 
 drone_states.Hungry = {
 	enter = function(self)
-		self.size = 5
 		self.eating_timer = 3
 		self.eating_patience = 20
 		self.state = "H"
@@ -296,7 +304,33 @@ drone_states.Hungry = {
 			return "Wandering"
 		end
 
+		self:collide()
+
 	end
+}
+
+drone_states.Spawning_Ground = {
+	enter = function(self)
+		self.size = 1
+		local dist = random_float(3, 50)
+		self.move_node = get_random_coordinate_away(self.pos.x, self.pos.y, dist)
+	end,
+
+	update = function(self, dt)
+		self.size = math.min(5, self.size + dt * 1.5)
+		local desired = compute_desired_velocity(self, self.move_node, self.size * 5)
+		local damping = 2
+		local t = math.min(damping * dt, 1)
+		self.vel = lerp_vector(self.vel, desired, t)
+
+		self.pos.x = self.pos.x + self.vel.x * dt
+		self.pos.y = self.pos.y + self.vel.y * dt
+
+		if self.size == 5 then
+			return "Wandering"
+		end
+		
+	end,
 }
 
 -- creation function
@@ -305,31 +339,50 @@ function create_drone(posX, posY)
 	drone.move_speed = 35
 	drone.collision_cooldown = 0
 	drone.hunger = 0
-	drone.size = 5
 	drone.aggro_range = 25
 	drone.forget_range = 50
 	drone.pursue_cooldown = 0
 	drone.health = 20
 	drone.color = {random_float(0.7, 1), random_float(0.7, 1), random_float(0.7, 1)}
+	drone.size = 5
+
+	local skin = math.random(1, 10)
+	drone.animation = anim8.newAnimation(drone_variants[skin]('1-1', 1), 1)
+	drone.animation:pause()
 
 	drone.state_machine:add_state("Wandering", drone_states.Wandering)
 	drone.state_machine:add_state("Waiting", drone_states.Waiting)
 	drone.state_machine:add_state("Hungry", drone_states.Hungry)
 	drone.state_machine:add_state("Pursuing", drone_states.Pursuing)
-	drone.state_machine:transition_to("Waiting")
+	drone.state_machine:add_state("Spawning_Ground", drone_states.Spawning_Ground)
+	drone.state_machine:transition_to("Spawning_Ground")
+
+	
 
 	function drone:update(dt)
-		self.state_machine:update(dt)
 		self.hunger = self.hunger + dt
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
+		self.state_machine:update(dt)
+		
 		self.collision_cooldown = math.max(0, self.collision_cooldown - dt)
 		self.pursue_cooldown = math.max(0, self.pursue_cooldown - dt)
-		
-		self.facing = face_towards_coordinate(self.pos.x + drone_sheet:getWidth(), self.pos.y + drone_sheet:getHeight(), self.pos.x + self.vel.x, self.pos.y + self.vel.y)
 
+		-- if self.size > 5 then
+		-- 	self.size = math.max(5, self.size - dt * 5)
+		-- end
+		
+		
+		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, self.pos.x + self.vel.x, self.pos.y + self.vel.y)
+
+		
+	end
+
+	function drone:collide()
+		-- collision logic
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
 			if self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" and AABB_collision(self, entity) then
+				--self.size = 7
 				self.health = self.health - 1
 				if self.health <= 0 then
 					self._destroy_this = true
@@ -362,16 +415,17 @@ function create_drone(posX, posY)
 		end
 	end
 
-
-
 	function drone:draw()
-		love.graphics.setColor(unpack(self.color))
+		
 		love.graphics.push()
 			love.graphics.translate(math.floor(self.pos.x), math.floor(self.pos.y))
 			love.graphics.rotate(self.facing)
-			drone_animation:draw(drone_sheet, 0, 0, 0, 1, 1, drone_sheet:getWidth()/2, drone_sheet:getHeight()/2)
+			love.graphics.setColor(1, 1, 1)
+			self.animation:draw(drone_sheet, 0, 0, 0, self.size/5, self.size/5, 5, 5)
+
 		love.graphics.pop()
 		self.state_machine:draw()
+		love.graphics.setColor(0, 1, 0)
 		love.graphics.setColor(1, 1, 1)
 	end
 	
