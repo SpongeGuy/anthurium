@@ -1,6 +1,3 @@
-local anim8 = require('lib/anim8')
-local sfxr = require('lib/sfxr')
-
 local captain_sheet = love.graphics.newImage('assets/sprites/captain/captain_sheet.png')
 captain_sheet:setFilter("nearest", "nearest")
 local captain_ship_grid = anim8.newGrid(22, 22, captain_sheet:getWidth(), captain_sheet:getHeight())
@@ -22,16 +19,6 @@ function create_pellet(posX, posY, direction_vector)
 		love.graphics.circle('fill', self.pos.x, self.pos.y, 2.5)
 	end
 	return pellet
-end
-
-function face_towards_coordinate(ex, ey, x, y)
-	-- ex, ey are coordinates of entity (these should probably be the entity's center)
-	local original_angle = math.atan2(y - ey, x - ex)
-	original_angle = original_angle % (2 * math.pi) -- normalize angle to [0, 2pi)
-	local snap_step = math.rad(11.25)
-	local snapped_angle = math.floor(original_angle / snap_step + 0.5) * snap_step -- compute snap step to nearest angle of snap step
-	snapped_angle = snapped_angle % (2 * math.pi) -- normalize new angle to [0, 2pi)
-	return snapped_angle
 end
 
 local captain_states = {}
@@ -123,6 +110,7 @@ function create_captain_player(posX, posY)
 		entity_type = EntityType.creature,
 		facing = 0,
 		name = "jack",
+		health = 20,
 
 		shoot_cooldown = 0,	
 		shoot_attack_speed = 1, -- this value should be used for every attack type, just divide it or multiply it when you need a faster or slower attack speed
@@ -170,17 +158,6 @@ function create_captain_player(posX, posY)
 
 		self.hitbox = {x = self.pos.x - 3, y = self.pos.y - 3, w = 6, h = 6}
 
-		-- collectible collector
-		for i = #collectibles, 1, -1 do
-			local collectible = collectibles[i]
-			local distX = collectible.pos.x - self.pos.x
-			local distY = collectible.pos.y - self.pos.y
-			local dist_sq = distX*distX + distY*distY
-			if dist_sq <= 150 then
-				collectible._destroy_this = true
-			end
-		end
-
 	end
 
 
@@ -197,8 +174,6 @@ function create_captain_player(posX, posY)
 		--love.graphics.circle('line', 0, 0, math.sqrt(150))
 		love.graphics.pop()
 
-		love.graphics.setColor(0, 1, 0)
-		love.graphics.rectangle('line', self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h)
 		love.graphics.setColor(1, 1, 1)
 	end
 

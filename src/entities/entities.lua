@@ -1,4 +1,6 @@
 -- organization file for entity scripts
+anim8 = require('lib/anim8')
+sfxr = require('lib/sfxr')
 
 require("src/StateMachine")
 require("src/SpatialManager")
@@ -25,6 +27,22 @@ collectibles = {}
 bullets = {}
 plants = {}
 
+function create_new_entity(posX, posY, e_type)
+	entity = {
+		state_machine = StateMachine.new(),
+		pos = {x = posX, y = posY},
+		vel = {x = 0, y = 0},
+		entity_type = e_type,
+		_destroy_this = false,
+	}
+
+	entity.state_machine.entity = entity
+	SpatialManager:register_entity(entity)
+	return entity
+end
+
+
+-- called in main
 function update_all(dt)
 	for i = #bullets, 1, -1 do
 		local bullet = bullets[i]
@@ -89,6 +107,19 @@ function draw_all()
 	end
 end
 
+function face_towards_coordinate(ex, ey, x, y)
+	-- ex, ey are coordinates of entity (these should probably be the entity's center)
+	local original_angle = math.atan2(y - ey, x - ex)
+	original_angle = original_angle % (2 * math.pi) -- normalize angle to [0, 2pi)
+	local snap_step = math.rad(11.25)
+	local snapped_angle = math.floor(original_angle / snap_step + 0.5) * snap_step -- compute snap step to nearest angle of snap step
+	snapped_angle = snapped_angle % (2 * math.pi) -- normalize new angle to [0, 2pi)
+	return snapped_angle
+end
+
+function random_float(min, max)
+		return math.random() * (max - min) + min
+	end
 
 -- cool vector/entity functions (important)
 function lerp_vector(current, target, t)
@@ -173,9 +204,6 @@ function vector_normalize(vector)
 		return {x = vector.x / length, y = vector.y / length}
 	end
 end
-
-
- 
 
 function vector_scalar_multiply(vector, multiplier)
 	return {x = vector.x * multiplier, y = vector.y * multiplier}

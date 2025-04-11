@@ -1,14 +1,27 @@
 function create_fruit(posX, posY, dx, dy)
-	local fruit = {
-		pos = {x = posX, y = posY},
-		vel = {x = dx, y = dy},
-		_destroy_this = false,
-		entity_type = EntityType.fruit,
-	}
+	local fruit = create_new_entity(posX, posY, EntityType.fruit)
+	fruit.vel.x = dx
+	fruit.vel.y = dy
+	fruit.nutrition = 15
+	fruit.being_eaten = false
+	fruit.collision_cooldown = 0
 
 	function fruit:update(dt)
 		self.pos.x = self.pos.x + self.vel.x * dt
 		self.pos.y = self.pos.y + self.vel.y * dt
+
+		self.hitbox = {x = self.pos.x - 2, y = self.pos.y - 2, w = 4, h = 4}
+
+		-- bounce other fruits if collision
+		local nearby_fruit = SpatialManager:query(self.pos, 25)
+		for _, entity in ipairs(nearby_fruit) do
+			if self.collision_cooldown == 0 and self ~= entity and entity.entity_type == "fruit" and AABB_collision(self, entity) then
+				local normal = get_collision_normal(self, entity)
+				local bounce_speed = 35
+				self.vel.x = (normal.x + math.random()) * bounce_speed
+				self.vel.y = (normal.y + math.random()) * bounce_speed
+			end
+		end
 
 		local vel_len = math.sqrt(self.vel.x^2 + self.vel.y^2)
 
@@ -28,7 +41,7 @@ function create_fruit(posX, posY, dx, dy)
 			self.vel.y = 0
 		end
 
-
+		
 	end
 
 	function fruit:draw()
@@ -39,7 +52,6 @@ function create_fruit(posX, posY, dx, dy)
 		love.graphics.setColor(1, 1, 1)
 	end
 
-	SpatialManager:register_entity(fruit)
 	return fruit
 end
 
@@ -121,17 +133,12 @@ bromeliad_states.Idle = {
 }
 
 function create_bromeliad(posX, posY)
-	local plant = {
-		state_machine = StateMachine.new(),
-		pos = {x = posX, y = posY},
-		entity_type = EntityType.fruit_plant,
-		energy = 0, -- used for fruiting
-		fruit_spawn_rate = 7,
-		fruits = {},
-	}
+	local plant = create_new_entity(posX, posY, EntityType.fruit_plant)
+	plant.energy = 0
+	plant.fruit_spawn_rate = 3
+	plant.fruits = {}
 
 	-- state machine instantiation
-	plant.state_machine.entity = plant
 	plant.state_machine:add_state("Fruiting", bromeliad_states.Fruiting)
 	plant.state_machine:add_state("Idle", bromeliad_states.Idle)
 	plant.state_machine:transition_to("Fruiting")
