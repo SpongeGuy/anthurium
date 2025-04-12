@@ -367,9 +367,9 @@ function create_drone(posX, posY)
 		self.collision_cooldown = math.max(0, self.collision_cooldown - dt)
 		self.pursue_cooldown = math.max(0, self.pursue_cooldown - dt)
 
-		-- if self.size > 5 then
-		-- 	self.size = math.max(5, self.size - dt * 5)
-		-- end
+		if self.size > 5 then
+			self.size = math.max(5, self.size - dt * 5)
+		end
 		
 		
 		self.facing = face_towards_coordinate(self.pos.x, self.pos.y, self.pos.x + self.vel.x, self.pos.y + self.vel.y)
@@ -382,7 +382,7 @@ function create_drone(posX, posY)
 		local nearby_entities = SpatialManager:query(self.pos, self.aggro_range)
 		for _, entity in ipairs(nearby_entities) do
 			if self.collision_cooldown == 0 and self ~= entity and entity.entity_type ~= "fruit" and AABB_collision(self, entity) then
-				--self.size = 7
+				self.size = 7
 				self.health = self.health - 1
 				if self.health <= 0 then
 					self._destroy_this = true

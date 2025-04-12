@@ -12,6 +12,9 @@ require("src/entities/bromeliad")
 require("src/entities/captain")
 require("src/entities/drone")
 
+-- spawners
+require("src/entities/spawn_pit")
+
 -- used for communication between entities, determines which type of entity
 -- set this ideally in the entity creation function
 EntityType = {
@@ -20,12 +23,14 @@ EntityType = {
 	creature = "creature",
 	bullet = "bullet",
 	fruit = "fruit",
+	spawner = "spawner",
 }
 
 creatures = {}
 collectibles = {}
 bullets = {}
 plants = {}
+spawners = {}
 
 function create_new_entity(posX, posY, e_type)
 	entity = {
@@ -52,6 +57,17 @@ function update_all(dt)
 		if bullet._destroy_this then
 			table.remove(bullets, i)
 			SpatialManager:remove_entity(bullet)
+		end
+	end
+
+	for i = #spawners, 1, -1 do
+		local spawner = spawners[i]
+		spawner:update(dt)
+		SpatialManager:update_entity(spawner)
+		-- _destroy_this flag
+		if spawner._destroy_this then
+			table.remove(spawners, i)
+			SpatialManager:remove_entity(spawner)
 		end
 	end
 
@@ -90,6 +106,10 @@ function update_all(dt)
 end
 
 function draw_all()
+	for i = #spawners, 1, -1 do
+		spawners[i]:draw()
+	end
+
 	for i = #collectibles, 1, -1 do
 		collectibles[i]:draw()
 	end
