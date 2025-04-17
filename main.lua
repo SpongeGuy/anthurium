@@ -17,7 +17,6 @@ function love.load()
 	-- this makes the low res graphics
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	push:setupScreen(game_width, game_height, window_width, window_height, {windowed = true, pixelperfect = true, highdpi = true})
-
 	GOLDEN_RATIO = math.sqrt(2)
 
 	math.randomseed(os.time())
@@ -45,7 +44,6 @@ function love.update(dt)
 	mouse_x = (mouse_x / window_game_ratio)
 	mouse_y = (mouse_y / window_game_ratio)
 	
-
 	update_all(dt)
 
 	-- have camera set position to player
@@ -58,8 +56,6 @@ function love.draw()
 	-- include
 	push:start()
 		camera:draw(draw_all)
-		love.graphics.setColor(1, 1, 1)
-		love.graphics.print("GAME START!", 0, 0)
 	push:finish()
 	love.graphics.setBackgroundColor(0.1, 0.1, 0.2, 1)
 	
