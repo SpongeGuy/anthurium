@@ -18,11 +18,13 @@ function create_spawn_pit(posX, posY)
 		end
 
 		self.shake_factor = 1.3 / (1 + 2.718281^(-5* (self.cooldown-(self.spawn_rate-3))))
+		print(self.shake_factor)
 	end
 
 	function pit:draw()
 		love.graphics.push()
 			love.graphics.translate(math.floor(self.pos.x), math.floor(self.pos.y))
+			
 			pit_animation:draw(pit_sheet, math.floor(random_float(0, self.shake_factor)), math.floor(random_float(0, self.shake_factor)), 0, 1, 1)
 		love.graphics.pop()
 		--love.graphics.print(self.shake_factor, self.pos.x, self.pos.y)

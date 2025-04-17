@@ -41,6 +41,7 @@ function StateMachine:update(dt)
 	if next_state then
 		if self.states[next_state] then
 			self:transition_to(next_state)
+			self.current_state.update(self.entity, dt)
 		else
 			error("trying to transition to state which does not exist")
 		end

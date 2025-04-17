@@ -48,7 +48,7 @@ end
 
 
 -- called in main
-function update_all(dt)
+function update_all_entities(dt)
 	for i = #bullets, 1, -1 do
 		local bullet = bullets[i]
 		bullet:update(dt)
@@ -105,7 +105,7 @@ function update_all(dt)
 	end
 end
 
-function draw_all()
+function draw_all_entities()
 	for i = #spawners, 1, -1 do
 		spawners[i]:draw()
 	end
