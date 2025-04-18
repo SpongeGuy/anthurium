@@ -9,7 +9,7 @@ game_states.Init = {
 
 		-- this makes the low res graphics
 		love.graphics.setDefaultFilter("nearest", "nearest")
-		push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = false, pixelperfect = true, highdpi = true})
+		push:setupScreen(game_width, game_height, window_width, window_height, {fullscreen = true, pixelperfect = true, highdpi = true})
 		GOLDEN_RATIO = math.sqrt(2)
 
 		math.randomseed(os.time())
@@ -18,17 +18,17 @@ game_states.Init = {
 	end,
 
 	update = function(self, dt)
-		return "CalmPhase"
+		return "Menu"
 	end
 }
 
 game_states.Menu = {
 	enter = function(self)
 		
-	end, 
+	end,
 
 	update = function(self, dt)
-		return "CalmPhase"
+		
 	end
 }
 
