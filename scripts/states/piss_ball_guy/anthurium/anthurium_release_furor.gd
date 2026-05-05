@@ -22,7 +22,7 @@ func update(delta: float) -> void:
 	var target_position: Vector2 = origin + Vector2(cos(angle), sin(angle)) * distance
 	target_position = WorldGrid.get_safe_world_pos(target_position, CellData.TerrainType.GROUND)
 	EntityManager.spawn_safely(spawn_names.pick_random(), target_position)
-	AnthuriumBrain.nutrition_points -= 50
+	AnthuriumBrain.ichor -= 50
 	AnthuriumBrain.furor -= 0.8
 	state_machine.switch(next_state)
 	

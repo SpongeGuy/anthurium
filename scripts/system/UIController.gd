@@ -48,10 +48,10 @@ func _update_module_saturationbar() -> void:
 	if not player:
 		hud.player_saturation_bar.value = 0
 		return
-	var saturation_component: SaturationComponent = player.get_component(SaturationComponent)
-	if not saturation_component:
+	var ichor_component: IchorComponent = player.get_component(IchorComponent)
+	if not ichor_component:
 		return
-	var value: float = saturation_component.saturation / saturation_component.max_saturation
+	var value: float = ichor_component.ichor / ichor_component.max_ichor
 	hud.player_saturation_bar.value = value * 100
 
 func _update_module_healthbar() -> void:

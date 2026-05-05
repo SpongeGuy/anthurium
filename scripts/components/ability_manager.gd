@@ -6,6 +6,7 @@ class_name AbilityManager
 # -----------------------------------------------
 
 @export var abilities: Array[Ability]
+@export var ichor_component: IchorComponent
 
 @export var input: InputComponent
 

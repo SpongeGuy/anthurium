@@ -19,9 +19,9 @@ func _on_registered() -> void:
 
 func evaluate() -> Array: 
 	var furor_factor: float = (AnthuriumBrain.furor) * 2
-	var nutrition_factor: float = AnthuriumBrain.nutrition_points / AnthuriumBrain.max_nutrition_points
-	nutrition_factor = pow(nutrition_factor, 2)
-	var priority: float = (furor_factor * (nutrition_factor / 0.5))
+	var ichor_factor: float = AnthuriumBrain.ichor / AnthuriumBrain.max_ichor
+	ichor_factor = pow(ichor_factor, 2)
+	var priority: float = (furor_factor * (ichor_factor / 0.5))
 	return [priority, state] # replace with function body
 
 # should be used to write stuff to memory

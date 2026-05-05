@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_7d0cd"]
 [ext_resource type="Texture2D" uid="uid://b0spj6h1gkhif" path="res://assets/textures/characters/focks.png" id="2_e1qh5"]
 [ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="3_qyswd"]
-[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/saturation_component.gd" id="4_e47js"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
@@ -14,7 +14,6 @@
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
-[ext_resource type="Script" uid="uid://5k1r4xftmni4" path="res://scripts/components/sprite_flipper.gd" id="14_ipt6n"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="15_e47js"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
@@ -27,13 +26,11 @@
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
-[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/try_pick_up_entity.gd" id="26_sumsn"]
-[ext_resource type="Script" uid="uid://dlrq36ejwcoou" path="res://scripts/abilities/try_drop_entity.gd" id="28_0qk0a"]
+[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://cgl3uo2e4owmk" path="res://scripts/components/player_input_driver.gd" id="29_j83bn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ui/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
-[ext_resource type="Texture2D" uid="uid://ca7rqfmh6u3up" path="res://assets/textures/ui/drop_icon.png" id="31_oduj7"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
@@ -98,7 +95,7 @@ frame = 2
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
 
-[node name="SaturationComponent" type="Node" parent="Health&Damage" unique_id=288599577]
+[node name="Ichor" type="Node" parent="Health&Damage" unique_id=288599577]
 script = ExtResource("4_e47js")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
@@ -182,12 +179,6 @@ sprite = NodePath("../../Visual/Main")
 animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n")])
 facing = NodePath("../FacingComponent")
 
-[node name="SpriteFlipper" type="Node" parent="Animation" unique_id=836201952 node_paths=PackedStringArray("facing", "sprite")]
-script = ExtResource("14_ipt6n")
-facing = NodePath("../FacingComponent")
-sprite = NodePath("../../Visual/Main")
-metadata/_custom_type_script = "uid://5k1r4xftmni4"
-
 [node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
 script = ExtResource("17_o1xgh")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
@@ -248,25 +239,20 @@ metadata/_custom_type_script = "uid://cgl3uo2e4owmk"
 script = ExtResource("25_xoj7o")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "input")]
+[node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "ichor_component", "input")]
 script = ExtResource("26_s02rk")
-abilities = [NodePath("AbilityTryPickUpEntity"), NodePath("AbilityTryDropEntity"), NodePath("AbilitySwipe")]
+abilities = [NodePath("AbilityHand"), NodePath("AbilitySwipe")]
+ichor_component = NodePath("../Health&Damage/Ichor")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityTryPickUpEntity" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand")]
+[node name="AbilityHand" type="Node" parent="AbilityManager" unique_id=122156778 node_paths=PackedStringArray("hand", "facing")]
 script = ExtResource("26_sumsn")
 hand = NodePath("../../HandComponent")
+facing = NodePath("../../Animation/FacingComponent")
 cast_time = 2.0
 icon = ExtResource("29_oduj7")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
-
-[node name="AbilityTryDropEntity" type="Node" parent="AbilityManager" unique_id=646898097 node_paths=PackedStringArray("hand", "facing")]
-script = ExtResource("28_0qk0a")
-hand = NodePath("../../HandComponent")
-facing = NodePath("../../Animation/FacingComponent")
-icon = ExtResource("31_oduj7")
-metadata/_custom_type_script = "uid://dlrq36ejwcoou"
 
 [node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "movement", "sound_player")]
 script = ExtResource("29_jr5rt")

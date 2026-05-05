@@ -36,6 +36,7 @@
 [ext_resource type="Script" uid="uid://73th15n3ad82" path="res://scripts/lobes/fight_react_nearby_lobe.gd" id="33_hwojd"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="34_5vf4p"]
 [ext_resource type="Script" uid="uid://camguuycnoqcu" path="res://scripts/lobes/default_lobe.gd" id="34_pgwxf"]
+[ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="35_nsyko"]
 [ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="37_83mm5"]
 [ext_resource type="Texture2D" uid="uid://c3rm4rh01tt2r" path="res://assets/textures/characters/bimpy1.png" id="38_8ane4"]
 [ext_resource type="Texture2D" uid="uid://5rvyhh80roc3" path="res://assets/textures/characters/bimpy2.png" id="39_6wds5"]
@@ -269,6 +270,11 @@ script = ExtResource("31_bld4x")
 radius = 0
 cell = SubResource("Resource_5vf4p")
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
+
+[node name="PickupableComponent" type="Node" parent="Bullshit" unique_id=1371326188 node_paths=PackedStringArray("components_to_disable")]
+script = ExtResource("35_nsyko")
+components_to_disable = [NodePath("../../Behavior"), NodePath("../../CollisionShape2D")]
+metadata/_custom_type_script = "uid://7o5jm15ato3e"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2089564920]
 path_desired_distance = 4.0

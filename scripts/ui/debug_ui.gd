@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 	
 func update_anthurium(entity: Entity) -> void:
 	display_coordinates(l2)
-	display_anthurium_nutrition_points(l3)
+	display_anthurium_ichor(l3)
 	display_anthurium_active_parts(l4)
 	
 func display_base_stats(label: Label, entity: Entity) -> void:
@@ -75,9 +75,9 @@ func display_anthurium_active_parts(label: Label) -> void:
 		string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
 	label.text = str(string)
 	
-func display_anthurium_nutrition_points(label: Label) -> void:
+func display_anthurium_ichor(label: Label) -> void:
 	var string: String = ""
-	string += str("nutri: ", AnthuriumBrain.nutrition_points, "\n")
+	string += str("ichor: ", AnthuriumBrain.ichor, "\n")
 	string += str("furor: ", AnthuriumBrain.furor, "\n")
 	label.text = string
 

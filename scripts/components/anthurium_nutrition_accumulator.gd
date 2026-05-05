@@ -1,7 +1,7 @@
 extends Component
-class_name AnthuriumNutritionAccumulator
+class_name AnthuriumIchorAccumulator
 
-@export var nutrition_per_time: float = 1.0
+@export var ichor_per_time: float = 1.0
 @export var time: float = 1.0
 var _timer: float = 0.0
 
@@ -16,7 +16,7 @@ func _on_registered() -> void:
 func _process(delta: float) -> void:
 	if _timer <= 0.0:
 		_timer = time
-		AnthuriumBrain.nutrition_points = min(AnthuriumBrain.nutrition_points + nutrition_per_time, AnthuriumBrain.max_nutrition_points)
+		AnthuriumBrain.ichor = min(AnthuriumBrain.ichor + ichor_per_time, AnthuriumBrain.max_ichor)
 	
 	_timer -= delta
 	

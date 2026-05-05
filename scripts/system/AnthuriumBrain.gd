@@ -3,9 +3,9 @@ extends Node
 
 var active_anthurium_names: Dictionary[StringName, int] = {}
 var active_anthurium_parts: Dictionary[Entity, StringName] = {}
-var max_nutrition_points: float = 1500.0
-var nutrition_points: float = 500.0
-var nutrition_giga_unit: float = 500.0
+var max_ichor: float = 1500.0
+var ichor: float = 500.0
+var ichor_giga: float = 500.0
 
 ## seeing meaningful patterns in randomness
 var apophenia: float = 0.0
@@ -39,11 +39,11 @@ func remove_active_part(entity: Entity) -> void:
 	
 func resolve_needed_part() -> StringName:
 	var checks_priority_1: Array[Dictionary] = [
-		{&"anthurium_leaf": func(): return get_count_of_part(&"anthurium_leaf") < max_nutrition_points / nutrition_giga_unit},
-		{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_nutrition_points / nutrition_giga_unit},
-		{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < nutrition_points / (max_nutrition_points / 3)},
+		{&"anthurium_leaf": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
+		{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
+		{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < ichor / (max_ichor / 3)},
 	]
-	print(nutrition_points / max_nutrition_points)
+	print(ichor / max_ichor)
 	if not &"anthurium_core" in active_anthurium_names:
 		return &"anthurium_core"
 	checks_priority_1.shuffle()

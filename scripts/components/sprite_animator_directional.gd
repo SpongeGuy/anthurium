@@ -1,6 +1,11 @@
 extends Component
 class_name DirectionalSpriteAnimator
 
+# --------------------------------
+# animator module for entities that face in a particular direction
+# also see SpriteAnimator (use that for entities that are static or don't face a direction)
+# --------------------------------
+
 # the character can face NSEW (4-way) or N, NE, NW, E, W, SE, SW (8-way).
 const SPRITESHEET_TYPES: Array[int] = [4, 8]
 # since the sprite for facing left and right are the same image but flipped,
@@ -81,8 +86,7 @@ func _update_animation(delta: float, modifier: float = 1.0) -> void:
 func switch_direction() -> void:
 	var sector: int = get_sector(facing.get_direction(), SPRITESHEET_TYPES[spritesheet_type])
 	row = SECTORMAPMAP[spritesheet_type][sector]
-	if sector > SPRITESHEET_TYPES[spritesheet_type] / 2:
-		sprite.flip_h = true
+	sprite.flip_h = sector > SPRITESHEET_TYPES[spritesheet_type] / 2
 
 func stop() -> void:
 	stopped = true

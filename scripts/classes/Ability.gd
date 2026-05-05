@@ -8,6 +8,13 @@ class_name Ability
 # abiltiies should make use of cast_time when making an ability that executes when held for long enough.
 # -----------------------------------------------
 
+var entity: Entity
+var manager: AbilityManager
+
+func _ready() -> void:
+	manager = get_parent()
+	entity = get_parent().entity
+
 @export var cooldown: float = 0
 @export var cast_time: float = 0
 @export var disabled: bool = false
