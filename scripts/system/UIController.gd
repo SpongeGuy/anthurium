@@ -32,8 +32,8 @@ func _update_hud(delta: float) -> void:
 	_update_module_healthbar()
 	_update_module_saturationbar()
 	_update_module_ability_icons()
-	hud.change_game_score(GameState.game_score, delta)
-	hud.change_nutri_score(GameState.nutri_score, delta)
+	hud.change_opal_score(GameState.opal_score, delta)
+	hud.change_aura_score(GameState.aura_score, delta)
 	
 func _update_module_ability_icons() -> void:
 	if not player:

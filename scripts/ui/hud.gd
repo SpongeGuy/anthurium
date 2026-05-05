@@ -9,10 +9,10 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var player_health_bar: ProgressBar
 @export var player_saturation_bar: ProgressBar
 
-@export var inactive_game_score: Label
-@export var active_game_score: Label
-@export var inactive_nutri_score: Label
-@export var active_nutri_score: Label
+@export var inactive_opal_score: Label
+@export var active_opal_score: Label
+@export var inactive_aura_score: Label
+@export var active_aura_score: Label
 
 @export var ability_1_icon: Sprite2D
 @export var ability_2_icon: Sprite2D
@@ -21,8 +21,8 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 
 var ability_icons: Array[Sprite2D]
 
-var game_score: float
-var nutri_score: float
+var opal_score: float
+var aura_score: float
 
 func _ready() -> void:
 	ability_icons = [
@@ -32,15 +32,15 @@ func _ready() -> void:
 		ability_4_icon,
 	]
 
-func change_game_score(new_game_score: float, delta: float) -> void:
+func change_opal_score(new_opal_score: float, delta: float) -> void:
 	var string_length: int = 8
-	game_score = lerp(game_score, new_game_score, delta * 1)
-	active_game_score.text = str(int(game_score))
-	inactive_game_score.text = str("0".repeat(string_length - active_game_score.text.length()))
+	opal_score = lerp(opal_score, new_opal_score, delta * 1)
+	active_opal_score.text = str(int(opal_score))
+	inactive_opal_score.text = str("0".repeat(string_length - active_opal_score.text.length()))
 
-func change_nutri_score(new_nutri_score: float, delta: float) -> void:
+func change_aura_score(new_aura_score: float, delta: float) -> void:
 	var string_length: int = 8
-	var factor: float = (new_nutri_score - nutri_score) + 250
-	nutri_score = move_toward(nutri_score, new_nutri_score, delta * factor)
-	active_nutri_score.text = str(int(nutri_score))
-	inactive_nutri_score.text = str("0".repeat(string_length - active_nutri_score.text.length()))
+	var factor: float = (new_aura_score - aura_score) + 250
+	aura_score = move_toward(aura_score, new_aura_score, delta * factor)
+	active_aura_score.text = str(int(aura_score))
+	inactive_aura_score.text = str("0".repeat(string_length - active_aura_score.text.length()))

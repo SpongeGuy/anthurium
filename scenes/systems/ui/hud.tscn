@@ -18,7 +18,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_game_score", "active_game_score", "inactive_nutri_score", "active_nutri_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon")]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -32,10 +32,10 @@ time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
 time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
 player_health_bar = NodePath("Padding/Columns/C2/Control/PlayerHealth")
 player_saturation_bar = NodePath("Padding/Columns/C2/Control3/PlayerSaturation")
-inactive_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
-active_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
-inactive_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
-active_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
+inactive_opal_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
+active_opal_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
+inactive_aura_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
+active_aura_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
 ability_1_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control/AbilityIcon1")
 ability_2_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control2/AbilityIcon2")
 ability_3_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control3/AbilityIcon3")

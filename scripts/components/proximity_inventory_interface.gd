@@ -14,6 +14,6 @@ func _on_detected(source: Entity, target: Entity) -> void:
 		if nutrition:
 			var pi: PointsInterface = give_points_to.get_component(PointsInterface) as PointsInterface
 			if pi:
-				pi.add_nutri_score(nutrition.nutrition, source)
+				pi.add_aura_score(nutrition.nutrition, source)
 	inventory.put_into_inventory(target)
 
