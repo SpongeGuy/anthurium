@@ -1,4 +1,4 @@
-extends Node
+extends Component
 class_name AnthuriumNutritionAccumulator
 
 @export var nutrition_per_time: float = 1.0

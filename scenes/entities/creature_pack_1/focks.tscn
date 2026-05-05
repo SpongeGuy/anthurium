@@ -37,7 +37,7 @@
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
-[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/directional_sprite_animator.gd" id="34_ipt6n"]
+[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0

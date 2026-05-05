@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_j7s2s"]
 [ext_resource type="Texture2D" uid="uid://c3hvtar64et7u" path="res://assets/textures/characters/plants/flower1.png" id="2_7pju5"]
-[ext_resource type="Script" uid="uid://bcddsgptyofod" path="res://scripts/components/anthurium_grass_component.gd" id="3_4u2gf"]
 [ext_resource type="Script" uid="uid://dhwso0wa0hjnq" path="res://scripts/components/destroy_when_wall_placed_over.gd" id="5_7pju5"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="6_k3fsp"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="7_2oaoo"]
@@ -14,8 +13,12 @@
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_pl2rx"]
 [ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_nutrition_accumulator.gd" id="13_oymdm"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="14_ths47"]
-[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="15_xbyx2"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="16_7o7ft"]
+[ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="17_8uuhl"]
+[ext_resource type="Texture2D" uid="uid://cohorqbma0w8f" path="res://assets/textures/characters/plants/flower2.png" id="18_i3sw3"]
+[ext_resource type="Script" uid="uid://c4jeyerwqvs1y" path="res://scripts/components/sprite_manipulator.gd" id="19_j3clq"]
+[ext_resource type="Texture2D" uid="uid://bo4ouu78hjels" path="res://assets/textures/characters/plants/flower3.png" id="19_rv2go"]
+[ext_resource type="Script" uid="uid://blud1ccuh2wa3" path="res://scripts/components/stage_controller.gd" id="20_u7j3d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_opul4"]
 size = Vector2(4, 4)
@@ -25,9 +28,6 @@ radius = 6.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pl2rx"]
 radius = 3.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7o7ft"]
-size = Vector2(12, 12)
 
 [node name="Grass" type="CharacterBody2D" unique_id=646708372]
 texture_filter = 1
@@ -47,13 +47,6 @@ shape = SubResource("RectangleShape2D_opul4")
 [node name="AnthuriumComponent" type="Node" parent="." unique_id=735140732]
 script = ExtResource("7_k3fsp")
 metadata/_custom_type_script = "uid://cps7owvkpo4og"
-
-[node name="AnthuriumGrassComponent" type="Node" parent="." unique_id=721037840 node_paths=PackedStringArray("sprite", "proximity", "state_machine")]
-script = ExtResource("3_4u2gf")
-sprite = NodePath("../Sprite2D")
-proximity = NodePath("../ProximityDetector")
-state_machine = NodePath("../StateMachine")
-metadata/_custom_type_script = "uid://bcddsgptyofod"
 
 [node name="DestroyWhenWallPlacedOver" type="Node" parent="." unique_id=321289208]
 script = ExtResource("5_7pju5")
@@ -118,19 +111,27 @@ health = 1.0
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1736233862 node_paths=PackedStringArray("collision_shape")]
-script = ExtResource("15_xbyx2")
-damage = 0.1
-collision_shape = NodePath("CollisionShape2D")
-metadata/_custom_type_script = "uid://d4dkusgurvri8"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1964395972]
-shape = SubResource("RectangleShape2D_7o7ft")
-
 [node name="ManualStateSwitcher" type="Node" parent="." unique_id=1329430454 node_paths=PackedStringArray("state_machine", "state")]
 script = ExtResource("16_7o7ft")
 state_machine = NodePath("../StateMachine")
 state = NodePath("../StateMachine/DeathState")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
-[connection signal="activated" from="Hurtbox" to="ManualStateSwitcher" method="switch"]
+[node name="RandomTextureSelector" type="Node" parent="." unique_id=737652255 node_paths=PackedStringArray("sprite")]
+script = ExtResource("17_8uuhl")
+sprite = NodePath("../Sprite2D")
+choices = Array[Texture2D]([ExtResource("2_7pju5"), ExtResource("18_i3sw3"), ExtResource("19_rv2go")])
+metadata/_custom_type_script = "uid://bbr47xrtnv1ac"
+
+[node name="StageController" type="Node" parent="." unique_id=225443296]
+script = ExtResource("20_u7j3d")
+metadata/_custom_type_script = "uid://blud1ccuh2wa3"
+
+[node name="SpriteManipulator" type="Node" parent="." unique_id=649951134 node_paths=PackedStringArray("sprite")]
+script = ExtResource("19_j3clq")
+sprite = NodePath("../Sprite2D")
+metadata/_custom_type_script = "uid://c4jeyerwqvs1y"
+
+[connection signal="detected" from="ProximityDetector" to="ManualStateSwitcher" method="target_switch"]
+[connection signal="advanced_to_stage" from="StageController" to="SpriteManipulator" method="set_frame"]
+[connection signal="demoted_to_stage" from="StageController" to="SpriteManipulator" method="set_frame"]
