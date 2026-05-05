@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bi7dyiwj04w1y"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_7n40d"]
+[ext_resource type="Texture2D" uid="uid://cvrrjyrgg6mpu" path="res://assets/textures/characters/plants/spiker.png" id="2_65nfl"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="3_65nfl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pb20q"]
+radius = 7.071068
+
+[node name="anthurium_spine" type="CharacterBody2D" unique_id=1909733232]
+texture_filter = 1
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_7n40d")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=993680734]
+position = Vector2(-1, -8)
+texture = ExtResource("2_65nfl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=812224629]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_pb20q")
+
+[node name="AnthuriumComponent" type="Node" parent="." unique_id=1979862819]
+script = ExtResource("3_65nfl")
+metadata/_custom_type_script = "uid://cps7owvkpo4og"

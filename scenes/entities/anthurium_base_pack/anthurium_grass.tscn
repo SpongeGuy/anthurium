@@ -1,0 +1,136 @@
+[gd_scene format=3 uid="uid://dmsa1dklhjm6m"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_j7s2s"]
+[ext_resource type="Texture2D" uid="uid://c3hvtar64et7u" path="res://assets/textures/characters/plants/flower1.png" id="2_7pju5"]
+[ext_resource type="Script" uid="uid://bcddsgptyofod" path="res://scripts/components/anthurium_grass_component.gd" id="3_4u2gf"]
+[ext_resource type="Script" uid="uid://dhwso0wa0hjnq" path="res://scripts/components/destroy_when_wall_placed_over.gd" id="5_7pju5"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="6_k3fsp"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="7_2oaoo"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="7_k3fsp"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="8_2oaoo"]
+[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="9_6ovyd"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_lxm0x"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="11_pl2rx"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_pl2rx"]
+[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_nutrition_accumulator.gd" id="13_oymdm"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="14_ths47"]
+[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="15_xbyx2"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="16_7o7ft"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opul4"]
+size = Vector2(4, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oymdm"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pl2rx"]
+radius = 3.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7o7ft"]
+size = Vector2(12, 12)
+
+[node name="Grass" type="CharacterBody2D" unique_id=646708372]
+texture_filter = 1
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_j7s2s")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=99261848]
+texture = ExtResource("2_7pju5")
+offset = Vector2(0, -4)
+hframes = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1264504699]
+shape = SubResource("RectangleShape2D_opul4")
+
+[node name="AnthuriumComponent" type="Node" parent="." unique_id=735140732]
+script = ExtResource("7_k3fsp")
+metadata/_custom_type_script = "uid://cps7owvkpo4og"
+
+[node name="AnthuriumGrassComponent" type="Node" parent="." unique_id=721037840 node_paths=PackedStringArray("sprite", "proximity", "state_machine")]
+script = ExtResource("3_4u2gf")
+sprite = NodePath("../Sprite2D")
+proximity = NodePath("../ProximityDetector")
+state_machine = NodePath("../StateMachine")
+metadata/_custom_type_script = "uid://bcddsgptyofod"
+
+[node name="DestroyWhenWallPlacedOver" type="Node" parent="." unique_id=321289208]
+script = ExtResource("5_7pju5")
+metadata/_custom_type_script = "uid://dhwso0wa0hjnq"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=2137107522 node_paths=PackedStringArray("nodes")]
+script = ExtResource("6_k3fsp")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1266452380 node_paths=PackedStringArray("visibility")]
+script = ExtResource("7_2oaoo")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="StateMachine" type="Node" parent="." unique_id=2119804193 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("8_2oaoo")
+initial_state = NodePath("EmptyState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="EmptyState" type="Node" parent="StateMachine" unique_id=1668033465]
+script = ExtResource("9_6ovyd")
+metadata/_custom_type_script = "uid://se8p70tr1prj"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=322363607]
+script = ExtResource("10_lxm0x")
+cooldown_timer = 1.0
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="ProximityDetector" type="Node" parent="." unique_id=1897202174 node_paths=PackedStringArray("area")]
+script = ExtResource("11_pl2rx")
+area = NodePath("../Proximity")
+collision_layer = 256
+collision_mask = 256
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="Proximity" type="Area2D" parent="." unique_id=1078246382]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=843964826]
+shape = SubResource("CircleShape2D_oymdm")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=129482350 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("12_pl2rx")
+collision_shape = NodePath("CollisionShape2D")
+collider_type = Array[int]([2])
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=174341745]
+shape = SubResource("CircleShape2D_pl2rx")
+
+[node name="AnthuriumNutritionAccumulator" type="Node" parent="." unique_id=1563890063]
+script = ExtResource("13_oymdm")
+nutrition_per_time = 0.1
+time = 20.0
+metadata/_custom_type_script = "uid://hwau0vyvbaoq"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1163907301 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("14_ths47")
+max_health = 1.0
+health = 1.0
+hitbox = NodePath("../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1736233862 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("15_xbyx2")
+damage = 0.1
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://d4dkusgurvri8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1964395972]
+shape = SubResource("RectangleShape2D_7o7ft")
+
+[node name="ManualStateSwitcher" type="Node" parent="." unique_id=1329430454 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("16_7o7ft")
+state_machine = NodePath("../StateMachine")
+state = NodePath("../StateMachine/DeathState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[connection signal="activated" from="Hurtbox" to="ManualStateSwitcher" method="switch"]

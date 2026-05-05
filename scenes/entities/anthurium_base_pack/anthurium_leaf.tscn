@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://mo3odym0quf3"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_v2qjc"]
+[ext_resource type="Texture2D" uid="uid://dccrmhlo1ueq8" path="res://assets/textures/characters/plants/leaf.png" id="2_lq8b5"]
+[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_nutrition_accumulator.gd" id="3_12uwl"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="4_sb7s5"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_vktog"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="6_f2frn"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_f2frn"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="8_nnqwg"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="9_6j6k7"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="10_2uaef"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="11_121ef"]
+[ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="12_i3y4k"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="13_yo7la"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_12uwl"]
+radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f2frn"]
+size = Vector2(14, 16)
+
+[node name="anthurium_leaf" type="CharacterBody2D" unique_id=964915379]
+texture_filter = 1
+collision_layer = 256
+collision_mask = 0
+script = ExtResource("1_v2qjc")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1764588582]
+position = Vector2(0, -10)
+texture = ExtResource("2_lq8b5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=560786258]
+position = Vector2(0, -3)
+shape = SubResource("CircleShape2D_12uwl")
+
+[node name="AnthuriumNutritionAccumulator" type="Node" parent="." unique_id=1941898063]
+script = ExtResource("3_12uwl")
+metadata/_custom_type_script = "uid://hwau0vyvbaoq"
+
+[node name="AnthuriumComponent" type="Node" parent="." unique_id=207965772 node_paths=PackedStringArray("health_component")]
+script = ExtResource("4_sb7s5")
+health_component = NodePath("../Health&Damage/HealthComponent")
+metadata/_custom_type_script = "uid://cps7owvkpo4og"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=910302678 node_paths=PackedStringArray("nodes")]
+script = ExtResource("5_vktog")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1221927031 node_paths=PackedStringArray("visibility")]
+script = ExtResource("6_f2frn")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=108877427 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("7_f2frn")
+collision_shape = NodePath("CollisionShape2D")
+collider_type = Array[int]([0, 2])
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2077042769]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_f2frn")
+
+[node name="Health&Damage" type="Node" parent="." unique_id=1692401283]
+
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=2113184762 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("8_nnqwg")
+max_health = 15.0
+health = 15.0
+hitbox = NodePath("../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=1437085436 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("9_6j6k7")
+flash_duration = 0.5
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=1844603306 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("10_2uaef")
+state_machine = NodePath("../../StateMachine")
+state = NodePath("../../StateMachine/DeathState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1884566621 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("11_121ef")
+initial_state = NodePath("IdlersState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="IdlersState" type="Node" parent="StateMachine" unique_id=869497925]
+script = ExtResource("12_i3y4k")
+metadata/_custom_type_script = "uid://nd4dqg4v5t8d"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=1379821255]
+script = ExtResource("13_yo7la")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

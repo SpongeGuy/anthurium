@@ -1,0 +1,16 @@
+[gd_resource type="Theme" format=3 uid="uid://bvh1budw06kq6"]
+
+[ext_resource type="FontFile" uid="uid://bsgdj4sc83vdh" path="res://assets/textures/fonts/HalfEighties.ttf" id="1_15yi5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_15yi5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0otxu"]
+bg_color = Color(1, 0, 0, 1)
+
+[resource]
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_15yi5")
+ProgressBar/fonts/font = ExtResource("1_15yi5")
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_15yi5")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_0otxu")
+VBoxContainer/constants/separation = 0

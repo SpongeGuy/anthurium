@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://bnuglwwl8cbdc"]
+
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/fancy_text.tres" id="1_ikskt"]
+[ext_resource type="Script" uid="uid://l78eoao4t7lh" path="res://scripts/ui/gameview.gd" id="2_tcvm4"]
+
+[node name="GameView" type="Control" unique_id=107135793 node_paths=PackedStringArray("bg_color")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_right = 640.0
+offset_bottom = 332.0
+theme = ExtResource("1_ikskt")
+script = ExtResource("2_tcvm4")
+bg_color = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1016116941]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MessageBox" type="Control" parent="." unique_id=1608084808]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -88.5
+offset_top = -28.5
+offset_right = 88.5
+offset_bottom = 28.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="CenterContainer" parent="MessageBox" unique_id=2039486518]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MessageBox/BoxContainer" unique_id=126807974]
+layout_mode = 2
+horizontal_alignment = 1

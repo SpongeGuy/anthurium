@@ -1,0 +1,348 @@
+[gd_scene format=3 uid="uid://bbdaquiecynvl"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_cjohf"]
+[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_xyyh8"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="3_b6v2t"]
+[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="4_bp3js"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="5_wkbcb"]
+[ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="6_vin5m"]
+[ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/Brain.gd" id="7_b2inn"]
+[ext_resource type="Script" uid="uid://73th15n3ad82" path="res://scripts/lobes/fight_react_nearby_lobe.gd" id="8_xjtfk"]
+[ext_resource type="Script" uid="uid://camguuycnoqcu" path="res://scripts/lobes/default_lobe.gd" id="9_g2hac"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="10_0xhpn"]
+[ext_resource type="Script" uid="uid://c0arw8ng1qxb0" path="res://scripts/states/piss_ball_guy/stepwander.gd" id="11_3i62d"]
+[ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="12_seddb"]
+[ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="13_atpl3"]
+[ext_resource type="Script" uid="uid://ym7engi512o4" path="res://scripts/states/piss_ball_guy/face_toward_target_and_use_ability.gd" id="14_8rkha"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="15_3em0s"]
+[ext_resource type="Script" uid="uid://cu7ycks3dudys" path="res://scripts/states/piss_ball_guy/press_the_attack_state.gd" id="16_b6v2t"]
+[ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="16_jcqxw"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="17_bp3js"]
+[ext_resource type="Texture2D" uid="uid://bswrthbfumhgl" path="res://assets/textures/characters/debug_guy.png" id="17_pfi3p"]
+[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="18_s3t6b"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="19_rqgdg"]
+[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="20_vwn18"]
+[ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="21_dbksb"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_hscd4"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="23_u5lup"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="24_nwtny"]
+[ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="25_jo73i"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="26_xro17"]
+[ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="27_wh75t"]
+[ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="28_mod0n"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="29_mynhp"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="30_1567j"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="31_ywcyt"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="32_fnlh3"]
+[ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="33_lc7wp"]
+[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="34_6jxy6"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="35_jtj81"]
+[ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="36_khnq8"]
+[ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="37_lfupp"]
+[ext_resource type="Script" uid="uid://briu06bbs73xu" path="res://scripts/abilities/pellet_shoot.gd" id="37_xyyh8"]
+[ext_resource type="Texture2D" uid="uid://c3rm4rh01tt2r" path="res://assets/textures/characters/bimpy1.png" id="38_ltw14"]
+[ext_resource type="Texture2D" uid="uid://5rvyhh80roc3" path="res://assets/textures/characters/bimpy2.png" id="39_nxdww"]
+[ext_resource type="Texture2D" uid="uid://cr4iqxvjuag5o" path="res://assets/textures/characters/bimpy3.png" id="40_i4x5f"]
+[ext_resource type="Texture2D" uid="uid://di0pb24db07dk" path="res://assets/textures/characters/bimpy4.png" id="41_prkox"]
+[ext_resource type="Texture2D" uid="uid://bgoaxx1o8a780" path="res://assets/textures/characters/bimpy5.png" id="42_6rqac"]
+[ext_resource type="Texture2D" uid="uid://b3mtypohottta" path="res://assets/textures/characters/bimpy6.png" id="43_vl1um"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_isghd"]
+radius = 3.1622777
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vh157"]
+size = Vector2(12, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bp3js"]
+size = Vector2(193, 3)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sv7g5"]
+radius = 6.0827627
+
+[sub_resource type="Resource" id="Resource_5vf4p"]
+script = ExtResource("34_6jxy6")
+skin = 1
+metadata/_custom_type_script = "uid://dwex81s0yowa4"
+
+[node name="Bogobimpy" type="CharacterBody2D" unique_id=511333519]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_cjohf")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
+shape = SubResource("CircleShape2D_8wo8b")
+
+[node name="CreatureData" type="Node" parent="." unique_id=920850024]
+script = ExtResource("2_xyyh8")
+behavior_class = 1
+consumer_type = 4
+tags = Array[int]([11])
+metadata/_custom_type_script = "uid://6g5weury2p"
+
+[node name="Behavior" type="Node" parent="." unique_id=62069105]
+
+[node name="FacingComponent" type="Node" parent="Behavior" unique_id=1126746588]
+script = ExtResource("3_b6v2t")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=447542053 node_paths=PackedStringArray("knockback", "input")]
+script = ExtResource("4_bp3js")
+step_delay = 1.25
+knockback = NodePath("../../Bullshit/KnockbackComponent")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
+
+[node name="InputComponent" type="Node" parent="Behavior" unique_id=1931434667]
+script = ExtResource("5_wkbcb")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="Memory" type="Node" parent="Behavior" unique_id=741111126]
+script = ExtResource("6_vin5m")
+metadata/_custom_type_script = "uid://cu81acdifmvso"
+
+[node name="Brain" type="Node" parent="Behavior" unique_id=1490265202 node_paths=PackedStringArray("state_machine", "memory")]
+script = ExtResource("7_b2inn")
+state_machine = NodePath("../StateMachine")
+memory = NodePath("../Memory")
+metadata/_custom_type_script = "uid://cdl7wwoaxcqra"
+
+[node name="FightReactNearbyLobe" type="Node" parent="Behavior/Brain" unique_id=601382910 node_paths=PackedStringArray("memory", "proximity", "attack_state")]
+script = ExtResource("8_xjtfk")
+memory = NodePath("../../Memory")
+proximity = NodePath("../../../Bullshit/ProximityDetector")
+attack_state = NodePath("../../StateMachine/FaceTargetUseAbilityState")
+metadata/_custom_type_script = "uid://73th15n3ad82"
+
+[node name="DefaultLobe" type="Node" parent="Behavior/Brain" unique_id=1801410623 node_paths=PackedStringArray("state")]
+script = ExtResource("9_g2hac")
+state = NodePath("../../StateMachine/WandererState")
+metadata/_custom_type_script = "uid://camguuycnoqcu"
+
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("10_0xhpn")
+initial_state = NodePath("PathfindWandererState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "movement", "player", "obstruction", "exit_state")]
+script = ExtResource("11_3i62d")
+proximity = NodePath("../../../Bullshit/ProximityDetector")
+facing = NodePath("../../FacingComponent")
+input = NodePath("../../InputComponent")
+movement = NodePath("../../StepMovementComponent")
+player = NodePath("../../../Bullshit/SoundPlayer")
+obstruction = NodePath("../../../Bullshit/ObstructionDetector")
+exit_state = NodePath("../PathfindWandererState")
+metadata/_custom_type_script = "uid://c0arw8ng1qxb0"
+
+[node name="IdlersState" type="Node" parent="Behavior/StateMachine" unique_id=88991215 node_paths=PackedStringArray("input")]
+script = ExtResource("12_seddb")
+input = NodePath("../../InputComponent")
+metadata/_custom_type_script = "uid://nd4dqg4v5t8d"
+
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state", "sound")]
+script = ExtResource("13_atpl3")
+navigation = NodePath("../../../Bullshit/NavigationHelper")
+facing = NodePath("../../FacingComponent")
+input = NodePath("../../InputComponent")
+movement = NodePath("../../StepMovementComponent")
+exit_state = NodePath("../WandererState")
+sound = NodePath("../../../Bullshit/SoundPlayer")
+metadata/_custom_type_script = "uid://bmyd8pplkim7y"
+
+[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "sprite", "default_state")]
+script = ExtResource("14_8rkha")
+memory = NodePath("../../Memory")
+facing = NodePath("../../FacingComponent")
+abilities = NodePath("../../../AbilityManager")
+input = NodePath("../../InputComponent")
+sprite = NodePath("../../../Rotator/Sprite2D")
+default_state = NodePath("../WandererState")
+metadata/_custom_type_script = "uid://ym7engi512o4"
+
+[node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=873574476]
+script = ExtResource("15_3em0s")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="ShootBrain" type="Node" parent="Behavior" unique_id=1647319895 node_paths=PackedStringArray("state_machine")]
+script = ExtResource("7_b2inn")
+state_machine = NodePath("../ShootStatemachine")
+periodically_evaluate = true
+time_between_evaluations = 0.1
+metadata/_custom_type_script = "uid://cdl7wwoaxcqra"
+
+[node name="DefaultLobe" type="Node" parent="Behavior/ShootBrain" unique_id=1257967793 node_paths=PackedStringArray("state")]
+script = ExtResource("9_g2hac")
+priority = 0.1
+state = NodePath("../../ShootStatemachine/BlankState")
+metadata/_custom_type_script = "uid://camguuycnoqcu"
+
+[node name="FightReactNearbyLobe" type="Node" parent="Behavior/ShootBrain" unique_id=1035115440]
+script = ExtResource("8_xjtfk")
+metadata/_custom_type_script = "uid://73th15n3ad82"
+
+[node name="ShootStatemachine" type="Node" parent="Behavior" unique_id=1604252793 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("10_0xhpn")
+initial_state = NodePath("BlankState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="PressTheAttackState" type="Node" parent="Behavior/ShootStatemachine" unique_id=289085272 node_paths=PackedStringArray("input")]
+script = ExtResource("16_b6v2t")
+input = NodePath("../../InputComponent")
+action_id = 1
+metadata/_custom_type_script = "uid://cu7ycks3dudys"
+
+[node name="BlankState" type="Node" parent="Behavior/ShootStatemachine" unique_id=1969536708]
+script = ExtResource("17_bp3js")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
+
+[node name="Rotator" type="Node2D" parent="." unique_id=1431611714 node_paths=PackedStringArray("facing")]
+script = ExtResource("16_jcqxw")
+facing = NodePath("../Behavior/FacingComponent")
+metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
+
+[node name="Sprite2D" type="Sprite2D" parent="Rotator" unique_id=1821899504]
+texture = ExtResource("17_pfi3p")
+
+[node name="ProximityNear" type="Area2D" parent="Rotator" unique_id=1903816184]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/ProximityNear" unique_id=746624806]
+position = Vector2(12, 0)
+shape = SubResource("CircleShape2D_isghd")
+
+[node name="Hurtbox" type="Area2D" parent="Rotator" unique_id=1808532791 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("18_s3t6b")
+damage = 1.0
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://d4dkusgurvri8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/Hurtbox" unique_id=326132862]
+position = Vector2(12, 0)
+shape = SubResource("RectangleShape2D_vh157")
+
+[node name="ProximityLaser" type="Area2D" parent="Rotator" unique_id=494380674]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/ProximityLaser" unique_id=169973016]
+position = Vector2(95.5, 0.5)
+shape = SubResource("RectangleShape2D_bp3js")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape", "friends")]
+script = ExtResource("19_rqgdg")
+collision_shape = NodePath("CollisionShape2D")
+friends = NodePath("../Bullshit/FriendComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1756906287]
+shape = SubResource("CircleShape2D_sv7g5")
+
+[node name="Bullshit" type="Node" parent="." unique_id=972292506]
+
+[node name="SoundPlayer" type="Node" parent="Bullshit" unique_id=342820092 node_paths=PackedStringArray("visibility")]
+script = ExtResource("20_vwn18")
+possible_sounds = Array[AudioStream]([ExtResource("21_dbksb")])
+visibility = NodePath("../Visibility/VisibilityComponent")
+metadata/_custom_type_script = "uid://q4guieta4fy0"
+
+[node name="ProximityDetector" type="Node" parent="Bullshit" unique_id=557178342 node_paths=PackedStringArray("area")]
+script = ExtResource("22_hscd4")
+area = NodePath("../../Rotator/ProximityNear")
+whitelist = Array[Script]([ExtResource("23_u5lup")])
+blacklist = Array[Script]([ExtResource("24_nwtny")])
+collision_mask = 65
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="FriendComponent" type="Node" parent="Bullshit" unique_id=1196642861]
+script = ExtResource("25_jo73i")
+metadata/_custom_type_script = "uid://b06wram7ecjpl"
+
+[node name="KnockbackComponent" type="Node" parent="Bullshit" unique_id=1636793469 node_paths=PackedStringArray("health")]
+script = ExtResource("26_xro17")
+health = NodePath("../Healthstuff/HealthComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+
+[node name="NavigationHelper" type="Node" parent="Bullshit" unique_id=506310323 node_paths=PackedStringArray("navigation")]
+script = ExtResource("27_wh75t")
+navigation = NodePath("../../NavigationAgent2D")
+metadata/_custom_type_script = "uid://bcbkki6gbrkma"
+
+[node name="ObstructionDetector" type="Node" parent="Bullshit" unique_id=512802964 node_paths=PackedStringArray("area")]
+script = ExtResource("28_mod0n")
+area = NodePath("../../Rotator/ProximityNear")
+metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
+
+[node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]
+
+[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("23_u5lup")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="ManualStateSwitcher" type="Node" parent="Bullshit/Healthstuff" unique_id=444902231 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("29_mynhp")
+state_machine = NodePath("../../../Behavior/StateMachine")
+state = NodePath("../../../Behavior/StateMachine/DeathState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("30_1567j")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../../Rotator/Sprite2D")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]
+
+[node name="VisibilityComponent" type="Node" parent="Bullshit/Visibility" unique_id=1485227511 node_paths=PackedStringArray("nodes")]
+script = ExtResource("31_ywcyt")
+nodes = [NodePath("../../../Rotator/Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="Bullshit/Visibility" unique_id=1667577986 node_paths=PackedStringArray("visibility")]
+script = ExtResource("32_fnlh3")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=81417712]
+script = ExtResource("33_lc7wp")
+radius = 0
+cell = SubResource("Resource_5vf4p")
+metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2089564920]
+path_desired_distance = 4.0
+target_desired_distance = 25.0
+path_postprocessing = 1
+
+[node name="AbilityManager" type="Node" parent="." unique_id=1708767835 node_paths=PackedStringArray("abilities", "input")]
+script = ExtResource("35_jtj81")
+abilities = [NodePath("AbilityMeleeHit"), NodePath("AbilityPelletShoot")]
+input = NodePath("../Behavior/InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityMeleeHit" type="Node" parent="AbilityManager" unique_id=818819557 node_paths=PackedStringArray("hurtbox")]
+script = ExtResource("36_khnq8")
+hurtbox = NodePath("../../Rotator/Hurtbox")
+active_end = 0.1
+metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
+
+[node name="AbilityPelletShoot" type="Node" parent="AbilityManager" unique_id=1226867842 node_paths=PackedStringArray("facing", "friends")]
+script = ExtResource("37_xyyh8")
+facing = NodePath("../../Behavior/FacingComponent")
+friends = NodePath("../../Bullshit/FriendComponent")
+charge_time = 0.0
+cooldown = 0.5
+metadata/_custom_type_script = "uid://briu06bbs73xu"
+
+[node name="RandomTextureSelector" type="Node" parent="." unique_id=2103516510 node_paths=PackedStringArray("sprite")]
+script = ExtResource("37_lfupp")
+sprite = NodePath("../Rotator/Sprite2D")
+choices = Array[Texture2D]([ExtResource("17_pfi3p"), ExtResource("38_ltw14"), ExtResource("39_nxdww"), ExtResource("40_i4x5f"), ExtResource("41_prkox"), ExtResource("42_6rqac"), ExtResource("43_vl1um")])
+metadata/_custom_type_script = "uid://bbr47xrtnv1ac"
+
+[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

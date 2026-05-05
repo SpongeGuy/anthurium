@@ -1,0 +1,331 @@
+[gd_scene format=3 uid="uid://x8blmpfejth8"]
+
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="1_hv3iq"]
+[ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="2_n78go"]
+[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="3_dp7nh"]
+[ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
+[ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ui/not_icon.png" id="4_dp7nh"]
+[ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
+[ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
+[ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u330w"]
+font = ExtResource("5_5p38b")
+font_size = 8
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
+bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
+
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_game_score", "active_game_score", "inactive_nutri_score", "active_nutri_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon")]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_top = 332.0
+offset_right = 640.0
+offset_bottom = 360.0
+theme = ExtResource("1_hv3iq")
+script = ExtResource("2_n78go")
+bg_color = NodePath("ColorRect")
+time_label = NodePath("Padding/Columns/C3/HBoxContainer/HBoxContainer2/Time")
+time_message_label = NodePath("Padding/Columns/C3/HBoxContainer2/HBoxContainer/Message")
+player_health_bar = NodePath("Padding/Columns/C2/Control/PlayerHealth")
+player_saturation_bar = NodePath("Padding/Columns/C2/Control3/PlayerSaturation")
+inactive_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/InactivePoints")
+active_game_score = NodePath("Padding/Columns/C3/HBoxContainer/Score/ActivePoints")
+inactive_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
+active_nutri_score = NodePath("Padding/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
+ability_1_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control/AbilityIcon1")
+ability_2_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control2/AbilityIcon2")
+ability_3_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control3/AbilityIcon3")
+ability_4_icon = NodePath("Padding/Columns/C1/HBoxContainer/Items/Control4/AbilityIcon4")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=619029859]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Padding" type="Control" parent="." unique_id=1030443952]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Columns" type="HBoxContainer" parent="Padding" unique_id=408355486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_hv3iq")
+alignment = 1
+
+[node name="C1" type="VBoxContainer" parent="Padding/Columns" unique_id=2086839896]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Padding/Columns/C1" unique_id=1671744597]
+layout_mode = 2
+
+[node name="Items" type="HBoxContainer" parent="Padding/Columns/C1/HBoxContainer" unique_id=1584995956]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Padding/Columns/C1/HBoxContainer/Items" unique_id=1946870080]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Frame1" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control" unique_id=1889615916]
+texture = ExtResource("3_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityIcon1" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control" unique_id=563739386]
+texture = ExtResource("4_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityButton1" type="Label" parent="Padding/Columns/C1/HBoxContainer/Items/Control" unique_id=713640701]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "P"
+label_settings = SubResource("LabelSettings_u330w")
+horizontal_alignment = 2
+
+[node name="Control2" type="Control" parent="Padding/Columns/C1/HBoxContainer/Items" unique_id=537144578]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Frame2" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control2" unique_id=1273504481]
+texture = ExtResource("3_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityIcon2" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control2" unique_id=1595283218]
+texture = ExtResource("4_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityButton2" type="Label" parent="Padding/Columns/C1/HBoxContainer/Items/Control2" unique_id=1850917127]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "O"
+label_settings = SubResource("LabelSettings_u330w")
+horizontal_alignment = 2
+
+[node name="Control3" type="Control" parent="Padding/Columns/C1/HBoxContainer/Items" unique_id=1531082525]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Frame3" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control3" unique_id=1584136444]
+texture = ExtResource("3_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityIcon3" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control3" unique_id=1417218736]
+texture = ExtResource("4_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityButton3" type="Label" parent="Padding/Columns/C1/HBoxContainer/Items/Control3" unique_id=1800284321]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "spc"
+label_settings = SubResource("LabelSettings_u330w")
+horizontal_alignment = 2
+
+[node name="Control4" type="Control" parent="Padding/Columns/C1/HBoxContainer/Items" unique_id=389674435]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Frame4" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control4" unique_id=1873495845]
+texture = ExtResource("3_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityIcon4" type="Sprite2D" parent="Padding/Columns/C1/HBoxContainer/Items/Control4" unique_id=739944540]
+texture = ExtResource("4_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityButton4" type="Label" parent="Padding/Columns/C1/HBoxContainer/Items/Control4" unique_id=802397221]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "I"
+label_settings = SubResource("LabelSettings_u330w")
+horizontal_alignment = 2
+
+[node name="Map" type="Control" parent="Padding/Columns/C1/HBoxContainer" unique_id=863887763]
+layout_mode = 2
+
+[node name="C2" type="VBoxContainer" parent="Padding/Columns" unique_id=1607377357]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Control" type="Control" parent="Padding/Columns/C2" unique_id=604877874]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="PlayerHealth" type="ProgressBar" parent="Padding/Columns/C2/Control" unique_id=72136630]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.0
+offset_right = 59.0
+offset_bottom = 8.0
+grow_horizontal = 2
+value = 100.0
+
+[node name="Control3" type="Control" parent="Padding/Columns/C2" unique_id=1293988931]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="PlayerSaturation" type="ProgressBar" parent="Padding/Columns/C2/Control3" unique_id=45898101]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -59.0
+offset_right = 59.0
+offset_bottom = 8.0
+grow_horizontal = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_2cqfq")
+value = 100.0
+
+[node name="C3" type="VBoxContainer" parent="Padding/Columns" unique_id=1531262092]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Padding/Columns/C3" unique_id=340199614]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer" unique_id=1098161421]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=489638764]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer2/Control" unique_id=247312215]
+texture = ExtResource("4_5p38b")
+offset = Vector2(4, 4)
+
+[node name="Time" type="Label" parent="Padding/Columns/C3/HBoxContainer/HBoxContainer2" unique_id=2094875847]
+layout_mode = 2
+text = "3:56"
+
+[node name="Score" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer" unique_id=737761266]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=1565772369]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer/Score/Control" unique_id=927517420]
+texture = ExtResource("5_u330w")
+offset = Vector2(4, 4)
+
+[node name="InactivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=280850528]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+text = "0000"
+horizontal_alignment = 2
+
+[node name="ActivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer/Score" unique_id=861439025]
+layout_mode = 2
+text = "1423"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Padding/Columns/C3" unique_id=830835402]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer2" unique_id=1931033413]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Message" type="Label" parent="Padding/Columns/C3/HBoxContainer2/HBoxContainer" unique_id=1567911440]
+layout_mode = 2
+
+[node name="Nutri" type="HBoxContainer" parent="Padding/Columns/C3/HBoxContainer2" unique_id=1303671589]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 0
+
+[node name="Control" type="Control" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=2040665459]
+custom_minimum_size = Vector2(8, 6)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Padding/Columns/C3/HBoxContainer2/Nutri/Control" unique_id=1064848680]
+texture = ExtResource("6_n78go")
+offset = Vector2(4, 4)
+
+[node name="InactivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=754319481]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
+text = "000000"
+horizontal_alignment = 2
+
+[node name="ActivePoints" type="Label" parent="Padding/Columns/C3/HBoxContainer2/Nutri" unique_id=2048473504]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35725388, 0.8743722, 0.16496441, 1)
+text = "00"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Padding/Columns/C3" unique_id=1513827826]
+layout_mode = 2
+size_flags_vertical = 3

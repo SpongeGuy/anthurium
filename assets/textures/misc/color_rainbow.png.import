@@ -1,0 +1,14 @@
+[remap]
+
+importer="image"
+type="Image"
+uid="uid://c6h67232jeb0l"
+path="res://.godot/imported/color_rainbow.png-8fc0d11afd40ee02f6b67b55a52dbd7f.image"
+
+[deps]
+
+source_file="res://assets/textures/misc/color_rainbow.png"
+dest_files=["res://.godot/imported/color_rainbow.png-8fc0d11afd40ee02f6b67b55a52dbd7f.image"]
+
+[params]
+

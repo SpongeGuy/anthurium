@@ -1,0 +1,238 @@
+[gd_scene format=3 uid="uid://bgq6q62ktanw0"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_10d17"]
+[ext_resource type="Texture2D" uid="uid://rugd7tkb8nmw" path="res://assets/textures/characters/dungeoncube.png" id="2_l4urd"]
+[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="3_bwafe"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="4_et83q"]
+[ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_iy5yv"]
+[ext_resource type="Script" uid="uid://fht6b026k2py" path="res://scripts/states/piss_ball_guy/align_to_grid.gd" id="6_152hd"]
+[ext_resource type="Script" uid="uid://c7l6kiac662iu" path="res://scripts/states/piss_ball_guy/charge_up.gd" id="7_jukf1"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="8_ahvdr"]
+[ext_resource type="Script" uid="uid://ctpsb4e0ntxyf" path="res://scripts/states/piss_ball_guy/dungeoncube_charge.gd" id="9_bug3m"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="10_gbck2"]
+[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="11_u002c"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="12_cc5lf"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="13_scgx4"]
+[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="14_eirc0"]
+[ext_resource type="AudioStream" uid="uid://daep6rycgx6i7" path="res://assets/sounds/effects/align.wav" id="15_w2lj2"]
+[ext_resource type="AudioStream" uid="uid://ctfq8l5uldre" path="res://assets/sounds/effects/dcube/machine_agree(1).wav" id="16_bwafe"]
+[ext_resource type="AudioStream" uid="uid://cxtefol70i7vd" path="res://assets/sounds/effects/dcube/machine_agree(2).wav" id="17_et83q"]
+[ext_resource type="AudioStream" uid="uid://dxax4ughia7gb" path="res://assets/sounds/effects/dcube/launch(1).wav" id="17_hlgvm"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="18_e6dyu"]
+[ext_resource type="AudioStream" uid="uid://cmaa33ghwokwy" path="res://assets/sounds/effects/dcube/machine_agree(3).wav" id="18_iy5yv"]
+[ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_6uwcy"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="20_gjwwr"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="21_d5u1q"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="22_g5cl0"]
+[ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="24_gsmje"]
+[ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/ui/icon-gold.png" id="25_i5u1v"]
+[ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="27_tvche"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="28_jm04d"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="29_jmvcx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6put7"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dctma"]
+size = Vector2(18, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg8r1"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dd7kf"]
+radius = 1.0
+
+[node name="Dungeoncube" type="CharacterBody2D" unique_id=1672520735]
+texture_filter = 1
+script = ExtResource("1_10d17")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1839084051]
+shape = SubResource("RectangleShape2D_6put7")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434763471]
+texture = ExtResource("2_l4urd")
+
+[node name="CreatureData" type="Node" parent="." unique_id=1212302661]
+script = ExtResource("3_bwafe")
+behavior_class = 4
+consumer_type = 4
+tags = Array[int]([13, 11, 23])
+metadata/_custom_type_script = "uid://6g5weury2p"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1010918204 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_et83q")
+initial_state = NodePath("WaitState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="WaitState" type="Node" parent="StateMachine" unique_id=1973933308 node_paths=PackedStringArray("facing", "next_state")]
+script = ExtResource("5_iy5yv")
+max_time = 1.0
+facing = NodePath("../../FacingComponent")
+next_state = NodePath("../AlignToGridState")
+metadata/_custom_type_script = "uid://ch1jyl631b26m"
+
+[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("movement", "input", "facing", "sound", "next_state")]
+script = ExtResource("6_152hd")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
+facing = NodePath("../../FacingComponent")
+sound = NodePath("../../SoundPlayerAlign")
+next_state = NodePath("../GatherEnergyState")
+time = 0.5
+metadata/_custom_type_script = "uid://fht6b026k2py"
+
+[node name="GatherEnergyState" type="Node" parent="StateMachine" unique_id=1863929153 node_paths=PackedStringArray("sound", "input", "facing", "next_state")]
+script = ExtResource("7_jukf1")
+time_min = 0.0
+sound = NodePath("../../SoundPlayerGatherEnergy")
+input = NodePath("../../InputComponent")
+facing = NodePath("../../FacingComponent")
+next_state = NodePath("../DungeoncubeChargeState")
+metadata/_custom_type_script = "uid://c7l6kiac662iu"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=408057112]
+script = ExtResource("8_ahvdr")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="DungeoncubeChargeState" type="Node" parent="StateMachine" unique_id=1905839155 node_paths=PackedStringArray("movement", "input", "facing", "hurtbox", "obstruction", "sound", "next_state")]
+script = ExtResource("9_bug3m")
+movement = NodePath("../../MovementComponent")
+input = NodePath("../../InputComponent")
+facing = NodePath("../../FacingComponent")
+hurtbox = NodePath("../../Hurtbox")
+obstruction = NodePath("../../ObstructionDetector")
+sound = NodePath("../../SoundPlayerEngage")
+next_state = NodePath("../AlignToGridState")
+metadata/_custom_type_script = "uid://ctpsb4e0ntxyf"
+
+[node name="MovementComponent" type="Node" parent="." unique_id=1099508626 node_paths=PackedStringArray("input")]
+script = ExtResource("10_gbck2")
+max_speed = 500.0
+acceleration = 3000.0
+friction = 1000.0
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1862327690 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("11_u002c")
+damage = 50.0
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://d4dkusgurvri8"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1324347170]
+shape = SubResource("RectangleShape2D_dctma")
+
+[node name="InputComponent" type="Node" parent="." unique_id=790629500]
+script = ExtResource("12_cc5lf")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="FacingComponent" type="Node" parent="." unique_id=1174372064]
+script = ExtResource("13_scgx4")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="SoundPlayerAlign" type="Node" parent="." unique_id=1043906350 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_eirc0")
+possible_sounds = Array[AudioStream]([ExtResource("15_w2lj2")])
+visibility = NodePath("../VisibilityComponent")
+pitch_min = 0.9
+pitch_max = 1.1
+metadata/_custom_type_script = "uid://q4guieta4fy0"
+
+[node name="SoundPlayerGatherEnergy" type="Node" parent="." unique_id=1591526782 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_eirc0")
+possible_sounds = Array[AudioStream]([ExtResource("16_bwafe"), ExtResource("18_iy5yv"), ExtResource("17_et83q")])
+visibility = NodePath("../VisibilityComponent")
+time_delay = 0.1
+metadata/_custom_type_script = "uid://q4guieta4fy0"
+
+[node name="SoundPlayerEngage" type="Node" parent="." unique_id=1803660148 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_eirc0")
+possible_sounds = Array[AudioStream]([ExtResource("17_hlgvm")])
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://q4guieta4fy0"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1425266593 node_paths=PackedStringArray("collision_shape", "friends")]
+script = ExtResource("18_e6dyu")
+collision_shape = NodePath("CollisionShape2D")
+friends = NodePath("../FriendComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1074452806]
+shape = SubResource("RectangleShape2D_mg8r1")
+
+[node name="FriendComponent" type="Node" parent="." unique_id=1280807006]
+script = ExtResource("19_6uwcy")
+metadata/_custom_type_script = "uid://b06wram7ecjpl"
+
+[node name="Healthstuff" type="Node" parent="." unique_id=345034668]
+
+[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1789891772 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("20_gjwwr")
+max_health = 50.0
+health = 50.0
+hitbox = NodePath("../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="ManualStateSwitcher" type="Node" parent="Healthstuff" unique_id=492656543 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("21_d5u1q")
+state_machine = NodePath("../../StateMachine")
+state = NodePath("../../StateMachine/DeathState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[node name="DamageAnimationComponent" type="Node" parent="Healthstuff" unique_id=622633230 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("22_g5cl0")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="Rotator" type="Node2D" parent="." unique_id=2118178921 node_paths=PackedStringArray("facing")]
+script = ExtResource("24_gsmje")
+facing = NodePath("../FacingComponent")
+metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
+
+[node name="Area2D" type="Area2D" parent="Rotator" unique_id=78428620]
+position = Vector2(8, 0)
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotator/Area2D" unique_id=408956433]
+shape = SubResource("CircleShape2D_dd7kf")
+
+[node name="Dots" type="Node2D" parent="Rotator" unique_id=634600592]
+
+[node name="Sprite2D" type="Sprite2D" parent="Rotator/Dots" unique_id=300650447]
+position = Vector2(4.7683716e-07, 5)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("25_i5u1v")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Rotator/Dots" unique_id=2082222188]
+position = Vector2(5, -4.7683716e-07)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("25_i5u1v")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Rotator/Dots" unique_id=554658784]
+position = Vector2(-4.7683716e-07, -5)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("25_i5u1v")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Rotator/Dots" unique_id=1290466516]
+position = Vector2(-5, 4.7683716e-07)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("25_i5u1v")
+
+[node name="ObstructionDetector" type="Node" parent="." unique_id=543693916 node_paths=PackedStringArray("area")]
+script = ExtResource("27_tvche")
+area = NodePath("../Rotator/Area2D")
+metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1737589856 node_paths=PackedStringArray("nodes")]
+script = ExtResource("28_jm04d")
+nodes = [NodePath("../Sprite2D"), NodePath("../Rotator/Dots")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=44365447 node_paths=PackedStringArray("visibility")]
+script = ExtResource("29_jmvcx")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[connection signal="died" from="Healthstuff/HealthComponent" to="Healthstuff/ManualStateSwitcher" method="switch"]

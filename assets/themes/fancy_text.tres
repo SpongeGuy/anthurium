@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3 uid="uid://c7dgvxhg4nhv7"]
+
+[ext_resource type="FontFile" uid="uid://b3vawnrs7eiow" path="res://assets/textures/fonts/Typecast.ttf" id="1_ndjfm"]
+
+[resource]
+Label/constants/line_spacing = -3
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_ndjfm")
+VBoxContainer/constants/separation = 4

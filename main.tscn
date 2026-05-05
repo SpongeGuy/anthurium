@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://b5tywkohv6dpv"]
+
+[ext_resource type="Script" uid="uid://d4myfbotj4m52" path="res://scripts/system/GameMaster.gd" id="1_dg77c"]
+[ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
+[ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
+[ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
+[ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
+[ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
+[ext_resource type="Script" uid="uid://ctuuq37605cgy" path="res://scripts/system/AnthuriumBrain.gd" id="9_vivmo"]
+[ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="10_074og"]
+[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/themes/debug.tres" id="10_w48qg"]
+[ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/ui/debug_ui.gd" id="10_ycdy4"]
+[ext_resource type="Script" uid="uid://bnx1xoe860b0e" path="res://hud_particle_controller.gd" id="11_vivmo"]
+[ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
+[ext_resource type="Shader" uid="uid://b5t4jo3en5wdy" path="res://rainbow.gdshader" id="12_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
+[ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
+shader = ExtResource("12_2cqfq")
+
+[node name="Main" type="Node" unique_id=1100438637]
+
+[node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator")]
+script = ExtResource("1_dg77c")
+game_canvas = NodePath("../Game")
+dungeon_generator = NodePath("DungeonGenerator")
+
+[node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041]
+script = ExtResource("2_ycdy4")
+
+[node name="DungeonGenerator" type="Node" parent="GameMaster" unique_id=2095261996]
+script = ExtResource("4_2cqfq")
+metadata/_custom_type_script = "uid://poanoxh62038"
+
+[node name="CameraController" type="Node" parent="GameMaster" unique_id=263415001]
+script = ExtResource("8_5vw27")
+lerp_weight = 15.0
+metadata/_custom_type_script = "uid://rrfxfwvhpqup"
+
+[node name="UIController" type="Node" parent="GameMaster" unique_id=2010873109 node_paths=PackedStringArray("hud", "gameview", "screen")]
+script = ExtResource("8_ycdy4")
+hud = NodePath("../../UI/HUD")
+gameview = NodePath("../../UI/GameView")
+screen = NodePath("../../UI/Screen")
+metadata/_custom_type_script = "uid://pmgi17orx2e7"
+
+[node name="WeatherController" type="Node" parent="GameMaster" unique_id=414874107]
+script = ExtResource("9_82xsv")
+disabled = true
+metadata/_custom_type_script = "uid://c7x0vu2cn1kby"
+
+[node name="SpawnManager" type="Node" parent="GameMaster" unique_id=1951573289]
+script = ExtResource("10_074og")
+metadata/_custom_type_script = "uid://cirg8u1irerl5"
+
+[node name="TimeManager" type="Node" parent="GameMaster" unique_id=2015397225]
+script = ExtResource("5_w48qg")
+metadata/_custom_type_script = "uid://3iwkt7r7c01a"
+
+[node name="AnthuriumBrain" type="Node" parent="GameMaster" unique_id=137129754]
+script = ExtResource("9_vivmo")
+metadata/_custom_type_script = "uid://ctuuq37605cgy"
+
+[node name="HUDParticleController" type="CanvasLayer" parent="." unique_id=1773480992]
+layer = 10
+script = ExtResource("11_vivmo")
+metadata/_custom_type_script = "uid://bnx1xoe860b0e"
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
+layer = 5
+
+[node name="DebugHelper" type="Node2D" parent="UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "camera", "game_master")]
+script = ExtResource("10_ycdy4")
+show = true
+vbox = NodePath("../Debug/VBoxContainer")
+title = NodePath("../Debug/VBoxContainer/title")
+l1 = NodePath("../Debug/VBoxContainer/Label")
+l2 = NodePath("../Debug/VBoxContainer/Label2")
+l3 = NodePath("../Debug/VBoxContainer/Label3")
+l4 = NodePath("../Debug/VBoxContainer/Label4")
+camera = NodePath("../../GameMaster/CameraController")
+game_master = NodePath("../../GameMaster")
+
+[node name="Debug" type="Control" parent="UI" unique_id=436922413]
+modulate = Color(1, 1, 1, 0.7764706)
+material = SubResource("ShaderMaterial_yaehf")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("10_w48qg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Debug" unique_id=912685774]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="title" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1967289439]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1551783464]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="UI/Debug/VBoxContainer" unique_id=529828005]
+layout_mode = 2
+text = "job
+job"
+
+[node name="Label3" type="Label" parent="UI/Debug/VBoxContainer" unique_id=463304919]
+layout_mode = 2
+text = "job
+job"
+
+[node name="Label4" type="Label" parent="UI/Debug/VBoxContainer" unique_id=311188411]
+layout_mode = 2
+text = "job
+job"
+
+[node name="Screen" parent="UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
+
+[node name="HUD" parent="UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
+
+[node name="GameView" parent="UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
+
+[node name="Game" type="CanvasLayer" parent="." unique_id=16701813]

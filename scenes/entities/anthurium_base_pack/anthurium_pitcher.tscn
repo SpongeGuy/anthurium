@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dqsmjpkonfoep"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_mwdlc"]
+[ext_resource type="Texture2D" uid="uid://dr50g3jt6pejk" path="res://assets/textures/characters/plants/pitcher.png" id="2_wgooq"]
+[ext_resource type="Script" uid="uid://ch41hyioton1y" path="res://scripts/components/inventory.gd" id="3_fihwu"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="4_sojy6"]
+[ext_resource type="Script" uid="uid://ycxi56i5re2f" path="res://scripts/components/proximity_inventory_interface.gd" id="5_reo4c"]
+[ext_resource type="Script" uid="uid://7m0uxvn1mxqk" path="res://scripts/components/anthurium_pitcher_component.gd" id="6_uofku"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8tw8"]
+size = Vector2(13, 15)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ucvfs"]
+radius = 7.071068
+
+[node name="anthurium_pitcher" type="CharacterBody2D" unique_id=1198001237]
+texture_filter = 1
+collision_layer = 256
+script = ExtResource("1_mwdlc")
+
+[node name="Node2D" type="Node2D" parent="." unique_id=380780976]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D" unique_id=1552339048]
+texture = ExtResource("2_wgooq")
+offset = Vector2(0, -14.285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1309149176]
+position = Vector2(1, -2)
+shape = SubResource("RectangleShape2D_c8tw8")
+
+[node name="Inventory" type="Node" parent="." unique_id=570045684]
+script = ExtResource("3_fihwu")
+metadata/_custom_type_script = "uid://ch41hyioton1y"
+
+[node name="Proximity" type="Area2D" parent="." unique_id=975865111]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=1902691103]
+position = Vector2(-2, -13)
+shape = SubResource("CircleShape2D_ucvfs")
+
+[node name="ProximityDetector" type="Node" parent="." unique_id=432585541 node_paths=PackedStringArray("area")]
+script = ExtResource("4_sojy6")
+area = NodePath("../Proximity")
+collision_layer = 256
+collision_mask = 4
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="ProximityInventoryInterface" type="Node" parent="." unique_id=340010701 node_paths=PackedStringArray("proximity", "inventory")]
+script = ExtResource("5_reo4c")
+proximity = NodePath("../ProximityDetector")
+inventory = NodePath("../Inventory")
+metadata/_custom_type_script = "uid://ycxi56i5re2f"
+
+[node name="PitcherComponent" type="Node" parent="." unique_id=1203765885 node_paths=PackedStringArray("inventory")]
+script = ExtResource("6_uofku")
+inventory = NodePath("../Inventory")
+metadata/_custom_type_script = "uid://7m0uxvn1mxqk"
