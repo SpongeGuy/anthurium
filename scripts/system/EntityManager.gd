@@ -41,7 +41,8 @@ static func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity
 static func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 	# this will need customized later to ensure that any creature can be spawned as a player
 	var entity: Entity = spawn_safely(entity_type, pos)
-	EventBus.player_spawned.emit(entity)
+	PlayerManager.set_player(entity)
+	
 	return entity
 	
 # -----------------------------------------------------------------------------------

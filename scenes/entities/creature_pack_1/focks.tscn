@@ -8,9 +8,8 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
-[ext_resource type="Script" uid="uid://dyq71erbf3ksa" path="res://scripts/states/deprecated/player_move.gd" id="8_0qk0a"]
-[ext_resource type="Script" uid="uid://dier6uauiqj4t" path="res://scripts/states/deprecated/player_idle.gd" id="9_j83bn"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
+[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="10_ypaju"]
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
@@ -121,30 +120,17 @@ metadata/_custom_type_script = "uid://ibgyf864g08i"
 
 [node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_s02rk")
-initial_state = NodePath("PlayerMoveState")
+initial_state = NodePath("EmptyState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
-
-[node name="PlayerMoveState" type="Node" parent="StateMachine" unique_id=571855672 node_paths=PackedStringArray("movement", "input", "facing", "idle_state", "animator")]
-script = ExtResource("8_0qk0a")
-movement = NodePath("../../MovementComponent")
-input = NodePath("../../InputComponent")
-facing = NodePath("../../Animation/FacingComponent")
-idle_state = NodePath("../PlayerIdleState")
-animator = NodePath("../../Animation/DirectionalSpriteAnimator")
-metadata/_custom_type_script = "uid://dyq71erbf3ksa"
-
-[node name="PlayerIdleState" type="Node" parent="StateMachine" unique_id=616697117 node_paths=PackedStringArray("move_state", "input", "movement", "animator")]
-script = ExtResource("9_j83bn")
-move_state = NodePath("../PlayerMoveState")
-input = NodePath("../../InputComponent")
-movement = NodePath("../../MovementComponent")
-animator = NodePath("../../Animation/DirectionalSpriteAnimator")
-metadata/_custom_type_script = "uid://dier6uauiqj4t"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
 script = ExtResource("10_jr5rt")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="EmptyState" type="Node" parent="StateMachine" unique_id=2010844592]
+script = ExtResource("10_ypaju")
+metadata/_custom_type_script = "uid://se8p70tr1prj"
 
 [node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "input")]
 script = ExtResource("11_1hl42")
@@ -230,9 +216,8 @@ shape = SubResource("CircleShape2D_qyswd")
 script = ExtResource("23_qyswd")
 metadata/_custom_type_script = "uid://cxdo2n01etkw6"
 
-[node name="PlayerInputDriver" type="Node" parent="." unique_id=847755513 node_paths=PackedStringArray("input")]
+[node name="PlayerInputDriver" type="Node" parent="." unique_id=847755513]
 script = ExtResource("29_j83bn")
-input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://cgl3uo2e4owmk"
 
 [node name="InputComponent" type="Node" parent="." unique_id=648358057]

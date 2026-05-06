@@ -25,7 +25,7 @@ func update(delta: float) -> void:
 		
 	
 func physics_update(delta: float) -> void:
-	input.move_input_direction = Vector2.ZERO
+	input.move_input_direction = (Vector2.ZERO)
 	
 func exit() -> void:
 	pass

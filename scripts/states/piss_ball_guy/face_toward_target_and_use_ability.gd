@@ -26,7 +26,7 @@ func update(delta: float) -> void:
 func physics_update(delta: float) -> void:
 	if memory.has(Memory.Key.TARGET):
 		var target: Entity = memory.get_value(Memory.Key.TARGET) as Entity
-		input.move_input_direction = Vector2.ZERO
+		input.move_input_direction = (Vector2.ZERO)
 		facing.change_direction(target.global_position - state_machine.entity.global_position)
 		_timer += delta
 		if _timer >= time_to_use_ability:

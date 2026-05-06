@@ -25,7 +25,7 @@ func physics_update(delta: float) -> void:
 	
 	var next_point: Vector2 = navigation.get_next_path_direction()
 	facing.change_direction(next_point)
-	input.move_input_direction = facing.get_direction()
+	input.move_input_direction = (facing.get_direction())
 	# turn towards nav point
 	# move continuously towards facing direction
 	

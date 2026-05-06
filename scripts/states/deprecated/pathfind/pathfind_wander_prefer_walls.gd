@@ -47,7 +47,7 @@ func physics_update(delta: float) -> void:
 	wander_direction = (next_path_position - owner.global_position).normalized()
 	var steering = wander_direction
 		
-	input.set_move_input_direction(steering)
+	input.move_input_direction = (steering)
 	
 	movement.physics_update(delta, owner)
 	

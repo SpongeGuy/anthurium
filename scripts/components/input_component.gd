@@ -24,11 +24,6 @@ func _process(delta: float) -> void:
 		else:
 			hold_time[id] = 0	
 	
-
-	
-func set_move_input_direction(direction: Vector2) -> void:
-	move_input_direction = direction
-	
 func press_action(id: int) -> void:
 	just_pressed[id] = true
 	is_held[id] = true

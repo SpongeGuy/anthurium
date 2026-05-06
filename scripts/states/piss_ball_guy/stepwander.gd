@@ -47,9 +47,9 @@ func physics_update(delta: float) -> void:
 		# if there is an obstruction in front, either change state or continue (and attempt to turn direction again)
 	if not obstruction.is_facing_obstruction:
 		distance_traveled += state_machine.entity.velocity.length()
-		input.move_input_direction = facing.get_direction()
+		input.move_input_direction = (facing.get_direction())
 	else:
-		input.move_input_direction = Vector2.ZERO
+		input.move_input_direction = (Vector2.ZERO)
 		ok_to_turn = true
 	
 func exit() -> void:

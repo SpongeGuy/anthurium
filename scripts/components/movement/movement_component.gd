@@ -26,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	
 func physics_update(delta: float) -> void:
 	if input_disabled:
-		input.move_input_direction = Vector2.ZERO
+		input.move_input_direction = (Vector2.ZERO)
 	if input and not input_disabled:
 		movement_function(delta)
 	_handle_cell_terrain(delta) # cell stuff, ground effects

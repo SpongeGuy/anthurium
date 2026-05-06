@@ -8,16 +8,35 @@ var current_state: BehaviorState
 @export var initial_state: BehaviorState
 @export var death_state: BehaviorState
 
+var enabled: bool = true
+
+signal just_disabled
+signal just_enabled
+
+func disable() -> void:
+	just_disabled.emit()
+	enabled = false
+	
+func enable() -> void:
+	just_enabled.emit()
+	enabled = true
+
 func _ready() -> void:
 	if not initial_state:
 		push_error("Initial state not set")
 	switch(initial_state)
 
 func _process(delta: float) -> void:
+	if not enabled:
+		return
+	
 	if current_state:
 		current_state.update(delta)
 	
 func _physics_process(delta: float) -> void:
+	if not enabled:
+		return
+	
 	if current_state:
 		current_state.physics_update(delta)
 

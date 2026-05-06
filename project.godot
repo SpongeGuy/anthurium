@@ -24,6 +24,7 @@ EventBus="*uid://b8owa3ug0hg2r"
 GameState="*uid://0vmrob7f8ql5"
 EntityRegistry="*uid://da7h718q207u5"
 AnthuriumBrain="*uid://ctuuq37605cgy"
+PlayerManager="*uid://bsea5f0xq6js7"
 
 [display]
 

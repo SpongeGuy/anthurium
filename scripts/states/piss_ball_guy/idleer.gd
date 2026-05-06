@@ -8,7 +8,7 @@ func enter() -> void:
 	
 func update(delta: float) -> void:
 	if input:
-		input.move_input_direction = Vector2.ZERO
+		input.move_input_direction = (Vector2.ZERO)
 	
 func physics_update(delta: float) -> void:
 	pass

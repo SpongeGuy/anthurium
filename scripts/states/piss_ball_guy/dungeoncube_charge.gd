@@ -12,7 +12,7 @@ class_name DungeoncubeChargeState
 
 func enter() -> void:
 	movement.max_speed = 500
-	input.move_input_direction = facing.get_direction()
+	input.move_input_direction = (facing.get_direction())
 	hurtbox.set_active(true)
 	sound.play_sound()
 	

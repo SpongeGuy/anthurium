@@ -29,7 +29,7 @@ func physics_update(delta: float) -> void:
 	
 	if not state_machine.entity.global_position.is_equal_approx(safe_pos):
 		var move_direction: Vector2 = safe_pos - state_machine.entity.global_position
-		input.move_input_direction = move_direction
+		input.move_input_direction = (move_direction)
 	
 	var distance: float = state_machine.entity.global_position.distance_to(safe_pos)
 	movement.max_speed = clampf(distance / 32.0, 25, 100.0)
