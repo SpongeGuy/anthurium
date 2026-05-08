@@ -8,10 +8,6 @@ class_name PhysicsComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
 
-@export var do_movement_function: bool = true
-@export var apply_acceleration: bool = true
-@export var apply_friction: bool = true
-
 
 var physics_velocity: Vector2 = Vector2.ZERO
 
@@ -37,8 +33,6 @@ func physics_update(delta: float) -> void:
 
 
 func _apply_friction(delta: float) -> void:
-	if not apply_friction:
-		return
 	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, delta * friction)
 		
 
