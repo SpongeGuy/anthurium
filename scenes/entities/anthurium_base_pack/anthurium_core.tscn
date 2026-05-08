@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_gm1p3"]
 [ext_resource type="Texture2D" uid="uid://dguneg3pgvnhk" path="res://assets/textures/characters/plants/tree.png" id="2_82ped"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="3_cc6vf"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="3_cc6vf"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_g7exi"]
 [ext_resource type="Script" uid="uid://bw4moafs1m8ej" path="res://scripts/states/piss_ball_guy/anthurium/anthurium_spawn_entity_then_exit.gd" id="6_6h34p"]
 [ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="7_073r7"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="9_be50o"]
 [ext_resource type="Script" uid="uid://fphaqhmwyorp" path="res://scripts/states/piss_ball_guy/anthurium/anthurium_release_furor.gd" id="9_ypth6"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="10_udhkh"]
-[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_nutrition_accumulator.gd" id="11_udhkh"]
+[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_ichor_accumulator.gd" id="11_udhkh"]
 [ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/Brain.gd" id="12_073r7"]
 [ext_resource type="Script" uid="uid://c4swvegshas0r" path="res://scripts/lobes/anthurium_growth_lobe.gd" id="13_6h34p"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="14_6h34p"]

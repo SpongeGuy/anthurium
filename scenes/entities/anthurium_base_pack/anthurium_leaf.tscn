@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_v2qjc"]
 [ext_resource type="Texture2D" uid="uid://dccrmhlo1ueq8" path="res://assets/textures/characters/plants/leaf.png" id="2_lq8b5"]
-[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_nutrition_accumulator.gd" id="3_12uwl"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="4_sb7s5"]
+[ext_resource type="Script" uid="uid://hwau0vyvbaoq" path="res://scripts/components/anthurium_ichor_accumulator.gd" id="3_12uwl"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="4_sb7s5"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_vktog"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="6_f2frn"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_f2frn"]

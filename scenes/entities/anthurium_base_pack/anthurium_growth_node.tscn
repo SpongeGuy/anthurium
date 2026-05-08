@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bphq5wwksg35t"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_focxj"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="2_q3unh"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="2_q3unh"]
 [ext_resource type="Script" uid="uid://blxsnic68wb8k" path="res://scripts/components/anthurium_growth_node_spawner_component.gd" id="3_1ip60"]
-[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="4_y5mee"]
+[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="4_y5mee"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_pi3y5"]
 [ext_resource type="Script" uid="uid://1oxbofx3dpm7" path="res://scripts/states/piss_ball_guy/navigatesteptolongtermgoal.gd" id="6_j0xam"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="7_1ip60"]
@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="9_j0xam"]
 [ext_resource type="Script" uid="uid://b37goyiyxpfrb" path="res://scripts/states/piss_ball_guy/anthurium/spawn_anthurium_part_then_exit.gd" id="9_q3unh"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="13_hahv6"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="14_hahv6"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="14_hahv6"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="14_j0xam"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5uaj"]

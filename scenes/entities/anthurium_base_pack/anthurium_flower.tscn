@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_lirq6"]
 [ext_resource type="Texture2D" uid="uid://d0ab6gug3xvnm" path="res://assets/textures/characters/plants/big_flower.png" id="2_epcn0"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="3_epcn0"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="3_epcn0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sl0f1"]
 radius = 7.0

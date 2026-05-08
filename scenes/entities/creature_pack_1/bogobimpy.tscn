@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_cjohf"]
 [ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_xyyh8"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="3_b6v2t"]
-[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="4_bp3js"]
+[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="4_bp3js"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="5_wkbcb"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="6_vin5m"]
 [ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/Brain.gd" id="7_b2inn"]
@@ -25,7 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="21_dbksb"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_hscd4"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="23_u5lup"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="24_nwtny"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="24_nwtny"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="25_jo73i"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="26_xro17"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="27_wh75t"]
@@ -90,10 +90,9 @@ metadata/_custom_type_script = "uid://6g5weury2p"
 script = ExtResource("3_b6v2t")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
-[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=447542053 node_paths=PackedStringArray("knockback", "input")]
+[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=447542053 node_paths=PackedStringArray("input")]
 script = ExtResource("4_bp3js")
 step_delay = 1.25
-knockback = NodePath("../../Bullshit/KnockbackComponent")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
@@ -129,12 +128,11 @@ initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "movement", "player", "obstruction", "exit_state")]
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "player", "obstruction", "exit_state")]
 script = ExtResource("11_3i62d")
 proximity = NodePath("../../../Bullshit/ProximityDetector")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../StepMovementComponent")
 player = NodePath("../../../Bullshit/SoundPlayer")
 obstruction = NodePath("../../../Bullshit/ObstructionDetector")
 exit_state = NodePath("../PathfindWandererState")
@@ -145,23 +143,21 @@ script = ExtResource("12_seddb")
 input = NodePath("../../InputComponent")
 metadata/_custom_type_script = "uid://nd4dqg4v5t8d"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state", "sound")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "exit_state", "sound")]
 script = ExtResource("13_atpl3")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../StepMovementComponent")
 exit_state = NodePath("../WandererState")
 sound = NodePath("../../../Bullshit/SoundPlayer")
 metadata/_custom_type_script = "uid://bmyd8pplkim7y"
 
-[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "sprite", "default_state")]
+[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "default_state")]
 script = ExtResource("14_8rkha")
 memory = NodePath("../../Memory")
 facing = NodePath("../../FacingComponent")
 abilities = NodePath("../../../AbilityManager")
 input = NodePath("../../InputComponent")
-sprite = NodePath("../../../Rotator/Sprite2D")
 default_state = NodePath("../WandererState")
 metadata/_custom_type_script = "uid://ym7engi512o4"
 

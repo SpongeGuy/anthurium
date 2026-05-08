@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_m0j8b"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="2_rjj46"]
-[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_movement_component.gd" id="3_gn113"]
+[ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="3_gn113"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="4_dupcx"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_a70ne"]
 [ext_resource type="Script" uid="uid://c0arw8ng1qxb0" path="res://scripts/states/piss_ball_guy/stepwander.gd" id="6_jf7qm"]
@@ -26,7 +26,7 @@
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_5gaso"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="21_nqb72"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_ohxw4"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/movement/anthurium_component.gd" id="23_a70ne"]
+[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="23_a70ne"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="23_y5jro"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="24_inx30"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="25_cu1tf"]
@@ -36,7 +36,7 @@
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_y1fiq"]
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="32_ifktw"]
 [ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="33_rjj46"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="35_ryjnm"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="35_ryjnm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0

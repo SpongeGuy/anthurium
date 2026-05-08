@@ -10,9 +10,9 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="11_1hl42"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
-[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_module.gd" id="12_tkxpy"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="15_e47js"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
@@ -143,7 +143,6 @@ metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
 script = ExtResource("11_1hl42")
-max_speed = 55.0
 friction = 1000.0
 knockback = NodePath("../KnockbackComponent")
 world_interface = NodePath("../../WorldInterface")

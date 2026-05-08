@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_q4rny"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="3_q4rny"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="4_uu043"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="5_grc3o"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="5_grc3o"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_3ndlo"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s0dc8"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="8_atwi2"]
@@ -25,7 +25,7 @@
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="22_1oe5y"]
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="23_nmwdg"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="24_i2iho"]
-[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_module.gd" id="26_ik1gs"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="26_ik1gs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isnys"]
 size = Vector2(14, 14)
@@ -191,11 +191,10 @@ shape = SubResource("CircleShape2D_q4rny")
 
 [node name="Movement" type="Node" parent="." unique_id=533474128]
 
-[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=830834371 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=830834371 node_paths=PackedStringArray("knockback", "locomotion")]
 script = ExtResource("5_grc3o")
 friction = 1000.0
 knockback = NodePath("../KnockbackComponent")
-world_interface = NodePath("")
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
