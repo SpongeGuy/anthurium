@@ -7,6 +7,9 @@ class_name GatherEnergyState
 @export var sound: SoundPlayer
 @export var input: InputComponent
 @export var facing: FacingComponent
+@export var ability_to_use: int = 0
+@export var ability_manager: AbilityManager
+@export var locomotion: LocomotionHandler
 
 @export var next_state: BehaviorState
 
@@ -16,19 +19,28 @@ func enter() -> void:
 	randomize()
 	_timer = randf_range(time_min, time_max)
 	sound.play_sound()
-	randomly_change_direction()
+	if not input.player_controlled:
+		randomly_change_direction()
+		
+	locomotion.disabled = true
 	
 func update(delta: float) -> void:
 	_timer -= delta
 	if _timer <= 0.0:
-		state_machine.switch(next_state)
+		ability_manager.enable(ability_to_use)
+		if not input.player_controlled:
+			input.press_action(ability_to_use)
+			input.release_action(ability_to_use)
 		
 	
 func physics_update(delta: float) -> void:
 	input.move_input_direction = (Vector2.ZERO)
-	
+
+
 func exit() -> void:
-	pass
+	input.release_action(ability_to_use)
+	ability_manager.disable(ability_to_use)
+	locomotion.disabled = false
 
 
 func randomly_change_direction() -> void:

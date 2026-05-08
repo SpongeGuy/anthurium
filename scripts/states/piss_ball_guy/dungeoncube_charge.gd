@@ -1,7 +1,7 @@
 extends BehaviorState
 class_name DungeoncubeChargeState
 
-@export var movement: MovementComponent
+@export var locomotion: LocomotionHandler
 @export var input: InputComponent
 @export var facing: FacingComponent
 @export var hurtbox: Hurtbox
@@ -11,7 +11,7 @@ class_name DungeoncubeChargeState
 @export var next_state: BehaviorState
 
 func enter() -> void:
-	movement.max_speed = 500
+	locomotion.speed = 500
 	input.move_input_direction = (facing.get_direction())
 	hurtbox.set_active(true)
 	sound.play_sound()
@@ -22,7 +22,8 @@ func update(delta: float) -> void:
 		state_machine.switch(next_state)
 	
 func physics_update(delta: float) -> void:
-	pass
+	input.move_input_direction = facing.get_direction()
+	locomotion.movement_function(delta)
 	
 func exit() -> void:
 	hurtbox.set_active(false)

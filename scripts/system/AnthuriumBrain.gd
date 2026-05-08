@@ -43,7 +43,6 @@ func resolve_needed_part() -> StringName:
 		{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
 		{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < ichor / (max_ichor / 3)},
 	]
-	print(ichor / max_ichor)
 	if not &"anthurium_core" in active_anthurium_names:
 		return &"anthurium_core"
 	checks_priority_1.shuffle()

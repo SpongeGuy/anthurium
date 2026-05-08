@@ -39,7 +39,11 @@ func _update_module_ability_icons() -> void:
 	if not player:
 		return	
 	var ability_manager: AbilityManager = player.get_component(AbilityManager)
+	if not ability_manager:
+		return
 	for i in ability_manager.abilities.size():
+		if not ability_manager.abilities.get(i):
+			continue
 		hud.ability_icons[i].texture = ability_manager.abilities[i].icon
 		
 	

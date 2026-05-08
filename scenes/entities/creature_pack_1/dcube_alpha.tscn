@@ -29,6 +29,9 @@
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="27_tvche"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="28_jm04d"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="29_jmvcx"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_module.gd" id="30_8ngw4"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="31_1qmy4"]
+[ext_resource type="Script" uid="uid://w5sro0hdcxii" path="res://scripts/abilities/change_behavior_state.gd" id="32_6xq86"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6put7"]
 size = Vector2(14, 14)
@@ -72,9 +75,9 @@ facing = NodePath("../../FacingComponent")
 next_state = NodePath("../AlignToGridState")
 metadata/_custom_type_script = "uid://ch1jyl631b26m"
 
-[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("movement", "input", "facing", "sound", "next_state")]
+[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("locomotion", "input", "facing", "sound", "next_state")]
 script = ExtResource("6_152hd")
-movement = NodePath("../../MovementComponent")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../FacingComponent")
 sound = NodePath("../../SoundPlayerAlign")
@@ -82,12 +85,14 @@ next_state = NodePath("../GatherEnergyState")
 time = 0.5
 metadata/_custom_type_script = "uid://fht6b026k2py"
 
-[node name="GatherEnergyState" type="Node" parent="StateMachine" unique_id=1863929153 node_paths=PackedStringArray("sound", "input", "facing", "next_state")]
+[node name="GatherEnergyState" type="Node" parent="StateMachine" unique_id=1863929153 node_paths=PackedStringArray("sound", "input", "facing", "ability_manager", "locomotion", "next_state")]
 script = ExtResource("7_jukf1")
 time_min = 0.0
 sound = NodePath("../../SoundPlayerGatherEnergy")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../FacingComponent")
+ability_manager = NodePath("../../AbilityManager")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 next_state = NodePath("../DungeoncubeChargeState")
 metadata/_custom_type_script = "uid://c7l6kiac662iu"
 
@@ -95,9 +100,9 @@ metadata/_custom_type_script = "uid://c7l6kiac662iu"
 script = ExtResource("8_ahvdr")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="DungeoncubeChargeState" type="Node" parent="StateMachine" unique_id=1905839155 node_paths=PackedStringArray("movement", "input", "facing", "hurtbox", "obstruction", "sound", "next_state")]
+[node name="DungeoncubeChargeState" type="Node" parent="StateMachine" unique_id=1905839155 node_paths=PackedStringArray("locomotion", "input", "facing", "hurtbox", "obstruction", "sound", "next_state")]
 script = ExtResource("9_bug3m")
-movement = NodePath("../../MovementComponent")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../FacingComponent")
 hurtbox = NodePath("../../Hurtbox")
@@ -105,14 +110,6 @@ obstruction = NodePath("../../ObstructionDetector")
 sound = NodePath("../../SoundPlayerEngage")
 next_state = NodePath("../AlignToGridState")
 metadata/_custom_type_script = "uid://ctpsb4e0ntxyf"
-
-[node name="MovementComponent" type="Node" parent="." unique_id=1099508626 node_paths=PackedStringArray("input")]
-script = ExtResource("10_gbck2")
-max_speed = 500.0
-acceleration = 3000.0
-friction = 1000.0
-input = NodePath("../InputComponent")
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1862327690 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("11_u002c")
@@ -234,5 +231,33 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 script = ExtResource("29_jmvcx")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="Movement" type="Node" parent="." unique_id=1623049112]
+
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=2074343463 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
+script = ExtResource("10_gbck2")
+friction = 1000.0
+knockback = NodePath("")
+world_interface = NodePath("")
+locomotion = NodePath("../NormalLocomotionHandler")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=314854012 node_paths=PackedStringArray("input")]
+script = ExtResource("30_8ngw4")
+input = NodePath("../../InputComponent")
+speed = 100.0
+metadata/_custom_type_script = "uid://u3rkjnmvpauy"
+
+[node name="AbilityManager" type="Node" parent="." unique_id=850097665 node_paths=PackedStringArray("abilities", "input")]
+script = ExtResource("31_1qmy4")
+abilities = [NodePath("AbilityChangeBehaviorState"), null, null, null]
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityChangeBehaviorState" type="Node" parent="AbilityManager" unique_id=661263615 node_paths=PackedStringArray("behavior_state", "state_machine")]
+script = ExtResource("32_6xq86")
+behavior_state = NodePath("../../StateMachine/DungeoncubeChargeState")
+state_machine = NodePath("../../StateMachine")
+metadata/_custom_type_script = "uid://w5sro0hdcxii"
 
 [connection signal="died" from="Healthstuff/HealthComponent" to="Healthstuff/ManualStateSwitcher" method="switch"]

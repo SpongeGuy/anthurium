@@ -6,6 +6,7 @@ class_name AbilityManager
 # -----------------------------------------------
 
 @export var abilities: Array[Ability]
+var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
 
 @export var input: InputComponent
@@ -15,8 +16,16 @@ func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
 
+func disable(id: int) -> void:
+	_disabled[id] = true
+	
+func enable(id: int) -> void:
+	_disabled[id] = false
+
 func _on_input_just_pressed(id: int) -> void:
 	if not abilities.get(id):
+		return
+	if _disabled[id]:
 		return
 	abilities[id].on_pressed()
 

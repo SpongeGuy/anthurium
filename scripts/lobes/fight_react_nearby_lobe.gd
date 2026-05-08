@@ -23,6 +23,7 @@ func _on_entity_detected(source: Entity, t: Entity) -> void:
 		changed.emit()
 	
 func _on_entity_lost(source: Entity, t: Entity) -> void:
+	print("target lost")
 	if targeting:
 		target = null
 		changed.emit()

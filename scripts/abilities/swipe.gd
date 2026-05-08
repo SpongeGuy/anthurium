@@ -3,7 +3,7 @@ class_name AbilitySwipe
 
 @export var animator: SpriteAnimator
 @export var hurtbox: Hurtbox
-@export var movement: MovementComponent
+@export var locomotion: LocomotionHandler
 @export var sound_player: SoundPlayer
 
 
@@ -11,7 +11,7 @@ class_name AbilitySwipe
 func on_pressed() -> void:
 	animator.load_and_reset_animation("swipe")
 	sound_player.play_sound()
-	movement.input_disabled = true
+	locomotion.disabled = true
 	await hurtbox.activate(0.0, 0.2)
-	movement.input_disabled = false
+	locomotion.disabled = false
 	

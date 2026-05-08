@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="9_j0xam"]
 [ext_resource type="Script" uid="uid://b37goyiyxpfrb" path="res://scripts/states/piss_ball_guy/anthurium/spawn_anthurium_part_then_exit.gd" id="9_q3unh"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="13_hahv6"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="14_hahv6"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="14_j0xam"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5uaj"]
@@ -36,25 +37,18 @@ script = ExtResource("3_1ip60")
 entity_type = &"anthurium_grass"
 metadata/_custom_type_script = "uid://blxsnic68wb8k"
 
-[node name="StepMovementComponent" type="Node" parent="." unique_id=1872151586 node_paths=PackedStringArray("input")]
-script = ExtResource("4_y5mee")
-step_delay = 0.05
-step_factor = 25.0
-input = NodePath("../InputComponent")
-metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
-
 [node name="StateMachine" type="Node" parent="." unique_id=1773647338 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("5_pi3y5")
 initial_state = NodePath("PathfindStep")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindStep" type="Node" parent="StateMachine" unique_id=609931103 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state", "memory")]
+[node name="PathfindStep" type="Node" parent="StateMachine" unique_id=609931103 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "exit_state", "memory")]
 script = ExtResource("6_j0xam")
 navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../StepMovementComponent")
+locomotion = NodePath("../../Movement/StepLocomotionHandler")
 exit_state = NodePath("../SpawnFlower")
 memory = NodePath("../../Memory")
 radius = 250.0
@@ -106,5 +100,17 @@ metadata/_custom_type_script = "uid://ibgyf864g08i"
 [node name="Memory" type="Node" parent="." unique_id=712179352]
 script = ExtResource("14_j0xam")
 metadata/_custom_type_script = "uid://cu81acdifmvso"
+
+[node name="Movement" type="Node" parent="." unique_id=626524122]
+
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=165791622 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("14_hahv6")
+locomotion = NodePath("../StepLocomotionHandler")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="StepLocomotionHandler" type="Node" parent="Movement" unique_id=1001042063 node_paths=PackedStringArray("input")]
+script = ExtResource("4_y5mee")
+input = NodePath("../../InputComponent")
+metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
 [connection signal="timeout" from="Timer" to="ManualStateSwitcher" method="switch"]

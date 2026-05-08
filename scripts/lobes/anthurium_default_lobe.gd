@@ -24,7 +24,6 @@ func evaluate() -> Array:
 	var core_count: int = AnthuriumBrain.get_count_of_part(&"anthurium_core")
 	var parts_factor: float = clampf((AnthuriumBrain.active_anthurium_parts.size() / core_count) / 100.0, 0.0, 1.0)
 	parts_factor = pow(parts_factor, 0.5)
-	print("P: ", parts_factor)
 	
 	priority = (ichor_factor * 0.5) + (parts_factor * 0.5)
 	return [priority, state]

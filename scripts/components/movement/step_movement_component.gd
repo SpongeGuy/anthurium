@@ -1,10 +1,13 @@
-extends MovementComponent
-class_name StepMovementComponent
+extends LocomotionHandler
+class_name StepLocomotionHandler
 
 @export var step_delay: float = 0.75
 var step_timer: float = 0.0
 @export var step_power: float = 25
 @export var step_factor: float = 20
+
+@export var acceleration: float = 450
+@export var friction: float = 750
 
 signal stepping()
 signal stepped()
@@ -25,7 +28,7 @@ func movement_function(delta: float) -> void:
 			stepping.emit()
 			just_stepped = true
 			step_timer = 0.0
-			var target_velocity = input.move_input_direction * max_speed * step_power
+			var target_velocity = input.move_input_direction * speed * step_power
 			velocity = velocity.move_toward(target_velocity, acceleration * delta * step_factor)
 			
 	else:

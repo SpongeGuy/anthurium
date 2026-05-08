@@ -1,7 +1,7 @@
 extends BehaviorState
 class_name AlignToGridState
 
-@export var movement: MovementComponent
+@export var locomotion: LocomotionHandler
 @export var input: InputComponent
 @export var facing: FacingComponent
 @export var sound: SoundPlayer
@@ -13,8 +13,8 @@ var _timer: float = 0.0
 var previous_max_speed: float
 
 func enter() -> void:
-	previous_max_speed = movement.max_speed
-	movement.max_speed = 100
+	previous_max_speed = locomotion.speed
+	locomotion.speed = 100
 	_timer = 0
 	sound.play_sound()
 	
@@ -32,8 +32,10 @@ func physics_update(delta: float) -> void:
 		input.move_input_direction = (move_direction)
 	
 	var distance: float = state_machine.entity.global_position.distance_to(safe_pos)
-	movement.max_speed = clampf(distance / 32.0, 25, 100.0)
+	locomotion.speed = clampf(distance / 32.0, 25, 100.0)
+	
+	locomotion.movement_function(delta)
 	
 func exit() -> void:
 	_timer = 0
-	movement.max_speed = previous_max_speed
+	locomotion.speed = previous_max_speed

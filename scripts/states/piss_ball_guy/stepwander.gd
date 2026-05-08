@@ -4,7 +4,7 @@ class_name WandererState
 @export var proximity: ProximityDetector
 @export var facing: FacingComponent
 @export var input: InputComponent
-@export var movement: StepMovementComponent
+@export var locomotion: StepLocomotionHandler
 @export var player: SoundPlayer
 @export var obstruction: ObstructionDetector
 
@@ -28,18 +28,18 @@ func _on_stepped() -> void:
 
 func enter() -> void:
 	facing.change_direction(Vector2(1, 0))
-	movement.stepped.connect(_on_stepped)
-	movement.stepping.connect(_on_stepping)
+	locomotion.stepped.connect(_on_stepped)
+	locomotion.stepping.connect(_on_stepping)
 	
-func update(delta: float) -> void:
-	pass
 	
 func physics_update(delta: float) -> void:
+	locomotion.movement_function(delta)
 	# attempt to turn direction
 		# random chance to turn
 	
-	if ok_to_turn:
-		randomly_change_direction()
+	if not input.player_controlled:
+		if ok_to_turn:
+			randomly_change_direction()
 		
 	
 	# attempt to move
@@ -51,10 +51,12 @@ func physics_update(delta: float) -> void:
 	else:
 		input.move_input_direction = (Vector2.ZERO)
 		ok_to_turn = true
+		
+	
 	
 func exit() -> void:
-	movement.stepped.disconnect(_on_stepped)
-	movement.stepping.disconnect(_on_stepping)
+	locomotion.stepped.disconnect(_on_stepped)
+	locomotion.stepping.disconnect(_on_stepping)
 
 
 

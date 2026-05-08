@@ -43,6 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://cr4iqxvjuag5o" path="res://assets/textures/characters/bimpy3.png" id="40_rt8mq"]
 [ext_resource type="Texture2D" uid="uid://di0pb24db07dk" path="res://assets/textures/characters/bimpy4.png" id="41_fvtcv"]
 [ext_resource type="Texture2D" uid="uid://bgoaxx1o8a780" path="res://assets/textures/characters/bimpy5.png" id="42_82nbp"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="43_2xxvo"]
 [ext_resource type="Texture2D" uid="uid://b3mtypohottta" path="res://assets/textures/characters/bimpy6.png" id="43_rwvj7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
@@ -85,13 +86,6 @@ metadata/_custom_type_script = "uid://6g5weury2p"
 script = ExtResource("2_xsehq")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
-[node name="StepMovementComponent" type="Node" parent="Behavior" unique_id=447542053 node_paths=PackedStringArray("knockback", "input")]
-script = ExtResource("3_bld4x")
-step_delay = 1.25
-knockback = NodePath("../../Bullshit/KnockbackComponent")
-input = NodePath("../InputComponent")
-metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
-
 [node name="InputComponent" type="Node" parent="Behavior" unique_id=1931434667]
 script = ExtResource("4_hwojd")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
@@ -124,12 +118,12 @@ initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "movement", "player", "obstruction", "exit_state")]
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "locomotion", "player", "obstruction", "exit_state")]
 script = ExtResource("6_pgwxf")
 proximity = NodePath("../../../Bullshit/ProximityDetector")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../StepMovementComponent")
+locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 player = NodePath("../../../Bullshit/SoundPlayer")
 obstruction = NodePath("../../../Bullshit/ObstructionDetector")
 exit_state = NodePath("../PathfindWandererState")
@@ -140,23 +134,22 @@ script = ExtResource("7_sy6b7")
 input = NodePath("../../InputComponent")
 metadata/_custom_type_script = "uid://nd4dqg4v5t8d"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "exit_state", "sound")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "exit_state", "sound")]
 script = ExtResource("8_e37l1")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../StepMovementComponent")
+locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 exit_state = NodePath("../WandererState")
 sound = NodePath("../../../Bullshit/SoundPlayer")
 metadata/_custom_type_script = "uid://bmyd8pplkim7y"
 
-[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "sprite", "default_state")]
+[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "default_state")]
 script = ExtResource("9_f2j0j")
 memory = NodePath("../../Memory")
 facing = NodePath("../../FacingComponent")
 abilities = NodePath("../../../AbilityManager")
 input = NodePath("../../InputComponent")
-sprite = NodePath("../../../Rotator/Sprite2D")
 default_state = NodePath("../WandererState")
 metadata/_custom_type_script = "uid://ym7engi512o4"
 
@@ -216,11 +209,6 @@ metadata/_custom_type_script = "uid://jrg503l8awgj"
 [node name="FriendComponent" type="Node" parent="Bullshit" unique_id=1196642861]
 script = ExtResource("19_82nbp")
 metadata/_custom_type_script = "uid://b06wram7ecjpl"
-
-[node name="KnockbackComponent" type="Node" parent="Bullshit" unique_id=1636793469 node_paths=PackedStringArray("health")]
-script = ExtResource("20_rwvj7")
-health = NodePath("../Healthstuff/HealthComponent")
-metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="NavigationHelper" type="Node" parent="Bullshit" unique_id=506310323 node_paths=PackedStringArray("navigation")]
 script = ExtResource("21_lm12l")
@@ -287,10 +275,12 @@ abilities = [NodePath("AbilityMeleeHit")]
 input = NodePath("../Behavior/InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityMeleeHit" type="Node" parent="AbilityManager" unique_id=818819557 node_paths=PackedStringArray("hurtbox")]
+[node name="AbilityMeleeHit" type="Node" parent="AbilityManager" unique_id=818819557 node_paths=PackedStringArray("hurtbox", "sprite", "locomotion")]
 script = ExtResource("30_sbhhg")
 hurtbox = NodePath("../../Rotator/Hurtbox")
 active_end = 0.1
+sprite = NodePath("../../Rotator/Sprite2D")
+locomotion = NodePath("../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
 
 [node name="RandomTextureSelector" type="Node" parent="." unique_id=2103516510 node_paths=PackedStringArray("sprite")]
@@ -298,5 +288,24 @@ script = ExtResource("37_83mm5")
 sprite = NodePath("../Rotator/Sprite2D")
 choices = Array[Texture2D]([ExtResource("12_bj2ba"), ExtResource("38_8ane4"), ExtResource("39_6wds5"), ExtResource("40_rt8mq"), ExtResource("41_fvtcv"), ExtResource("42_82nbp"), ExtResource("43_rwvj7")])
 metadata/_custom_type_script = "uid://bbr47xrtnv1ac"
+
+[node name="Movement" type="Node" parent="." unique_id=1855487695]
+
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1318149735 node_paths=PackedStringArray("knockback", "locomotion")]
+script = ExtResource("43_2xxvo")
+knockback = NodePath("../KnockbackComponent")
+locomotion = NodePath("../StepLocomotionHandler")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="StepLocomotionHandler" type="Node" parent="Movement" unique_id=447542053 node_paths=PackedStringArray("input")]
+script = ExtResource("3_bld4x")
+step_delay = 1.25
+input = NodePath("../../Behavior/InputComponent")
+metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
+
+[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=1636793469 node_paths=PackedStringArray("health")]
+script = ExtResource("20_rwvj7")
+health = NodePath("../../Bullshit/Healthstuff/HealthComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

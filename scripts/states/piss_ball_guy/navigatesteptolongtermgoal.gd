@@ -4,7 +4,7 @@ class_name PathfindStepToLongTermGoal
 @export var navigation: NavigationHelper
 @export var facing: FacingComponent
 @export var input: InputComponent
-@export var movement: StepMovementComponent
+@export var locomotion: StepLocomotionHandler
 @export var exit_state: BehaviorState
 @export var sound: SoundPlayer
 @export var memory: Memory
@@ -20,8 +20,8 @@ func _on_stepped() -> void:
 	decide_to_switch()
 
 func enter() -> void:
-	movement.stepped.connect(_on_stepped)
-	movement.stepping.connect(_on_stepping)
+	locomotion.stepped.connect(_on_stepped)
+	locomotion.stepping.connect(_on_stepping)
 	
 func update(delta: float) -> void:
 	pass
@@ -42,8 +42,8 @@ func physics_update(delta: float) -> void:
 	# move continuously towards facing direction
 	
 func exit() -> void:
-	movement.stepped.disconnect(_on_stepped)
-	movement.stepping.disconnect(_on_stepping)
+	locomotion.stepped.disconnect(_on_stepped)
+	locomotion.stepping.disconnect(_on_stepping)
 	input.move_input_direction = (Vector2.ZERO)
 
 

@@ -75,7 +75,6 @@ func toss_item(direction: Vector2, force: float) -> void:
 
 	
 func let_go_of_item() -> void:
-	print("shit")
 	if not item:
 		return
 	var pickupable: PickupableComponent = item.get_component(PickupableComponent)

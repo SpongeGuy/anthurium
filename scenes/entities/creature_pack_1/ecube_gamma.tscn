@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="22_1oe5y"]
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="23_nmwdg"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="24_i2iho"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_module.gd" id="26_ik1gs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isnys"]
 size = Vector2(14, 14)
@@ -83,12 +84,6 @@ shape = SubResource("RectangleShape2D_dukxu")
 script = ExtResource("4_uu043")
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
-[node name="MovementComponent" type="Node" parent="Behavior" unique_id=1918406839 node_paths=PackedStringArray("knockback", "input")]
-script = ExtResource("5_grc3o")
-knockback = NodePath("../../Bullshit/KnockbackComponent")
-input = NodePath("../InputComponent")
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
-
 [node name="InputComponent" type="Node" parent="Behavior" unique_id=1931434667]
 script = ExtResource("6_3ndlo")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
@@ -98,12 +93,12 @@ script = ExtResource("7_s0dc8")
 initial_state = NodePath("PathfindWandererState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "movement", "sound", "animator")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
 script = ExtResource("8_atwi2")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
-movement = NodePath("../../MovementComponent")
+locomotion = NodePath("../../../Movement/NormalLocomotionHandler")
 sound = NodePath("../../../Bullshit/SoundPlayer")
 animator = NodePath("../../../Bullshit/SpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
@@ -193,5 +188,26 @@ metadata/_custom_type_script = "uid://d4dkusgurvri8"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Explosionradius" unique_id=1292946558]
 shape = SubResource("CircleShape2D_q4rny")
+
+[node name="Movement" type="Node" parent="." unique_id=533474128]
+
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=830834371 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
+script = ExtResource("5_grc3o")
+friction = 1000.0
+knockback = NodePath("../KnockbackComponent")
+world_interface = NodePath("")
+locomotion = NodePath("../NormalLocomotionHandler")
+metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=46742447 node_paths=PackedStringArray("input")]
+script = ExtResource("26_ik1gs")
+input = NodePath("../../Behavior/InputComponent")
+speed = 100.0
+metadata/_custom_type_script = "uid://u3rkjnmvpauy"
+
+[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=2099421119 node_paths=PackedStringArray("health")]
+script = ExtResource("15_og4s6")
+health = NodePath("../../Bullshit/Healthstuff/HealthComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

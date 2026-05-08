@@ -17,6 +17,8 @@ var just_released: Array[bool] = [false, false, false, false]
 signal input_just_pressed(id: int)
 signal input_just_released(id: int, held_time: float)
 
+var player_controlled: bool = false
+
 func _process(delta: float) -> void:
 	for id in range(actions.size()):
 		if is_held[id]:
@@ -25,6 +27,8 @@ func _process(delta: float) -> void:
 			hold_time[id] = 0	
 	
 func press_action(id: int) -> void:
+	if is_held[id] == true:
+		return
 	just_pressed[id] = true
 	is_held[id] = true
 	input_just_pressed.emit(id)
@@ -33,6 +37,8 @@ func press_action(id: int) -> void:
 
 
 func release_action(id: int) -> void:
+	if is_held[id] == false:
+		return
 	just_released[id] = true
 	is_held[id] = false
 	input_just_released.emit(id, hold_time[id])

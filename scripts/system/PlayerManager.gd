@@ -11,14 +11,15 @@ var facing: FacingComponent
 func set_player(entity: Entity) -> void:
 	if player:
 		player.get_component(StateMachine).enable()
+		input.player_controlled = false
 		player = null
 		input = null
 		facing = null
 	
-	entity.get_component(StateMachine).disable()
 	player = entity
 	GameState.player = player
 	input = player.get_component(InputComponent)
+	input.player_controlled = true
 	facing = player.get_component(FacingComponent)
 	EventBus.player_spawned.emit(entity)
 

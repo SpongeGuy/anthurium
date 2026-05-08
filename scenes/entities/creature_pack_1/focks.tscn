@@ -9,9 +9,10 @@
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
-[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="10_ypaju"]
+[ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
 [ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/movement_component.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_module.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="15_e47js"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
@@ -26,7 +27,6 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
-[ext_resource type="Script" uid="uid://cgl3uo2e4owmk" path="res://scripts/components/player_input_driver.gd" id="29_j83bn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ui/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
@@ -34,6 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
+[ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -120,7 +121,7 @@ metadata/_custom_type_script = "uid://ibgyf864g08i"
 
 [node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_s02rk")
-initial_state = NodePath("EmptyState")
+initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
@@ -128,18 +129,37 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 script = ExtResource("10_jr5rt")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="EmptyState" type="Node" parent="StateMachine" unique_id=2010844592]
+[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
 script = ExtResource("10_ypaju")
-metadata/_custom_type_script = "uid://se8p70tr1prj"
+navigation = NodePath("../../NavigationHelper")
+facing = NodePath("../../Animation/FacingComponent")
+input = NodePath("../../InputComponent")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
+sound = NodePath("../../Swiper/SoundPlayer")
+animator = NodePath("../../Swiper/SpriteAnimator")
+metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
-[node name="MovementComponent" type="Node" parent="." unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "input")]
+[node name="Movement" type="Node" parent="." unique_id=1225028772]
+
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
 script = ExtResource("11_1hl42")
 max_speed = 55.0
 friction = 1000.0
 knockback = NodePath("../KnockbackComponent")
-world_interface = NodePath("../WorldInterface")
-input = NodePath("../InputComponent")
+world_interface = NodePath("../../WorldInterface")
+locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
+
+[node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=64145501 node_paths=PackedStringArray("input")]
+script = ExtResource("12_tkxpy")
+input = NodePath("../../InputComponent")
+speed = 100.0
+metadata/_custom_type_script = "uid://u3rkjnmvpauy"
+
+[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=279683997 node_paths=PackedStringArray("health")]
+script = ExtResource("20_m1inn")
+health = NodePath("../../Health&Damage/HealthComponent")
+metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
 
@@ -188,11 +208,6 @@ script = ExtResource("19_vifq1")
 pickup_area = NodePath("../Animation/Rotator/HandArea")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=279683997 node_paths=PackedStringArray("health")]
-script = ExtResource("20_m1inn")
-health = NodePath("../Health&Damage/HealthComponent")
-metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
-
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
 script = ExtResource("21_kyqc0")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
@@ -216,10 +231,6 @@ shape = SubResource("CircleShape2D_qyswd")
 script = ExtResource("23_qyswd")
 metadata/_custom_type_script = "uid://cxdo2n01etkw6"
 
-[node name="PlayerInputDriver" type="Node" parent="." unique_id=847755513]
-script = ExtResource("29_j83bn")
-metadata/_custom_type_script = "uid://cgl3uo2e4owmk"
-
 [node name="InputComponent" type="Node" parent="." unique_id=648358057]
 script = ExtResource("25_xoj7o")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
@@ -239,11 +250,11 @@ cast_time = 2.0
 icon = ExtResource("29_oduj7")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
-[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "movement", "sound_player")]
+[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "locomotion", "sound_player")]
 script = ExtResource("29_jr5rt")
 animator = NodePath("../../Swiper/SpriteAnimator")
 hurtbox = NodePath("../../Swiper/Hurtbox")
-movement = NodePath("../../MovementComponent")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 sound_player = NodePath("../../Swiper/SoundPlayer")
 icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
@@ -284,5 +295,15 @@ possible_sounds = Array[AudioStream]([ExtResource("33_ipt6n")])
 pitch_min = 0.9
 pitch_max = 1.1
 metadata/_custom_type_script = "uid://q4guieta4fy0"
+
+[node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
+script = ExtResource("34_tkxpy")
+navigation = NodePath("../NavigationAgent2D")
+metadata/_custom_type_script = "uid://bcbkki6gbrkma"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=456269700]
+path_desired_distance = 4.0
+target_desired_distance = 25.0
+path_postprocessing = 1
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]
