@@ -102,6 +102,7 @@ func initialize_tree() -> void:
 	var camera: Camera2D = Camera2D.new()
 	
 	world = Node2D.new()
+	GameState.world = world
 	var weather: WeatherComponent = weather_scene.instantiate() as WeatherComponent
 	
 	

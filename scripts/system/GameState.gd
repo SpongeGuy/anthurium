@@ -17,6 +17,10 @@ var anthurium_cores: Array[Entity]
 
 var time: float = 0.0
 
+var hud: UIHUD
+
+var world: Node2D
+
 signal game_state_changed(status: Status)
 
 func change_game_state(status: Status) -> void:
@@ -50,3 +54,15 @@ func _on_anthurium_core_spawned(entity: Entity) -> void:
 	if entity not in anthurium_cores:
 		anthurium_cores.append(entity)
 
+
+func toggle_pause_menu() -> void:
+	var next_hud_state: UIHUD.State = hud.toggle_hud_state()
+	if next_hud_state == UIHUD.State.BAR:
+		world.process_mode = Node.PROCESS_MODE_PAUSABLE
+	elif next_hud_state == UIHUD.State.MENU:
+		world.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _input(event: InputEvent) -> void:
+	if Input.is_key_pressed(KEY_B):
+		toggle_pause_menu()
+		

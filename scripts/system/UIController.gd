@@ -11,6 +11,7 @@ func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
 	EventBus.player_spawned.connect(_on_player_spawned)
+	GameState.hud = hud
 	
 func _process(delta: float) -> void:
 	if GameState.state != GameState.Status.PLAYING:
@@ -103,3 +104,7 @@ func _show_game() -> void:
 	
 func _show_hud() -> void:
 	hud.visible = true
+
+
+
+

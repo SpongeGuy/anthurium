@@ -7,6 +7,7 @@ class_name PhysicsComponent
 @export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
+@export var mass: MassComponent
 
 
 var physics_velocity: Vector2 = Vector2.ZERO
