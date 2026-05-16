@@ -1,0 +1,14 @@
+{
+  "obsidian-prism-theme@@color-schemes-dt": "pt-color-scheme-mocha-dt",
+  "obsidian-prism-theme@@color-scheme-style-dt": "pt-color-scheme-style-two-tone-and-border-dt",
+  "obsidian-prism-theme@@accent-style-dt": "pt-accent-style-borderandfilled-dt",
+  "obsidian-joval-theme@@switch-lcol": "col-mod-d",
+  "ap-theme@@theme-dark": "a-catpuccin-mocha",
+  "ap-theme@@Hover": true,
+  "ap-theme@@ap-radius-m": 7,
+  "ap-theme@@ap-radius-s": 4,
+  "ap-theme@@glassMorphism": false,
+  "ap-theme@@smoothIndent": false,
+  "ap-theme@@Fade": false,
+  "ap-theme@@a-theme-purple-test": false
+}
