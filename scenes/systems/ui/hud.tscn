@@ -8,7 +8,7 @@
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
-[ext_resource type="Texture2D" uid="uid://pnikphk46i6r" path="res://assets/textures/ui/hand.png" id="9_u330w"]
+[ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="9_u330w"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u330w"]
 font = ExtResource("5_5p38b")
@@ -338,14 +338,6 @@ offset_top = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Hand" type="Control" parent="." unique_id=2105658811]
-anchors_preset = 0
-offset_left = 16.0
-offset_top = 30.0
-offset_right = 16.0
-offset_bottom = 30.0
-
-[node name="Sprite2D" type="Sprite2D" parent="Hand" unique_id=1628867686]
-position = Vector2(-2, -6)
-texture = ExtResource("9_u330w")
-hframes = 2
+[node name="Hand" parent="." unique_id=1172565642 node_paths=PackedStringArray("control") instance=ExtResource("9_u330w")]
+position = Vector2(13, 25)
+control = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")

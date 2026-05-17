@@ -10,7 +10,6 @@ signal terrain_generated_successfully()
 # entity lifecycle
 signal spawn_requested(entity_type: StringName, pos: Vector2)
 signal entity_spawned(entity: Node2D)
-signal player_spawned(player: Node2D)
 signal player_died()
 signal entity_killed(entity: Node2D)
 signal entity_destroyed(entity: Node2D)

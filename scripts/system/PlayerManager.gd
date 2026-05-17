@@ -8,6 +8,8 @@ var player: Entity
 var input: InputComponent
 var facing: FacingComponent
 
+signal player_set(entity: Entity)
+
 func set_player(entity: Entity) -> void:
 	if player:
 		player.get_component(StateMachine).enable()
@@ -21,7 +23,7 @@ func set_player(entity: Entity) -> void:
 	input = player.get_component(InputComponent)
 	input.player_controlled = true
 	facing = player.get_component(FacingComponent)
-	EventBus.player_spawned.emit(entity)
+	player_set.emit(player)
 
 
 func _process(_delta: float) -> void:

@@ -5,12 +5,9 @@ class_name UIController
 @export var gameview: UIGameView
 @export var screen: UIScreen
 
-var player: Entity
-
 func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
-	EventBus.player_spawned.connect(_on_player_spawned)
 	GameState.hud = hud
 	
 func _process(delta: float) -> void:
@@ -37,9 +34,9 @@ func _update_hud(delta: float) -> void:
 	hud.change_aura_score(GameState.aura_score, delta)
 	
 func _update_module_ability_icons() -> void:
-	if not player:
+	if not PlayerManager.player:
 		return	
-	var ability_manager: AbilityManager = player.get_component(AbilityManager)
+	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
 	if not ability_manager:
 		return
 	for i in ability_manager.abilities.size():
@@ -50,20 +47,20 @@ func _update_module_ability_icons() -> void:
 	
 
 func _update_module_saturationbar() -> void:
-	if not player:
+	if not PlayerManager.player:
 		hud.player_saturation_bar.value = 0
 		return
-	var ichor_component: IchorComponent = player.get_component(IchorComponent)
+	var ichor_component: IchorComponent = PlayerManager.player.get_component(IchorComponent)
 	if not ichor_component:
 		return
 	var value: float = ichor_component.ichor / ichor_component.max_ichor
 	hud.player_saturation_bar.value = value * 100
 
 func _update_module_healthbar() -> void:
-	if not player:
+	if not PlayerManager.player:
 		hud.player_health_bar.value = 0
 		return
-	var health_component: HealthComponent = player.get_component(HealthComponent)
+	var health_component: HealthComponent = PlayerManager.player.get_component(HealthComponent)
 	if not health_component:
 		return
 	var value: float = health_component.health / health_component.max_health
@@ -81,9 +78,6 @@ func _on_day_state_changed(state: TimeManager.DayState, name: String) -> void:
 # --------------------------------------------------------
 # helpers / one-time methods
 # ---------------------------------------------------------
-
-func _on_player_spawned(e: Entity) -> void:
-	player = e
 
 func _set_all_invisible() -> void:
 	hud.visible = false

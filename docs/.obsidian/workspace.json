@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "guides/PossessionReadyDesign.md",
+                "file": "components/control/InputComponent.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "PossessionReadyDesign"
+              "title": "InputComponent"
             }
           }
         ]
@@ -199,8 +199,11 @@
   },
   "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
-    "classes/state/BehaviorState.md",
+    "test.md",
+    "anthurium_beta_checklist.md",
+    "Game loop.md",
     "guides/PossessionReadyDesign.md",
+    "classes/state/BehaviorState.md",
     "guides",
     "Untitled Folder",
     "components/control/InputComponent.md",
@@ -232,9 +235,6 @@
     "StateMachine.md",
     "StepLocomotionHandler.md",
     "Untitled.md",
-    "Game loop.md",
-    "anthurium_component_docs.md",
-    "Creatures.md",
     "Main.canvas",
     "meme flowchart.canvas",
     "Untitled.canvas",

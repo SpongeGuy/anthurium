@@ -30,7 +30,7 @@ func change_game_state(status: Status) -> void:
 func _ready() -> void:
 	EventBus.added_opal_score_to.connect(_check_if_opal_score_player)
 	EventBus.added_aura_score_to.connect(_check_if_aura_score_player)
-	EventBus.player_spawned.connect(_on_player_spawned)
+	PlayerManager.player_set.connect(_on_player_set)
 	EventBus.anthurium_core_spawned.connect(_on_anthurium_core_spawned)
 	
 func _process(delta: float) -> void:
@@ -45,7 +45,7 @@ func _check_if_aura_score_player(subject: Entity, amount: int, source: Entity) -
 		aura_score += amount
 	HUDParticleController.collect(source.global_position, UIHUD.score_collect_pos, floor(amount / 10), Color.LAWN_GREEN)
 
-func _on_player_spawned(entity: Entity) -> void:
+func _on_player_set(entity: Entity) -> void:
 	CameraController.change_camera_target(entity)
 	WeatherController.change_fog_target(entity)
 	player = entity
