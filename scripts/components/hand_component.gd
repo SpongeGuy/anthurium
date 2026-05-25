@@ -8,12 +8,12 @@ class_name HandComponent
 @export var pickup_area: Area2D
 @export var picked_location: Node2D
 ## the item is teleported a distance away from the entity so that it doesn't get stuck on its collidion box
-@export var throw_tp_distance: float = 8
+@export var throw_tp_distance: float = 16
 
 signal item_picked_up(item: Entity, by: Entity)
 
 var item: Entity
-var lerp_weight: float = 20.0
+var lerp_weight: float = 10.0
 
 func _ready() -> void:
 	EventBus.item_put_into_inventory.connect(_on_item_put_into_inventory)
@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 		item.global_position = lerp(item.global_position, pickup_area.global_position, delta * lerp_weight)
 
 
-func try_pick_up_item_in_area() -> void:
+func try_pick_up_item_in_area() -> Entity:
 	var bodies: Array = pickup_area.get_overlapping_bodies()
 	var min_dist: float = INF
 	var closest: Entity
@@ -45,6 +45,8 @@ func try_pick_up_item_in_area() -> void:
 			min_dist = distance
 	if closest:
 		pick_up_item(closest)
+		return closest
+	return null
 
 
 func pick_up_item(body: Entity) -> void:
@@ -70,7 +72,7 @@ func toss_item(direction: Vector2, force: float) -> void:
 	
 	item.position += direction * throw_tp_distance
 	if kb:
-		kb.apply_knockback(direction, force)
+		kb.apply_knockback(direction, force * 10)
 	let_go_of_item()
 
 	

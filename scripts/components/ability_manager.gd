@@ -53,3 +53,20 @@ func get_ability_from_string(action: String) -> Ability:
 	if not abilities[id]:
 		return
 	return abilities[id]
+
+func add_ability(index: int, ability: Ability) -> void:
+	if abilities[index] == null:
+		return
+	
+	ability.reparent(self)
+	abilities[index] = ability
+	
+	
+	
+func remove_ability(index: int) -> void:
+	if abilities[index] == null:
+		return
+		
+	abilities[index].queue_free()
+	abilities[index] = null
+	

@@ -59,8 +59,10 @@ func toggle_pause_menu() -> void:
 	var next_hud_state: UIHUD.State = hud.toggle_hud_state()
 	if next_hud_state == UIHUD.State.BAR:
 		world.process_mode = Node.PROCESS_MODE_PAUSABLE
+		state = Status.PLAYING
 	elif next_hud_state == UIHUD.State.MENU:
 		world.process_mode = Node.PROCESS_MODE_DISABLED
+		state = Status.PAUSED
 
 func _input(event: InputEvent) -> void:
 	if Input.is_key_pressed(KEY_B):

@@ -2,7 +2,7 @@ extends Component
 class_name SpriteAnimator
 
 @export var sprite: Sprite2D
-
+@export var starting_animation: int = -1
 @export var animations: Array[SpriteAnimation]
 
 var _current_animation: SpriteAnimation
@@ -17,6 +17,9 @@ signal frame_elapsed(frame: int)
 
 var animation_speed: float = 1.0
 
+func _ready() -> void:
+	if starting_animation >= 0:
+		load_and_reset_animation(animations[starting_animation].name)
 
 func _process(delta: float) -> void:
 	_update_animation(delta, animation_speed)

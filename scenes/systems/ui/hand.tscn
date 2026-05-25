@@ -2,6 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dpcaawesmrb43" path="res://scripts/ui/hand.gd" id="1_cg78y"]
 [ext_resource type="Texture2D" uid="uid://pnikphk46i6r" path="res://assets/textures/ui/hand.png" id="1_hib0p"]
+[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="3_0nok7"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="4_lc2g5"]
+
+[sub_resource type="Resource" id="Resource_wm76h"]
+script = ExtResource("4_lc2g5")
+name = &"hover"
+frames = 2
+speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="Hand" type="Node2D" unique_id=1172565642]
 texture_filter = 1
@@ -10,3 +19,10 @@ script = ExtResource("1_cg78y")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1396170626]
 texture = ExtResource("1_hib0p")
 hframes = 2
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=1910142732 node_paths=PackedStringArray("sprite")]
+script = ExtResource("3_0nok7")
+sprite = NodePath("../Sprite2D")
+starting_animation = 0
+animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_wm76h")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"

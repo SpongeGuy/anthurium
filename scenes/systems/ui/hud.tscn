@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="1_hv3iq"]
 [ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="2_n78go"]
+[ext_resource type="Script" uid="uid://bj82h33km47f1" path="res://scripts/classes/InteractableUI.gd" id="3_1l7tj"]
 [ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="3_dp7nh"]
 [ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
 [ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ui/not_icon.png" id="4_dp7nh"]
@@ -81,11 +82,16 @@ layout_mode = 2
 [node name="Items" type="HBoxContainer" parent="Bar/Columns/C1/HBoxContainer" unique_id=1584995956]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=1946870080]
+[node name="Control" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=488223241 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
+focus_neighbor_right = NodePath("../Control2")
+script = ExtResource("3_1l7tj")
+neighbor_left = NodePath("../Control4")
+neighbor_right = NodePath("../Control2")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
 
 [node name="Frame1" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control" unique_id=1889615916]
 texture = ExtResource("3_dp7nh")
@@ -110,11 +116,17 @@ text = "P"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control2" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=537144578]
+[node name="Control2" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=713445985 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../Control")
+focus_neighbor_right = NodePath("../Control3")
+script = ExtResource("3_1l7tj")
+neighbor_left = NodePath("../Control")
+neighbor_right = NodePath("../Control3")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
 
 [node name="Frame2" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control2" unique_id=1273504481]
 texture = ExtResource("3_dp7nh")
@@ -139,11 +151,17 @@ text = "O"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control3" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=1531082525]
+[node name="Control3" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=937230516 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../Control2")
+focus_neighbor_right = NodePath("../Control4")
+script = ExtResource("3_1l7tj")
+neighbor_left = NodePath("../Control2")
+neighbor_right = NodePath("../Control4")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
 
 [node name="Frame3" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control3" unique_id=1584136444]
 texture = ExtResource("3_dp7nh")
@@ -168,11 +186,16 @@ text = "spc"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control4" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=389674435]
+[node name="Control4" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=1870692241 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
+focus_neighbor_left = NodePath("../Control3")
+script = ExtResource("3_1l7tj")
+neighbor_left = NodePath("../Control3")
+neighbor_right = NodePath("../Control")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
 
 [node name="Frame4" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control4" unique_id=1873495845]
 texture = ExtResource("3_dp7nh")
@@ -338,6 +361,6 @@ offset_top = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Hand" parent="." unique_id=1172565642 node_paths=PackedStringArray("control") instance=ExtResource("9_u330w")]
+[node name="Hand" parent="." unique_id=1172565642 node_paths=PackedStringArray("current") instance=ExtResource("9_u330w")]
 position = Vector2(13, 25)
-control = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")
+current = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")

@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://c7l6kiac662iu" path="res://scripts/states/piss_ball_guy/charge_up.gd" id="7_njcs5"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="8_caedn"]
 [ext_resource type="Script" uid="uid://ctpsb4e0ntxyf" path="res://scripts/states/piss_ball_guy/dungeoncube_charge.gd" id="9_tka6n"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="10_qp3nj"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="10_qp3nj"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="11_jxc0p"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="12_epxlx"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="13_sbm61"]
@@ -232,11 +232,9 @@ metadata/_custom_type_script = "uid://b7fumud38ekr4"
 
 [node name="Movement" type="Node" parent="." unique_id=102601057]
 
-[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=412607500 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=412607500 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("10_qp3nj")
 friction = 1000.0
-knockback = NodePath("")
-world_interface = NodePath("")
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://c58w8kgm688wm"
 

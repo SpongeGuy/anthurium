@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="11_1hl42"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="19_jr5rt"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
-[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_m1inn"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="20_m1inn"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
@@ -195,16 +195,20 @@ facing = NodePath("../FacingComponent")
 metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
 
 [node name="HandArea" type="Area2D" parent="Animation/Rotator" unique_id=1698964333]
-position = Vector2(9, 0)
+position = Vector2(10, 0)
 collision_layer = 0
 collision_mask = 262
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Rotator/HandArea" unique_id=1118485361]
 shape = SubResource("RectangleShape2D_jurdk")
 
-[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area")]
+[node name="HandMarker" type="Node2D" parent="Animation/Rotator" unique_id=1776970813]
+position = Vector2(14, 0)
+
+[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area", "picked_location")]
 script = ExtResource("19_vifq1")
 pickup_area = NodePath("../Animation/Rotator/HandArea")
+picked_location = NodePath("../Animation/Rotator/HandMarker")
 metadata/_custom_type_script = "uid://duajgedj0nkus"
 
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
@@ -259,6 +263,7 @@ icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 
 [node name="Swiper" type="Node2D" parent="." unique_id=81735770 node_paths=PackedStringArray("facing")]
+visible = false
 position = Vector2(0, -4)
 script = ExtResource("18_oduj7")
 facing = NodePath("../Animation/FacingComponent")

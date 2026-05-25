@@ -8,8 +8,8 @@
 
 The current player stand-in is `ecube_beta`. Pip needs his own scene before anything else can be accurately tested from the player's perspective.
 
-- [ ] Create `pip.tscn` with all required components (health, ichor, hand, ability manager, facing, movement, camera target, HUD hooks)
-- [ ] Wire the four ability slots; slots 1 and 2 should be empty by default except for the innate **push** ability
+- [x] Create `pip.tscn` with all required components (health, ichor, hand, ability manager, facing, movement, camera target, HUD hooks)
+- [x] Wire the four ability slots; slots 1 and 2 should be empty by default except for the innate **push** ability
 - [ ] Implement the **innate push ability** — a short-range force that doesn't require a shard and is always available
 - [ ] Swap `GameMaster` to spawn `pip` as the player instead of `ecube_beta`
 

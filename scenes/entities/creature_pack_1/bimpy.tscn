@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="17_rt8mq"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="18_fvtcv"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_82nbp"]
-[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component.gd" id="20_rwvj7"]
+[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="20_rwvj7"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="21_lm12l"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_xa547"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="23_l5amt"]
@@ -43,7 +43,7 @@
 [ext_resource type="Texture2D" uid="uid://cr4iqxvjuag5o" path="res://assets/textures/characters/bimpy3.png" id="40_rt8mq"]
 [ext_resource type="Texture2D" uid="uid://di0pb24db07dk" path="res://assets/textures/characters/bimpy4.png" id="41_fvtcv"]
 [ext_resource type="Texture2D" uid="uid://bgoaxx1o8a780" path="res://assets/textures/characters/bimpy5.png" id="42_82nbp"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="43_2xxvo"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="43_2xxvo"]
 [ext_resource type="Texture2D" uid="uid://b3mtypohottta" path="res://assets/textures/characters/bimpy6.png" id="43_rwvj7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]

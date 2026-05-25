@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="9_j0xam"]
 [ext_resource type="Script" uid="uid://b37goyiyxpfrb" path="res://scripts/states/piss_ball_guy/anthurium/spawn_anthurium_part_then_exit.gd" id="9_q3unh"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="13_hahv6"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component.gd" id="14_hahv6"]
+[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="14_hahv6"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="14_j0xam"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m5uaj"]

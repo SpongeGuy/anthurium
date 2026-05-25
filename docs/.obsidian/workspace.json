@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "components/control/InputComponent.md",
+                "file": "Game loop.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "InputComponent"
+              "title": "Game loop"
             }
           }
         ]
@@ -200,13 +200,14 @@
   "active": "19d8c734f5e83fd6",
   "lastOpenFiles": [
     "test.md",
-    "anthurium_beta_checklist.md",
     "Game loop.md",
+    "components/movement/NormalLocomotionHandler.md",
+    "components/control/InputComponent.md",
+    "anthurium_beta_checklist.md",
     "guides/PossessionReadyDesign.md",
     "classes/state/BehaviorState.md",
     "guides",
     "Untitled Folder",
-    "components/control/InputComponent.md",
     "components/control/AbilityManager.md",
     "components/control",
     "components/Untitled Folder",
@@ -220,7 +221,6 @@
     "classes/state/StateMachine.md",
     "Lobe.md",
     "components/movement/LocomotionHandler.md",
-    "components/movement/NormalLocomotionHandler.md",
     "components/movement/PhysicsComponent.md",
     "components/movement/StepLocomotionHandler.md",
     "components/movement",

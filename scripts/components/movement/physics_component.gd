@@ -3,14 +3,22 @@ class_name PhysicsComponent
 
 @export var disabled: bool = false
 
-@export var friction: float = 800.0 # how fast it stopps
+@export var mass: float = 1.0
+@export var friction_coefficient: float = 1.0
+@export var base_friction: float = 800
+@export var restitution: float = 0.4
+@export var min_bounce_speed: float = 40.0
+
 @export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
-@export var mass: MassComponent
-
 
 var physics_velocity: Vector2 = Vector2.ZERO
+var _accumulated_force: Vector2 = Vector2.ZERO
+
+
+func _on_registered() -> void:
+	pass # replace with function body
 
 func _physics_process(delta: float) -> void:
 	if disabled:
@@ -18,63 +26,56 @@ func _physics_process(delta: float) -> void:
 	physics_update(delta)
 	
 func physics_update(delta: float) -> void:
+	_apply_forces(delta)
 	_apply_friction(delta)
-	_handle_cell_terrain(delta) # cell stuff, ground effects
-	_apply_knockback()
+	_handle_cell_terrain(delta)
 	
-	entity.velocity = physics_velocity + locomotion.velocity
-	entity.move_and_slide()
-	physics_velocity = entity.velocity - locomotion.velocity
-	
-	
-	
-	_handle_passive_collisions()
-	_handle_bounce_collisions() # knockback purposes
-	
-
-
-func _apply_friction(delta: float) -> void:
-	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, delta * friction)
-		
-
-
-func _handle_cell_terrain(delta: float) -> void:
-	if not world_interface: 
-		return
-
-func _handle_passive_collisions() -> void:
-	var restitution: float = 1.2
-	if entity is not CharacterBody2D:
-		return
-	
-	
-	for i in entity.get_slide_collision_count():
-		var col: KinematicCollision2D = entity.get_slide_collision(i)
-		var collider_velocity = col.get_collider_velocity()
-		var normal: Vector2 = col.get_normal()
-		
-		var relative_velocity: Vector2 = collider_velocity - physics_velocity
-		var push_amount: float = relative_velocity.dot(normal)
-
-		if push_amount > 0:
-			physics_velocity += normal * push_amount * restitution
-
-	
-	
-# -------------------------
-# knockback
-# -------------------------	
-
-func _apply_knockback() -> void:
 	if knockback:
-		physics_velocity += knockback.knockback_velocity
+		physics_velocity += knockback.consume_velocity()
+		
+	var pre_slide_velocity: Vector2 = physics_velocity
+		
+	entity.velocity = physics_velocity + (locomotion.velocity if locomotion else Vector2.ZERO)
+	entity.move_and_slide()
+	physics_velocity = entity.velocity - (locomotion.velocity if locomotion else Vector2.ZERO)
+	
+	_handle_collisions(pre_slide_velocity)
 
-func _handle_bounce_collisions() -> void:
-	if not knockback:
+func clear_velocity() -> void:
+	physics_velocity = Vector2.ZERO
+
+func apply_impulse(direction: Vector2, magnitude: float) -> void:
+	physics_velocity += direction.normalized() * (magnitude / mass)
+
+func apply_force(direction: Vector2, magnitude: float) -> void:
+	_accumulated_force += direction.normalized() * magnitude
+	
+
+func _apply_forces(delta: float) -> void:
+	physics_velocity += (_accumulated_force / mass) * delta
+	_accumulated_force = Vector2.ZERO
+	
+func _apply_friction(delta: float) -> void:
+	var deceleration: float = base_friction * friction_coefficient * (1.0 / mass)
+	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, deceleration * delta)
+	
+func _handle_cell_terrain(_delta: float) -> void:
+	if not world_interface:
 		return
-	if entity is not CharacterBody2D:
-		return
-	if knockback.knockback_velocity.length() > knockback.min_bounce_speed:
-		for i in entity.get_slide_collision_count():
-			var col: KinematicCollision2D = entity.get_slide_collision(i)
-			knockback.knockback_velocity = knockback.knockback_velocity.bounce(col.get_normal()) * knockback.bounce_factor
+			
+
+func _handle_collisions(pre_velocity: Vector2) -> void:
+	for i in entity.get_slide_collision_count():
+		var col := entity.get_slide_collision(i)
+		var normal := col.get_normal()
+		
+		var relative_velocity := col.get_collider_velocity() - physics_velocity
+		var push := relative_velocity.dot(normal)
+		if push > 0:
+			physics_velocity += normal * push
+		
+		if col.get_collider() is StaticBody2D or col.get_collider() is TileMapLayer:
+			print(col.get_collider())
+			if pre_velocity.length() > min_bounce_speed and pre_velocity.dot(normal) < 0.0:
+				physics_velocity = pre_velocity.bounce(normal) * restitution
+

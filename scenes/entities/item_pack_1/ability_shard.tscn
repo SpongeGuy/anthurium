@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://byfchcgmi56pp"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_dgkf4"]
+[ext_resource type="Texture2D" uid="uid://buw70yx4jeygt" path="res://assets/textures/items/shard.png" id="2_8keq8"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="3_vqng3"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="4_6afsf"]
+[ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="5_4sxbx"]
+[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="6_5fcyu"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
+[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="8_8keq8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
+radius = 5.0
+
+[sub_resource type="Resource" id="Resource_eer0l"]
+script = ExtResource("7_xpqok")
+name = &"cycle"
+frames = 4
+speed = 25.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_dgkf4")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1169875588]
+texture = ExtResource("2_8keq8")
+hframes = 4
+
+[node name="PickupableComponent" type="Node" parent="." unique_id=355918229 node_paths=PackedStringArray("components_to_disable")]
+script = ExtResource("5_4sxbx")
+components_to_disable = [NodePath("../CollisionShape2D")]
+metadata/_custom_type_script = "uid://7o5jm15ato3e"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1440640398]
+shape = SubResource("CircleShape2D_ny4fw")
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=304008367 node_paths=PackedStringArray("sprite")]
+script = ExtResource("6_5fcyu")
+sprite = NodePath("../Sprite2D")
+starting_animation = 0
+animations = Array[ExtResource("7_xpqok")]([SubResource("Resource_eer0l")])
+metadata/_custom_type_script = "uid://37f5rafomsw5"
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=434546018 node_paths=PackedStringArray("knockback")]
+script = ExtResource("3_vqng3")
+base_friction = 0.0
+restitution = 0.8
+knockback = NodePath("../KnockbackComponent")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=1773226306]
+script = ExtResource("4_6afsf")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
+
+[node name="AbilityHand" type="Node" parent="." unique_id=189868347]
+script = ExtResource("8_8keq8")
+metadata/_custom_type_script = "uid://dy1nhmegj3sv7"

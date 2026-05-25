@@ -10,10 +10,17 @@ class_name Ability
 
 var entity: Entity
 var manager: AbilityManager
+		
+func dereference() -> void:
+	entity = null
+	manager = null
+	
+func initialize() -> void:
+	manager = get_parent() if get_parent() is AbilityManager else null
+	if manager:
+		entity = manager.entity
+		
 
-func _ready() -> void:
-	manager = get_parent()
-	entity = get_parent().entity
 
 @export var cooldown: float = 0
 @export var cast_time: float = 0
