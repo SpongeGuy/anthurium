@@ -2,14 +2,16 @@
 
 [ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="1_hv3iq"]
 [ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="2_n78go"]
-[ext_resource type="Script" uid="uid://bj82h33km47f1" path="res://scripts/classes/InteractableUI.gd" id="3_1l7tj"]
-[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ui/frame.png" id="3_dp7nh"]
+[ext_resource type="Script" uid="uid://co6s7lhvsqgst" path="res://scripts/classes/ui/AbilityHudElement.gd" id="3_1l7tj"]
+[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability_icons/frame.png" id="3_dp7nh"]
 [ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
-[ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ui/not_icon.png" id="4_dp7nh"]
+[ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ability_icons/not_icon.png" id="4_dp7nh"]
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
 [ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="9_u330w"]
+[ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scenes/systems/ui/toss_zone.gd" id="11_4p43q"]
+[ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability_icons/toss_icon.png" id="12_8rlmo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u330w"]
 font = ExtResource("5_5p38b")
@@ -21,6 +23,7 @@ outline_color = Color(0, 0, 0, 1)
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
 [node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon")]
+z_index = -2
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -58,8 +61,7 @@ color = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 2.0
-offset_bottom = 26.0
+offset_bottom = 24.0
 grow_horizontal = 2
 
 [node name="Columns" type="HBoxContainer" parent="Bar" unique_id=408355486]
@@ -82,16 +84,18 @@ layout_mode = 2
 [node name="Items" type="HBoxContainer" parent="Bar/Columns/C1/HBoxContainer" unique_id=1584995956]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=488223241 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
+[node name="Control" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=1216666682 node_paths=PackedStringArray("ability_icon", "neighbor_left", "neighbor_up", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../Control2")
 script = ExtResource("3_1l7tj")
+ability_icon = NodePath("AbilityIcon1")
 neighbor_left = NodePath("../Control4")
+neighbor_up = NodePath("../../../../../../TossZone")
 neighbor_right = NodePath("../Control2")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
+metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
 [node name="Frame1" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control" unique_id=1889615916]
 texture = ExtResource("3_dp7nh")
@@ -116,7 +120,7 @@ text = "P"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control2" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=713445985 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
+[node name="Control2" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=885210843 node_paths=PackedStringArray("ability_icon", "neighbor_left", "neighbor_up", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -124,9 +128,12 @@ size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Control")
 focus_neighbor_right = NodePath("../Control3")
 script = ExtResource("3_1l7tj")
+slot = 1
+ability_icon = NodePath("AbilityIcon2")
 neighbor_left = NodePath("../Control")
+neighbor_up = NodePath("../../../../../../TossZone")
 neighbor_right = NodePath("../Control3")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
+metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
 [node name="Frame2" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control2" unique_id=1273504481]
 texture = ExtResource("3_dp7nh")
@@ -151,7 +158,7 @@ text = "O"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control3" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=937230516 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
+[node name="Control3" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=557837751 node_paths=PackedStringArray("ability_icon", "neighbor_left", "neighbor_up", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -159,9 +166,12 @@ size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Control2")
 focus_neighbor_right = NodePath("../Control4")
 script = ExtResource("3_1l7tj")
+slot = 2
+ability_icon = NodePath("AbilityIcon3")
 neighbor_left = NodePath("../Control2")
+neighbor_up = NodePath("../../../../../../TossZone")
 neighbor_right = NodePath("../Control4")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
+metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
 [node name="Frame3" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control3" unique_id=1584136444]
 texture = ExtResource("3_dp7nh")
@@ -186,16 +196,19 @@ text = "spc"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
-[node name="Control4" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=1870692241 node_paths=PackedStringArray("neighbor_left", "neighbor_right")]
+[node name="Control4" type="Control" parent="Bar/Columns/C1/HBoxContainer/Items" unique_id=464363769 node_paths=PackedStringArray("ability_icon", "neighbor_left", "neighbor_up", "neighbor_right")]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../Control3")
 script = ExtResource("3_1l7tj")
+slot = 3
+ability_icon = NodePath("AbilityIcon4")
 neighbor_left = NodePath("../Control3")
+neighbor_up = NodePath("../../../../../../TossZone")
 neighbor_right = NodePath("../Control")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
+metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
 [node name="Frame4" type="Sprite2D" parent="Bar/Columns/C1/HBoxContainer/Items/Control4" unique_id=1873495845]
 texture = ExtResource("3_dp7nh")
@@ -234,13 +247,17 @@ size_flags_stretch_ratio = 0.3
 
 [node name="PlayerHealth" type="ProgressBar" parent="Bar/Columns/C2/Control" unique_id=72136630]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -59.0
+offset_top = -4.0
 offset_right = 59.0
-offset_bottom = 8.0
+offset_bottom = 4.0
 grow_horizontal = 2
+grow_vertical = 2
 value = 100.0
 
 [node name="Control3" type="Control" parent="Bar/Columns/C2" unique_id=1293988931]
@@ -250,13 +267,17 @@ size_flags_stretch_ratio = 0.3
 
 [node name="PlayerSaturation" type="ProgressBar" parent="Bar/Columns/C2/Control3" unique_id=45898101]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 offset_left = -59.0
+offset_top = -4.0
 offset_right = 59.0
-offset_bottom = 8.0
+offset_bottom = 4.0
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_2cqfq")
 value = 100.0
 
@@ -361,6 +382,62 @@ offset_top = 28.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Control" type="Control" parent="Menu" unique_id=1560146291]
+anchors_preset = 0
+offset_top = -3.0
+offset_right = 107.0
+offset_bottom = 37.0
+
+[node name="Label" type="Label" parent="Menu/Control" unique_id=1578880859]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -36.0
+offset_right = 36.0
+offset_bottom = 8.0
+grow_horizontal = 2
+text = "ABILITIES"
+vertical_alignment = 1
+
 [node name="Hand" parent="." unique_id=1172565642 node_paths=PackedStringArray("current") instance=ExtResource("9_u330w")]
+z_index = 10
 position = Vector2(13, 25)
 current = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")
+
+[node name="TossZone" type="Control" parent="." unique_id=989109228 node_paths=PackedStringArray("neighbor_down")]
+custom_minimum_size = Vector2(24, 24)
+anchors_preset = 0
+offset_left = 42.0
+offset_top = -30.0
+offset_right = 66.0
+offset_bottom = -6.0
+size_flags_horizontal = 0
+size_flags_vertical = 3
+focus_neighbor_right = NodePath(".")
+script = ExtResource("11_4p43q")
+neighbor_down = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
+
+[node name="Frame1" type="Sprite2D" parent="TossZone" unique_id=251740056]
+texture = ExtResource("3_dp7nh")
+offset = Vector2(12, 12)
+
+[node name="AbilityIcon1" type="Sprite2D" parent="TossZone" unique_id=1769712818]
+texture = ExtResource("12_8rlmo")
+offset = Vector2(12, 12)
+
+[node name="AbilityButton1" type="Label" parent="TossZone" unique_id=1873311905]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "P"
+label_settings = SubResource("LabelSettings_u330w")
+horizontal_alignment = 2

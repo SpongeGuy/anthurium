@@ -9,8 +9,10 @@ class_name AbilityHand
 
 var toss_force: float
 
-
+func initialize() -> void:
+	display_name = "Hand"
 	
+		
 	
 func on_released(hold_duration: float) -> void:
 	if hand.item:

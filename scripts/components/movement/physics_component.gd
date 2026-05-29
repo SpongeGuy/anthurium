@@ -12,6 +12,7 @@ class_name PhysicsComponent
 @export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
+@export var recently_interacted: RecentlyInteracted
 
 var physics_velocity: Vector2 = Vector2.ZERO
 var _accumulated_force: Vector2 = Vector2.ZERO
@@ -66,6 +67,7 @@ func _handle_cell_terrain(_delta: float) -> void:
 
 func _handle_collisions(pre_velocity: Vector2) -> void:
 	for i in entity.get_slide_collision_count():
+		
 		var col := entity.get_slide_collision(i)
 		var normal := col.get_normal()
 		
@@ -75,7 +77,8 @@ func _handle_collisions(pre_velocity: Vector2) -> void:
 			physics_velocity += normal * push
 		
 		if col.get_collider() is StaticBody2D or col.get_collider() is TileMapLayer:
-			print(col.get_collider())
 			if pre_velocity.length() > min_bounce_speed and pre_velocity.dot(normal) < 0.0:
 				physics_velocity = pre_velocity.bounce(normal) * restitution
+		elif col.get_collider() is Entity:
+			recently_interacted.interact(col.get_collider())
 

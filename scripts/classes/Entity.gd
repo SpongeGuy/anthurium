@@ -35,6 +35,7 @@ func add_component(component: Component) -> void:
 	_components[component.get_script()].append(component)
 	component.entity = self
 	component._on_registered()
+	component.registered.emit()
 	
 func get_component(type: Script) -> Variant:
 	if not _components.has(type):
@@ -46,8 +47,6 @@ func get_components(type: Script) -> Variant:
 	if not _components.has(type):
 		return null
 	return _components.get(type)
-
-	
 
 func has_component(type: Script) -> bool:
 	

@@ -5,7 +5,7 @@ class_name AbilityManager
 # interfaces with an inputcomponent to activate abilities
 # -----------------------------------------------
 
-@export var abilities: Array[Ability]
+@export var abilities: Array[Ability] = [null, null, null, null]
 var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
 
@@ -15,6 +15,9 @@ var _disabled: Array[bool] = [false, false, false, false]
 func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
+	for ability in get_children():
+		if ability is Ability:
+			_setup_ability(ability)
 
 func disable(id: int) -> void:
 	_disabled[id] = true
@@ -54,19 +57,43 @@ func get_ability_from_string(action: String) -> Ability:
 		return
 	return abilities[id]
 
-func add_ability(index: int, ability: Ability) -> void:
-	if abilities[index] == null:
+
+func add_ability(ability: Ability) -> void:
+	add_child(ability)
+	_setup_ability(ability)
+	
+func _setup_ability(ability: Ability) -> void:
+	ability.entity = entity
+	ability.manager = self
+	ability.initialize()
+	register_to_nearest_slot(ability)
+	
+func remove_ability(slot: int) -> void:
+	print(abilities[slot])
+	if abilities[slot] == null:
 		return
 	
-	ability.reparent(self)
-	abilities[index] = ability
+	print(abilities[slot])
+	abilities[slot].queue_free()
 	
+	abilities[slot] = null
 	
+
+func register(ability: Ability, slot: int) -> void:
+	if abilities.get(slot):
+		return
+	abilities[slot] = ability
+
+func register_to_nearest_slot(ability: Ability) -> void:
+	var slot: int = -1
+	for i in range(abilities.size()):
+		if abilities.get(i) == null:
+			print("hi ", i)
+			slot = i
+			abilities[slot] = ability
+			return
 	
-func remove_ability(index: int) -> void:
-	if abilities[index] == null:
+	if slot == -1:
 		return
 		
-	abilities[index].queue_free()
-	abilities[index] = null
 	

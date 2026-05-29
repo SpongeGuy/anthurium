@@ -28,11 +28,11 @@
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
-[ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ui/grab_icon.png" id="29_oduj7"]
+[ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
 [ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
-[ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ui/claw_icon.png" id="33_oduj7"]
+[ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 
@@ -238,9 +238,8 @@ metadata/_custom_type_script = "uid://cxdo2n01etkw6"
 script = ExtResource("25_xoj7o")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("abilities", "ichor_component", "input")]
+[node name="AbilityManager" type="Node" parent="." unique_id=168066014 node_paths=PackedStringArray("ichor_component", "input")]
 script = ExtResource("26_s02rk")
-abilities = [NodePath("AbilityHand"), NodePath("AbilitySwipe")]
 ichor_component = NodePath("../Health&Damage/Ichor")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
@@ -253,12 +252,11 @@ cast_time = 2.0
 icon = ExtResource("29_oduj7")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
-[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "locomotion", "sound_player")]
+[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "locomotion")]
 script = ExtResource("29_jr5rt")
 animator = NodePath("../../Swiper/SpriteAnimator")
 hurtbox = NodePath("../../Swiper/Hurtbox")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-sound_player = NodePath("../../Swiper/SoundPlayer")
 icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 

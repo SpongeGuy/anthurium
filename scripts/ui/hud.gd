@@ -53,7 +53,6 @@ func toggle_hud_state() -> State:
 	elif current_state == State.MENU:
 		current_state = State.BAR
 		tween_to_hud_position()
-		
 	return current_state
 
 func tween_to_hud_position() -> void:

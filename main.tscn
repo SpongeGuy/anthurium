@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
 [ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
+[ext_resource type="Texture2D" uid="uid://dybyvdxpxpb" path="res://assets/textures/ability_icons/dot_icon.png" id="6_yaehf"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
 [ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
@@ -23,6 +24,7 @@ shader = ExtResource("12_2cqfq")
 [node name="Main" type="Node" unique_id=1100438637]
 
 [node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator")]
+process_mode = 3
 script = ExtResource("1_dg77c")
 game_canvas = NodePath("../Game")
 dungeon_generator = NodePath("DungeonGenerator")
@@ -44,6 +46,7 @@ script = ExtResource("8_ycdy4")
 hud = NodePath("../../UI/HUD")
 gameview = NodePath("../../UI/GameView")
 screen = NodePath("../../UI/Screen")
+ability_missing = ExtResource("6_yaehf")
 metadata/_custom_type_script = "uid://pmgi17orx2e7"
 
 [node name="WeatherController" type="Node" parent="GameMaster" unique_id=414874107]
@@ -123,6 +126,8 @@ job"
 [node name="Screen" parent="UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
 
 [node name="HUD" parent="UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
+offset_top = 336.0
+offset_bottom = 536.0
 
 [node name="GameView" parent="UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
 

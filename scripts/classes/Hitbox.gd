@@ -4,6 +4,7 @@ class_name Hitbox
 @export var collision_shape: CollisionShape2D
 @export var friends: FriendComponent
 @export var collider_type: Array[ColliderType] = [ColliderType.NORMAL]
+@export var recently_interacted: RecentlyInteracted
 enum ColliderType{NORMAL, FLYING, GROUND}
 const COLLIDER_BITS = [6, 12, 14]
 
@@ -28,6 +29,7 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if friends and friends.is_friend(area.owner):
 		return
 	hit_received.emit(area.damage, area.owner)
+	recently_interacted.interact(area.owner)
 
 
 

@@ -7,7 +7,11 @@
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="5_4sxbx"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="6_5fcyu"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
-[ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="8_8keq8"]
+[ext_resource type="Script" uid="uid://1ywf387jau87" path="res://scripts/components/ability_container.gd" id="9_vqng3"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="10_6afsf"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="11_4sxbx"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="11_5fcyu"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_5fcyu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
 radius = 5.0
@@ -18,6 +22,8 @@ name = &"cycle"
 frames = 4
 speed = 25.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xpqok"]
 
 [node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931]
 texture_filter = 1
@@ -32,7 +38,7 @@ hframes = 4
 
 [node name="PickupableComponent" type="Node" parent="." unique_id=355918229 node_paths=PackedStringArray("components_to_disable")]
 script = ExtResource("5_4sxbx")
-components_to_disable = [NodePath("../CollisionShape2D")]
+components_to_disable = [NodePath("../CollisionShape2D"), NodePath("../RecentlyInteracted")]
 metadata/_custom_type_script = "uid://7o5jm15ato3e"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1440640398]
@@ -45,17 +51,39 @@ starting_animation = 0
 animations = Array[ExtResource("7_xpqok")]([SubResource("Resource_eer0l")])
 metadata/_custom_type_script = "uid://37f5rafomsw5"
 
-[node name="PhysicsComponent" type="Node" parent="." unique_id=434546018 node_paths=PackedStringArray("knockback")]
+[node name="PhysicsComponent" type="Node" parent="." unique_id=434546018 node_paths=PackedStringArray("knockback", "recently_interacted")]
 script = ExtResource("3_vqng3")
 base_friction = 0.0
 restitution = 0.8
 knockback = NodePath("../KnockbackComponent")
+recently_interacted = NodePath("../RecentlyInteracted")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
 [node name="KnockbackComponent" type="Node" parent="." unique_id=1773226306]
 script = ExtResource("4_6afsf")
 metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
-[node name="AbilityHand" type="Node" parent="." unique_id=189868347]
-script = ExtResource("8_8keq8")
-metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
+[node name="AbilityContainer" type="Node" parent="." unique_id=435915172]
+script = ExtResource("9_vqng3")
+metadata/_custom_type_script = "uid://1ywf387jau87"
+
+[node name="AbilityManager" type="Node" parent="." unique_id=595066811 node_paths=PackedStringArray("input")]
+script = ExtResource("10_6afsf")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="InputComponent" type="Node" parent="." unique_id=1295419246]
+script = ExtResource("11_4sxbx")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=1063134860]
+script = ExtResource("11_5fcyu")
+metadata/_custom_type_script = "uid://dqikotd5sv8r6"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=366145633 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("12_5fcyu")
+collision_shape = NodePath("CollisionShape2D2")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" unique_id=958616858]
+shape = SubResource("CircleShape2D_xpqok")

@@ -10,16 +10,14 @@ class_name Ability
 
 var entity: Entity
 var manager: AbilityManager
+var display_name: String = "AbilityName"
 		
 func dereference() -> void:
 	entity = null
 	manager = null
 	
 func initialize() -> void:
-	manager = get_parent() if get_parent() is AbilityManager else null
-	if manager:
-		entity = manager.entity
-		
+	pass
 
 
 @export var cooldown: float = 0
@@ -57,3 +55,7 @@ func execute() -> void:
 ## this is where custom logic for the ability will go
 func _execute() -> void:
 	pass
+
+
+func get_required_components() -> Dictionary:
+	return {}

@@ -1,5 +1,8 @@
 extends _BASE_
 
+func initialize() -> void:
+	pass
+
 func on_pressed() -> void:
 	pass
 	

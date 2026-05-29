@@ -7,12 +7,14 @@ class_name InteractableUI
 @export var neighbor_down: InteractableUI
 
 
-func on_select() -> void:
+func select(hand: Hand) -> void:
 	pass
 	
-func on_activate() -> void:
+func activate(hand: Hand) -> void:
 	pass
 
+func deselect(hand: Hand) -> void:
+	pass
 
 func get_neighbor(direction: Vector2i) -> InteractableUI:
 	match direction:

@@ -5,15 +5,15 @@ class_name UIController
 @export var gameview: UIGameView
 @export var screen: UIScreen
 
+@export var ability_missing: Texture2D
+
 func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
 	GameState.hud = hud
 	
 func _process(delta: float) -> void:
-	if GameState.state != GameState.Status.PLAYING:
-		return
-		
+
 	_update_hud(delta)
 	
 func _on_game_state_changed(status: GameState.Status) -> void:
@@ -34,6 +34,7 @@ func _update_hud(delta: float) -> void:
 	hud.change_aura_score(GameState.aura_score, delta)
 	
 func _update_module_ability_icons() -> void:
+	
 	if not PlayerManager.player:
 		return	
 	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
@@ -41,6 +42,7 @@ func _update_module_ability_icons() -> void:
 		return
 	for i in ability_manager.abilities.size():
 		if not ability_manager.abilities.get(i):
+			hud.ability_icons[i].texture = ability_missing
 			continue
 		hud.ability_icons[i].texture = ability_manager.abilities[i].icon
 		

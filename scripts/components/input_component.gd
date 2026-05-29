@@ -13,6 +13,7 @@ var just_pressed: Array[bool] = [false, false, false, false]
 var hold_time: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var is_held: Array[bool] = [false, false, false, false]
 var just_released: Array[bool] = [false, false, false, false]
+var modifier: bool = false
 
 signal input_just_pressed(id: int)
 signal input_just_released(id: int, held_time: float)

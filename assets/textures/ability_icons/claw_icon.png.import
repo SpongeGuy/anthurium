@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvt6eg4pxqerm"
-path="res://.godot/imported/frame.png-aa5c614c19408c624b24b0823a362907.ctex"
+uid="uid://cgskihl2d35os"
+path="res://.godot/imported/claw_icon.png-d4dcbd8601aee90c91d4b216075bcc0f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/ui/frame.png"
-dest_files=["res://.godot/imported/frame.png-aa5c614c19408c624b24b0823a362907.ctex"]
+source_file="res://assets/textures/ability_icons/claw_icon.png"
+dest_files=["res://.godot/imported/claw_icon.png-d4dcbd8601aee90c91d4b216075bcc0f.ctex"]
 
 [params]
 
