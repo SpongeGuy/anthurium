@@ -31,7 +31,7 @@ func find_nearest_target(from_position: Vector2, facing_direction: Vector2) -> N
 			if not is_instance_valid(target):
 				continue
 
-			if not can_target_self and target == owner:
+			if not can_target_self and target == entity:
 				continue
 				
 			if friends and (not can_target_friends and friends.is_friend(target)):
@@ -80,7 +80,7 @@ func has_line_of_sight(from: Vector2, to: Vector2) -> bool:
 	query.collision_mask = wall_collision_layer
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
-	query.exclude = [owner]
+	query.exclude = [entity]
 	
 	var result = space_state.intersect_ray(query)
 	

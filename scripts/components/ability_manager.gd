@@ -15,6 +15,9 @@ var _disabled: Array[bool] = [false, false, false, false]
 func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
+	
+			
+func _on_registered() -> void:
 	for ability in get_children():
 		if ability is Ability:
 			_setup_ability(ability)
@@ -30,12 +33,13 @@ func _on_input_just_pressed(id: int) -> void:
 		return
 	if _disabled[id]:
 		return
-	abilities[id].on_pressed()
+	
+	abilities[id].on_pressed(input.modifier)
 
 func _on_input_just_released(id: int, held_time: float) -> void:
 	if not abilities.get(id):
 		return
-	abilities[id].on_released(held_time)
+	abilities[id].on_released(held_time, input.modifier)
 
 func _process(delta: float) -> void:
 	for i in range(input.is_held.size()):
@@ -44,7 +48,7 @@ func _process(delta: float) -> void:
 				continue
 			if abilities[i] == null:
 				continue
-			abilities[i].on_held(input.hold_time[i], delta)
+			abilities[i].on_held(input.hold_time[i], delta, input.modifier)
 			
 func get_ability_from_id(id: int) -> Ability:
 	if not abilities[id]:
@@ -56,10 +60,16 @@ func get_ability_from_string(action: String) -> Ability:
 	if not abilities[id]:
 		return
 	return abilities[id]
+	
+# ui hand "grabs" the ui ability from the hud
+# ui hand, while holding the ui ability, activates the drop hud element
+# ability is removed from player (cleaned up extra nodes)
+# ability is transferred to the container of an inert ability shard
+# when ability shard is used, the ability from its container is transferred to the player's ability_manager
 
 
 func add_ability(ability: Ability) -> void:
-	add_child(ability)
+	ability.reparent(self)
 	_setup_ability(ability)
 	
 func _setup_ability(ability: Ability) -> void:
@@ -69,11 +79,10 @@ func _setup_ability(ability: Ability) -> void:
 	register_to_nearest_slot(ability)
 	
 func remove_ability(slot: int) -> void:
-	print(abilities[slot])
 	if abilities[slot] == null:
 		return
 	
-	print(abilities[slot])
+	abilities[slot].clean_up()
 	abilities[slot].queue_free()
 	
 	abilities[slot] = null
@@ -88,7 +97,6 @@ func register_to_nearest_slot(ability: Ability) -> void:
 	var slot: int = -1
 	for i in range(abilities.size()):
 		if abilities.get(i) == null:
-			print("hi ", i)
 			slot = i
 			abilities[slot] = ability
 			return

@@ -33,7 +33,7 @@ func enter() -> void:
 	
 	
 func physics_update(delta: float) -> void:
-	locomotion.movement_function(delta)
+	locomotion.handle_locomotion(delta)
 	# attempt to turn direction
 		# random chance to turn
 	

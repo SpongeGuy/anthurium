@@ -8,7 +8,7 @@ class_name AbilityPelletShoot
 
 @export var charge_time: float = 1.0
 
-func on_pressed() -> void:
+func on_pressed(modifier: bool) -> void:
 	execute()
 	finished.emit()
 

@@ -17,8 +17,8 @@ func enter() -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	await get_tree().physics_frame
-	owner.queue_free()
-	
+	state_machine.entity.queue_free()
+		
 ## called every frame while this state is active
 func update(delta: float) -> void:
 	pass

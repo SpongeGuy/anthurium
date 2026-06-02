@@ -1,6 +1,7 @@
 extends Area2D
 class_name Hurtbox
 
+var entity: Entity
 @export var damage: float
 @export var constant_hurtbox: bool = false
 @export var collision_shape: CollisionShape2D
@@ -27,6 +28,8 @@ func _ready() -> void:
 		collision_shape.disabled = true
 	else:
 		collision_shape.disabled = false
+		
+	entity = Entity.find_entity(self)
 		
 func set_active(value: bool) -> void:
 	collision_shape.disabled = !value

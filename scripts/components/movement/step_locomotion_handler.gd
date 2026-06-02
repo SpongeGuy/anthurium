@@ -15,7 +15,7 @@ signal stepped()
 var just_stepped: bool = false
 var last_velocity: Vector2 = Vector2.ZERO
 
-func movement_function(delta: float) -> void:
+func _movement_function(delta: float) -> void:
 	# lerp velocity to zero always
 	last_velocity = velocity
 	velocity = velocity.move_toward(Vector2.ZERO, delta * friction)

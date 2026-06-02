@@ -5,6 +5,10 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var bar_node: Control
 @export var menu_node: Control
 
+@export var hud_offset_from_bottom: float = 0.0
+@export var menu_offset_from_bottom: float = -100
+@export var animation_speed: float = 0.5
+
 @export var bg_color: ColorRect
 @export var time_label: Label
 @export var time_message_label: Label
@@ -29,10 +33,7 @@ var aura_score: float
 var hud_position: Vector2 = Vector2(0, 332)
 var screen_size: Vector2
 var menu_position: Vector2 = Vector2(0, 0)
-var hud_y: float
-var menu_y: float
 var tween: Tween
-var animation_speed: float = 0.5
 
 enum State{BAR, MENU}
 var current_state: State = State.BAR
@@ -46,29 +47,33 @@ func _create_tween() -> Tween:
 	tween.set_ease(Tween.EASE_OUT)
 	return tween
 	
+func _get_hud_position() -> Vector2:
+	return Vector2(0, screen_size.y - bar_node.size.y - hud_offset_from_bottom)
+
+func _get_menu_position() -> Vector2:
+	return Vector2(0, screen_size.y - bar_node.size.y - menu_node.size.y - menu_offset_from_bottom)
+	
+func _tween_to(target: Vector2) -> void:
+	if tween and tween.is_valid():
+		tween.kill()
+	tween = create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position", target, animation_speed)
+
 func toggle_hud_state() -> State:
 	if current_state == State.BAR:
 		current_state = State.MENU
-		tween_to_menu_position()
-	elif current_state == State.MENU:
+		_tween_to(_get_menu_position())
+	else:
 		current_state = State.BAR
-		tween_to_hud_position()
+		_tween_to(_get_hud_position())
 	return current_state
-
-func tween_to_hud_position() -> void:
-	var t = _create_tween()
-	t.tween_property(self, "position", hud_position, abs(position.y - hud_position.y) / screen_size.y * animation_speed)
-	
-func tween_to_menu_position() -> void:
-	var t = _create_tween()
-	t.tween_property(self, "position", menu_position, abs(position.y - menu_position.y) / screen_size.y * animation_speed)
 
 func _ready() -> void:
 	screen_size = get_viewport().get_visible_rect().size
 	hud_position = Vector2(0, screen_size.y - bar_node.size.y)
 	menu_position = Vector2(0, screen_size.y - (bar_node.size.y + menu_node.size.y))
-	print(hud_position)
-	print(menu_position)
 	tween = get_tree().create_tween()
 	
 	

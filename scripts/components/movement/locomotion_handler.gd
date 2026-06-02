@@ -10,9 +10,13 @@ var velocity: Vector2 = Vector2.ZERO
 func _on_registered() -> void:
 	pass # replace with function body
 
-func movement_function(delta: float) -> void:
-	pass
-
-func _physics_process(delta: float) -> void:
+func handle_locomotion(delta: float) -> Vector2:
 	if disabled:
-		velocity = Vector2.ZERO
+		velocity = lerp(velocity, Vector2.ZERO, 0.25)
+	else:
+		_movement_function(delta)
+	return velocity
+	
+func _movement_function(delta: float) -> void:
+	# override this
+	pass

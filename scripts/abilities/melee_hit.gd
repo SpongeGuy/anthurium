@@ -11,10 +11,10 @@ class_name AbilityMeleeHit
 var _timer: float = 0
 var time_to_use_ability: float = 0.8
 
-func on_pressed() -> void:
+func on_pressed(modifier: bool) -> void:
 	locomotion.disabled = true
 	
-func on_held(hold_duration: float, delta: float) -> void:
+func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
 	_timer += delta
 	if _timer >= time_to_use_ability:
 		_timer = 0 - randf_range(0, 1)
@@ -22,7 +22,7 @@ func on_held(hold_duration: float, delta: float) -> void:
 	
 	sprite.position = floor(sin(GameState.time * 15)) * (Vector2.RIGHT * 2)
 		
-func on_released(hold_duration: float) -> void:
+func on_released(hold_duration: float, modifier: bool) -> void:
 	_timer = 0
 	locomotion.disabled = false
 	sprite.position = Vector2.ZERO

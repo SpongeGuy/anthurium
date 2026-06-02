@@ -14,11 +14,9 @@
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
-[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="15_e47js"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
-[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="19_jr5rt"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="20_m1inn"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
@@ -29,12 +27,10 @@
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
-[ext_resource type="Texture2D" uid="uid://dmnfcvly21u2b" path="res://assets/textures/misc/swice.png" id="30_1hl42"]
-[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="32_y0tv5"]
-[ext_resource type="AudioStream" uid="uid://bhkrufusb7owp" path="res://assets/sounds/effects/slice.wav" id="33_ipt6n"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
 radius = 5.0
@@ -54,17 +50,6 @@ size = Vector2(20, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
 radius = 12.0
-
-[sub_resource type="Resource" id="Resource_1hl42"]
-script = ExtResource("16_v7tyf")
-name = &"swipe"
-frames = 4
-speed = 25.0
-loop = false
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1hl42"]
-size = Vector2(16, 16)
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
@@ -129,14 +114,13 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 script = ExtResource("10_jr5rt")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
+[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "animator")]
 script = ExtResource("10_ypaju")
 navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../../Animation/FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-sound = NodePath("../../Swiper/SoundPlayer")
-animator = NodePath("../../Swiper/SpriteAnimator")
+animator = NodePath("../../Animation/DirectionalSpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="Movement" type="Node" parent="." unique_id=1225028772]
@@ -152,7 +136,7 @@ metadata/_custom_type_script = "uid://c58w8kgm688wm"
 [node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=64145501 node_paths=PackedStringArray("input")]
 script = ExtResource("12_tkxpy")
 input = NodePath("../../InputComponent")
-speed = 100.0
+speed = 75.0
 metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="KnockbackComponent" type="Node" parent="Movement" unique_id=279683997 node_paths=PackedStringArray("health")]
@@ -162,10 +146,11 @@ metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
 
-[node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "friends")]
+[node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "friends", "recently_interacted")]
 script = ExtResource("12_mutx0")
 collision_shape = NodePath("CollisionShape2D")
 friends = NodePath("../FriendComponent")
+recently_interacted = NodePath("../../RecentlyInteracted")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection/Hitbox" unique_id=1487131131]
@@ -252,51 +237,10 @@ cast_time = 2.0
 icon = ExtResource("29_oduj7")
 metadata/_custom_type_script = "uid://dy1nhmegj3sv7"
 
-[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734 node_paths=PackedStringArray("animator", "hurtbox", "locomotion")]
+[node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734]
 script = ExtResource("29_jr5rt")
-animator = NodePath("../../Swiper/SpriteAnimator")
-hurtbox = NodePath("../../Swiper/Hurtbox")
-locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
-
-[node name="Swiper" type="Node2D" parent="." unique_id=81735770 node_paths=PackedStringArray("facing")]
-visible = false
-position = Vector2(0, -4)
-script = ExtResource("18_oduj7")
-facing = NodePath("../Animation/FacingComponent")
-metadata/_custom_type_script = "uid://b2i2svq4b2ia2"
-
-[node name="Swipe" type="Sprite2D" parent="Swiper" unique_id=1045278991]
-position = Vector2(13, 0)
-texture = ExtResource("30_1hl42")
-flip_h = true
-hframes = 4
-frame = 3
-
-[node name="SpriteAnimator" type="Node" parent="Swiper" unique_id=734649612 node_paths=PackedStringArray("sprite")]
-script = ExtResource("15_e47js")
-sprite = NodePath("../Swipe")
-animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_1hl42")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
-
-[node name="Hurtbox" type="Area2D" parent="Swiper" unique_id=648127880 node_paths=PackedStringArray("collision_shape")]
-position = Vector2(0, -4)
-script = ExtResource("19_jr5rt")
-damage = 1.0
-collision_shape = NodePath("CollisionShape2D")
-metadata/_custom_type_script = "uid://d4dkusgurvri8"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Swiper/Hurtbox" unique_id=617587324]
-position = Vector2(13, 0)
-shape = SubResource("RectangleShape2D_1hl42")
-
-[node name="SoundPlayer" type="Node" parent="Swiper" unique_id=1269937390]
-script = ExtResource("32_y0tv5")
-possible_sounds = Array[AudioStream]([ExtResource("33_ipt6n")])
-pitch_min = 0.9
-pitch_max = 1.1
-metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")
@@ -307,5 +251,9 @@ metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 path_desired_distance = 4.0
 target_desired_distance = 25.0
 path_postprocessing = 1
+
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=1143706444]
+script = ExtResource("36_vl5tg")
+metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

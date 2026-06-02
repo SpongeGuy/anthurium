@@ -20,6 +20,7 @@ var holding: Dictionary = {}
 
 var activation_sound: AudioStream = load("res://assets/sounds/effects/pickup.wav")
 var place_sound: AudioStream = load("res://assets/sounds/effects/align.wav")
+var toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -120,3 +121,16 @@ func drop_ability() -> void:
 	
 	change_state(State.HOVER_OVER_ACTIVATEABLE)
 	selected_element.select(self)
+
+func toss_ability() -> void:
+	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", PlayerManager.player.global_position)
+	var container: AbilityContainer = shard.get_component(AbilityContainer)
+	container.add_child(holding.ability)
+	
+	grabbed_sprite.texture = null
+	holding.ability.clean_up()
+	holding.ability.queue_free()
+	holding.ability = null
+	label.text = ""
+	current_state = Hand.State.HOVER_OVER_ACTIVATEABLE
+	AudioManager.play_sound(toss_sound)

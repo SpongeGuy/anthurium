@@ -54,12 +54,15 @@ func pick_up_item(body: Entity) -> void:
 		return
 	
 	var body_pickupable: PickupableComponent = body.get_component(PickupableComponent)
+	var body_physics: PhysicsComponent = body.get_component(PhysicsComponent)
 	if not body_pickupable:
 		return
 	
 	body_pickupable.toggle_held(entity)
 	item = body
 	item_picked_up.emit(item, entity)
+	if body_physics:
+		body_physics.clear_velocity()
 	var ri: RecentlyInteracted = item.get_component(RecentlyInteracted)
 	if ri:
 		ri.interact(entity)
@@ -68,11 +71,11 @@ func pick_up_item(body: Entity) -> void:
 func toss_item(direction: Vector2, force: float) -> void:
 	if not item:
 		return
-	var kb: KnockbackComponent = item.get_component(KnockbackComponent)
+	var kb: PhysicsComponent = item.get_component(PhysicsComponent)
 	
 	item.position += direction * throw_tp_distance
 	if kb:
-		kb.apply_knockback(direction, force * 10)
+		kb.apply_impulse(direction, force * 10)
 	let_go_of_item()
 
 	

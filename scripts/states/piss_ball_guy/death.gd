@@ -10,7 +10,7 @@ func enter() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 	# yeah this is bad but idk man whatever fuck it we ball seriously
-	owner.queue_free()
+	state_machine.entity.queue_free()
 	
 ## called every frame while this state is active
 func update(delta: float) -> void:

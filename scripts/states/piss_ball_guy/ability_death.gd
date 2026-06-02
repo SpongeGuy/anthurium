@@ -1,11 +1,17 @@
 extends BehaviorState
-class_name AnthuriumDeathState
+class_name AbilityDeathState
+
+@export var input: InputComponent
+@export var ability_to_use: int = 0
 
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
 	for child in state_machine.entity.get_children():
 		if child is Area2D:
-			child.monitorable = false
+			child.set_deferred("monitorable", false)
+			
+	input.press_action(ability_to_use)
+	input.release_action(ability_to_use)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	await get_tree().process_frame

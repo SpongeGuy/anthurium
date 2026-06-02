@@ -31,8 +31,6 @@ func physics_update(delta: float) -> void:
 	_apply_friction(delta)
 	_handle_cell_terrain(delta)
 	
-	if knockback:
-		physics_velocity += knockback.consume_velocity()
 		
 	var pre_slide_velocity: Vector2 = physics_velocity
 		

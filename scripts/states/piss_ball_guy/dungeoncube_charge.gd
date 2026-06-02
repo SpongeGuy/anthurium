@@ -23,7 +23,7 @@ func update(delta: float) -> void:
 	
 func physics_update(delta: float) -> void:
 	input.move_input_direction = facing.get_direction()
-	locomotion.movement_function(delta)
+	locomotion.handle_locomotion(delta)
 	
 func exit() -> void:
 	hurtbox.set_active(false)

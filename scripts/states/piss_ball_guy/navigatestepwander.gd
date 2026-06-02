@@ -26,7 +26,7 @@ func update(delta: float) -> void:
 	pass
 	
 func physics_update(delta: float) -> void:
-	locomotion.movement_function(delta)
+	locomotion.handle_locomotion(delta)
 	# get next nav point
 		# if no next nav point, then create a new navigation goal
 	if not input.player_controlled:

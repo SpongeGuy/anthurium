@@ -36,6 +36,11 @@ func _process(_delta: float) -> void:
 			input.press_action(id)
 		if Input.is_action_just_released(input.actions[id]):
 			input.release_action(id)
+		
+		if Input.is_action_just_pressed("modifier"):
+			input.press_modifier()
+		if Input.is_action_just_released("modifier"):
+			input.release_modifier()
 			
 	input.move_input_direction = Input.get_vector("west", "east", "north", "south")
 	

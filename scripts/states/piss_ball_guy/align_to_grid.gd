@@ -34,7 +34,7 @@ func physics_update(delta: float) -> void:
 	var distance: float = state_machine.entity.global_position.distance_to(safe_pos)
 	locomotion.speed = clampf(distance / 32.0, 25, 100.0)
 	
-	locomotion.movement_function(delta)
+	locomotion.handle_locomotion(delta)
 	
 func exit() -> void:
 	_timer = 0

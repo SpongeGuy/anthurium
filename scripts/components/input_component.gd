@@ -3,6 +3,8 @@ class_name InputComponent
 
 # -------------------------------------------------------------
 # checks every frame for certain user inputs.
+# these functions are either called from PlayerManager, a singleton
+# or they are called from BehaviorStates.
 # ------------------------------------------------------------
 
 
@@ -17,6 +19,8 @@ var modifier: bool = false
 
 signal input_just_pressed(id: int)
 signal input_just_released(id: int, held_time: float)
+signal modifier_just_pressed
+signal modifier_just_released
 
 var player_controlled: bool = false
 
@@ -36,7 +40,6 @@ func press_action(id: int) -> void:
 	await get_tree().process_frame
 	just_pressed[id] = false
 
-
 func release_action(id: int) -> void:
 	if is_held[id] == false:
 		return
@@ -45,3 +48,11 @@ func release_action(id: int) -> void:
 	input_just_released.emit(id, hold_time[id])
 	await get_tree().process_frame
 	just_released[id] = false
+
+func press_modifier() -> void:
+	modifier = true
+	modifier_just_pressed.emit()
+	
+func release_modifier() -> void:
+	modifier = false
+	modifier_just_released.emit()

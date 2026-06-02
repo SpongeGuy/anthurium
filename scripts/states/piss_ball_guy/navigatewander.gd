@@ -6,13 +6,13 @@ class_name PathfindWandererState
 @export var input: InputComponent
 @export var locomotion: LocomotionHandler
 @export var sound: SoundPlayer
-@export var animator: SpriteAnimator
+@export var animator: DirectionalSpriteAnimator
 
 @export var radius: float = 100
 
 func enter() -> void:
 	if animator:
-		animator.load_and_reset_animation("wander")
+		animator.load_and_reset_animation("walk")
 	
 func update(delta: float) -> void:
 	pass
@@ -28,9 +28,11 @@ func physics_update(delta: float) -> void:
 		facing.change_direction(next_point)
 		
 		input.move_input_direction 	= (facing.get_direction())
-	locomotion.movement_function(delta)
+	var velocity: Vector2 = locomotion.handle_locomotion(delta)
+	animator.animation_speed_modifier = velocity.length() / locomotion.speed
 	# turn towards nav point
 	# move continuously towards facing direction
+	
 	
 func exit() -> void:
 	pass

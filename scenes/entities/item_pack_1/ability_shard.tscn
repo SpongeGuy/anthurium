@@ -7,11 +7,20 @@
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="5_4sxbx"]
 [ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="6_5fcyu"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
+[ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="9_ny4fw"]
 [ext_resource type="Script" uid="uid://1ywf387jau87" path="res://scripts/components/ability_container.gd" id="9_vqng3"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="10_6afsf"]
+[ext_resource type="Script" uid="uid://b420r8tw5oyu6" path="res://scripts/abilities/ability_shard_use.gd" id="10_xpqok"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="11_4sxbx"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="11_5fcyu"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_5fcyu"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="15_eer0l"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="16_gnawu"]
+[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="17_27l84"]
+[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/ability_death.gd" id="18_gnawu"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="18_r3st6"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="20_gbc8y"]
+[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="21_mvwcn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
 radius = 5.0
@@ -53,24 +62,34 @@ metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="PhysicsComponent" type="Node" parent="." unique_id=434546018 node_paths=PackedStringArray("knockback", "recently_interacted")]
 script = ExtResource("3_vqng3")
-base_friction = 0.0
+base_friction = 300.0
 restitution = 0.8
 knockback = NodePath("../KnockbackComponent")
 recently_interacted = NodePath("../RecentlyInteracted")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
-[node name="KnockbackComponent" type="Node" parent="." unique_id=1773226306]
+[node name="KnockbackComponent" type="Node" parent="." unique_id=1773226306 node_paths=PackedStringArray("physics")]
 script = ExtResource("4_6afsf")
+physics = NodePath("../PhysicsComponent")
 metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
 [node name="AbilityContainer" type="Node" parent="." unique_id=435915172]
 script = ExtResource("9_vqng3")
 metadata/_custom_type_script = "uid://1ywf387jau87"
 
+[node name="AbilitySwipe" type="Node" parent="AbilityContainer" unique_id=717913955]
+script = ExtResource("9_ny4fw")
+metadata/_custom_type_script = "uid://bn7rbs36wuutg"
+
 [node name="AbilityManager" type="Node" parent="." unique_id=595066811 node_paths=PackedStringArray("input")]
 script = ExtResource("10_6afsf")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="AbilityShardUse" type="Node" parent="AbilityManager" unique_id=1217008420 node_paths=PackedStringArray("recently_interacted")]
+script = ExtResource("10_xpqok")
+recently_interacted = NodePath("../../RecentlyInteracted")
+metadata/_custom_type_script = "uid://b420r8tw5oyu6"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1295419246]
 script = ExtResource("11_4sxbx")
@@ -80,10 +99,55 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 script = ExtResource("11_5fcyu")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=366145633 node_paths=PackedStringArray("collision_shape")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=366145633 node_paths=PackedStringArray("collision_shape", "recently_interacted", "knockback")]
 script = ExtResource("12_5fcyu")
 collision_shape = NodePath("CollisionShape2D2")
+recently_interacted = NodePath("../RecentlyInteracted")
+knockback = NodePath("../KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" unique_id=958616858]
 shape = SubResource("CircleShape2D_xpqok")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1077872555 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("16_gnawu")
+initial_state = NodePath("EmptyState")
+death_state = NodePath("AbilityDeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="EmptyState" type="Node" parent="StateMachine" unique_id=1090441562]
+script = ExtResource("17_27l84")
+metadata/_custom_type_script = "uid://se8p70tr1prj"
+
+[node name="AbilityDeathState" type="Node" parent="StateMachine" unique_id=388598118 node_paths=PackedStringArray("input")]
+script = ExtResource("18_gnawu")
+input = NodePath("../../InputComponent")
+metadata/_custom_type_script = "uid://mec4gvle4nkh"
+
+[node name="Health&Damage" type="Node" parent="." unique_id=1575843158]
+
+[node name="Ichor" type="Node" parent="Health&Damage" unique_id=1098283484]
+script = ExtResource("18_r3st6")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1362790502 node_paths=PackedStringArray("hitbox")]
+script = ExtResource("15_eer0l")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../Hitbox")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=972566010 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("20_gbc8y")
+flash_duration = 0.5
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=2049314686 node_paths=PackedStringArray("state_machine", "state")]
+script = ExtResource("21_mvwcn")
+state_machine = NodePath("../../StateMachine")
+state = NodePath("../../StateMachine/AbilityDeathState")
+metadata/_custom_type_script = "uid://ibgyf864g08i"
+
+[connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

@@ -30,7 +30,7 @@ var _timer: float = 0.0
 
 var stopped: bool = false
 
-var animation_speed_modifier: float = 0
+var animation_speed_modifier: float = 1
 
 signal animation_loaded(animation: SpriteAnimation)
 signal frame_elapsed(to: int)
@@ -46,8 +46,9 @@ func load_animation(animation_name: StringName) -> void:
 			continue
 		_current_animation = animation
 	if not _current_animation:
-		return
+		push_error("animation does not exist!")
 	play()
+	print(_current_animation)
 	row = _current_animation.row
 	animation_loaded.emit(_current_animation)
 	
@@ -62,7 +63,7 @@ func _update_animation(delta: float, modifier: float = 1.0) -> void:
 	
 	if not stopped:
 		_timer += delta * _current_animation.speed * modifier
-	
+		
 	old_frame = current_frame
 	if _timer >= _current_animation.frames:
 		if _current_animation.loop:
