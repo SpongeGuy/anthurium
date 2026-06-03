@@ -18,12 +18,9 @@
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="13_qof2d"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_jdulc"]
 [ext_resource type="Script" uid="uid://73th15n3ad82" path="res://scripts/lobes/fight_react_nearby_lobe.gd" id="14_wj8bu"]
-[ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="15_13cjv"]
-[ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="16_21rfk"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="17_1xu5n"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="18_0ykhc"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_im73k"]
-[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="20_5gaso"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="21_nqb72"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_ohxw4"]
 [ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="23_a70ne"]
@@ -36,7 +33,9 @@
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_y1fiq"]
 [ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="32_ifktw"]
 [ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="33_rjj46"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="35_ryjnm"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="36_ryjnm"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="37_ys8ef"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="38_ys8ef"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0
@@ -84,13 +83,12 @@ initial_state = NodePath("WandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "locomotion", "player", "obstruction", "exit_state")]
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "locomotion", "obstruction", "exit_state")]
 script = ExtResource("6_jf7qm")
 proximity = NodePath("../../../Bullshit/ProximityDetectorDot")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
-player = NodePath("../../../Bullshit/SoundPlayer")
 obstruction = NodePath("../../../Bullshit/ObstructionDetector")
 exit_state = NodePath("../PathfindWandererState")
 metadata/_custom_type_script = "uid://c0arw8ng1qxb0"
@@ -100,24 +98,23 @@ script = ExtResource("7_wj8bu")
 input = NodePath("../../InputComponent")
 metadata/_custom_type_script = "uid://nd4dqg4v5t8d"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "exit_state", "sound")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=1082818175 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "exit_state")]
 script = ExtResource("8_4omx6")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 exit_state = NodePath("../WandererState")
-sound = NodePath("../../../Bullshit/SoundPlayer")
 metadata/_custom_type_script = "uid://bmyd8pplkim7y"
 
-[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "sprite", "default_state")]
+[node name="FaceTargetUseAbilityState" type="Node" parent="Behavior/StateMachine" unique_id=1718757046 node_paths=PackedStringArray("memory", "facing", "abilities", "input", "default_state", "locomotion")]
 script = ExtResource("9_7eqra")
 memory = NodePath("../../Memory")
 facing = NodePath("../../FacingComponent")
 abilities = NodePath("../../../AbilityManager")
 input = NodePath("../../InputComponent")
-sprite = NodePath("../../../Rotator/Sprite2D")
 default_state = NodePath("../WandererState")
+locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://ym7engi512o4"
 
 [node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=873574476]
@@ -170,10 +167,11 @@ metadata/_custom_type_script = "uid://d4dkusgurvri8"
 position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_vh157")
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape", "friends")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape", "friends", "knockback")]
 script = ExtResource("14_jdulc")
 collision_shape = NodePath("CollisionShape2D")
 friends = NodePath("../Bullshit/FriendComponent")
+knockback = NodePath("../Movement/KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1756906287]
@@ -185,12 +183,6 @@ shape = SubResource("CircleShape2D_sv7g5")
 shape = SubResource("CircleShape2D_g233v")
 
 [node name="Bullshit" type="Node" parent="." unique_id=972292506]
-
-[node name="SoundPlayer" type="Node" parent="Bullshit" unique_id=342820092 node_paths=PackedStringArray("visibility")]
-script = ExtResource("15_13cjv")
-possible_sounds = Array[AudioStream]([ExtResource("16_21rfk")])
-visibility = NodePath("../Visibility/VisibilityComponent")
-metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [node name="ProximityDetectorDot" type="Node" parent="Bullshit" unique_id=557178342 node_paths=PackedStringArray("area")]
 script = ExtResource("17_1xu5n")
@@ -237,10 +229,11 @@ state_machine = NodePath("../../../Behavior/StateMachine")
 state = NodePath("../../../Behavior/StateMachine/DeathState")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
-[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite")]
+[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
 script = ExtResource("24_inx30")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../../Rotator/Sprite2D")
+visibility = NodePath("../../Visibility/VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]
@@ -289,20 +282,26 @@ metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="Movement" type="Node" parent="." unique_id=779340566]
 
-[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=862999370 node_paths=PackedStringArray("knockback", "locomotion")]
-script = ExtResource("35_ryjnm")
-knockback = NodePath("../KnockbackComponent")
-locomotion = NodePath("../StepLocomotionHandler")
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
-
 [node name="StepLocomotionHandler" type="Node" parent="Movement" unique_id=1530765621 node_paths=PackedStringArray("input")]
 script = ExtResource("3_gn113")
 input = NodePath("../../Behavior/InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 
-[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=1578553913 node_paths=PackedStringArray("health")]
-script = ExtResource("20_5gaso")
-health = NodePath("../../Bullshit/Healthstuff/HealthComponent")
-metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=362739426 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("36_ryjnm")
+locomotion = NodePath("../StepLocomotionHandler")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=1487879728 node_paths=PackedStringArray("physics")]
+script = ExtResource("37_ys8ef")
+knockback_scale = 2.5
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
+
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=121048512 node_paths=PackedStringArray("physics", "hitbox")]
+script = ExtResource("38_ys8ef")
+physics = NodePath("../Movement/PhysicsComponent")
+hitbox = NodePath("../Hitbox")
+metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
 [connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

@@ -40,7 +40,13 @@ func _update_module_ability_icons() -> void:
 	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
 	if not ability_manager:
 		return
+		
+	var hand: Hand = hud.hand
+	var held_slot: int = hand.holding.get("slot", -1) if hand.current_state == Hand.State.HOLDING else -1
 	for i in ability_manager.abilities.size():
+		if i == held_slot:
+			hud.ability_icons[i].texture = ability_missing
+			continue
 		if not ability_manager.abilities.get(i):
 			hud.ability_icons[i].texture = ability_missing
 			continue

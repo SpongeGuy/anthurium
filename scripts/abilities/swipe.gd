@@ -5,7 +5,6 @@ class_name AbilitySwipe
 
 @export var animator: SpriteAnimator
 @export var hurtbox: Hurtbox
-@export var sound_player: SoundPlayer
 @export var rotator: Rotator
 
 
@@ -30,39 +29,33 @@ func initialize() -> void:
 		rotator.facing = facing
 		rotator.position = Vector2(0, -4)
 		
+		created_nodes.append(rotator)
+		
 		
 		entity.add_child(rotator)
-	
-	# create sound player
-	if not sound_player:
-		sound_player = SoundPlayer.new()
-		created_nodes.append(sound_player)
-		var visibility: VisibilityComponent = entity.get_component(VisibilityComponent)
-		if visibility:
-			sound_player.visibility = visibility
-		sound_player.pitch_min = 0.9
-		sound_player.pitch_max = 1.1
-		sound_player.possible_sounds.append(swipe_sound)
-		
-		entity.add_component(rotator, sound_player)
 		
 	
 	# create animator
 	if not animator:
 		animator = SpriteAnimator.new()
-		created_nodes.append(sound_player)
 		var sprite: Sprite2D = Sprite2D.new()
 		sprite.hframes = 4
 		sprite.flip_h = true
 		sprite.frame = 3
 		sprite.position = Vector2(13, 0)
+		sprite.texture = swipe_texture
 		animator.sprite = sprite
+		
+		rotator.add_child(sprite)
+		
 		var animation: SpriteAnimation = SpriteAnimation.new()
 		animation.name = &"swipe"
 		animation.frames = 4
 		animation.speed = 25
 		animation.loop = false
 		animator.animations.append(animation)
+		
+		created_nodes.append(animator)
 		
 		entity.add_component(rotator, animator)
 		
@@ -78,6 +71,7 @@ func initialize() -> void:
 		hurtbox.damage = 1
 		hurtbox.collision_shape = collision_shape
 		hurtbox.add_child(collision_shape)
+		
 		created_nodes.append(hurtbox)
 		
 		rotator.add_child(hurtbox)
@@ -87,9 +81,8 @@ func initialize() -> void:
 
 func on_pressed(modifier: bool) -> void:
 	animator.load_and_reset_animation("swipe")
-	sound_player.play_sound()
+	AudioManager.play_entity_sound([swipe_sound], entity)
 	locomotion.disabled = true
-	print(locomotion)
 	await hurtbox.activate(0.0, 0.2)
 	locomotion.disabled = false
 	

@@ -8,7 +8,7 @@ class_name HandComponent
 @export var pickup_area: Area2D
 @export var picked_location: Node2D
 ## the item is teleported a distance away from the entity so that it doesn't get stuck on its collidion box
-@export var throw_tp_distance: float = 16
+@export var throw_tp_distance: float = 5
 
 signal item_picked_up(item: Entity, by: Entity)
 

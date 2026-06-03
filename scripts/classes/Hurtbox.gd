@@ -4,6 +4,7 @@ class_name Hurtbox
 var entity: Entity
 @export var damage: float
 @export var constant_hurtbox: bool = false
+@export var can_hurt_self: bool = false
 @export var collision_shape: CollisionShape2D
 @export var collider_type: Array[ColliderType] = [ColliderType.NORMAL]
 enum ColliderType{NORMAL, FLYING, GROUND}
@@ -13,7 +14,14 @@ var tween: Tween
 
 signal activated
 
+func _enter_tree() -> void:
+	if constant_hurtbox:
+		set_active(true)
+	else:
+		set_active(false)
+
 func _ready() -> void:
+	name = "Hurtbox"
 	if collider_type.is_empty():
 		push_error("Collider type for hitbox cannot be empty!")
 	
@@ -22,17 +30,13 @@ func _ready() -> void:
 	for type in collider_type:
 		collision_layer |= 1 << COLLIDER_BITS[type] + 1
 		collision_mask |= 1 << COLLIDER_BITS[type]
-	
-	
-	if not constant_hurtbox:
-		collision_shape.disabled = true
-	else:
-		collision_shape.disabled = false
-		
 	entity = Entity.find_entity(self)
+	
+
 		
 func set_active(value: bool) -> void:
 	collision_shape.disabled = !value
+	
 
 func activate_in_time_range(value: float, min: float, max: float) -> void:
 	if value > min and value < max:
@@ -41,11 +45,15 @@ func activate_in_time_range(value: float, min: float, max: float) -> void:
 		collision_shape.disabled = true
 
 func activate(start: float, end: float) -> Signal:
+
 	if tween: 
 		tween.kill()
 	collision_shape.disabled = true
 	activated.emit()
 	tween = create_tween()
-	tween.tween_callback(func(): collision_shape.disabled = false).set_delay(start)
+	tween.tween_callback(_enable_shape).set_delay(start)
 	tween.tween_callback(func(): collision_shape.disabled = true).set_delay(end - start)
 	return tween.finished
+
+func _enable_shape() -> void:
+	collision_shape.disabled = false

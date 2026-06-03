@@ -24,12 +24,12 @@ var created_nodes: Array[Node] = []
 ## Frees all runtime-created nodes and clears entity and manager references.
 ## Called automatically when the ability is removed or transferred.
 func clean_up() -> void:
-	
 	var count: int = 0
 	
 	for node in created_nodes:
 		count += 1
 		node.queue_free()
+	created_nodes.clear()
 	print("cleaned up ", count, " nodes from ", entity)
 	
 	entity = null
@@ -40,6 +40,9 @@ func clean_up() -> void:
 ## Append runtime-created nodes to [member created_nodes].
 func initialize() -> void:
 	pass
+	
+func _ready() -> void:
+	finished.connect(_start_cooldown)
 
 ## Time in seconds before this ability can be used again after [method execute] is called.
 @export var cooldown: float = 0
@@ -85,6 +88,8 @@ func execute() -> void:
 	if _cd > 0.0:
 		return
 	_execute()
+
+func _start_cooldown() -> void:
 	_cd = cooldown
 
 ## The internal execution logic. Override this in subclasses to define what the ability does.

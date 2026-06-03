@@ -95,8 +95,9 @@ func grab_ability() -> void:
 	if not ability_manager.abilities.get(selected_element.slot):
 		return
 	holding.ability = ability_manager.abilities[selected_element.slot]
-	ability_manager.abilities[selected_element.slot] = null
 	holding.slot = selected_element.slot
+	#ability_manager.abilities[selected_element.slot] = null
+	
 	grabbed_sprite.texture = selected_element.ability_icon.texture
 	AudioManager.play_sound(activation_sound)
 	change_state(State.HOLDING)
@@ -110,27 +111,33 @@ func drop_ability() -> void:
 	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
 	if not ability_manager:
 		return
+	
 	var swap = ability_manager.abilities[selected_element.slot]
 	ability_manager.abilities[selected_element.slot] = holding.ability
 	if selected_element.slot != holding.slot:
 		ability_manager.abilities[holding.slot] = swap
+	
 	holding.ability = null
+	holding.erase("slot")
 	
 	grabbed_sprite.texture = null
 	AudioManager.play_sound(place_sound)
-	
 	change_state(State.HOVER_OVER_ACTIVATEABLE)
 	selected_element.select(self)
 
 func toss_ability() -> void:
-	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", PlayerManager.player.global_position)
-	var container: AbilityContainer = shard.get_component(AbilityContainer)
-	container.add_child(holding.ability)
+	if not holding.has("ability") or not holding.has("slot"):
+		return
+	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
+	if not ability_manager:
+		return
+	
+	ability_manager.abilities[holding.slot] = null
+	ability_manager.drop_ability_shard_from_ability(holding.ability, PlayerManager.player.global_position)
 	
 	grabbed_sprite.texture = null
-	holding.ability.clean_up()
-	holding.ability.queue_free()
 	holding.ability = null
+	holding.erase("slot")
 	label.text = ""
 	current_state = Hand.State.HOVER_OVER_ACTIVATEABLE
 	AudioManager.play_sound(toss_sound)

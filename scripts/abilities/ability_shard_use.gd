@@ -25,7 +25,6 @@ func on_pressed(modifier: bool) -> void:
 		for ability in ability_container.abilities:
 			
 			if ability:
-				print(" absorbing you", ability)
 				ability_manager.add_ability(ability)
 	entity.queue_free()
 	

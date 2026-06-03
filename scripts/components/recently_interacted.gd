@@ -8,8 +8,8 @@ class_name RecentlyInteracted
 # other scripted components will have to interact with this component manually.
 # -----------------------------------------
 
-@export var proximity_area: ProximityDetector
-@export var collider: CollisionShape2D
+@export var physics: PhysicsComponent
+@export var hitbox: Hitbox
 
 @export var expire_time: float = 3
 var _timer: float = 0.0
@@ -17,11 +17,17 @@ var recently_interacted: Entity
 
 
 func _ready() -> void:
-	if proximity_area:
-		proximity_area.detected.connect(_on_detected)
+	if physics:
+		physics.entity_collision.connect(_on_collision)
+	if hitbox:
+		hitbox.hit_received.connect(_on_harmed)
 	
-func _on_detected(source: Entity, other: Entity) -> void:
-	interact(other)
+func _on_collision(source: Entity) -> void:
+	interact(source)
+	
+func _on_harmed(damage_amount: float, source: Node2D) -> void:
+	if source is Entity:
+		interact(source)
 
 func _process(delta: float) -> void:
 	if _timer > 0:

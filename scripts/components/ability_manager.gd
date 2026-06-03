@@ -78,14 +78,33 @@ func _setup_ability(ability: Ability) -> void:
 	ability.initialize()
 	register_to_nearest_slot(ability)
 	
-func remove_ability(slot: int) -> void:
+func remove_ability(slot: int) -> Ability:
 	if abilities[slot] == null:
 		return
+	
+	var ability: Ability = abilities[slot]
 	
 	abilities[slot].clean_up()
 	abilities[slot].queue_free()
 	
 	abilities[slot] = null
+	return ability
+	
+
+func drop_ability_shard_from_ability(ability: Ability, position: Vector2) -> void:
+	ability.clean_up()
+	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", position)
+	var container: AbilityContainer = shard.get_component(AbilityContainer)
+	container.add_ability.call_deferred(ability)
+	
+
+func drop_ability_shard(slot: int, position: Vector2) -> void:
+	var ability: Ability = abilities[slot]
+	if ability == null:
+		return
+	abilities[slot] = null
+	drop_ability_shard_from_ability(ability, position)
+	
 	
 
 func register(ability: Ability, slot: int) -> void:

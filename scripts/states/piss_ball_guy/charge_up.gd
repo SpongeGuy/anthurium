@@ -4,25 +4,31 @@ class_name GatherEnergyState
 
 @export var time_min: float = 1.0
 @export var time_max: float = 2.0
-@export var sound: SoundPlayer
 @export var input: InputComponent
 @export var facing: FacingComponent
 @export var ability_to_use: int = 0
 @export var ability_manager: AbilityManager
 @export var locomotion: LocomotionHandler
-
 @export var next_state: BehaviorState
+@export var sounds: Array[AudioStream] = [
+	preload("res://assets/sounds/effects/dcube/machine_agree(1).wav"),
+	preload("res://assets/sounds/effects/dcube/machine_agree(2).wav"),
+	preload("res://assets/sounds/effects/dcube/machine_agree(3).wav"),
+	]
+
+
 
 var _timer: float = 0.0
 
 func enter() -> void:
 	randomize()
 	_timer = randf_range(time_min, time_max)
-	sound.play_sound()
+	AudioManager.play_entity_sound(sounds, state_machine.entity)
 	if not input.player_controlled:
 		randomly_change_direction()
 		
 	locomotion.disabled = true
+	ability_manager.abilities[ability_to_use].finished.connect(_change_state)
 	
 func update(delta: float) -> void:
 	_timer -= delta
@@ -31,16 +37,19 @@ func update(delta: float) -> void:
 		if not input.player_controlled:
 			input.press_action(ability_to_use)
 			input.release_action(ability_to_use)
-		
+			_timer = 1000
 	
 func physics_update(delta: float) -> void:
 	input.move_input_direction = (Vector2.ZERO)
 
+func _change_state() -> void:
+	state_machine.switch(next_state)
 
 func exit() -> void:
 	input.release_action(ability_to_use)
 	ability_manager.disable(ability_to_use)
 	locomotion.disabled = false
+	ability_manager.abilities[ability_to_use].finished.disconnect(_change_state)
 
 
 func randomly_change_direction() -> void:

@@ -133,11 +133,12 @@ health = 50.0
 hitbox = NodePath("../../Hitbox")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=535272444 node_paths=PackedStringArray("health_component", "sprite")]
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=535272444 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
 script = ExtResource("18_gtbi7")
 flash_duration = 0.5
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
+visibility = NodePath("../../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=658984864 node_paths=PackedStringArray("state_machine", "state")]

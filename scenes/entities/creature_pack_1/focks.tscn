@@ -10,15 +10,15 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
-[ext_resource type="Script" uid="uid://c58w8kgm688wm" path="res://scripts/components/movement/physics_component_deprecated.gd" id="11_1hl42"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="12_qcr3t"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="13_3qtpx"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
-[ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="20_m1inn"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
@@ -27,6 +27,8 @@
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
+[ext_resource type="Script" uid="uid://cini61n7sdso5" path="res://scripts/abilities/dcube_rush.gd" id="30_3qtpx"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="32_qcr3t"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
@@ -91,11 +93,12 @@ health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite")]
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
 script = ExtResource("5_xoj7o")
 flash_duration = 0.5
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Visual/Main")
+visibility = NodePath("../../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432 node_paths=PackedStringArray("state_machine", "state")]
@@ -114,24 +117,16 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 script = ExtResource("10_jr5rt")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "animator")]
+[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "directional_animator")]
 script = ExtResource("10_ypaju")
 navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../../Animation/FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-animator = NodePath("../../Animation/DirectionalSpriteAnimator")
+directional_animator = NodePath("../../Animation/DirectionalSpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="Movement" type="Node" parent="." unique_id=1225028772]
-
-[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1644116155 node_paths=PackedStringArray("knockback", "world_interface", "locomotion")]
-script = ExtResource("11_1hl42")
-friction = 1000.0
-knockback = NodePath("../KnockbackComponent")
-world_interface = NodePath("../../WorldInterface")
-locomotion = NodePath("../NormalLocomotionHandler")
-metadata/_custom_type_script = "uid://c58w8kgm688wm"
 
 [node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=64145501 node_paths=PackedStringArray("input")]
 script = ExtResource("12_tkxpy")
@@ -139,18 +134,22 @@ input = NodePath("../../InputComponent")
 speed = 75.0
 metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
-[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=279683997 node_paths=PackedStringArray("health")]
-script = ExtResource("20_m1inn")
-health = NodePath("../../Health&Damage/HealthComponent")
-metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
+[node name="PhysicsComponent" type="Node" parent="Movement" unique_id=746928946 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("12_qcr3t")
+locomotion = NodePath("../NormalLocomotionHandler")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="KnockbackComponent" type="Node" parent="Movement" unique_id=1217433834 node_paths=PackedStringArray("physics")]
+script = ExtResource("13_3qtpx")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
 
-[node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "friends", "recently_interacted")]
+[node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "knockback")]
 script = ExtResource("12_mutx0")
 collision_shape = NodePath("CollisionShape2D")
-friends = NodePath("../FriendComponent")
-recently_interacted = NodePath("../../RecentlyInteracted")
+knockback = NodePath("../../Movement/KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection/Hitbox" unique_id=1487131131]
@@ -242,6 +241,11 @@ script = ExtResource("29_jr5rt")
 icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 
+[node name="AbilityDungeonCubeRush" type="Node" parent="AbilityManager" unique_id=972252231]
+script = ExtResource("30_3qtpx")
+cooldown = 10.0
+metadata/_custom_type_script = "uid://cini61n7sdso5"
+
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")
 navigation = NodePath("../NavigationAgent2D")
@@ -252,8 +256,15 @@ path_desired_distance = 4.0
 target_desired_distance = 25.0
 path_postprocessing = 1
 
-[node name="RecentlyInteracted" type="Node" parent="." unique_id=1143706444]
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=1143706444 node_paths=PackedStringArray("physics", "hitbox")]
 script = ExtResource("36_vl5tg")
+physics = NodePath("../Movement/PhysicsComponent")
+hitbox = NodePath("../HitDetection/Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1324897872 node_paths=PackedStringArray("nodes")]
+script = ExtResource("32_qcr3t")
+nodes = [NodePath("../Visual/Main")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
 
 [connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

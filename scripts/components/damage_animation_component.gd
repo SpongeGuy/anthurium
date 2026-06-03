@@ -7,6 +7,7 @@ class_name DamageAnimationComponent
 
 @export var health_component: HealthComponent
 @export var sprite: Sprite2D
+@export var visibility: VisibilityComponent
 
 @export var damage_sound: AudioStream = preload("res://assets/sounds/effects/damage/hit.wav")
 
@@ -22,6 +23,8 @@ func _ready() -> void:
 	
 		
 func _on_damaged(amount: float, source: Node2D) -> void:
+	if not visibility._visible:
+		return
 	_play_hit_flash()
 	_play_hit_shake(Vector2.RIGHT)
 	AudioManager.play_sound_with_random_pitch(damage_sound, entity.global_position, 0.8, 1.2)

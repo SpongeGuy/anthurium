@@ -28,8 +28,10 @@ func take_damage(amount: float, source: Entity) -> void:
 		return
 	if invincibility_timer > 0:
 		return
+	print("great damage on ", entity)
 	invincibility_timer = invincibility_length
 	health -= amount
+	print("health: ", health, " damage taken: ", amount)
 	taken_damage.emit(amount, source)
 
 	

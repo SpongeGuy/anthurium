@@ -22,7 +22,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -47,6 +47,7 @@ ability_1_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control/AbilityIco
 ability_2_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control2/AbilityIcon2")
 ability_3_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control3/AbilityIcon3")
 ability_4_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control4/AbilityIcon4")
+hand = NodePath("Hand")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=619029859]
 layout_mode = 1

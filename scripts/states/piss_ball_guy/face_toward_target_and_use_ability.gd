@@ -7,6 +7,7 @@ class_name FaceTargetUseAbilityState
 @export var input: InputComponent
 @export var ability_to_use: int = 0
 @export var default_state: BehaviorState
+@export var locomotion: LocomotionHandler
 
 var _timer: float = 0.0
 
@@ -26,7 +27,7 @@ func physics_update(delta: float) -> void:
 		input.move_input_direction = (Vector2.ZERO)
 		facing.change_direction(target.global_position - state_machine.entity.global_position)
 		input.press_action(ability_to_use)
-			
+		locomotion.handle_locomotion(delta)
 	else:
 		state_machine.switch(default_state)
 	

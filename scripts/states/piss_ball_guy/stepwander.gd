@@ -5,7 +5,7 @@ class_name WandererState
 @export var facing: FacingComponent
 @export var input: InputComponent
 @export var locomotion: StepLocomotionHandler
-@export var player: SoundPlayer
+@export var sound: AudioStream = preload("res://assets/sounds/effects/Hit40(1).wav")
 @export var obstruction: ObstructionDetector
 
 @export var exit_state: BehaviorState
@@ -19,7 +19,7 @@ var patience_limit: float = 0.75
 var ok_to_turn: bool = false
 
 func _on_stepping() -> void:
-	player.play_sound()
+	AudioManager.play_entity_sound([sound], state_machine.entity)
 
 func _on_stepped() -> void:
 	

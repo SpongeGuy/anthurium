@@ -6,14 +6,14 @@ class_name PathfindStepWandererState
 @export var input: InputComponent
 @export var locomotion: StepLocomotionHandler
 @export var exit_state: BehaviorState
-@export var sound: SoundPlayer
+@export var sound: AudioStream = preload("res://assets/sounds/effects/Hit40(1).wav")
 
 @export var radius: float = 100
 @export var chance_to_exit_state: float = 0.05
 
 func _on_stepping() -> void:
 	if sound:
-		sound.play_sound()
+		AudioManager.play_entity_sound([sound], state_machine.entity)
 
 func _on_stepped() -> void:
 	decide_to_switch()

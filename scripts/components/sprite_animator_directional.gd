@@ -48,7 +48,6 @@ func load_animation(animation_name: StringName) -> void:
 	if not _current_animation:
 		push_error("animation does not exist!")
 	play()
-	print(_current_animation)
 	row = _current_animation.row
 	animation_loaded.emit(_current_animation)
 	

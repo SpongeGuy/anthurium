@@ -6,6 +6,7 @@ class_name LocomotionHandler
 var velocity: Vector2 = Vector2.ZERO
 
 @export var disabled: bool = false
+var override: bool = false
 
 func _on_registered() -> void:
 	pass # replace with function body

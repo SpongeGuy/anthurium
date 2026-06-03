@@ -35,6 +35,7 @@ const BUS_NAMES = {
 func _ready() -> void:
 	_initialize_pool()
 	print("AudioManager initialized with pool size: ", INITIAL_POOL_SIZE)
+	
 
 # -----------------------------------------------------------------------------------
 # public api
@@ -68,6 +69,28 @@ func play_sound_at_position(
 	
 	return player
 
+
+func play_entity_sound(
+	sounds: Array[AudioStream],
+	entity: Entity,
+	pitch_min: float = 1.0,
+	pitch_max: float = 1.0,
+	volume_db: float = 0.0,
+	max_distance: float = 400.0,
+	attenuation: float = 0.5,
+	bus: AudioBus = AudioBus.SFX
+) -> AudioStreamPlayer2D:
+	if sounds.is_empty():
+		push_error("AudioManager: play_entity_sound called with empty sounds array")
+		return null
+	
+	var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
+	if vis and not vis._visible:
+		return null
+		
+	var sound: AudioStream = sounds.pick_random()
+	var pitch: float = randf_range(pitch_min, pitch_max)
+	return play_sound_at_position(sound, entity.global_position, volume_db, pitch, bus, max_distance, attenuation)
 
 ## play a non-positional sound
 func play_sound(

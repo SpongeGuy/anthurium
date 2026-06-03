@@ -9,14 +9,14 @@ class_name PhysicsComponent
 @export var restitution: float = 0.4
 @export var min_bounce_speed: float = 40.0
 
-@export var knockback: KnockbackComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
-@export var recently_interacted: RecentlyInteracted
 
 var physics_velocity: Vector2 = Vector2.ZERO
 var _accumulated_force: Vector2 = Vector2.ZERO
 
+signal wall_collision(source: Node)
+signal entity_collision(source: Entity)
 
 func _on_registered() -> void:
 	pass # replace with function body
@@ -77,6 +77,7 @@ func _handle_collisions(pre_velocity: Vector2) -> void:
 		if col.get_collider() is StaticBody2D or col.get_collider() is TileMapLayer:
 			if pre_velocity.length() > min_bounce_speed and pre_velocity.dot(normal) < 0.0:
 				physics_velocity = pre_velocity.bounce(normal) * restitution
+				wall_collision.emit(col.get_collider())
 		elif col.get_collider() is Entity:
-			recently_interacted.interact(col.get_collider())
+			entity_collision.emit(col.get_collider())
 

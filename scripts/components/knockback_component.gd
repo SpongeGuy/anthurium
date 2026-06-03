@@ -19,4 +19,3 @@ func apply_knockback(source_position: Vector2, force: float) -> void:
 		return
 	var direction: Vector2 = (entity.global_position - source_position).normalized()
 	physics.apply_impulse(direction, scaled_force)
-	print(direction)

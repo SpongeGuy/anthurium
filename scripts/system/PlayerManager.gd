@@ -30,6 +30,11 @@ func _process(_delta: float) -> void:
 	if not input:
 		return
 		
+	if not GameState.state == GameState.Status.PLAYING:
+		return
+	
+	print("viewcanvastransform: ", get_viewport().get_canvas_transform())
+	print("camera target pos: ", CameraController.target.global_position)
 	
 	for id in range(input.actions.size()):
 		if Input.is_action_just_pressed(input.actions[id]):
