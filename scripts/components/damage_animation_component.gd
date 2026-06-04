@@ -27,7 +27,7 @@ func _on_damaged(amount: float, source: Node2D) -> void:
 		return
 	_play_hit_flash()
 	_play_hit_shake(Vector2.RIGHT)
-	AudioManager.play_sound_with_random_pitch(damage_sound, entity.global_position, 0.8, 1.2)
+	AudioManager.play_entity_sound([damage_sound], entity)
 	
 func _play_hit_shake(direction: Vector2) -> void:
 	if not sprite: return

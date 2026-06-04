@@ -274,7 +274,7 @@ path_postprocessing = 1
 
 [node name="AbilityManager" type="Node" parent="." unique_id=1708767835 node_paths=PackedStringArray("abilities", "input")]
 script = ExtResource("29_3s7qd")
-abilities = [NodePath("")]
+abilities = [null]
 input = NodePath("../Behavior/InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 

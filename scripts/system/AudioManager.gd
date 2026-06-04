@@ -1,218 +1,180 @@
 extends Node
 
 # -----------------------------------------------------------------------------------
-# autoload singleton for reliable 2D audio playback
-# handles multiple simultaneous sounds without glitches using object pooling
-# lovely
+# autoload singleton for reliable audio playback
+# single pool of AudioStreamPlayer nodes — no 2D nodes, no viewport listener issues
+# positional sounds manually compute volume from distance to camera
 # -----------------------------------------------------------------------------------
 
-## pool of available AudioStreamPlayer2D nodes
-var _audio_pool: Array[AudioStreamPlayer2D] = []
-## currently active players
-var _active_players: Array[AudioStreamPlayer2D] = []
-## initial pool size
+var _pool:   Array[AudioStreamPlayer] = []
+var _active: Array[AudioStreamPlayer] = []
+var _camera: Camera2D = null
+
 const INITIAL_POOL_SIZE: int = 20
-## maximum pool size (prevents memory issues)
-const MAX_POOL_SIZE: int = 100
+const MAX_POOL_SIZE:     int = 100
 
-## audio bus names for different categories
-enum AudioBus {
-	MASTER,
-	SFX,
-	MUSIC,
-	UI
-}
-
-## bus name mapping
-const BUS_NAMES = {
+enum AudioBus { MASTER, SFX, MUSIC, UI }
+const BUS_NAMES := {
 	AudioBus.MASTER: "Master",
-	AudioBus.SFX: "SFX",
-	AudioBus.MUSIC: "Music",
-	AudioBus.UI: "UI"
+	AudioBus.SFX:    "SFX",
+	AudioBus.MUSIC:  "Music",
+	AudioBus.UI:     "UI"
 }
 
 
 func _ready() -> void:
-	_initialize_pool()
-	print("AudioManager initialized with pool size: ", INITIAL_POOL_SIZE)
-	
+	for i in INITIAL_POOL_SIZE:
+		_pool.append(_create_player())
+	EventBus.camera_ready.connect(_on_camera_ready)
+
+
+func _on_camera_ready(camera: Camera2D) -> void:
+	_camera = camera
 
 # -----------------------------------------------------------------------------------
 # public api
 # -----------------------------------------------------------------------------------
 
-## play a sound at a specific position in the world
-func play_sound_at_position(
-	sound: AudioStream,
-	position: Vector2,
-	volume_db: float = 0.0,
-	pitch_scale: float = 1.0,
-	bus: AudioBus = AudioBus.SFX,
-	max_distance: float = 2000.0,
-	attenuation: float = 1.0
-) -> AudioStreamPlayer2D:
+## play a global non-positional sound (UI, music, screen-wide effects)
+func play_sound(
+	sound:       AudioStream,
+	volume_db:   float    = 0.0,
+	pitch_scale: float    = 1.0,
+	bus:         AudioBus = AudioBus.UI
+) -> AudioStreamPlayer:
 	if sound == null:
-		push_error("AudioManager: Attempted to play null sound")
-		return null
-	
-	var player = _get_available_player()
-	
-	player.stream = sound
-	player.global_position = position
-	player.volume_db = volume_db
-	player.pitch_scale = pitch_scale
-	player.bus = BUS_NAMES[bus]
-	player.max_distance = max_distance
-	player.attenuation = attenuation
-	
-	player.play()
-	
-	return player
+		push_error("AudioManager: null sound"); return null
+	var p := _get_player()
+	p.stream      = sound
+	p.volume_db   = volume_db
+	p.pitch_scale = pitch_scale
+	p.bus         = BUS_NAMES[bus]
+	p.play()
+	return p
 
 
+## play a positional sound at a world position — volume computed from camera distance
+func play_2d(
+	sound:        AudioStream,
+	position:     Vector2,
+	volume_db:    float    = 0.0,
+	pitch_scale:  float    = 1.0,
+	bus:          AudioBus = AudioBus.SFX,
+	max_distance: float    = 600.0,
+	attenuation:  float    = 2.0
+) -> AudioStreamPlayer:
+	if sound == null:
+		push_error("AudioManager: null sound"); return null
+	var spatial_db := _distance_to_db(position, max_distance, attenuation)
+	if spatial_db == -INF:
+		return null  # out of range, skip
+	var p := _get_player()
+	p.stream      = sound
+	p.volume_db   = volume_db + spatial_db
+	p.pitch_scale = pitch_scale
+	p.bus         = BUS_NAMES[bus]
+	p.play()
+	return p
+
+
+## play a random entity sound with visibility check and optional pitch variance
 func play_entity_sound(
-	sounds: Array[AudioStream],
-	entity: Entity,
-	pitch_min: float = 1.0,
-	pitch_max: float = 1.0,
-	volume_db: float = 0.0,
-	max_distance: float = 400.0,
-	attenuation: float = 0.5,
-	bus: AudioBus = AudioBus.SFX
-) -> AudioStreamPlayer2D:
+	sounds:       Array[AudioStream],
+	entity:       Entity,
+	pitch_min:    float    = 1.0,
+	pitch_max:    float    = 1.0,
+	volume_db:    float    = 0.0,
+	max_distance: float    = 400.0,
+	attenuation:  float    = 2.0,
+	bus:          AudioBus = AudioBus.SFX
+) -> AudioStreamPlayer:
 	if sounds.is_empty():
-		push_error("AudioManager: play_entity_sound called with empty sounds array")
-		return null
-	
+		push_error("AudioManager: empty sounds array"); return null
 	var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
 	if vis and not vis._visible:
 		return null
-		
-	var sound: AudioStream = sounds.pick_random()
-	var pitch: float = randf_range(pitch_min, pitch_max)
-	return play_sound_at_position(sound, entity.global_position, volume_db, pitch, bus, max_distance, attenuation)
-
-## play a non-positional sound
-func play_sound(
-	sound: AudioStream,
-	volume_db: float = 0.0,
-	pitch_scale: float = 1.0,
-	bus: AudioBus = AudioBus.UI
-) -> AudioStreamPlayer2D:
-	if sound == null:
-		push_error("AudioManager: Attempted to play null sound")
-		return null
-	
-	var player = _get_available_player()
-	
-	player.stream = sound
-	player.volume_db = volume_db
-	player.pitch_scale = pitch_scale
-	player.bus = BUS_NAMES[bus]
-	player.max_distance = 0.0  # 0 means no attenuation (plays everywhere)
-	
-	# Play the sound
-	player.play()
-	
-	return player
-
-
-## play a sound with random pitch variation
-func play_sound_with_random_pitch(
-	sound: AudioStream,
-	position: Vector2,
-	min_pitch: float = 0.9,
-	max_pitch: float = 1.1,
-	volume_db: float = 0.0,
-	bus: AudioBus = AudioBus.SFX
-) -> AudioStreamPlayer2D:
-	var random_pitch = randf_range(min_pitch, max_pitch)
-	return play_sound_at_position(sound, position, volume_db, random_pitch, bus)
+	return play_2d(
+		sounds.pick_random(), entity.global_position,
+		volume_db, randf_range(pitch_min, pitch_max),
+		bus, max_distance, attenuation
+	)
 
 
 func stop_all_sounds() -> void:
-	for player in _active_players:
-		player.stop()
+	for p in _active: p.stop()
 
 
 func stop_sounds_on_bus(bus: AudioBus) -> void:
 	var bus_name = BUS_NAMES[bus]
-	for player in _active_players:
-		if player.bus == bus_name:
-			player.stop()
-
-
-func get_active_sound_count() -> int:
-	return _active_players.size()
-
-
-func get_pool_size() -> int:
-	return _audio_pool.size() + _active_players.size()
+	for p in _active:
+		if p.bus == bus_name: p.stop()
 
 
 func set_bus_volume(bus: AudioBus, volume_db: float) -> void:
-	var bus_index = AudioServer.get_bus_index(BUS_NAMES[bus])
-	if bus_index >= 0:
-		AudioServer.set_bus_volume_db(bus_index, volume_db)
+	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
+	if idx >= 0: AudioServer.set_bus_volume_db(idx, volume_db)
 
 
 func get_bus_volume(bus: AudioBus) -> float:
-	var bus_index = AudioServer.get_bus_index(BUS_NAMES[bus])
-	if bus_index >= 0:
-		return AudioServer.get_bus_volume_db(bus_index)
-	return 0.0
+	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
+	return AudioServer.get_bus_volume_db(idx) if idx >= 0 else 0.0
 
 
 func set_bus_mute(bus: AudioBus, muted: bool) -> void:
-	var bus_index = AudioServer.get_bus_index(BUS_NAMES[bus])
-	if bus_index >= 0:
-		AudioServer.set_bus_mute(bus_index, muted)
+	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
+	if idx >= 0: AudioServer.set_bus_mute(idx, muted)
 
 
 func is_bus_muted(bus: AudioBus) -> bool:
-	var bus_index = AudioServer.get_bus_index(BUS_NAMES[bus])
-	if bus_index >= 0:
-		return AudioServer.is_bus_mute(bus_index)
-	return false
-	
+	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
+	return AudioServer.is_bus_mute(idx) if idx >= 0 else false
+
+
+func get_active_sound_count() -> int:
+	return _active.size()
+
+
+func get_pool_size() -> int:
+	return _pool.size() + _active.size()
+
 # -----------------------------------------------------------------------------------
 # internal
 # -----------------------------------------------------------------------------------
-	
-func _initialize_pool() -> void:
-	for i in range(INITIAL_POOL_SIZE):
-		_create_audio_player()
+
+## inverse power falloff — attenuation = 1.0 is linear, 2.0 is squared, higher = tighter
+## returns -INF when out of range so the caller can skip the play entirely
+func _distance_to_db(position: Vector2, max_distance: float, attenuation: float) -> float:
+	if _camera == null:
+		return 0.0  # no camera yet, play at full volume
+	var distance := position.distance_to(_camera.global_position)
+	if distance >= max_distance:
+		return -INF
+	var gain := pow(1.0 - distance / max_distance, attenuation)
+	return linear_to_db(gain)
 
 
-func _create_audio_player() -> AudioStreamPlayer2D:
-	var player := AudioStreamPlayer2D.new()
-	player.name = "PooledAudioPlayer2D_%d" % _audio_pool.size()
-	add_child(player)
-	player.finished.connect(_on_player_finished.bind(player))
-	_audio_pool.append(player)
-	return player
+func _create_player() -> AudioStreamPlayer:
+	var p := AudioStreamPlayer.new()
+	add_child(p)
+	p.finished.connect(_on_finished.bind(p))
+	return p
 
 
-func _get_available_player() -> AudioStreamPlayer2D:
-	if _audio_pool.size() > 0:
-		var player = _audio_pool.pop_back()
-		_active_players.append(player)
-		return player
-	
-	if get_child_count() < MAX_POOL_SIZE:
-		var player = _create_audio_player()
-		_active_players.append(player)
-		return player
-	
-	# pool exhausted! find the oldest active player and reuse it
-	print("AudioManager: Pool exhausted, reusing oldest player")
-	var oldest_player = _active_players[0]
-	oldest_player.stop()
-	return oldest_player
+func _get_player() -> AudioStreamPlayer:
+	if not _pool.is_empty():
+		var p = _pool.pop_back()
+		_active.append(p)
+		return p
+	if _active.size() + _pool.size() < MAX_POOL_SIZE:
+		var p = _create_player()
+		_active.append(p)
+		return p
+	push_warning("AudioManager: pool exhausted, reusing oldest")
+	var p := _active[0]
+	p.stop()
+	return p
 
 
-## return a player to the pool when finished
-func _on_player_finished(player: AudioStreamPlayer2D) -> void:
-	if player in _active_players:
-		_active_players.erase(player)
-		_audio_pool.append(player)
+func _on_finished(player: AudioStreamPlayer) -> void:
+	_active.erase(player)
+	_pool.append(player)
