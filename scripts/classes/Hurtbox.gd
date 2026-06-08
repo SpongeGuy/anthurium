@@ -6,8 +6,15 @@ var entity: Entity
 @export var constant_hurtbox: bool = false
 @export var can_hurt_self: bool = false
 @export var collision_shape: CollisionShape2D
-@export var collider_type: Array[ColliderType] = [ColliderType.NORMAL]
-enum ColliderType{NORMAL, FLYING, GROUND}
+@export var layer: Array[Layer] = [Layer.NORMAL]
+@export var type: DamageType
+enum Layer{NORMAL, FLYING, GROUND}
+# projectile: a singular travelling instance of damage
+# melee: usually close-range damage
+# force: things like explosions, magic, or environmental damage
+# contact: contact damage with an entity or damaging tile
+# self: self-inflicted damage
+enum DamageType{GENERIC, PROJECTILE, MELEE, FORCE, CONTACT, SELF}
 const COLLIDER_BITS = [6, 12, 14]
 
 var tween: Tween
@@ -22,12 +29,12 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	name = "Hurtbox"
-	if collider_type.is_empty():
+	if layer.is_empty():
 		push_error("Collider type for hitbox cannot be empty!")
 	
 	collision_mask = 0
 	collision_layer = 0
-	for type in collider_type:
+	for type in layer:
 		collision_layer |= 1 << COLLIDER_BITS[type] + 1
 		collision_mask |= 1 << COLLIDER_BITS[type]
 	entity = Entity.find_entity(self)

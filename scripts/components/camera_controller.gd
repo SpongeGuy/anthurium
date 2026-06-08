@@ -31,8 +31,7 @@ func _physics_process(delta: float) -> void:
 	
 	
 		
-	if Input.is_key_pressed(KEY_E):
-		get_tree().reload_current_scene()
+	
 	
 	handlers()
 	

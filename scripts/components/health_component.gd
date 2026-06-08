@@ -8,7 +8,7 @@ class_name HealthComponent
 signal taken_damage(amount: float, source: Entity)
 signal died()
 
-@export var invincibility_length: float = 0.5
+@export var invincibility_length: float = 0.05
 var invincibility_timer: float = 0.0
 @export var god_mode: bool = false
 
