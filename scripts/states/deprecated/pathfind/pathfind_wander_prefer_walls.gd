@@ -117,5 +117,3 @@ func _decide_if_idle() -> void:
 	var chance: float = 0.3
 	if randf() < 0.3:
 		state_machine.switch(idle_state)
-
-

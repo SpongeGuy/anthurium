@@ -35,4 +35,3 @@ func _collide_with_terrain() -> void:
 				health.take_damage(damage_to_take_on_contact, collider)
 				return
 	
-

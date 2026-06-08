@@ -321,3 +321,21 @@ func reveal_from(coords: Vector2i) -> void:
 	for tile in flooded: reveal_cell(tile)
 	for tile in border: reveal_cell(tile)
 	end_batch()
+
+
+func flush_all() -> void:
+	begin_batch()
+	for y in height:
+		for x in width:
+			var coords = Vector2i(x, y)
+			var cell = get_cell(coords)
+			if cell.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
+				continue
+			if cell.terrain == CellData.TerrainType.GROUND:
+				cell.skin = 1
+				cell.using_random_texture = false
+			else:
+				cell.skin = 0
+				cell.using_random_texture = true
+			_dirty_cells[coords] = cell
+	end_batch()

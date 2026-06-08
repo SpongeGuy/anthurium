@@ -40,6 +40,9 @@ func render_all() -> void:
 			var cell: CellData = WorldGrid.get_cell(coords)
 			_draw_cell(coords, cell)
 			
+# there's two different types of tile sources
+# 1. tiling: every tile is made of the same material and are visually connected to each other to form a surface
+# 2. non-tiling: every tile is a representation of a different object
 
 func resolve_atlas_coordinate(cell: CellData, coords: Vector2i) -> Vector2i:
 

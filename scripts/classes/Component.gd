@@ -7,4 +7,3 @@ signal registered
 
 func _on_registered() -> void:
 	pass
-

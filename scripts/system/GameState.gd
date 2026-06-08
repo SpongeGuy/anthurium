@@ -65,6 +65,6 @@ func toggle_pause_menu() -> void:
 		state = Status.PAUSED
 
 func _input(event: InputEvent) -> void:
-	if Input.is_key_pressed(KEY_B):
+	if Input.is_action_just_pressed("start"):
 		toggle_pause_menu()
 		

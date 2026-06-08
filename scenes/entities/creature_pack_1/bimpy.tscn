@@ -34,8 +34,8 @@
 [ext_resource type="Script" uid="uid://73th15n3ad82" path="res://scripts/lobes/fight_react_nearby_lobe.gd" id="33_hwojd"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="34_5vf4p"]
 [ext_resource type="Script" uid="uid://camguuycnoqcu" path="res://scripts/lobes/default_lobe.gd" id="34_pgwxf"]
-[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="35_bn7x7"]
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="35_nsyko"]
+[ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="35_qvp6n"]
 [ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="37_83mm5"]
 [ext_resource type="Texture2D" uid="uid://c3rm4rh01tt2r" path="res://assets/textures/characters/bimpy1.png" id="38_8ane4"]
 [ext_resource type="Texture2D" uid="uid://5rvyhh80roc3" path="res://assets/textures/characters/bimpy2.png" id="39_6wds5"]
@@ -278,9 +278,13 @@ abilities = [null]
 input = NodePath("../Behavior/InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=1305034522]
-script = ExtResource("35_bn7x7")
-metadata/_custom_type_script = "uid://tda3ohuci2fd"
+[node name="AbilityMeleeHit" type="Node" parent="AbilityManager" unique_id=1535824628 node_paths=PackedStringArray("hurtbox", "sprite", "locomotion")]
+script = ExtResource("35_qvp6n")
+hurtbox = NodePath("../../Rotator/Hurtbox")
+active_end = 0.1
+sprite = NodePath("../../Rotator/Sprite2D")
+locomotion = NodePath("../../Movement/StepLocomotionHandler")
+metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
 
 [node name="RandomTextureSelector" type="Node" parent="." unique_id=2103516510 node_paths=PackedStringArray("sprite")]
 script = ExtResource("37_83mm5")

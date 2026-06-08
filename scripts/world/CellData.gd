@@ -57,5 +57,3 @@ func clone() -> CellData:
 	c.kill_on_fall = kill_on_fall
 	c.transport_target = transport_target
 	return c
-
-

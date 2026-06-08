@@ -30,4 +30,3 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 func _execute() -> void:
 	await hurtbox.activate(active_start, active_end)
 	finished.emit()
-

@@ -70,4 +70,3 @@ static func _instantiate(entity_type: StringName) -> Entity:
 static func _add(e: Entity) -> void:
 	_entity_container.add_child(e)
 	EventBus.entity_spawned.emit(e)
-

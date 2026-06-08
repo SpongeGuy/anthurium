@@ -20,4 +20,3 @@ func take_from_inventory(item: Entity) -> void:
 	
 func take_from_inventory_stack() -> void:
 	pass
-

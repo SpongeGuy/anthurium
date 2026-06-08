@@ -56,5 +56,3 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 			finished.emit()
 	just_picked_up_item = false
 	
-
-

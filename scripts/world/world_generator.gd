@@ -14,6 +14,10 @@ extends Node
 @export var conveyor_chance: float = 0.03 # some ground tiles become conveyors
 @export var damage_floor_chance: float = 0.02
 
+@export var drunk_directness: float = 0.75   # probability to step toward destination
+@export var min_cave_size: int = 15           # smaller than this → cull (noise)
+@export var hidden_room_max_size: int = 300    # between min and this → leave disconnected
+
 var _rng := RandomNumberGenerator.new()
 var _rooms: Array[Rect2i] = []
 
@@ -31,17 +35,13 @@ func generate(sed: int = -1) -> void:
 	_rooms.clear()
 
 	_fill_walls()
-	print("finished filling you in")
-	_place_rooms()
-	print("finished placing you in")
-	_connect_rooms()
-	print("finished connecting you in")
-	#_scatter_gaps()
-	#_scatter_ground_effects()
+	_cellular_automata_pass()
+	_cull_and_connect_caves()
+	#var center = Vector2i(WorldGrid.width / 2, WorldGrid.height / 2)
+	#_drunk_walk(center, Vector2i(5, 5), CellData.TerrainType.GROUND, true, true, center)
 	_enforce_border()
-	print("finished bordering you in")
+	WorldGrid.flush_all()
 	EventBus.terrain_generated_successfully.emit()
-	print("dungeon done and dusted")
 	
 
 
@@ -57,9 +57,138 @@ func _set_cell_delayed(coords: Vector2i, cell: CellData) -> void:
 func _fill_walls() -> void:
 	for y in WorldGrid.height:
 		for x in WorldGrid.width:
-			var cell = CellData.new()
-			cell.terrain = CellData.TerrainType.WALL
-			WorldGrid.set_cell(Vector2i(x, y), cell)
+			WorldGrid.get_cell(Vector2i(x, y)).terrain = CellData.TerrainType.WALL
+
+func _cellular_automata_pass(iterations: int = 4) -> void:
+	# Seed — mutate directly, no signals yet
+	for y in WorldGrid.height:
+		for x in WorldGrid.width:
+			WorldGrid.get_cell(Vector2i(x, y)).terrain = \
+				CellData.TerrainType.WALL if _rng.randf() < 0.6 \
+				else CellData.TerrainType.GROUND
+
+	# Smooth
+	for _i in iterations:
+		var next: Dictionary[Vector2i, CellData.TerrainType] = {}
+		for y in range(1, WorldGrid.height - 1):
+			for x in range(1, WorldGrid.width - 1):
+				var coords = Vector2i(x, y)
+				var wall_count = WorldGrid.get_neighbors_of_type(
+					coords, CellData.TerrainType.WALL, true
+				).size()
+				next[coords] = CellData.TerrainType.WALL if wall_count >= 5 \
+								else CellData.TerrainType.GROUND
+		for coords in next:
+			WorldGrid.get_cell(coords).terrain = next[coords]
+
+func _drunk_walk(
+	from: Vector2i,
+	to: Vector2i,
+	terrain: CellData.TerrainType = CellData.TerrainType.GROUND,
+	mirror_x: bool = false,
+	mirror_y: bool = false,
+	mirror_pivot: Vector2i = Vector2i.ZERO,
+) -> void:
+	var pos = from
+	var max_steps = (abs(to.x - from.x) + abs(to.y - from.y)) * 5
+	for _i in max_steps:
+		_stamp(pos, terrain, mirror_x, mirror_y, mirror_pivot)
+		if pos == to:
+			break
+		var dir: Vector2i
+		if _rng.randf() < drunk_directness:
+			var diff = to - pos
+			dir = Vector2i(sign(diff.x), 0) if abs(diff.x) >= abs(diff.y) \
+				  else Vector2i(0, sign(diff.y))
+		else:
+			dir = _random_cardinal_dir()
+		pos = (pos + dir).clamp(Vector2i(1, 1), Vector2i(WorldGrid.width - 2, WorldGrid.height - 2))
+
+## Carves pos and any mirror positions. mirror_x reflects across the
+## vertical axis at pivot.x; mirror_y reflects across the horizontal
+## axis at pivot.y. Both active = 4-fold symmetry.
+func _stamp(
+	pos: Vector2i,
+	terrain: CellData.TerrainType,
+	mirror_x: bool,
+	mirror_y: bool,
+	pivot: Vector2i
+) -> void:
+	_try_set_terrain(pos, terrain)
+	if mirror_x:
+		_try_set_terrain(Vector2i(2 * pivot.x - pos.x, pos.y), terrain)
+	if mirror_y:
+		_try_set_terrain(Vector2i(pos.x, 2 * pivot.y - pos.y), terrain)
+	if mirror_x and mirror_y:
+		_try_set_terrain(Vector2i(2 * pivot.x - pos.x, 2 * pivot.y - pos.y), terrain)
+
+
+func _try_set_terrain(coords: Vector2i, terrain: CellData.TerrainType) -> void:
+	if WorldGrid._in_bounds(coords):
+		WorldGrid.get_cell(coords).terrain = terrain
+
+func _find_connected_components() -> Array:
+	var visited: Dictionary = {}
+	var components: Array = []
+
+	for y in range(1, WorldGrid.height - 1):
+		for x in range(1, WorldGrid.width - 1):
+			var coords = Vector2i(x, y)
+			if visited.has(coords):
+				continue
+			if WorldGrid.get_cell(coords).terrain != CellData.TerrainType.GROUND:
+				continue
+
+			var component: Array[Vector2i] = []
+			var queue: Array[Vector2i] = [coords]
+			visited[coords] = true
+
+			while not queue.is_empty():
+				var current: Vector2i = queue.pop_back()
+				component.append(current)
+				for neighbor in WorldGrid.get_neighbors_of_type(
+						current, CellData.TerrainType.GROUND):
+					if not visited.has(neighbor):
+						visited[neighbor] = true
+						queue.append(neighbor)
+
+			components.append(component)
+
+	return components
+
+
+func _component_center(component: Array) -> Vector2i:
+	var sum = Vector2i.ZERO
+	for c in component:
+		sum += c
+	return sum / component.size()
+
+func _cull_and_connect_caves() -> void:
+	var components = _find_connected_components()
+	components.sort_custom(func(a, b): return a.size() > b.size())
+
+	var main_caves: Array = []
+
+	for component in components:
+		if component.size() < min_cave_size:
+			# Too small — noise, fill it back
+			for coords in component:
+				WorldGrid.get_cell(coords).terrain = CellData.TerrainType.WALL
+		elif component.size() > hidden_room_max_size:
+			# Large enough to be a main cave — connect it
+			main_caves.append(component)
+		# else: intentionally left disconnected — becomes a hidden room
+
+	for i in range(main_caves.size() - 1):
+		_drunk_walk(
+			_component_center(main_caves[i]),
+			_component_center(main_caves[i + 1])
+		)
+
+
+
+
+
 
 
 func _place_rooms() -> void:
@@ -77,6 +206,7 @@ func _place_rooms() -> void:
 
 		_rooms.append(candidate)
 		await _carve_room(candidate)
+
 
 
 func _carve_room(room: Rect2i) -> void:

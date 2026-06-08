@@ -31,14 +31,13 @@ func _process(delta: float) -> void:
 	if not current:
 		return
 	global_position = current.get_screen_position() + (current.size - Vector2(8, 4))
-
-				
-func _input(event: InputEvent) -> void:
-	if not GameState.state == GameState.Status.PAUSED:
+	
+	if GameState.state != GameState.Status.PAUSED:
 		return
 		
 	for dir in DIR_ACTIONS:
 		if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
+			print(Time.get_ticks_msec())
 			var next = current.get_neighbor(dir)
 			if next:
 				AudioManager.play_sound(navigate_sound)
@@ -49,12 +48,14 @@ func _input(event: InputEvent) -> void:
 				
 	if Input.is_action_just_pressed("ui_accept"):
 		current.activate(self)
+
+				
 	
 const DIR_ACTIONS = {
-	Vector2i.LEFT: "ui_left",
-	Vector2i.RIGHT: "ui_right",
-	Vector2i.UP: "ui_up",
-	Vector2i.DOWN: "ui_down"
+	Vector2i.LEFT: "west",
+	Vector2i.RIGHT: "east",
+	Vector2i.UP: "north",
+	Vector2i.DOWN: "south"
 }
 
 const STATE_ANIMS = {

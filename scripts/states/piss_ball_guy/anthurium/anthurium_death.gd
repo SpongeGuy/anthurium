@@ -23,4 +23,3 @@ func physics_update(delta: float) -> void:
 ## called once when this state is switched from
 func exit() -> void:
 	pass
-

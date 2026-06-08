@@ -106,7 +106,3 @@ func _show_game() -> void:
 	
 func _show_hud() -> void:
 	hud.visible = true
-
-
-
-

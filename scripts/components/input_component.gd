@@ -10,12 +10,22 @@ class_name InputComponent
 
 var move_input_direction: Vector2
 
-var actions: Array[String] = ["primary_action", "secondary_action", "ternary_action", "quaternary_action"]
+# ability actions
+var actions: Array[String] = ["action_primary", "action_secondary", "action_ternary", "action_quaternary"]
 var just_pressed: Array[bool] = [false, false, false, false]
 var hold_time: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var is_held: Array[bool] = [false, false, false, false]
 var just_released: Array[bool] = [false, false, false, false]
+
+# action modifier
 var modifier: bool = false
+
+# interact action
+var interact_just_pressed: bool = false
+var interact_hold_time: float = 0.0
+var interact_is_held: bool = false
+var interact_just_released: bool = false
+
 
 signal input_just_pressed(id: int)
 signal input_just_released(id: int, held_time: float)
@@ -56,3 +66,20 @@ func press_modifier() -> void:
 func release_modifier() -> void:
 	modifier = false
 	modifier_just_released.emit()
+
+func press_interact() -> void:
+	if interact_is_held == true:
+		return
+	interact_just_pressed = true
+	interact_is_held = true
+	await get_tree().process_frame
+	interact_just_pressed = false
+	
+func release_interact() -> void:
+	if interact_is_held == false:
+		return
+	interact_just_released = true
+	interact_is_held = false
+	await get_tree().process_frame
+	interact_just_released = false
+	

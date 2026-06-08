@@ -38,4 +38,3 @@ func exit() -> void:
 	for i in range(abilities.abilities.size()):
 		if i != ability_to_use:
 			abilities.abilities[i].disabled = false
-

@@ -16,4 +16,3 @@ func _on_detected(source: Entity, target: Entity) -> void:
 			if pi:
 				pi.add_aura_score(nutrition.nutrition, source)
 	inventory.put_into_inventory(target)
-

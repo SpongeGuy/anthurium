@@ -72,4 +72,3 @@ func _execute() -> void:
 	hurtbox.set_active(true)
 	physics.wall_collision.connect(_on_wall_collision)
 	AudioManager.play_entity_sound([launch_sound], entity)
-

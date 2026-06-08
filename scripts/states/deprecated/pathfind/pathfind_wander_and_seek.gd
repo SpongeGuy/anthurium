@@ -105,5 +105,3 @@ func _on_target_found(target: Node2D) -> void:
 func _decide_if_idle() -> void:
 	if randf() < idle_chance:
 		state_machine.switch(idle_state)
-
-

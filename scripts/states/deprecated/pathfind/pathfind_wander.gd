@@ -84,5 +84,3 @@ func _on_navigation_finished() -> void:
 func _decide_if_idle() -> void:
 	if randf() < idle_chance:
 		state_machine.switch(idle_state)
-
-

@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Script" uid="uid://cini61n7sdso5" path="res://scripts/abilities/dcube_rush.gd" id="30_3qtpx"]
+[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="32_qcr3t"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
@@ -244,6 +245,10 @@ metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 script = ExtResource("30_3qtpx")
 cooldown = 10.0
 metadata/_custom_type_script = "uid://cini61n7sdso5"
+
+[node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=2109672073]
+script = ExtResource("31_ypaju")
+metadata/_custom_type_script = "uid://tda3ohuci2fd"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")

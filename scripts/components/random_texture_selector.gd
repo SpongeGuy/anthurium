@@ -9,5 +9,3 @@ func _ready() -> void:
 
 func _on_registered() -> void:
 	pass # replace with function body
-
-

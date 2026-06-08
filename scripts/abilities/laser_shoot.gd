@@ -17,4 +17,3 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 ## this is where custom logic for the ability will go
 func _execute() -> void:
 	pass
-

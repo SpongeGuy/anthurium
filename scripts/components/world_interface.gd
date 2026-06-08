@@ -28,4 +28,3 @@ func cell_friction_multiplier() -> float:
 		return 1.0
 	return current_cell.friction
 	
-

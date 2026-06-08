@@ -16,4 +16,3 @@ func _init(owned_by: Entity = null) -> void:
 
 func give_owner(owned_by: Entity) -> void:
 	owner_entity = owned_by
-

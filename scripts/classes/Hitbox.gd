@@ -40,6 +40,3 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if knockback:
 		knockback.apply_knockback(area.entity.global_position, area.damage * knockback_force)
 	hit_received.emit(area.damage, area.entity)
-
-
-

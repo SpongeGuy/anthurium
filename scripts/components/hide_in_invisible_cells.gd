@@ -14,7 +14,7 @@ func _ready() -> void:
 	WorldGrid.cells_visibled.connect(_on_cells_visibled)
 	
 func _on_registered() -> void:
-	resolve_visibility(WorldGrid.get_cell(WorldGrid.world_to_tile(entity.global_position)))
+	resolve_visibility(WorldGrid.safe_get_cell(WorldGrid.world_to_tile(entity.global_position)))
 
 func _on_cell_hidden(coords: Vector2i) -> void:
 	resolve_visibility(get_current_cell())
@@ -26,10 +26,12 @@ func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
 	resolve_visibility(get_current_cell())
 
 func get_current_cell() -> CellData:
-	return WorldGrid.get_cell(WorldGrid.world_to_tile(entity.global_position))
+	return WorldGrid.safe_get_cell(WorldGrid.world_to_tile(entity.global_position))
 
 
 func resolve_visibility(cell: CellData) -> void:
+	if not cell:
+		return
 	if cell.invisible and visibility._visible == true:
 		visibility.set_visibility(false)
 	

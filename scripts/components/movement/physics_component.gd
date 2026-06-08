@@ -80,4 +80,3 @@ func _handle_collisions(pre_velocity: Vector2) -> void:
 				wall_collision.emit(col.get_collider())
 		elif col.get_collider() is Entity:
 			entity_collision.emit(col.get_collider())
-
