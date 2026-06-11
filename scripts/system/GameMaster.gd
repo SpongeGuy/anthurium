@@ -63,6 +63,7 @@ func initialize_debug_spawns() -> void:
 		EntityManager.spawn_safely(&"bimpy", pos)
 	
 	EntityManager.spawn_on_tile(&"smiley_guy", Vector2i(15, 15))
+	EntityManager.spawn_on_tile(&"portal", Vector2i(17, 16))
 	
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
 	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))

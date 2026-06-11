@@ -4,6 +4,7 @@ class_name ParticleProfile
 @export var texture: Texture2D
 @export var lifetime: float = 0.6
 @export var amount: int = 12
+@export var one_shot: bool = true
 @export_range(0, 1) var amount_ratio: float = 1
 @export_range(0, 1) var explosiveness: float = 0
 @export_range(0, 1) var randomness: float = 0

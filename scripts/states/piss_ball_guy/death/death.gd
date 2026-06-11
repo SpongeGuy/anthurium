@@ -17,14 +17,10 @@ func enter() -> void:
 		locomotion.disabled = true
 	_death_behavior()
 	
-	
-		
 	if animator and play_death_animation:
 		animator.load_and_reset_animation("death")
-		print("loaded death animation")
 		await animator.animation_finished
-		print("animation_finished")
-		
+	
 	if drop_ability_shard:
 		drop_ability_shard.try_create()
 		

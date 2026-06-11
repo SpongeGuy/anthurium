@@ -20,7 +20,7 @@ func _spawn_emitter(
 	amount: int,
 	flip_h: bool,
 	flip_v: bool
-) -> void:
+) -> GPUParticles2D:
 	var emitter := GPUParticles2D.new()
 	EntityManager._entity_container.add_child(emitter)
 	emitter.global_position = world_pos
@@ -37,7 +37,7 @@ func _spawn_emitter(
 
 	emitter.texture = profile.texture
 	emitter.amount = amount
-	emitter.one_shot = true
+	emitter.one_shot = profile.one_shot
 	emitter.explosiveness = profile.explosiveness
 	emitter.amount_ratio = profile.amount_ratio
 	emitter.randomness = profile.randomness
@@ -47,6 +47,8 @@ func _spawn_emitter(
 
 	emitter.emitting = true
 	emitter.finished.connect(emitter.queue_free)
+	
+	return emitter
 
 
 func _inject_velocity(mat: ParticleProcessMaterial, vel: Vector2) -> void:

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cf071yvpf2dmf"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_t8x8u"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="2_hrcsw"]
+[ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/piss_ball_guy/spawn_entity_then_exit.gd" id="3_figh2"]
+[ext_resource type="Resource" uid="uid://caei1gsudwqth" path="res://assets/resources/particle_profiles/portal.tres" id="4_0wmeh"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/ParticleEntityEffect.gd" id="4_figh2"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="4_sboo8"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_0wmeh"]
+[ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="6_5fkbc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
+
+[sub_resource type="Resource" id="Resource_sboo8"]
+script = ExtResource("4_figh2")
+particle_profile = ExtResource("4_0wmeh")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[node name="Entity" type="CharacterBody2D" unique_id=1658321148]
+script = ExtResource("1_t8x8u")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=12144814]
+shape = SubResource("CircleShape2D_t8x8u")
+
+[node name="StateMachine" type="Node" parent="." unique_id=514457864 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("2_hrcsw")
+initial_state = NodePath("SpawnEntityThenExitState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="SpawnEntityThenExitState" type="Node" parent="StateMachine" unique_id=1367540373 node_paths=PackedStringArray("spawner", "exit_state")]
+script = ExtResource("3_figh2")
+spawner = NodePath("../../EntitySpawner")
+time_to_spawn = 5.0
+exit_state = NodePath("../DeathState")
+effect = SubResource("Resource_sboo8")
+metadata/_custom_type_script = "uid://dgje0wb2g3ax"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=750454608]
+script = ExtResource("4_sboo8")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1000712436]
+script = ExtResource("5_0wmeh")
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="EntitySpawner" type="Node" parent="." unique_id=1610317912]
+script = ExtResource("6_5fkbc")
+metadata/_custom_type_script = "uid://b0488tn8mef07"
