@@ -3,9 +3,10 @@
 [ext_resource type="Script" uid="uid://d4myfbotj4m52" path="res://scripts/system/GameMaster.gd" id="1_dg77c"]
 [ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
+[ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/system/CameraController.gd" id="4_yaehf"]
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://scripts/resources/BfxrVoiceProfile.gd" id="5_074og"]
 [ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
 [ext_resource type="Texture2D" uid="uid://dybyvdxpxpb" path="res://assets/textures/ability_icons/dot_icon.png" id="6_yaehf"]
-[ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/components/camera_controller.gd" id="8_5vw27"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
 [ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="9_82xsv"]
 [ext_resource type="Script" uid="uid://ctuuq37605cgy" path="res://scripts/system/AnthuriumBrain.gd" id="9_vivmo"]
@@ -17,6 +18,10 @@
 [ext_resource type="Shader" uid="uid://b5t4jo3en5wdy" path="res://rainbow.gdshader" id="12_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
+
+[sub_resource type="Resource" id="Resource_cegan"]
+script = ExtResource("5_074og")
+metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
 shader = ExtResource("12_2cqfq")
@@ -37,8 +42,9 @@ script = ExtResource("4_2cqfq")
 metadata/_custom_type_script = "uid://poanoxh62038"
 
 [node name="CameraController" type="Node" parent="GameMaster" unique_id=263415001]
-script = ExtResource("8_5vw27")
+script = ExtResource("4_yaehf")
 lerp_weight = 15.0
+debug_sound = SubResource("Resource_cegan")
 metadata/_custom_type_script = "uid://rrfxfwvhpqup"
 
 [node name="UIController" type="Node" parent="GameMaster" unique_id=2010873109 node_paths=PackedStringArray("hud", "gameview", "screen")]

@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="ParticleProfile" format=3 uid="uid://cqmuaid6t5cgy"]
+
+[ext_resource type="Script" uid="uid://mcpcxayympjv" path="res://scripts/resources/ParticleProfile.gd" id="1_bt5yn"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="2_tauxo"]
+[ext_resource type="Texture2D" uid="uid://c6foqvmvj6bab" path="res://assets/textures/misc/fire.png" id="3_tauxo"]
+
+[sub_resource type="Resource" id="Resource_tauxo"]
+script = ExtResource("2_tauxo")
+frames = 6
+speed = 6.0
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tauxo"]
+lifetime_randomness = 0.6
+emission_shape = 3
+emission_box_extents = Vector3(8, 8, 8)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+flatness = 0.32
+initial_velocity_min = 24.769999
+initial_velocity_max = 37.149998
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 63.159996
+linear_accel_max = 131.89
+
+[resource]
+script = ExtResource("1_bt5yn")
+texture = ExtResource("3_tauxo")
+amount = 6
+amount_ratio = 0.675
+explosiveness = 0.77
+process_material = SubResource("ParticleProcessMaterial_tauxo")
+flip_h_ratio = 0.477
+animation = SubResource("Resource_tauxo")
+h_frames = 6
+metadata/_custom_type_script = "uid://mcpcxayympjv"

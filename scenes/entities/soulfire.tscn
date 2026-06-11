@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://c4d3q8xj4nd0l"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_55jur"]
+[ext_resource type="Texture2D" uid="uid://chea8r7v558yg" path="res://assets/textures/misc/smiler.png" id="2_ps7tj"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="4_2gw64"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_rk0gr"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="5_a3ryl"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="7_8sseg"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="8_ps7tj"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="9_i5ycx"]
+[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="10_jkp1v"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="11_qgsau"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="12_8sseg"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="13_i5ycx"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="14_i5ycx"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_jkp1v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_adop0"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xm17k"]
+radius = 5.0
+
+[sub_resource type="Resource" id="Resource_ps7tj"]
+script = ExtResource("4_2gw64")
+name = &"idle"
+frames = 4
+speed = 20.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_i5ycx"]
+script = ExtResource("4_2gw64")
+name = &"death"
+row = 1
+frames = 4
+speed = 5.0
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[node name="Entity" type="CharacterBody2D" unique_id=1440474964]
+texture_filter = 1
+script = ExtResource("1_55jur")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=372542618]
+texture = ExtResource("2_ps7tj")
+hframes = 4
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1870576264]
+shape = SubResource("CircleShape2D_adop0")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=2073798996 node_paths=PackedStringArray("hitbox", "state_machine")]
+script = ExtResource("4_rk0gr")
+max_health = 10.0
+health = 10.0
+hitbox = NodePath("../Hitbox")
+state_machine = NodePath("../StateMachine")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1560614441 node_paths=PackedStringArray("collision_shape", "knockback")]
+script = ExtResource("5_a3ryl")
+collision_shape = NodePath("CollisionShape2D")
+knockback = NodePath("../KnockbackComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=676611785]
+shape = SubResource("CircleShape2D_xm17k")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=1166345511]
+script = ExtResource("7_8sseg")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=1207654124 node_paths=PackedStringArray("physics")]
+script = ExtResource("8_ps7tj")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
+
+[node name="StateMachine" type="Node" parent="." unique_id=363204760 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("9_i5ycx")
+initial_state = NodePath("EmptyState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="EmptyState" type="Node" parent="StateMachine" unique_id=1258206151]
+script = ExtResource("10_jkp1v")
+metadata/_custom_type_script = "uid://se8p70tr1prj"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=1265786023 node_paths=PackedStringArray("animator")]
+script = ExtResource("11_qgsau")
+animator = NodePath("../../SpriteAnimator")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="DamageAnimationComponent" type="Node" parent="." unique_id=288339082 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+script = ExtResource("12_8sseg")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Sprite2D")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=720548489 node_paths=PackedStringArray("nodes")]
+script = ExtResource("13_i5ycx")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=994605372 node_paths=PackedStringArray("sprite")]
+script = ExtResource("14_i5ycx")
+sprite = NodePath("../Sprite2D")
+starting_animation = 0
+animations = Array[ExtResource("4_2gw64")]([SubResource("Resource_ps7tj"), SubResource("Resource_i5ycx")])
+metadata/_custom_type_script = "uid://carvudot6oer3"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1886496656 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_jkp1v")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

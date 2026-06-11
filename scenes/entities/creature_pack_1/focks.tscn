@@ -6,9 +6,8 @@
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
-[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="6_sumsn"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_jr5rt"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_jr5rt"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="12_qcr3t"]
@@ -46,6 +45,14 @@ script = ExtResource("16_v7tyf")
 name = &"walk"
 frames = 2
 speed = 5.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_ypaju"]
+script = ExtResource("16_v7tyf")
+name = &"death"
+frames = 2
+speed = 4.0
+loop = false
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurdk"]
@@ -87,11 +94,12 @@ frame = 2
 script = ExtResource("4_e47js")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("4_jwlga")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
+state_machine = NodePath("../../StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
@@ -101,29 +109,24 @@ sprite = NodePath("../../Visual/Main")
 visibility = NodePath("../../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=685029432 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("6_sumsn")
-state_machine = NodePath("../../StateMachine")
-state = NodePath("../../StateMachine/DeathState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
-
 [node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_s02rk")
 initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613]
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("10_jr5rt")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "directional_animator")]
+[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "animator")]
 script = ExtResource("10_ypaju")
 navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../../Animation/FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-directional_animator = NodePath("../../Animation/DirectionalSpriteAnimator")
+animator = NodePath("../../Animation/DirectionalSpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="Movement" type="Node" parent="." unique_id=1225028772]
@@ -162,11 +165,11 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="Animation" type="Node2D" parent="." unique_id=1057125269]
 
-[node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("sprite", "facing")]
+[node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("facing", "sprite")]
 script = ExtResource("34_ipt6n")
-sprite = NodePath("../../Visual/Main")
-animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n")])
 facing = NodePath("../FacingComponent")
+sprite = NodePath("../../Visual/Main")
+animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n"), SubResource("Resource_ypaju")])
 
 [node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
 script = ExtResource("17_o1xgh")
@@ -270,5 +273,3 @@ metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 script = ExtResource("32_qcr3t")
 nodes = [NodePath("../Visual/Main")]
 metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

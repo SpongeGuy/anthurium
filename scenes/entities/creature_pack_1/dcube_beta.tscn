@@ -7,15 +7,13 @@
 [ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_ha2c4"]
 [ext_resource type="Script" uid="uid://fht6b026k2py" path="res://scripts/states/piss_ball_guy/align_to_grid.gd" id="6_oqt4r"]
 [ext_resource type="Script" uid="uid://c7l6kiac662iu" path="res://scripts/states/piss_ball_guy/charge_up.gd" id="7_njcs5"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="8_caedn"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="8_caedn"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="11_jxc0p"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="12_epxlx"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="13_sbm61"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="17_1rvqm"]
-[ext_resource type="AudioStream" uid="uid://87yb2x2p44wv" path="res://assets/sounds/effects/dcube/machine_agree.wav" id="17_ha2c4"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="18_q2iu4"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="19_l2vke"]
-[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="20_xnyoq"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="21_5t8td"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="23_tbd16"]
 [ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/ui/icon-gold.png" id="24_rdhn5"]
@@ -54,9 +52,10 @@ consumer_type = 4
 tags = Array[int]([13, 11, 23])
 metadata/_custom_type_script = "uid://6g5weury2p"
 
-[node name="StateMachine" type="Node" parent="." unique_id=1010918204 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1010918204 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("4_qo4dc")
 initial_state = NodePath("WaitState")
+death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
 [node name="WaitState" type="Node" parent="StateMachine" unique_id=1973933308 node_paths=PackedStringArray("facing", "next_state")]
@@ -84,7 +83,6 @@ facing = NodePath("../../FacingComponent")
 ability_manager = NodePath("../../AbilityManager")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 next_state = NodePath("../WaitState")
-sounds = Array[AudioStream]([ExtResource("17_ha2c4")])
 metadata/_custom_type_script = "uid://c7l6kiac662iu"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=408057112]
@@ -123,18 +121,13 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="Healthstuff" type="Node" parent="." unique_id=345034668]
 
-[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1789891772 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1789891772 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("19_l2vke")
 max_health = 50.0
 health = 50.0
 hitbox = NodePath("../../Hitbox")
-metadata/_custom_type_script = "uid://rhl072pc6k5q"
-
-[node name="ManualStateSwitcher" type="Node" parent="Healthstuff" unique_id=492656543 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("20_xnyoq")
 state_machine = NodePath("../../StateMachine")
-state = NodePath("../../StateMachine/DeathState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Healthstuff" unique_id=622633230 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
 script = ExtResource("21_5t8td")
@@ -190,7 +183,7 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=158371055 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("28_ivk2u")
-restitution = 0.0
+restitution = 0.125
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
@@ -209,5 +202,3 @@ script = ExtResource("31_0u0l4")
 physics = NodePath("../Movement/PhysicsComponent")
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
-
-[connection signal="died" from="Healthstuff/HealthComponent" to="Healthstuff/ManualStateSwitcher" method="switch"]

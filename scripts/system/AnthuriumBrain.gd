@@ -37,20 +37,20 @@ func remove_active_part(entity: Entity) -> void:
 	
 	active_anthurium_parts.erase(entity)
 	
-func resolve_needed_part() -> StringName:
-	var checks_priority_1: Array[Dictionary] = [
-		{&"anthurium_leaf": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
-		{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
-		{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < ichor / (max_ichor / 3)},
-	]
-	if not &"anthurium_core" in active_anthurium_names:
-		return &"anthurium_core"
-	checks_priority_1.shuffle()
-	for check in checks_priority_1:
-		var key = check.keys()[0]
-		if check[key].call():
-			return key
-	return &"anthurium_grass"
+#func resolve_needed_part() -> StringName:
+	#var checks_priority_1: Array[Dictionary] = [
+		#{&"anthurium_leaf": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
+		#{&"anthurium_pitcher": func(): return get_count_of_part(&"anthurium_leaf") < max_ichor / ichor_giga},
+		#{&"anthurium_flower": func(): return get_count_of_part(&"anthurium_flower") < ichor / (max_ichor / 3)},
+	#]
+	#if not &"anthurium_core" in active_anthurium_names:
+		#return &"anthurium_core"
+	#checks_priority_1.shuffle()
+	#for check in checks_priority_1:
+		#var key = check.keys()[0]
+		#if check[key].call():
+			#return key
+	#return &"anthurium_grass"
 		
 func get_count_of_part(name: StringName) -> int:
 	var count: int = 0

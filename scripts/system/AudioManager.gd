@@ -21,11 +21,17 @@ const BUS_NAMES := {
 	AudioBus.UI:     "UI"
 }
 
+var _wav_pending: Dictionary = {}   # id -> data dict
+var _wav_next_id: int = 0
+var _bfxr: BfxrSFX
 
 func _ready() -> void:
 	for i in INITIAL_POOL_SIZE:
 		_pool.append(_create_player())
 	EventBus.camera_ready.connect(_on_camera_ready)
+	
+	_bfxr = BfxrSFX.new()
+	add_child(_bfxr)
 
 
 func _on_camera_ready(camera: Camera2D) -> void:
@@ -98,7 +104,92 @@ func play_entity_sound(
 		volume_db, randf_range(pitch_min, pitch_max),
 		bus, max_distance, attenuation
 	)
+	
+## Play a BfxrVoiceProfile as a spatial or global sound.
+##
+## profile          — the voice definition to use (required).
+## entity           — the entity the sound originates from. Required when
+##                    global_sound is false; its global_position is captured
+##                    immediately (before async generation begins) so the sound
+##                    lands at the correct position even if the entity moves.
+## global_sound     — when true the sound ignores position entirely and plays
+##                    at full volume through the given bus. Useful for boss
+##                    voices, UI sounds, or any sound that should fill the
+##                    whole soundscape regardless of camera position.
+## check_if_visible — when true, skip generation entirely if the entity's
+##                    VisibilityComponent reports it as not visible. Set to
+##                    false to play sounds even for off-screen entities.
+## volume_db        — additional dB offset applied on top of spatial attenuation.
+## pitch_scale      — playback speed multiplier (1.0 = normal).
+## bus              — which audio bus to route through.
+## max_distance     — beyond this distance (pixels) the sound is inaudible.
+## attenuation      — falloff curve exponent (1 = linear, 2 = squared, etc.).
+func play_voice(
+	profile:          BfxrVoiceProfile,
+	entity:           Entity            = null,
+	global_sound:     bool              = false,
+	check_if_visible: bool              = true,
+	volume_db:        float             = 0.0,
+	pitch_scale:      float             = 1.0,
+	bus:              AudioBus          = AudioBus.SFX,
+	max_distance:     float             = 400.0,
+	attenuation:      float             = 2.0
+) -> void:
+ 
+	# ── Validate ──────────────────────────────────────────────────────────────
+	if profile == null:
+		push_error("AudioManager.play_voice: profile is null"); return
+	if not global_sound and entity == null:
+		push_error("AudioManager.play_voice: entity required when global_sound is false"); return
+ 
+	# ── Visibility gate (before any generation work) ──────────────────────────
+	# Checked only for non-global sounds when check_if_visible is true.
+	if not global_sound and check_if_visible:
+		var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
+		if vis != null and not vis._visible:
+			return
+ 
+	# ── Capture position now, on the main thread ──────────────────────────────
+	# The entity may move or be freed by the time async generation completes.
+	# Storing a Vector2 value here is safe regardless.
+	var position := Vector2.ZERO
+	if not global_sound:
+		position = entity.global_position
+ 
+	# ── Build the mutated param dictionary ────────────────────────────────────
+	# build_params() applies variance offsets and returns a plain Dictionary.
+	# This is fast (pure GDScript arithmetic) and happens on the main thread.
+	var params: Dictionary = profile.build_params()
+	
+ 
+	# ── Generate asynchronously, play on callback ─────────────────────────────
+	# GenerateWavAsync() snapshots params into a C# struct (main thread),
+	# runs synthesis on a Task (background thread, Random.Shared),
+	# then fires the callback via CallDeferred (main thread) so play is safe.
+	# ── Generate asynchronously, play on callback ─────────────────────────────
+	var id := _wav_next_id
+	_wav_next_id += 1
+	_wav_pending[id] = {
+		"global_sound": global_sound,
+		"position":     position,
+		"volume_db":    volume_db,
+		"pitch_scale":  pitch_scale,
+		"bus":          bus,
+		"max_distance": max_distance,
+		"attenuation":  attenuation,
+	}
+	_bfxr.GenerateWavAsync(self, "_on_wav_ready", id, params)
 
+func _on_wav_ready(id: int, wav: AudioStreamWAV) -> void:
+	var data: Dictionary = _wav_pending.get(id, {})
+	_wav_pending.erase(id)
+	if wav == null or data.is_empty():
+		return
+	if data.global_sound:
+		play_sound(wav, data.volume_db, data.pitch_scale, data.bus)
+	else:
+		play_2d(wav, data.position, data.volume_db, data.pitch_scale,
+				data.bus, data.max_distance, data.attenuation)
 
 func stop_all_sounds() -> void:
 	for p in _active: p.stop()

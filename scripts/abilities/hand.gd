@@ -8,8 +8,8 @@ class_name AbilityHand
 @export var toss_force_maximum: float = 100
 
 
-var toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
-var drop_sound: AudioStream = load("res://assets/sounds/effects/drop.wav")
+var toss_sound: BfxrVoiceProfile = load("res://scripts/resources/voices/toss_object.tres")
+var drop_sound: BfxrVoiceProfile = load("res://scripts/resources/voices/early_cancel.tres")
 
 var toss_force: float
 
@@ -47,9 +47,9 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 		else:
 			toss_force = min(hold_duration * toss_force_multiplier, toss_force_maximum)
 			if toss_force < 10:
-				AudioManager.play_entity_sound([drop_sound], entity)
+				AudioManager.play_voice(drop_sound, entity)
 			else:
-				AudioManager.play_entity_sound([toss_sound], entity)
+				AudioManager.play_voice(toss_sound, entity)
 			hand.toss_item(facing.get_direction(), toss_force)
 			
 			ability_to_use = null

@@ -26,8 +26,9 @@ func initialize_game() -> void:
 	initialize_tree()
 	create_new_dungeon()
 	initialize_debug_spawns()
+	#make_test_land()
 	initialize_player(Vector2i(16, 16))
-	initialize_anthurium(Vector2i(32, 32))
+	#initialize_anthurium(Vector2i(16, 16))
 	
 	GameState.change_game_state(GameState.Status.PLAYING)
 	
@@ -43,9 +44,13 @@ func initialize_player(tile_pos: Vector2i) -> void:
 	WorldGrid.hide_map()
 	WorldGrid.reveal_from_player()
 	
+func make_test_land() -> void:
+	var cell: CellData = CellData.new()
+	cell.terrain = CellData.TerrainType.GROUND
+	WorldGrid.set_rectangle(Vector2i(0, 0), Vector2i(64, 64), cell)
 	
 func initialize_anthurium(tile_pos: Vector2i) -> void:
-	EntityManager.spawn_on_tile(&"anthurium_growth_node", tile_pos)
+	EntityManager.spawn_on_tile(&"test_tree", tile_pos)
 	
 func initialize_debug_spawns() -> void:
 	for i in range(15):
@@ -56,6 +61,7 @@ func initialize_debug_spawns() -> void:
 		var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
 		EntityManager.spawn_safely(&"bimpy", pos)
 	
+	EntityManager.spawn_on_tile(&"soulfire", Vector2i(15, 15))
 	
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
 	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
@@ -64,6 +70,7 @@ func initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"ecube_beta", Vector2i(500, 150))
 	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
 	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(450, 200))
 	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
 	
 

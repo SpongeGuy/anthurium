@@ -3,94 +3,75 @@ class_name SpriteAnimator
 
 @export var sprite: Sprite2D
 @export var starting_animation: int = -1
-@export var animations: Array[SpriteAnimation]
+@export var animations: Array[SpriteAnimation] = []
 
+var column: int = 0
+var row: int = 0
+
+var old_frame: int = 0
+var current_frame: int = 0
 var _current_animation: SpriteAnimation
-var _current_frame: int = 0
-var _animation_timer: float = 0.0
+var _timer: float = 0.0
 
 var stopped: bool = false
 
-signal animation_finished(animation: SpriteAnimation)
+signal animation_finished
+
+var animation_speed_modifier: float = 1
+
 signal animation_loaded(animation: SpriteAnimation)
-signal frame_elapsed(frame: int)
+signal frame_elapsed(to: int)
 
-var animation_speed: float = 1.0
-
-func _ready() -> void:
+func _on_registered() -> void:
 	if starting_animation >= 0:
 		load_and_reset_animation(animations[starting_animation].name)
 
 func _process(delta: float) -> void:
-	_update_animation(delta, animation_speed)
+	_update_animation(delta, animation_speed_modifier)
 
 
-# loads the animation and sets the frame counter to the beginning of the animation
-# chances are you want to use this one over load_animation, this one will look less buggy in most use cases.
-func load_and_reset_animation(animation_name: StringName) -> void:
+func stop() -> void:
+	stopped = true
+	
+func play() -> void:
+	stopped = false
+
+func load_animation(animation_name: StringName) -> void:
+	# use this when resetting the animation to the beginning is not necessary
 	for animation in animations:
 		if animation.name != animation_name:
 			continue
 		_current_animation = animation
 	if not _current_animation:
-		return
-	_animation_timer = _current_animation.column
-	_current_frame = floor(_animation_timer)
-	_play()
+		push_error("animation does not exist!")
+	play()
+	row = _current_animation.row
+	animation_speed_modifier = 1
 	animation_loaded.emit(_current_animation)
 	
-# loads the animation forcibly without resetting the frame counter
-# can look buggy when loading an animation that starts on a new column.
-func load_animation(animation_name: StringName) -> void:
-	if _current_animation and animation_name == _current_animation.name:
-		return
-	for animation in animations:
-		if animation.name != animation_name:
-			continue
-		_current_animation = animation
-	_play()
-	animation_loaded.emit(_current_animation)
-	
-func reset_animation() -> void:
-	_current_frame = 0
-	_animation_timer = 0.0
-	_play()
-
-
-
-func _stop() -> void:
-	stopped = true
-	
-func _play() -> void:
-	stopped = false
+func load_and_reset_animation(animation_name: StringName) -> void:
+	# use this in most scenarios
+	_timer = 0.0
+	load_animation(animation_name)
 
 func _update_animation(delta: float, modifier: float = 1.0) -> void:
 	if not _current_animation:
 		return
 	
-	if stopped:
-		return
-	
-	var old_frame: int = _current_frame
-	_animation_timer += delta * modifier * _current_animation.speed
-	if _animation_timer >= _current_animation.frames + _current_animation.column:
-		# if this isn't a looping animation, then stop the animation
-		if not _current_animation.loop:
-			animation_finished.emit(SpriteAnimation)
-			_stop()
-			return
+	if not stopped:
+		_timer += delta * _current_animation.speed * modifier
+	old_frame = current_frame
+	if _timer >= _current_animation.frames:
 		
-		_animation_timer = _current_animation.column
-		
-		
-		
-			
-	if not _current_animation:
-		return
+		if _current_animation.loop:
+			_timer = 0.0
+		else:
+			stop()
+			animation_finished.emit()
 	
-	_current_frame = floor(_animation_timer)
+	current_frame = floor(_timer)
+	column = floor(_timer) + _current_animation.column
 	
-	
-	if old_frame != _current_frame:
-		frame_elapsed.emit(_current_frame)
-	sprite.frame_coords = Vector2i(_current_frame, _current_animation.row)
+	if old_frame != current_frame:
+		frame_elapsed.emit(current_frame)
+	sprite.frame_coords = Vector2i(column, row)

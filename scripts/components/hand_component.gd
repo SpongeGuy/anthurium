@@ -9,7 +9,7 @@ class_name HandComponent
 @export var picked_location: Node2D
 ## the item is teleported a distance away from the entity so that it doesn't get stuck on its collidion box
 @export var throw_tp_distance: float = 5
-var pickup_sound: AudioStream = load("res://assets/sounds/effects/pickup.wav")
+var pickup_sound: BfxrVoiceProfile = load("res://scripts/resources/voices/pick_up_object.tres")
 
 signal item_picked_up(item: Entity, by: Entity)
 
@@ -59,7 +59,7 @@ func pick_up_item(body: Entity) -> void:
 	if not body_pickupable:
 		return
 	
-	AudioManager.play_entity_sound([pickup_sound], entity)
+	AudioManager.play_voice(pickup_sound, entity)
 	body_pickupable.toggle_held(entity)
 	item = body
 	item_picked_up.emit(item, entity)

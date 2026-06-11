@@ -12,7 +12,7 @@ var icon_texture: Texture = preload("res://assets/textures/ability_icons/claw_ic
 
 var swipe_texture: Texture = preload("res://assets/textures/misc/swice.png")
 
-var swipe_sound: AudioStream = preload("res://assets/sounds/effects/slice.wav")
+var swipe_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/swipe.tres")
 
 func initialize() -> void:
 	display_name = "Swipe"
@@ -81,7 +81,7 @@ func initialize() -> void:
 
 func on_pressed(modifier: bool) -> void:
 	animator.load_and_reset_animation("swipe")
-	AudioManager.play_entity_sound([swipe_sound], entity)
+	AudioManager.play_voice(swipe_sound, entity)
 	locomotion.disabled = true
 	await hurtbox.activate(0.0, 0.2)
 	locomotion.disabled = false

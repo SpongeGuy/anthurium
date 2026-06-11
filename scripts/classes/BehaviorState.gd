@@ -6,6 +6,22 @@ var state_machine: StateMachine
 @export var cooldown: float = 0.0
 @export var cooldown_timer: float = 0.0
 
+enum Semantic{
+	IDLE,
+	WANDERING,
+	INVESTIGATING,
+	FLEEING,
+	PANICKED,
+	HUNTING,
+	PURSUING,
+	ATTACKING,
+	FEEDING,
+	CONSUMING,
+	INCAPACITATED,
+	DYING,
+	AGITATED,
+}
+
 func _ready() -> void:
 	state_machine = get_parent()
 	if state_machine is not StateMachine:

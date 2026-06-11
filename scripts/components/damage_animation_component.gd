@@ -9,7 +9,7 @@ class_name DamageAnimationComponent
 @export var sprite: Sprite2D
 @export var visibility: VisibilityComponent
 
-@export var damage_sound: AudioStream = preload("res://assets/sounds/effects/damage/hit.wav")
+@export var damage_voice: BfxrVoiceProfile = preload("res://scripts/resources/voices/meat_hit.tres")
 
 const FLASH_SHADER_PATH = "res://assets/shaders/hit_flash.gdshader"
 var _flash_material: ShaderMaterial
@@ -27,7 +27,7 @@ func _on_damaged(amount: float, source: Node2D) -> void:
 		return
 	_play_hit_flash()
 	_play_hit_shake(Vector2.RIGHT)
-	AudioManager.play_entity_sound([damage_sound], entity)
+	AudioManager.play_voice(damage_voice, entity)
 	
 func _play_hit_shake(direction: Vector2) -> void:
 	if not sprite: return

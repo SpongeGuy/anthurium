@@ -21,7 +21,9 @@ signal entity_initialized
 var basename: StringName
 
 func _ready() -> void:
+	basename = get_basename()
 	_register_components(self)
+	
 	entity_initialized.emit()
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	basename = get_basename()

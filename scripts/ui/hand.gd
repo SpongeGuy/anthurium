@@ -37,7 +37,6 @@ func _process(delta: float) -> void:
 		
 	for dir in DIR_ACTIONS:
 		if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
-			print(Time.get_ticks_msec())
 			var next = current.get_neighbor(dir)
 			if next:
 				AudioManager.play_sound(navigate_sound)

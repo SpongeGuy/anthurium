@@ -7,17 +7,16 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="4_tevbq"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_jstof"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_1a8e8"]
-[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="10_2htcc"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="10_2htcc"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="10_mhapp"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_b4hu2"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="12_jhm0j"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="12_jhm0j"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="13_b78km"]
 [ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="14_5qur6"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="15_qjauf"]
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="16_7fxal"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="17_lofxb"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="19_yfgwh"]
-[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="20_wfnb1"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="21_03kl3"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="22_1pdgn"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_423ow"]
@@ -34,17 +33,17 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dukxu"]
 size = Vector2(16, 16)
 
-[sub_resource type="Resource" id="Resource_nwqwr"]
-script = ExtResource("11_b4hu2")
-name = &"walk"
-frames = 2
-speed = 25.0
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
 [sub_resource type="Resource" id="Resource_y2riw"]
 script = ExtResource("25_hxjws")
 skin = 1
 metadata/_custom_type_script = "uid://dwex81s0yowa4"
+
+[sub_resource type="Resource" id="Resource_my2sf"]
+script = ExtResource("11_b4hu2")
+name = &"walk"
+frames = 2
+speed = 20.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="Energycube" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
@@ -87,19 +86,20 @@ metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 script = ExtResource("6_jstof")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_1a8e8")
 initial_state = NodePath("PathfindWandererState")
+death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "simple_animator")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
 script = ExtResource("10_mhapp")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/NormalLocomotionHandler")
 sound = NodePath("../../../Bullshit/SoundPlayer")
-simple_animator = NodePath("../../../Bullshit/SpriteAnimator")
+animator = NodePath("../../../Bullshit/SpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=873574476]
@@ -107,12 +107,6 @@ script = ExtResource("12_jhm0j")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="Bullshit" type="Node" parent="." unique_id=972292506]
-
-[node name="SpriteAnimator" type="Node" parent="Bullshit" unique_id=2132083569 node_paths=PackedStringArray("sprite")]
-script = ExtResource("10_2htcc")
-sprite = NodePath("../../Sprite2D")
-animations = Array[ExtResource("11_b4hu2")]([SubResource("Resource_nwqwr")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="SoundPlayer" type="Node" parent="Bullshit" unique_id=342820092 node_paths=PackedStringArray("visibility")]
 script = ExtResource("13_b78km")
@@ -136,18 +130,13 @@ metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 
 [node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]
 
-[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("19_yfgwh")
 max_health = 2.0
 health = 2.0
 hitbox = NodePath("../../../Hitbox")
-metadata/_custom_type_script = "uid://rhl072pc6k5q"
-
-[node name="ManualStateSwitcher" type="Node" parent="Bullshit/Healthstuff" unique_id=444902231 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("20_wfnb1")
 state_machine = NodePath("../../../Behavior/StateMachine")
-state = NodePath("../../../Behavior/StateMachine/DeathState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
 script = ExtResource("21_03kl3")
@@ -173,6 +162,13 @@ script = ExtResource("24_is7rc")
 radius = 0
 cell = SubResource("Resource_y2riw")
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
+
+[node name="SpriteAnimator" type="Node" parent="Bullshit" unique_id=610708554 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_2htcc")
+sprite = NodePath("../../Sprite2D")
+starting_animation = 0
+animations = Array[ExtResource("11_b4hu2")]([SubResource("Resource_my2sf")])
+metadata/_custom_type_script = "uid://carvudot6oer3"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2089564920]
 path_desired_distance = 4.0
@@ -203,5 +199,3 @@ script = ExtResource("26_dqsav")
 physics = NodePath("../Movement/PhysicsComponent")
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
-
-[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]

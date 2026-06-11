@@ -11,8 +11,8 @@ var active: bool = false
 
 var icon_texture: Texture2D = preload("res://assets/textures/ability_icons/dcube_rush_icon.png")
 
-var launch_sound: AudioStream = preload("res://assets/sounds/effects/dcube/launch(1).wav")
-var land_sound: AudioStream = preload("res://assets/sounds/effects/thud2.wav")
+var launch_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/machine_launch.tres")
+var land_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/cancel_stop.tres")
 
 func initialize() -> void:
 	icon = icon_texture
@@ -63,7 +63,7 @@ func _on_wall_collision(source: Node) -> void:
 	hurtbox.set_active(false)
 	active = false
 	physics.wall_collision.disconnect(_on_wall_collision)
-	AudioManager.play_entity_sound([land_sound], entity)
+	AudioManager.play_voice(land_sound, entity)
 
 ## actually execute the ability
 ## this is where custom logic for the ability will go
@@ -71,4 +71,4 @@ func _execute() -> void:
 	active = true
 	hurtbox.set_active(true)
 	physics.wall_collision.connect(_on_wall_collision)
-	AudioManager.play_entity_sound([launch_sound], entity)
+	AudioManager.play_voice(launch_sound, entity)

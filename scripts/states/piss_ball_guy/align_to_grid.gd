@@ -4,7 +4,7 @@ class_name AlignToGridState
 @export var locomotion: LocomotionHandler
 @export var input: InputComponent
 @export var facing: FacingComponent
-@export var sound: AudioStream = preload("res://assets/sounds/effects/align.wav")
+@export var sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/machine_align.tres")
 
 @export var next_state: BehaviorState
 
@@ -16,7 +16,7 @@ func enter() -> void:
 	previous_max_speed = locomotion.speed
 	locomotion.speed = 100
 	_timer = 0
-	AudioManager.play_entity_sound([sound], state_machine.entity)
+	AudioManager.play_voice(sound, state_machine.entity)
 	
 	
 func update(delta: float) -> void:

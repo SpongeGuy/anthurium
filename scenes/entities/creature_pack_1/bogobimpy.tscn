@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="12_seddb"]
 [ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="13_atpl3"]
 [ext_resource type="Script" uid="uid://ym7engi512o4" path="res://scripts/states/piss_ball_guy/face_toward_target_and_use_ability.gd" id="14_8rkha"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="15_3em0s"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="15_3em0s"]
 [ext_resource type="Script" uid="uid://cu7ycks3dudys" path="res://scripts/states/piss_ball_guy/press_the_attack_state.gd" id="16_b6v2t"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="16_jcqxw"]
 [ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="17_bp3js"]

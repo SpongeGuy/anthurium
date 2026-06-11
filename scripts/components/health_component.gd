@@ -4,6 +4,7 @@ class_name HealthComponent
 @export var max_health: float
 @export var health: float
 @export var hitbox: Hitbox ## not mandatory
+@export var state_machine: StateMachine
 
 signal taken_damage(amount: float, source: Entity)
 signal died()
@@ -11,6 +12,8 @@ signal died()
 @export var invincibility_length: float = 0.05
 var invincibility_timer: float = 0.0
 @export var god_mode: bool = false
+
+var dying: bool = false
 
 func _ready() -> void:
 	if hitbox:
@@ -28,15 +31,15 @@ func take_damage(amount: float, source: Entity) -> void:
 		return
 	if invincibility_timer > 0:
 		return
-	print("great damage on ", entity)
 	invincibility_timer = invincibility_length
 	health -= amount
-	print("health: ", health, " damage taken: ", amount)
 	taken_damage.emit(amount, source)
-
-	
-	if health <= 0:
-		died.emit()
+		
+	if health <= 0 and not dying:
+		die()
+		return
 
 func die() -> void:
+	dying = true
 	died.emit()
+	state_machine.switch_to_death_state()

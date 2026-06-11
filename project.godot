@@ -25,8 +25,8 @@ GameState="*uid://0vmrob7f8ql5"
 EntityRegistry="*uid://da7h718q207u5"
 AnthuriumBrain="*uid://ctuuq37605cgy"
 PlayerManager="*uid://bsea5f0xq6js7"
-Particles="*uid://pyi6ntc4b6yl"
-Sfxr="*uid://chqrquppyoteo"
+BFXR="*uid://ii1c8s5men3x"
+ParticleManager="*uid://dysb6b5wli0hs"
 
 [display]
 
@@ -42,7 +42,7 @@ project/assembly_name="anthurium"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/tile_bit_tools/plugin.cfg")
+enabled=PackedStringArray("res://addons/min_max_range/plugin.cfg")
 
 [global_group]
 

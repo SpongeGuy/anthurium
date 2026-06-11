@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="7_sy6b7"]
 [ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="8_e37l1"]
 [ext_resource type="Script" uid="uid://ym7engi512o4" path="res://scripts/states/piss_ball_guy/face_toward_target_and_use_ability.gd" id="9_f2j0j"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death.gd" id="10_5ewt6"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_5ewt6"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="11_31dna"]
 [ext_resource type="Texture2D" uid="uid://bswrthbfumhgl" path="res://assets/textures/characters/debug_guy.png" id="12_bj2ba"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="13_hbxah"]
@@ -46,7 +46,7 @@
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="44_bn7x7"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="45_qvp6n"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="46_ypxgn"]
-[ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/create_ability_shard_component.gd" id="47_qvp6n"]
+[ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/ability_shard_spawner.gd" id="47_qvp6n"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0
@@ -154,8 +154,9 @@ default_state = NodePath("../WandererState")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://ym7engi512o4"
 
-[node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=873574476]
+[node name="DeathState" type="Node" parent="Behavior/StateMachine" unique_id=873574476 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("10_5ewt6")
+locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="Rotator" type="Node2D" parent="." unique_id=1431611714 node_paths=PackedStringArray("facing")]
@@ -224,11 +225,12 @@ metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
 
 [node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]
 
-[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("18_fvtcv")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../../Hitbox")
+state_machine = NodePath("../../../Behavior/StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="ManualStateSwitcher" type="Node" parent="Bullshit/Healthstuff" unique_id=444902231 node_paths=PackedStringArray("state_machine", "state")]
@@ -321,6 +323,3 @@ metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 script = ExtResource("47_qvp6n")
 ability_manager = NodePath("../AbilityManager")
 metadata/_custom_type_script = "uid://ccwnicoct356p"
-
-[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]
-[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="CreateAbilityShardComponent" method="try_create"]

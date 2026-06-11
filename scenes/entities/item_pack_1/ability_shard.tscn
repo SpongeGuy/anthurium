@@ -16,10 +16,9 @@
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="15_eer0l"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="16_gnawu"]
 [ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="17_27l84"]
-[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/ability_death.gd" id="18_gnawu"]
+[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/death/ability_death.gd" id="18_gnawu"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="18_r3st6"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="20_gbc8y"]
-[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="21_mvwcn"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="22_gbc8y"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_mvwcn"]
 
@@ -126,11 +125,12 @@ metadata/_custom_type_script = "uid://mec4gvle4nkh"
 script = ExtResource("18_r3st6")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1362790502 node_paths=PackedStringArray("hitbox")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1362790502 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("15_eer0l")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../Hitbox")
+state_machine = NodePath("../../StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=972566010 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
@@ -141,12 +141,6 @@ sprite = NodePath("../../Sprite2D")
 visibility = NodePath("../../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="DeathStateSwitcher" type="Node" parent="Health&Damage" unique_id=2049314686 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("21_mvwcn")
-state_machine = NodePath("../../StateMachine")
-state = NodePath("../../StateMachine/AbilityDeathState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
-
 [node name="VisibilityComponent" type="Node" parent="." unique_id=866264973 node_paths=PackedStringArray("nodes")]
 script = ExtResource("22_gbc8y")
 nodes = [NodePath("../Sprite2D")]
@@ -156,5 +150,3 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 script = ExtResource("23_mvwcn")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
-
-[connection signal="died" from="Health&Damage/HealthComponent" to="Health&Damage/DeathStateSwitcher" method="switch"]

@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_3ndlo"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s0dc8"]
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="8_atwi2"]
-[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/ability_death.gd" id="9_vincq"]
-[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="10_pkmhs"]
+[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/death/ability_death.gd" id="9_vincq"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="10_pkmhs"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_3nmld"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="12_wcoxp"]
 [ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="13_vot3l"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" uid="uid://2b6l1sxmcd5r" path="res://scripts/components/knockback_component_deprecated.gd" id="15_og4s6"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="16_m4vhc"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="17_4qq3a"]
-[ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="18_sbs6g"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="19_a04mg"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="20_fbm4g"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="21_5w8py"]
@@ -28,7 +27,7 @@
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="27_lh1kq"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="27_my2sf"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_my2sf"]
-[ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/create_ability_shard_component.gd" id="30_vincq"]
+[ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/ability_shard_spawner.gd" id="30_vincq"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="30_w701q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isnys"]
@@ -37,17 +36,17 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dukxu"]
 size = Vector2(16, 16)
 
-[sub_resource type="Resource" id="Resource_nwqwr"]
-script = ExtResource("11_3nmld")
-name = &"walk"
-frames = 2
-speed = 25.0
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
 [sub_resource type="Resource" id="Resource_y2riw"]
 script = ExtResource("23_nmwdg")
 skin = 1
 metadata/_custom_type_script = "uid://dwex81s0yowa4"
+
+[sub_resource type="Resource" id="Resource_my2sf"]
+script = ExtResource("11_3nmld")
+name = &"walk"
+frames = 2
+speed = 20.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="Energycube gamma" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
@@ -89,38 +88,34 @@ metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 script = ExtResource("6_3ndlo")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("7_s0dc8")
 initial_state = NodePath("PathfindWandererState")
+death_state = NodePath("AbilityDeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "simple_animator")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
 script = ExtResource("8_atwi2")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/NormalLocomotionHandler")
 sound = NodePath("../../../Bullshit/SoundPlayer")
-simple_animator = NodePath("../../../Bullshit/SpriteAnimator")
+animator = NodePath("../../../SpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
-[node name="AbilityDeathState" type="Node" parent="Behavior/StateMachine" unique_id=241602934 node_paths=PackedStringArray("input")]
+[node name="AbilityDeathState" type="Node" parent="Behavior/StateMachine" unique_id=241602934 node_paths=PackedStringArray("input", "drop_ability_shard")]
 script = ExtResource("9_vincq")
 input = NodePath("../../InputComponent")
+drop_ability_shard = NodePath("../../../Bullshit/CreateAbilityShardComponent")
 metadata/_custom_type_script = "uid://mec4gvle4nkh"
 
 [node name="Bullshit" type="Node" parent="." unique_id=972292506]
 
-[node name="SpriteAnimator" type="Node" parent="Bullshit" unique_id=2132083569 node_paths=PackedStringArray("sprite")]
-script = ExtResource("10_pkmhs")
-sprite = NodePath("../../Sprite2D")
-animations = Array[ExtResource("11_3nmld")]([SubResource("Resource_nwqwr")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
-
 [node name="SoundPlayer" type="Node" parent="Bullshit" unique_id=342820092 node_paths=PackedStringArray("visibility")]
 script = ExtResource("12_wcoxp")
 possible_sounds = Array[AudioStream]([ExtResource("13_vot3l")])
-visibility = NodePath("../Visibility/VisibilityComponent")
+visibility = NodePath("../../Visibility/VisibilityComponent")
 metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [node name="FriendComponent" type="Node" parent="Bullshit" unique_id=1196642861]
@@ -129,7 +124,7 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="KnockbackComponent" type="Node" parent="Bullshit" unique_id=1636793469 node_paths=PackedStringArray("health")]
 script = ExtResource("15_og4s6")
-health = NodePath("../Healthstuff/HealthComponent")
+health = NodePath("../../Healthstuff/HealthComponent")
 metadata/_custom_type_script = "uid://2b6l1sxmcd5r"
 
 [node name="NavigationHelper" type="Node" parent="Bullshit" unique_id=506310323 node_paths=PackedStringArray("navigation")]
@@ -137,46 +132,16 @@ script = ExtResource("16_m4vhc")
 navigation = NodePath("../../NavigationAgent2D")
 metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 
-[node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]
-
-[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
-script = ExtResource("17_4qq3a")
-max_health = 5.0
-health = 5.0
-hitbox = NodePath("../../../Hitbox")
-invincibility_length = 0.0
-metadata/_custom_type_script = "uid://rhl072pc6k5q"
-
-[node name="ManualStateSwitcher" type="Node" parent="Bullshit/Healthstuff" unique_id=444902231 node_paths=PackedStringArray("state_machine", "state")]
-script = ExtResource("18_sbs6g")
-state_machine = NodePath("../../../Behavior/StateMachine")
-state = NodePath("../../../Behavior/StateMachine/AbilityDeathState")
-metadata/_custom_type_script = "uid://ibgyf864g08i"
-
-[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
-script = ExtResource("19_a04mg")
-health_component = NodePath("../HealthComponent")
-sprite = NodePath("../../../Sprite2D")
-visibility = NodePath("../../Visibility/VisibilityComponent")
-metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]
-
-[node name="VisibilityComponent" type="Node" parent="Bullshit/Visibility" unique_id=1485227511 node_paths=PackedStringArray("nodes")]
-script = ExtResource("20_fbm4g")
-nodes = [NodePath("../../../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="Bullshit/Visibility" unique_id=1667577986 node_paths=PackedStringArray("visibility")]
-script = ExtResource("21_5w8py")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
-
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]
 script = ExtResource("22_1oe5y")
 radius = 0
 cell = SubResource("Resource_y2riw")
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
+
+[node name="CreateAbilityShardComponent" type="Node" parent="Bullshit" unique_id=1212009932 node_paths=PackedStringArray("ability_manager")]
+script = ExtResource("30_vincq")
+ability_manager = NodePath("../../AbilityManager")
+metadata/_custom_type_script = "uid://ccwnicoct356p"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2089564920]
 path_desired_distance = 4.0
@@ -219,10 +184,39 @@ metadata/_custom_type_script = "uid://byeskwmhfllnd"
 script = ExtResource("30_w701q")
 metadata/_custom_type_script = "uid://tda3ohuci2fd"
 
-[node name="CreateAbilityShardComponent" type="Node" parent="." unique_id=1212009932 node_paths=PackedStringArray("ability_manager")]
-script = ExtResource("30_vincq")
-ability_manager = NodePath("../AbilityManager")
-metadata/_custom_type_script = "uid://ccwnicoct356p"
+[node name="Healthstuff" type="Node" parent="." unique_id=1267957055]
 
-[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="Bullshit/Healthstuff/ManualStateSwitcher" method="switch"]
-[connection signal="died" from="Bullshit/Healthstuff/HealthComponent" to="CreateAbilityShardComponent" method="try_create"]
+[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox", "state_machine")]
+script = ExtResource("17_4qq3a")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../Hitbox")
+state_machine = NodePath("../../Behavior/StateMachine")
+invincibility_length = 0.0
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+script = ExtResource("19_a04mg")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+visibility = NodePath("../../Visibility/VisibilityComponent")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="Visibility" type="Node" parent="." unique_id=1089586207]
+
+[node name="VisibilityComponent" type="Node" parent="Visibility" unique_id=1485227511 node_paths=PackedStringArray("nodes")]
+script = ExtResource("20_fbm4g")
+nodes = [NodePath("../../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="Visibility" unique_id=1667577986 node_paths=PackedStringArray("visibility")]
+script = ExtResource("21_5w8py")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=1627144097 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_pkmhs")
+sprite = NodePath("../Sprite2D")
+starting_animation = 0
+animations = Array[ExtResource("11_3nmld")]([SubResource("Resource_my2sf")])
+metadata/_custom_type_script = "uid://carvudot6oer3"

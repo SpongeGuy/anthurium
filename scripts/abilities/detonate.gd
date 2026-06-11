@@ -3,7 +3,7 @@ class_name AbilityDetonate
 
 @export var hurtbox: Hurtbox
 @export var blast_radius: float = 3
-@export var sound: AudioStream = preload("res://assets/sounds/effects/detonate.wav")
+@export var sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/detonate.tres")
 
 func initialize() -> void:
 	print("initializing detonate for ", entity)
@@ -34,7 +34,8 @@ func on_pressed(modifier: bool) -> void:
 	cell.terrain = CellData.TerrainType.GROUND
 	cell.skin = 1
 	WorldGrid.set_circle(WorldGrid.world_to_tile(entity.global_position), blast_radius, cell)
-	AudioManager.play_entity_sound([sound], entity, 1.0, 1.0, 2.0, 500)
+	AudioManager.play_voice(sound, entity)
+	CameraController.add_trauma(1)
 	
 	
 	

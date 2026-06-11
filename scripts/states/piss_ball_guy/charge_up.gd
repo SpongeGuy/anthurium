@@ -10,11 +10,7 @@ class_name GatherEnergyState
 @export var ability_manager: AbilityManager
 @export var locomotion: LocomotionHandler
 @export var next_state: BehaviorState
-@export var sounds: Array[AudioStream] = [
-	preload("res://assets/sounds/effects/dcube/machine_agree(1).wav"),
-	preload("res://assets/sounds/effects/dcube/machine_agree(2).wav"),
-	preload("res://assets/sounds/effects/dcube/machine_agree(3).wav"),
-	]
+@export var voice: BfxrVoiceProfile = preload("res://scripts/resources/voices/machine_agree.tres")
 
 
 
@@ -23,9 +19,9 @@ var _timer: float = 0.0
 func enter() -> void:
 	randomize()
 	_timer = randf_range(time_min, time_max)
-	AudioManager.play_entity_sound(sounds, state_machine.entity)
 	if not input.player_controlled:
 		randomly_change_direction()
+		AudioManager.play_voice(voice, state_machine.entity)
 		
 	locomotion.disabled = true
 	ability_manager.abilities[ability_to_use].finished.connect(_change_state)

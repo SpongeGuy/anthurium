@@ -6,7 +6,7 @@ signal state_switched(old_state: BehaviorState, new_state: BehaviorState)
 var current_state: BehaviorState
 
 @export var initial_state: BehaviorState
-@export var death_state: BehaviorState
+@export var death_state: DeathState
 
 var enabled: bool = true
 
@@ -21,7 +21,7 @@ func enable() -> void:
 	just_enabled.emit()
 	enabled = true
 
-func _ready() -> void:
+func _on_registered() -> void:
 	if not initial_state:
 		push_error("Initial state not set")
 	switch(initial_state)
