@@ -8,8 +8,8 @@ class_name AbilityHand
 @export var toss_force_maximum: float = 100
 
 
-var toss_sound: VoiceProfile = load("res://scripts/resources/voices/toss_object.tres")
-var drop_sound: VoiceProfile = load("res://scripts/resources/voices/early_cancel.tres")
+var toss_sound: VoiceProfile = load("res://assets/resources/voices/toss_object.tres")
+var drop_sound: VoiceProfile = load("res://assets/resources/voices/early_cancel.tres")
 
 var toss_force: float
 

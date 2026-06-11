@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BfxrVoiceProfile" format=3 uid="uid://cs6b5fmou4e6"]
+
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://assets/resources/BfxrVoiceProfile.gd" id="1_xyvdn"]
+
+[resource]
+script = ExtResource("1_xyvdn")
+master_volume = 0.28
+sustain_time = 0.11
+sustain_punch = 0.49
+decay_time = 0.24
+frequency_start = 0.25
+vibrato_depth = 0.15
+vibrato_speed = 0.17
+metadata/_custom_type_script = "uid://bqktbxfbfrhkq"

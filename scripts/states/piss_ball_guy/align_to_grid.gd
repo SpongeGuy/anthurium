@@ -4,7 +4,7 @@ class_name AlignToGridState
 @export var locomotion: LocomotionHandler
 @export var input: InputComponent
 @export var facing: FacingComponent
-@export var sound: VoiceProfile = preload("res://scripts/resources/voices/machine_align.tres")
+@export var sound: VoiceProfile = preload("res://assets/resources/voices/machine_align.tres")
 
 @export var next_state: BehaviorState
 

@@ -9,7 +9,7 @@ class_name HandComponent
 @export var picked_location: Node2D
 ## the item is teleported a distance away from the entity so that it doesn't get stuck on its collidion box
 @export var throw_tp_distance: float = 5
-var pickup_sound: VoiceProfile = load("res://scripts/resources/voices/pick_up_object.tres")
+var pickup_sound: VoiceProfile = load("res://assets/resources/voices/pick_up_object.tres")
 
 signal item_picked_up(item: Entity, by: Entity)
 

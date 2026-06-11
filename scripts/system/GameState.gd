@@ -46,8 +46,7 @@ func _check_if_opal_score_player(subject: Entity, amount: int, source: Entity) -
 func _check_if_aura_score_player(subject: Entity, amount: int, source: Entity) -> void:
 	if subject == player:
 		aura_score += amount
-	HUDParticleController.collect(source.global_position, UIHUD.score_collect_pos, floor(amount / 10), Color.LAWN_GREEN)
-
+	
 func _on_player_set(entity: Entity) -> void:
 	CameraController.change_camera_target(entity)
 	WeatherController.change_fog_target(entity)

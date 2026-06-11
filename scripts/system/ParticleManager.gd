@@ -1,7 +1,7 @@
 # ParticleManager.gd — autoload singleton
 extends Node
 
-const PARTICLE_SHADER = preload("res://scripts/resources/shaders/particle_animated.gdshader")
+const PARTICLE_SHADER = preload("res://assets/resources/shaders/particle_animated.gdshader")
 
 func burst(profile: ParticleProfile, world_pos: Vector2, inherited_vel: Vector2 = Vector2.ZERO) -> void:
 	var normal_amount := int(round(float(profile.amount) * (1.0 - profile.flip_h_ratio)))

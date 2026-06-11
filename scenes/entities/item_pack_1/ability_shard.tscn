@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="3_vqng3"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="4_6afsf"]
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="5_4sxbx"]
-[ext_resource type="Script" uid="uid://37f5rafomsw5" path="res://scripts/components/sprite_animator.gd" id="6_5fcyu"]
-[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="6_5fcyu"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="7_xpqok"]
 [ext_resource type="Script" uid="uid://1ywf387jau87" path="res://scripts/components/ability_container.gd" id="9_vqng3"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="10_6afsf"]
 [ext_resource type="Script" uid="uid://b420r8tw5oyu6" path="res://scripts/abilities/ability_shard_use.gd" id="10_xpqok"]
@@ -58,7 +58,6 @@ script = ExtResource("6_5fcyu")
 sprite = NodePath("../Sprite2D")
 starting_animation = 0
 animations = Array[ExtResource("7_xpqok")]([SubResource("Resource_eer0l")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="PhysicsComponent" type="Node" parent="." unique_id=434546018]
 script = ExtResource("3_vqng3")

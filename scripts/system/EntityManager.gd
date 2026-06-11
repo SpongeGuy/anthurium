@@ -4,6 +4,8 @@ class_name EntityManager
 
 static var _entity_container: Node2D
 
+static var pop_effect: ParticleProfile = preload("res://assets/resources/particle_profiles/big_pop.tres")
+
 
 func _ready() -> void:
 	EventBus.ysort_ready.connect(_on_ysort_ready)
@@ -70,3 +72,5 @@ static func _instantiate(entity_type: StringName) -> Entity:
 static func _add(e: Entity) -> void:
 	_entity_container.add_child(e)
 	EventBus.entity_spawned.emit(e)
+	if WorldGrid.is_world_pos_visible(e.global_position):
+		ParticleManager.burst(pop_effect, e.global_position)

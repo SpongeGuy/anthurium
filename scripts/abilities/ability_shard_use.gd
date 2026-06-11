@@ -5,7 +5,7 @@ class_name AbilityShardUse
 @export var ability_container: AbilityContainer
 
 var icon_texture: Texture = preload("res://assets/textures/ability_icons/ability_shard_use_icon.png")
-var sound: VoiceProfile = preload("res://scripts/resources/voices/pickup_shard.tres")
+var sound: VoiceProfile = preload("res://assets/resources/voices/pickup_shard.tres")
 
 func initialize() -> void:
 	icon = icon_texture
@@ -22,12 +22,14 @@ func on_pressed(modifier: bool) -> void:
 	var subject: Entity = recently_interacted.recently_interacted
 	if subject:
 		var ability_manager: AbilityManager = subject.get_component(AbilityManager)
+		if ability_manager.is_full():
+			return
 		for ability in ability_container.abilities:
 			
 			if ability:
 				ability_manager.add_ability(ability)
 				AudioManager.play_voice(sound, subject)
-	entity.queue_free()
+		entity.queue_free()
 	
 func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
 	pass

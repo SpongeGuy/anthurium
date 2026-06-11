@@ -25,6 +25,7 @@ func initialize_game() -> void:
 	
 	initialize_tree()
 	create_new_dungeon()
+	await get_tree().process_frame
 	initialize_debug_spawns()
 	#make_test_land()
 	initialize_player(Vector2i(16, 16))
@@ -61,7 +62,7 @@ func initialize_debug_spawns() -> void:
 		var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
 		EntityManager.spawn_safely(&"bimpy", pos)
 	
-	EntityManager.spawn_on_tile(&"soulfire", Vector2i(15, 15))
+	EntityManager.spawn_on_tile(&"smiley_guy", Vector2i(15, 15))
 	
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
 	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
@@ -89,8 +90,6 @@ func initialize_tree() -> void:
 	sub_viewport.snap_2d_transforms_to_pixel = true
 	sub_viewport.snap_2d_vertices_to_pixel = true
 	
-	HUDParticleController._instance.viewport_container = sub_viewport_container
-	HUDParticleController._instance.game_viewport = sub_viewport
 	
 	sub_viewport_container.add_child(sub_viewport)
 	game_canvas.add_child(sub_viewport_container)

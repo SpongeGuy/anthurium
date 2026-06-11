@@ -37,6 +37,9 @@ var screen_size: Vector2
 var menu_position: Vector2 = Vector2(0, 0)
 var tween: Tween
 
+var voice_inv_open: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_open.tres")
+var voice_inv_close: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_close.tres")
+
 enum State{BAR, MENU}
 var current_state: State = State.BAR
 	
@@ -67,9 +70,11 @@ func toggle_hud_state() -> State:
 	if current_state == State.BAR:
 		current_state = State.MENU
 		_tween_to(_get_menu_position())
+		AudioManager.play_voice(voice_inv_open, null, true, false)
 	else:
 		current_state = State.BAR
 		_tween_to(_get_hud_position())
+		AudioManager.play_voice(voice_inv_close, null, true, false)
 	return current_state
 
 func _ready() -> void:

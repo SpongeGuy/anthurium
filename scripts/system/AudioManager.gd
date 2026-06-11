@@ -83,47 +83,9 @@ func play_2d(
 	return p
 
 
-## play a random entity sound with visibility check and optional pitch variance
-func play_entity_sound(
-	sounds:       Array[AudioStream],
-	entity:       Entity,
-	pitch_min:    float    = 1.0,
-	pitch_max:    float    = 1.0,
-	volume_db:    float    = 0.0,
-	max_distance: float    = 400.0,
-	attenuation:  float    = 2.0,
-	bus:          AudioBus = AudioBus.SFX
-) -> AudioStreamPlayer:
-	if sounds.is_empty():
-		push_error("AudioManager: empty sounds array"); return null
-	var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
-	if vis and not vis._visible:
-		return null
-	return play_2d(
-		sounds.pick_random(), entity.global_position,
-		volume_db, randf_range(pitch_min, pitch_max),
-		bus, max_distance, attenuation
-	)
+
 	
 ## Play a BfxrVoiceProfile as a spatial or global sound.
-##
-## profile          — the voice definition to use (required).
-## entity           — the entity the sound originates from. Required when
-##                    global_sound is false; its global_position is captured
-##                    immediately (before async generation begins) so the sound
-##                    lands at the correct position even if the entity moves.
-## global_sound     — when true the sound ignores position entirely and plays
-##                    at full volume through the given bus. Useful for boss
-##                    voices, UI sounds, or any sound that should fill the
-##                    whole soundscape regardless of camera position.
-## check_if_visible — when true, skip generation entirely if the entity's
-##                    VisibilityComponent reports it as not visible. Set to
-##                    false to play sounds even for off-screen entities.
-## volume_db        — additional dB offset applied on top of spatial attenuation.
-## pitch_scale      — playback speed multiplier (1.0 = normal).
-## bus              — which audio bus to route through.
-## max_distance     — beyond this distance (pixels) the sound is inaudible.
-## attenuation      — falloff curve exponent (1 = linear, 2 = squared, etc.).
 func play_voice(
 	profile:          VoiceProfile,
 	entity:           Entity            = null,
@@ -269,3 +231,47 @@ func _get_player() -> AudioStreamPlayer:
 func _on_finished(player: AudioStreamPlayer) -> void:
 	_active.erase(player)
 	_pool.append(player)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# -----------------------------------------------------------------------------------
+# deprecated
+# -----------------------------------------------------------------------------------
+
+
+## play a random entity sound with visibility check and optional pitch variance
+func play_entity_sound(
+	sounds:       Array[AudioStream],
+	entity:       Entity,
+	pitch_min:    float    = 1.0,
+	pitch_max:    float    = 1.0,
+	volume_db:    float    = 0.0,
+	max_distance: float    = 400.0,
+	attenuation:  float    = 2.0,
+	bus:          AudioBus = AudioBus.SFX
+) -> AudioStreamPlayer:
+	if sounds.is_empty():
+		push_error("AudioManager: empty sounds array"); return null
+	var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
+	if vis and not vis._visible:
+		return null
+	return play_2d(
+		sounds.pick_random(), entity.global_position,
+		volume_db, randf_range(pitch_min, pitch_max),
+		bus, max_distance, attenuation
+	)

@@ -10,7 +10,7 @@ class_name GatherEnergyState
 @export var ability_manager: AbilityManager
 @export var locomotion: LocomotionHandler
 @export var next_state: BehaviorState
-@export var voice: VoiceProfile = preload("res://scripts/resources/voices/machine_agree.tres")
+@export var voice: VoiceProfile = preload("res://assets/resources/voices/machine_agree.tres")
 
 
 

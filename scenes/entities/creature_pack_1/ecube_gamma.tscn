@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/piss_ball_guy/navigatewander.gd" id="8_atwi2"]
 [ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/death/ability_death.gd" id="9_vincq"]
 [ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="10_pkmhs"]
-[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_3nmld"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="11_3nmld"]
 [ext_resource type="Script" uid="uid://q4guieta4fy0" path="res://scripts/components/sound_player.gd" id="12_wcoxp"]
 [ext_resource type="AudioStream" uid="uid://cai7nwrs8jo68" path="res://assets/sounds/effects/Hit40(1).wav" id="13_vot3l"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="14_41brm"]

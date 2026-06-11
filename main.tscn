@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_ycdy4"]
 [ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="4_2cqfq"]
 [ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/system/CameraController.gd" id="4_yaehf"]
-[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://scripts/resources/BfxrVoiceProfile.gd" id="5_074og"]
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://assets/resources/BfxrVoiceProfile.gd" id="5_074og"]
 [ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="5_w48qg"]
 [ext_resource type="Texture2D" uid="uid://dybyvdxpxpb" path="res://assets/textures/ability_icons/dot_icon.png" id="6_yaehf"]
 [ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
@@ -13,9 +13,7 @@
 [ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="10_074og"]
 [ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/themes/debug.tres" id="10_w48qg"]
 [ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/ui/debug_ui.gd" id="10_ycdy4"]
-[ext_resource type="Script" uid="uid://bnx1xoe860b0e" path="res://hud_particle_controller.gd" id="11_vivmo"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
-[ext_resource type="Shader" uid="uid://b5t4jo3en5wdy" path="res://rainbow.gdshader" id="12_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
 
@@ -24,7 +22,6 @@ script = ExtResource("5_074og")
 metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
-shader = ExtResource("12_2cqfq")
 
 [node name="Main" type="Node" unique_id=1100438637]
 
@@ -74,7 +71,6 @@ metadata/_custom_type_script = "uid://ctuuq37605cgy"
 
 [node name="HUDParticleController" type="CanvasLayer" parent="." unique_id=1773480992]
 layer = 10
-script = ExtResource("11_vivmo")
 metadata/_custom_type_script = "uid://bnx1xoe860b0e"
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]

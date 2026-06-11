@@ -17,7 +17,7 @@ var fog_default_shape: PackedVector2Array = PackedVector2Array([
 	Vector2(100000, -100000)
 ])
 
-var fog_shader: Shader = preload("res://scripts/resources/shaders/fog.gdshader")
+var fog_shader: Shader = preload("res://assets/resources/shaders/fog.gdshader")
 
 func _ready() -> void:
 	fog_shape.polygon = fog_default_shape

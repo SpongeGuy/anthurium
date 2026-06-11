@@ -3,12 +3,11 @@ class_name AbilityDetonate
 
 @export var hurtbox: Hurtbox
 @export var blast_radius: float = 3
-@export var sound: VoiceProfile = preload("res://scripts/resources/voices/detonate.tres")
+@export var sound: VoiceProfile = preload("res://assets/resources/voices/detonate.tres")
 var icon_texture: Texture2D = preload("res://assets/textures/ability_icons/detonate.png")
 
 func initialize() -> void:
 	icon = icon_texture
-	print("initializing detonate for ", entity)
 	if not hurtbox:
 		var shape: CircleShape2D = CircleShape2D.new()
 		shape.radius = blast_radius * 16
@@ -20,6 +19,7 @@ func initialize() -> void:
 		hurtbox.collision_shape = collision_shape
 		hurtbox.add_child(collision_shape)
 		hurtbox.entity = entity
+		hurtbox.set_active(false)
 		
 		created_nodes.append(hurtbox)
 		
@@ -29,7 +29,7 @@ func initialize() -> void:
 		entity.add_child(container)
 		entity.add_child(hurtbox)
 		
-var explosion_profile: ParticleProfile = preload("res://scripts/resources/particle_profiles/explosion.tres")
+var explosion_profile: ParticleProfile = preload("res://assets/resources/particle_profiles/explosion.tres")
 func on_pressed(modifier: bool) -> void:
 	hurtbox.activate(0, 1)
 	var cell: CellData = CellData.new()

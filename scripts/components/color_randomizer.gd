@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func apply_color_tint(color: Color) -> void:
 	if not sprite.material or not sprite.material is not ShaderMaterial:
-		var shader = preload("res://scripts/resources/shaders/palette_swap.gdshader")
+		var shader = preload("res://assets/resources/shaders/palette_swap.gdshader")
 		var mat = ShaderMaterial.new()
 		mat.shader = shader
 		sprite.material = mat

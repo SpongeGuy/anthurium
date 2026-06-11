@@ -9,9 +9,9 @@ class_name DamageAnimationComponent
 @export var sprite: Sprite2D
 @export var visibility: VisibilityComponent
 
-@export var damage_voice: VoiceProfile = preload("res://scripts/resources/voices/meat_hit.tres")
+@export var damage_voice: VoiceProfile = preload("res://assets/resources/voices/meat_hit.tres")
 
-const FLASH_SHADER_PATH = "res://scripts/resources/shaders/hit_flash.gdshader"
+const FLASH_SHADER_PATH = "res://assets/resources/shaders/hit_flash.gdshader"
 var _flash_material: ShaderMaterial
 
 var flash_tween: Tween

@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="VoiceProfile" format=3 uid="uid://bj2ljxqtccl2t"]
+
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://assets/resources/BfxrVoiceProfile.gd" id="1_sl5jm"]
+
+[resource]
+script = ExtResource("1_sl5jm")
+master_volume = 0.325
+wave_type = 2
+attack_time = 0.108
+sustain_time = 0.141
+sustain_punch = 0.504
+decay_time = 0.188
+frequency_start = 0.3024170472427345
+frequency_slide = -0.030786926973953205
+frequency_acceleration = -0.06159139390962404
+vibrato_depth = 0.23006461105159942
+vibrato_speed = 0.4185504
+pitch_jump_repeat_speed = 0.95835036
+pitch_jump_amount = -0.34240466
+pitch_jump_onset_percent = 0.9262381
+pitch_jump_onset_percent_variance = 0.075
+pitch_jump_2_amount = -0.17752896
+pitch_jump_onset2_percent = 0.90726656
+overtones = 0.0053071410730890735
+overtone_falloff = 0.05942874749581528
+square_duty = 0.29769749343395235
+duty_sweep = 0.002274144533105207
+flanger_offset = 0.04953064443362103
+flanger_sweep = -0.08865340413911613
+lp_filter_cutoff = 0.9976335261400251
+lp_filter_cutoff_sweep = 0.5692655134005784
+lp_filter_resonance = 0.20000154
+hp_filter_cutoff = 0.21347476331595036
+hp_filter_cutoff_sweep = -6.38316228084242e-06
+bit_crush = 0.0003661582693491511
+bit_crush_sweep = -0.00011388208176427111
+metadata/_custom_type_script = "uid://bqktbxfbfrhkq"

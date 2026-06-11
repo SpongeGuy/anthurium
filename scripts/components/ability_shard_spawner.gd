@@ -3,7 +3,7 @@ class_name AbilityShardSpawner
 
 @export var chance: Array[float] = [1.0, 1.0, 1.0, 1.0]
 @export var ability_manager: AbilityManager
-@export var sound: VoiceProfile = preload("res://scripts/resources/voices/drop_item.tres")
+@export var sound: VoiceProfile = preload("res://assets/resources/voices/drop_item.tres")
 
 
 func _on_registered() -> void:

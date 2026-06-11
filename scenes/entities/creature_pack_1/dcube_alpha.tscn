@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_iy5yv"]
 [ext_resource type="Script" uid="uid://fht6b026k2py" path="res://scripts/states/piss_ball_guy/align_to_grid.gd" id="6_152hd"]
 [ext_resource type="Script" uid="uid://c7l6kiac662iu" path="res://scripts/states/piss_ball_guy/charge_up.gd" id="7_jukf1"]
-[ext_resource type="Resource" uid="uid://ddo0ia0nutdck" path="res://scripts/resources/voices/machine_agree_light.tres" id="8_43fx8"]
+[ext_resource type="Resource" uid="uid://ddo0ia0nutdck" path="res://assets/resources/voices/machine_agree_light.tres" id="8_43fx8"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="8_ahvdr"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="11_u002c"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="12_cc5lf"]

@@ -262,6 +262,10 @@ func end_batch() -> void:
 	if _smelly_cells.size() > 0:
 		cells_visibled.emit(_smelly_cells)
 		EventBus.cells_visibled.emit(_smelly_cells)
+		
+func is_world_pos_visible(world_pos: Vector2) -> bool:
+	var cell: CellData = safe_get_cell(world_to_tile(world_pos))
+	return cell != null and not cell.invisible
 	
 
 func _idx_to_coords(idx: int) -> Vector2i:

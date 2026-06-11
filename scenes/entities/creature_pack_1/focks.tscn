@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="13_3qtpx"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
-[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]

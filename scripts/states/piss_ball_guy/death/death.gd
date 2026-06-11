@@ -7,8 +7,8 @@ class_name DeathState
 @export var animator: SpriteAnimator
 @export var locomotion: LocomotionHandler
 
-var burst: ParticleProfile = preload("res://scripts/resources/particle_profiles/soulfire.tres")
-var pop: ParticleProfile = preload("res://scripts/resources/particle_profiles/pop.tres")
+var burst: ParticleProfile = preload("res://assets/resources/particle_profiles/soulfire.tres")
+var pop: ParticleProfile = preload("res://assets/resources/particle_profiles/pop.tres")
 
 var play_death_animation: bool = true
 
@@ -17,11 +17,7 @@ func enter() -> void:
 		locomotion.disabled = true
 	_death_behavior()
 	
-	if drop_ability_shard:
-		drop_ability_shard.try_create()
-		
-	if entity_create:
-		entity_create.spawn_at_entity()
+	
 		
 	if animator and play_death_animation:
 		animator.load_and_reset_animation("death")
@@ -29,7 +25,11 @@ func enter() -> void:
 		await animator.animation_finished
 		print("animation_finished")
 		
-	
+	if drop_ability_shard:
+		drop_ability_shard.try_create()
+		
+	if entity_create:
+		entity_create.spawn_at_entity()
 	
 	var visibility: VisibilityComponent = state_machine.entity.get_component(VisibilityComponent)
 	if visibility and visibility._visible:

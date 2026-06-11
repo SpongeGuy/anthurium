@@ -16,6 +16,9 @@ func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
 	
+func is_full() -> bool:
+	return abilities[0] and abilities[1] and abilities[2] and abilities[3]
+	
 			
 func _on_registered() -> void:
 	for ability in get_children():
