@@ -125,7 +125,7 @@ func play_entity_sound(
 ## max_distance     — beyond this distance (pixels) the sound is inaudible.
 ## attenuation      — falloff curve exponent (1 = linear, 2 = squared, etc.).
 func play_voice(
-	profile:          BfxrVoiceProfile,
+	profile:          VoiceProfile,
 	entity:           Entity            = null,
 	global_sound:     bool              = false,
 	check_if_visible: bool              = true,

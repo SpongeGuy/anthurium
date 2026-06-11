@@ -1,26 +1,6 @@
 @tool
-## BfxrVoiceProfile — Inspector-editable Bfxr voice definition for creatures and entities.
-##
-## Create instances of this resource (.tres) per creature type and assign them to
-## entities. Call AudioManager.play_voice(profile, entity) to play with spatial
-## attenuation. Every play call mutates the base params with the configured variances,
-## giving each creature a unique voice that varies naturally on each utterance.
-##
-## VARIANCE MODEL
-## Each parameter has a companion *_variance field. Variance is additive:
-##   final_value = clamp(base + randf_range(-variance, variance), param_min, param_max)
-## This means a variance of 0.0 locks the param to its base value, and larger
-## variance values allow wider swings away from the base. It is additive (not
-## percentage-based) so it works correctly even when the base value is 0.0.
-##
-## WAVE TYPE is always fixed — varying it would change the fundamental character
-## of the sound, so it has no variance field.
-##
-## PREVIEW (requires Godot 4.3+)
-## Press the "🔊 Preview Sound" button in the Inspector to hear the sound with
-## variance applied. Each press generates a fresh random variation.
 extends Resource
-class_name BfxrVoiceProfile
+class_name VoiceProfile
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  INSPECTOR PREVIEW BUTTON  (Godot 4.3+)
@@ -322,7 +302,7 @@ func _preview_sound() -> void:
 
 	var tree := Engine.get_main_loop() as SceneTree
 	if tree == null:
-		push_error("BfxrVoiceProfile: cannot access SceneTree for preview")
+		push_error("VoiceProfile: cannot access SceneTree for preview")
 		return
 
 	# Temporary synthesis node — we only need it for generate_wav(); it is freed
@@ -333,7 +313,7 @@ func _preview_sound() -> void:
 	bfxr.queue_free()
 
 	if wav == null:
-		push_error("BfxrVoiceProfile: generate_wav returned null during preview")
+		push_error("VoiceProfile: generate_wav returned null during preview")
 		return
 	
 	var player := AudioStreamPlayer.new()

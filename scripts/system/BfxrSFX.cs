@@ -64,7 +64,7 @@ public partial class BfxrSFX : Node
 	}
 
 	// ─────────────────────────────────────────────────────────────────────────
-	//  PUBLIC GENERATION API  (called by AudioManager / BfxrVoiceProfile)
+	//  PUBLIC GENERATION API  (called by AudioManager / VoiceProfile)
 	// ─────────────────────────────────────────────────────────────────────────
 
 	/// <summary>

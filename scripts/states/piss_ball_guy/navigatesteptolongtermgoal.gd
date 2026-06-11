@@ -6,7 +6,7 @@ class_name PathfindStepToLongTermGoal
 @export var input: InputComponent
 @export var locomotion: StepLocomotionHandler
 @export var exit_state: BehaviorState
-@export var sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/step.tres")
+@export var sound: VoiceProfile = preload("res://scripts/resources/voices/step.tres")
 @export var memory: Memory
 
 @export var radius: float = 100

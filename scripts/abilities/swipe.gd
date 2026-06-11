@@ -12,7 +12,7 @@ var icon_texture: Texture = preload("res://assets/textures/ability_icons/claw_ic
 
 var swipe_texture: Texture = preload("res://assets/textures/misc/swice.png")
 
-var swipe_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/swipe.tres")
+var swipe_sound: VoiceProfile = preload("res://scripts/resources/voices/swipe.tres")
 
 func initialize() -> void:
 	display_name = "Swipe"

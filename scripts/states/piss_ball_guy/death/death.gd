@@ -7,7 +7,8 @@ class_name DeathState
 @export var animator: SpriteAnimator
 @export var locomotion: LocomotionHandler
 
-var burst: ParticleProfile = preload("res://scripts/resources/default_burst.tres")
+var burst: ParticleProfile = preload("res://scripts/resources/particle_profiles/soulfire.tres")
+var pop: ParticleProfile = preload("res://scripts/resources/particle_profiles/pop.tres")
 
 var play_death_animation: bool = true
 
@@ -33,6 +34,7 @@ func enter() -> void:
 	var visibility: VisibilityComponent = state_machine.entity.get_component(VisibilityComponent)
 	if visibility and visibility._visible:
 		ParticleManager.burst(burst, state_machine.entity.global_position)
+		ParticleManager.burst(pop, state_machine.entity.global_position)
 	
 	for child in state_machine.entity.get_children():
 		if child is Area2D:

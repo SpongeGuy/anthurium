@@ -2,7 +2,7 @@ extends Component
 class_name CameraController
 
 @export var lerp_weight: float = 1.0
-@export var debug_sound: BfxrVoiceProfile
+@export var debug_sound: VoiceProfile
 static var camera: Camera2D
 
 static var target: Node2D

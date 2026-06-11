@@ -5,7 +5,7 @@ class_name WandererState
 @export var facing: FacingComponent
 @export var input: InputComponent
 @export var locomotion: StepLocomotionHandler
-@export var sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/step.tres")
+@export var sound: VoiceProfile = preload("res://scripts/resources/voices/step.tres")
 @export var obstruction: ObstructionDetector
 
 @export var exit_state: BehaviorState

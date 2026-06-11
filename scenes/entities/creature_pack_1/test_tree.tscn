@@ -19,7 +19,6 @@
 radius = 7.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nll3h"]
-load_path = "res://.godot/imported/root5.png-fec7702aa2b8b141911ae3774a86db57.ctex"
 
 [node name="Entity" type="CharacterBody2D" unique_id=407596933]
 y_sort_enabled = true

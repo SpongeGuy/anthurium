@@ -5,7 +5,7 @@ class_name AbilityShardUse
 @export var ability_container: AbilityContainer
 
 var icon_texture: Texture = preload("res://assets/textures/ability_icons/ability_shard_use_icon.png")
-var sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/pickup_shard.tres")
+var sound: VoiceProfile = preload("res://scripts/resources/voices/pickup_shard.tres")
 
 func initialize() -> void:
 	icon = icon_texture

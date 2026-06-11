@@ -11,8 +11,8 @@ var active: bool = false
 
 var icon_texture: Texture2D = preload("res://assets/textures/ability_icons/dcube_rush_icon.png")
 
-var launch_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/machine_launch.tres")
-var land_sound: BfxrVoiceProfile = preload("res://scripts/resources/voices/cancel_stop.tres")
+var launch_sound: VoiceProfile = preload("res://scripts/resources/voices/machine_launch.tres")
+var land_sound: VoiceProfile = preload("res://scripts/resources/voices/cancel_stop.tres")
 
 func initialize() -> void:
 	icon = icon_texture
