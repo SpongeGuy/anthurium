@@ -35,7 +35,7 @@ func on_pressed(modifier: bool) -> void:
 	cell.skin = 1
 	WorldGrid.set_circle(WorldGrid.world_to_tile(entity.global_position), blast_radius, cell)
 	AudioManager.play_voice(sound, entity)
-	CameraController.add_trauma(1)
+	CameraController.add_trauma_distance(entity.global_position, 1)
 	
 	
 	

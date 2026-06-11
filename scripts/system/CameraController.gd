@@ -3,7 +3,7 @@ class_name CameraController
 
 @export var lerp_weight: float = 1.0
 @export var debug_sound: BfxrVoiceProfile
-var camera: Camera2D
+static var camera: Camera2D
 
 static var target: Node2D
 static var behavior: Behavior = Behavior.TRACKING
@@ -11,9 +11,10 @@ var target_position: Vector2
 
 enum Behavior{ TRACKING, FROZEN }
 
-static var trauma: float = 1
+static var trauma: float = 0
 @export var trauma_decay: float = 1
 @export var max_shake_offset: float = 18.0
+static var trauma_falloff_range: float = 400.0
 
 
 
@@ -26,18 +27,26 @@ func _ready() -> void:
 static func add_trauma(amount: float) -> void:
 	trauma = clamp(trauma + amount, 0, 1)
 	
+static func add_trauma_distance(position: Vector2, amount: float) -> void:
+	if not camera:
+		return
+	var dist: float = camera.global_position.distance_to(position)
+	var falloff: float = 1.0 - clamp(dist / trauma_falloff_range, 0.0, 1.0)
+	add_trauma(amount * falloff)
+	
 	
 
-func _physics_process(delta: float) -> void:
-	if not target_position:
-		return
-	
+func _physics_process(delta: float) -> void:	
 	match behavior:
 		Behavior.TRACKING:
 			if target:
 				target_position = target.global_position
-			go_to(target_position, delta)
-			
+			if target_position:
+				go_to(target_position, delta)
+	
+	if not camera:
+		return
+	
 	coords = get_viewport().get_mouse_position()
 	coords += camera.position - Vector2(320, 180)
 	
@@ -79,5 +88,5 @@ static func change_camera_target(new_target: Node2D) -> void:
 func go_to(pos: Vector2, delta: float) -> void:
 	camera.position = lerp(camera.position, pos, delta * lerp_weight)
 
-func go_instantly_to(pos: Vector2) -> void:
+static func go_instantly_to(pos: Vector2) -> void:
 	camera.position = pos

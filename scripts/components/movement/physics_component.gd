@@ -8,6 +8,7 @@ class_name PhysicsComponent
 @export var base_friction: float = 800
 @export var restitution: float = 0.4
 @export var min_bounce_speed: float = 40.0
+@export var max_speed: float = 1000.0
 
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
@@ -53,6 +54,7 @@ func apply_force(direction: Vector2, magnitude: float) -> void:
 func _apply_forces(delta: float) -> void:
 	physics_velocity += (_accumulated_force / mass) * delta
 	_accumulated_force = Vector2.ZERO
+	physics_velocity = physics_velocity.limit_length(max_speed)
 	
 func _apply_friction(delta: float) -> void:
 	var deceleration: float = base_friction * friction_coefficient * (1.0 / mass)
