@@ -59,7 +59,7 @@ func get_cell(coords: Vector2i) -> CellData:
 
 func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> void:
 	if _visible_cells.is_empty():
-		reveal_from_player()
+		reveal_from_camera()
 	if not _visible_cells.has(coords):
 		cell.invisible = true
 	var old_cell: CellData = get_cell(coords)
@@ -68,8 +68,8 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> voi
 	
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
-	if old_cell.terrain != cell.terrain and GameState.player and _visible_cells.has(coords):
-		reveal_from_player()
+	if old_cell.terrain != cell.terrain and CameraController.target_position and _visible_cells.has(coords):
+		reveal_from_camera()
 	
 	if cell.terrain == CellData.TerrainType.GROUND:
 		cell.skin = 1
@@ -234,10 +234,10 @@ func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = tr
 # util visibility
 # -------------------------------------
 
-func reveal_from_player() -> void:
-	if not GameState.player:
-		return
-	reveal_from(world_to_tile(GameState.player.global_position))
+func reveal_from_camera() -> void:
+	if not CameraController.target_position:
+		await EventBus.camera_target_changed
+	reveal_from(world_to_tile(CameraController.target_position))
 	
 func hide_map() -> void:
 	for y in height:

@@ -43,7 +43,7 @@ func initialize_player(tile_pos: Vector2i) -> void:
 	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
 	EntityManager.spawn_as_player(&"focks", player_spawn)
 	WorldGrid.hide_map()
-	WorldGrid.reveal_from_player()
+	WorldGrid.reveal_from_camera()
 	
 func make_test_land() -> void:
 	var cell: CellData = CellData.new()
@@ -143,8 +143,7 @@ func initialize_tree() -> void:
 	sub_viewport.add_child(container)
 	print("the trees")
 	
-	listener.add_child(camera)
-	listener.make_current()
+
 	
 	EventBus.camera_ready.emit(camera)
 	EventBus.weather_ready.emit(weather)

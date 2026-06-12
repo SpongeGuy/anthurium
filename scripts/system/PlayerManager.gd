@@ -26,6 +26,7 @@ func set_player(entity: Entity) -> void:
 	player_set.emit(player)
 	CameraController.change_camera_target(player)
 	CameraController.go_instantly_to(player.global_position)
+	
 
 func _process(_delta: float) -> void:
 	if not input:

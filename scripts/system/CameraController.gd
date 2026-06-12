@@ -16,7 +16,7 @@ static var trauma: float = 0
 @export var max_shake_offset: float = 18.0
 static var trauma_falloff_range: float = 400.0
 
-
+signal found_target
 
 var coords: Vector2
 
@@ -34,11 +34,15 @@ static func add_trauma_distance(position: Vector2, amount: float) -> void:
 	var falloff: float = 1.0 - clamp(dist / trauma_falloff_range, 0.0, 1.0)
 	add_trauma(amount * falloff)
 	
-	
-
-func _physics_process(delta: float) -> void:	
+func _process(delta: float) -> void:
 	if target:
 		target_position = target.global_position
+	coords = get_viewport().get_mouse_position()
+	coords += camera.position - Vector2(320, 180)
+	
+	debug_handlers()
+
+func _physics_process(delta: float) -> void:	
 	match behavior:
 		Behavior.TRACKING:
 			if target_position:
@@ -46,11 +50,6 @@ func _physics_process(delta: float) -> void:
 	
 	if not camera:
 		return
-	
-	coords = get_viewport().get_mouse_position()
-	coords += camera.position - Vector2(320, 180)
-	
-	debug_handlers()
 	
 	trauma = move_toward(trauma, 0.0, trauma_decay * delta)
 	var intensity: float = trauma * trauma
@@ -83,6 +82,7 @@ func _on_camera_ready(c: Camera2D) -> void:
 
 static func change_camera_target(new_target: Node2D) -> void:
 	target = new_target
+	target_position = target.global_position
 	EventBus.camera_target_changed.emit(target)
 
 func go_to(pos: Vector2, delta: float) -> void:
