@@ -1,6 +1,8 @@
 extends Node2D
 class_name UIHand
 
+# shit
+
 @export var current: InteractableUI
 @export var animator: SpriteAnimator
 @export var grabbed_sprite: Sprite2D
