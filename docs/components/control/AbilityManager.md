@@ -71,14 +71,14 @@ Used by [[BehaviorState|BehaviorStates]] to restrict which abilities are availab
 ```gdscript
 # In a state's enter() — only slot 0 is usable
 func enter() -> void:
-    ability_manager.disable(1)
-    ability_manager.disable(2)
-    ability_manager.disable(3)
+	ability_manager.disable(1)
+	ability_manager.disable(2)
+	ability_manager.disable(3)
 
 func exit() -> void:
-    ability_manager.enable(1)
-    ability_manager.enable(2)
-    ability_manager.enable(3)
+	ability_manager.enable(1)
+	ability_manager.enable(2)
+	ability_manager.enable(3)
 ```
 
 ---
@@ -100,9 +100,9 @@ Returns the [[Ability]] mapped to the given action name string (e.g. `"primary_a
 ```
 Entity
 └── AbilityManager         ← assign input, abilities array here
-    ├── ChargeAbility       ← Ability (slot 0)
-    ├── ShieldAbility       ← Ability (slot 1)
-    └── TeleportAbility     ← Ability (slot 2)
+	├── ChargeAbility       ← Ability (slot 0)
+	├── ShieldAbility       ← Ability (slot 1)
+	└── TeleportAbility     ← Ability (slot 2)
 ```
 
 Slot 3 left `null` means that ability button does nothing for this entity.

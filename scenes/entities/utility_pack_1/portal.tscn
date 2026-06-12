@@ -10,6 +10,10 @@
 [ext_resource type="Resource" uid="uid://ciolmmgn3qpw7" path="res://assets/resources/voices/portal_warping.tres" id="5_mvuma"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="5_sboo8"]
 [ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="6_5fkbc"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://assets/resources/EntityEffect.gd" id="6_r8iop"]
+[ext_resource type="Resource" uid="uid://brb2w6tq5mp30" path="res://assets/resources/particle_profiles/soulfire_occasional.tres" id="9_f0qsi"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://assets/resources/EntityEffectSequence.gd" id="10_qtuw3"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_f0qsi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
 
@@ -18,10 +22,21 @@ script = ExtResource("4_5fkbc")
 voice = ExtResource("5_mvuma")
 metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
 
-[sub_resource type="Resource" id="Resource_0wmeh"]
+[sub_resource type="Resource" id="Resource_4eukd"]
 script = ExtResource("5_sboo8")
 particle_profile = ExtResource("4_0wmeh")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_mw54q"]
+script = ExtResource("5_sboo8")
+particle_profile = ExtResource("9_f0qsi")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_kjw3f"]
+script = ExtResource("10_qtuw3")
+parallel = true
+effects = Array[ExtResource("6_r8iop")]([SubResource("Resource_4eukd"), SubResource("Resource_mw54q")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
 
 [node name="Entity" type="CharacterBody2D" unique_id=1658321148]
 collision_layer = 0
@@ -44,7 +59,7 @@ spawner = NodePath("../../EntitySpawner")
 time_to_spawn = 5.0
 exit_state = NodePath("../DeathState")
 enter_effect = SubResource("Resource_nalmt")
-update_effect = SubResource("Resource_0wmeh")
+update_effect = SubResource("Resource_kjw3f")
 metadata/_custom_type_script = "uid://dgje0wb2g3ax"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=750454608]
@@ -61,3 +76,8 @@ script = ExtResource("6_5fkbc")
 entities_to_spawn = Array[StringName]([&"bimpy", &"arcbimpy", &"ecube_beta"])
 spawn_chance = Array[float]([1.0, 1.0, 1.0])
 metadata/_custom_type_script = "uid://b0488tn8mef07"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=274467398 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_f0qsi")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

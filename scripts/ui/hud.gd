@@ -4,6 +4,7 @@ class_name UIHUD
 static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var bar_node: Control
 @export var menu_node: Control
+@export var toss_zone_slot: InteractableUI
 
 @export var hud_offset_from_bottom: float = 0.0
 @export var menu_offset_from_bottom: float = -100
@@ -68,12 +69,14 @@ func _ready() -> void:
 		ability_4_icon,
 	]
 	
+	
 func go_to_bar_state() -> void:
 	if current_state == State.BAR:
 		return
 	current_state = State.BAR
 	_tween_to(_get_hud_position())
 	AudioManager.play_voice(_voice_inv_close, null, true, false)
+	toss_zone_slot.visible = false
 	
 func go_to_menu_state() -> void:
 	if current_state == State.MENU:
@@ -81,6 +84,7 @@ func go_to_menu_state() -> void:
 	current_state = State.MENU
 	_tween_to(_get_menu_position())
 	AudioManager.play_voice(_voice_inv_open, null, true, false)
+	toss_zone_slot.visible = true
 	
 func update_health(ratio: float) -> void:
 	player_health_bar.value = ratio * 100

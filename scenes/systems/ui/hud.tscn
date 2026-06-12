@@ -22,7 +22,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -34,6 +34,7 @@ theme = ExtResource("1_hv3iq")
 script = ExtResource("2_n78go")
 bar_node = NodePath("Bar")
 menu_node = NodePath("Menu")
+toss_zone_slot = NodePath("TossZone")
 bg_color = NodePath("ColorRect")
 time_label = NodePath("Bar/Columns/C3/HBoxContainer/HBoxContainer2/Time")
 time_message_label = NodePath("Bar/Columns/C3/HBoxContainer2/HBoxContainer/Message")
@@ -407,6 +408,7 @@ position = Vector2(13, 25)
 current = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")
 
 [node name="TossZone" type="Control" parent="." unique_id=989109228 node_paths=PackedStringArray("neighbor_down")]
+visible = false
 custom_minimum_size = Vector2(24, 24)
 anchors_preset = 0
 offset_left = 42.0
