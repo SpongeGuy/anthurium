@@ -5,104 +5,94 @@ class_name UIController
 @export var gameview: UIGameView
 @export var screen: UIScreen
 
+var _health_component: HealthComponent
+var _ichor_component: IchorComponent
+
 @export var ability_missing: Texture2D
 
 func _ready() -> void:
 	GameState.game_state_changed.connect(_on_game_state_changed)
 	EventBus.day_state_changed.connect(_on_day_state_changed)
-	GameState.hud = hud
+	PlayerManager.player_set.connect(_on_player_set)
+	EventBus.added_opal_score_to.connect(_on_opal_score_added)
+	EventBus.added_aura_score_to.connect(_on_aura_score_added)
 	
-func _process(delta: float) -> void:
+	
 
-	_update_hud(delta)
+
 	
 func _on_game_state_changed(status: GameState.Status) -> void:
 	match status:
 		GameState.Status.LOADING:
-			_show_loading_screen()
+			_enter_loading()
 		GameState.Status.PLAYING:
-			_set_all_invisible()
-			_show_game()
-			_show_hud()
-
-func _update_hud(delta: float) -> void:
-	_update_module_time()
-	_update_module_healthbar()
-	_update_module_saturationbar()
-	_update_module_ability_icons()
-	hud.change_opal_score(GameState.opal_score, delta)
-	hud.change_aura_score(GameState.aura_score, delta)
+			_enter_playing()
+		GameState.Status.PAUSED:
+			_enter_paused()
+		GameState.Status.GAME_OVER:
+			_enter_game_over()
+			
+func _enter_loading() -> void:
+	_set_all_invisible()
+	screen.visible = true
+	screen.bg_color.color = Color.BLACK
+	screen.central_message.text = "Loading..."
 	
-func _update_module_ability_icons() -> void:
+func _enter_playing() -> void:
+	_set_all_invisible()
+	gameview.visible = true
+	hud.visible = true
+	hud.go_to_bar_state()
 	
-	if not PlayerManager.player:
-		return	
-	var ability_manager: AbilityManager = PlayerManager.player.get_component(AbilityManager)
-	if not ability_manager:
-		return
-		
-	var hand: Hand = hud.hand
-	var held_slot: int = hand.holding.get("slot", -1) if hand.current_state == Hand.State.HOLDING else -1
-	for i in ability_manager.abilities.size():
-		if i == held_slot:
-			hud.ability_icons[i].texture = ability_missing
-			continue
-		if not ability_manager.abilities.get(i):
-			hud.ability_icons[i].texture = ability_missing
-			continue
-		hud.ability_icons[i].texture = ability_manager.abilities[i].icon
-		
+func _enter_paused() -> void:
+	hud.go_to_menu_state()
 	
-
-func _update_module_saturationbar() -> void:
-	if not PlayerManager.player:
-		hud.player_saturation_bar.value = 0
-		return
-	var ichor_component: IchorComponent = PlayerManager.player.get_component(IchorComponent)
-	if not ichor_component:
-		return
-	var value: float = ichor_component.ichor / ichor_component.max_ichor
-	hud.player_saturation_bar.value = value * 100
-
-func _update_module_healthbar() -> void:
-	if not PlayerManager.player:
-		hud.player_health_bar.value = 0
-		return
-	var health_component: HealthComponent = PlayerManager.player.get_component(HealthComponent)
-	if not health_component:
-		return
-	var value: float = health_component.health / health_component.max_health
-	hud.player_health_bar.value = value * 100
-
-func _update_module_time() -> void:
-	var day_length: float = TimeManager.DAYTIMES[TimeManager.DAYTIMES.size() - 1]
-	if day_length - TimeManager.elapsed >= 0:
-		hud.time_label.text = str( "%02d:%02d" % [int((day_length - TimeManager.elapsed) / 60), int(day_length - TimeManager.elapsed) % 60])
-
-func _on_day_state_changed(state: TimeManager.DayState, name: String) -> void:
-	hud.time_message_label.text = str(name)
-
-
-# --------------------------------------------------------
-# helpers / one-time methods
-# ---------------------------------------------------------
-
+func _enter_game_over() -> void:
+	pass #TODO
+	
 func _set_all_invisible() -> void:
 	hud.visible = false
 	gameview.visible = false
-	screen.visible = false
-	
-func _show_black() -> void:
-	_set_all_invisible()
-	screen.visible = true
-	screen.bg_color.color = Color(0, 0, 0, 1)
+	screen.visible = false			
 
-func _show_loading_screen() -> void:
-	_show_black()
-	screen.central_message.text = "Loading..."
+# -------------------------
+# player binding
+# --------------------------
 
-func _show_game() -> void:
-	gameview.visible = true
+
+func _on_player_set(entity: Entity) -> void:
+	if _health_component:
+		_health_component.health_changed.disconnect(_on_health_changed)
+	if _ichor_component:
+		_ichor_component.ichor_changed.disconnect(_on_ichor_changed)
+		
+	_health_component = entity.get_component(HealthComponent)
+	if _health_component:
+		_health_component.health_changed.connect(_on_health_changed)
+
+	_ichor_component = entity.get_component(IchorComponent)
+	if _ichor_component:
+		_ichor_component.ichor_changed.connect(_on_ichor_changed)
 	
-func _show_hud() -> void:
-	hud.visible = true
+
+	
+func _on_health_changed(value: float, max_value: float) -> void:
+	hud.update_health(value / max_value)
+
+func _on_ichor_changed(value: float, max_value: float) -> void:
+	hud.update_ichor(value / max_value)	
+
+func _on_opal_score_added(subject: Entity, _amount: int, _source: Entity) -> void:
+	if subject == PlayerManager.player:
+		hud.set_opal_score(GameState.opal_score)
+
+func _on_aura_score_added(subject: Entity, _amount: int, _source: Entity) -> void:
+	if subject == PlayerManager.player:
+		hud.set_aura_score(GameState.aura_score)
+			
+#----------------------
+# day state
+# -----------------------------
+
+func _on_day_state_changed(_state: TimeManager.DayState, day_name: String) -> void:
+	hud.show_time_message(day_name)

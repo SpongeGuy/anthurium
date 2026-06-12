@@ -26,6 +26,7 @@ signal game_state_changed(status: Status)
 func change_game_state(status: Status) -> void:
 	state = status
 	game_state_changed.emit(state)
+	_on_state_changed(state)
 
 func _ready() -> void:
 	EventBus.added_opal_score_to.connect(_check_if_opal_score_player)
@@ -38,7 +39,9 @@ func _process(delta: float) -> void:
 	
 	if Input.is_key_pressed(KEY_E):
 		get_tree().reload_current_scene()
-		
+	
+	if Input.is_action_just_pressed("start"):
+		toggle_pause()
 	
 func _check_if_opal_score_player(subject: Entity, amount: int, source: Entity) -> void:
 	if subject == player:
@@ -50,24 +53,25 @@ func _check_if_aura_score_player(subject: Entity, amount: int, source: Entity) -
 	
 func _on_player_set(entity: Entity) -> void:
 	CameraController.change_camera_target(entity)
+	CameraController.go_instantly_to(entity.global_position)
 	WeatherController.change_fog_target(entity)
 	player = entity
+	
 
 func _on_anthurium_core_spawned(entity: Entity) -> void:
 	if entity not in anthurium_cores:
 		anthurium_cores.append(entity)
 
 
-func toggle_pause_menu() -> void:
-	var next_hud_state: UIHUD.State = hud.toggle_hud_state()
-	if next_hud_state == UIHUD.State.BAR:
-		world.process_mode = Node.PROCESS_MODE_PAUSABLE
-		state = Status.PLAYING
-	elif next_hud_state == UIHUD.State.MENU:
-		world.process_mode = Node.PROCESS_MODE_DISABLED
-		state = Status.PAUSED
-
-func _input(event: InputEvent) -> void:
-	if Input.is_action_just_pressed("start"):
-		toggle_pause_menu()
+func toggle_pause() -> void:
+	if state == Status.PLAYING:
+		change_game_state(Status.PAUSED)
+	elif state == Status.PAUSED:
+		change_game_state(Status.PLAYING)
 		
+func _on_state_changed(status: Status) -> void:
+	match status:
+		Status.PAUSED:
+			world.process_mode = Node.PROCESS_MODE_DISABLED
+		Status.PLAYING:
+			world.process_mode = Node.PROCESS_MODE_PAUSABLE

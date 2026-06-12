@@ -9,9 +9,13 @@ class_name PhysicsComponent
 @export var restitution: float = 0.4
 @export var min_bounce_speed: float = 40.0
 @export var max_speed: float = 1000.0
-
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
+
+## Maximum speed (px/s) at which overlapping entities are nudged apart.
+const OVERLAP_SEPARATION_SPEED: float = 1500.0
+## Minimum penetration depth (px) ebfore the separation nudge activates.
+const OVERLAP_DEPTH_THRESHOLD: float = 1.0
 
 var physics_velocity: Vector2 = Vector2.ZERO
 var _accumulated_force: Vector2 = Vector2.ZERO
@@ -67,18 +71,33 @@ func _handle_cell_terrain(_delta: float) -> void:
 
 func _handle_collisions(pre_velocity: Vector2) -> void:
 	for i in entity.get_slide_collision_count():
+		var col: KinematicCollision2D = entity.get_slide_collision(i)
+		var normal: Vector2 = col.get_normal()
+		var collider: Object = col.get_collider()
 		
-		var col := entity.get_slide_collision(i)
-		var normal := col.get_normal()
 		
-		var relative_velocity := col.get_collider_velocity() - physics_velocity
-		var push := relative_velocity.dot(normal)
-		if push > 0:
-			physics_velocity += normal * push
 		
-		if col.get_collider() is StaticBody2D or col.get_collider() is TileMapLayer:
+		if collider is StaticBody2D or collider is TileMapLayer:
+			# moving platform support: inherit velocity only from physical surfaces
+			var relative_velocity: Vector2 = col.get_collider_velocity() - physics_velocity
+			var push: float = relative_velocity.dot(normal)
+			if push > 0:
+				physics_velocity += normal * push
+			
 			if pre_velocity.length() > min_bounce_speed and pre_velocity.dot(normal) < 0.0:
 				physics_velocity = pre_velocity.bounce(normal) * restitution
 				wall_collision.emit(col.get_collider())
-		elif col.get_collider() is Entity:
+		 
+		elif collider is Entity:
+			
+			# cancel any velocity component driving us further into the other entity
+			var into_normal: float = physics_velocity.dot(normal)
+			if into_normal < 0.0:
+				physics_velocity -= normal * into_normal
+				
+			# gentle positional separation for deep overlaps (e.g. spawned on top)
+			var depth: float = col.get_depth()
+			if depth > OVERLAP_DEPTH_THRESHOLD:
+				entity.global_position += Vector2.from_angle(randf() * TAU)
+					
 			entity_collision.emit(col.get_collider())

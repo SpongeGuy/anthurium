@@ -17,8 +17,8 @@ initial_velocity_min = 31.42
 initial_velocity_max = 31.42
 angular_velocity_min = 490.05
 angular_velocity_max = 490.05
-orbit_velocity_min = 1.1310002
-orbit_velocity_max = 1.1310002
+orbit_velocity_min = 2.0000002
+orbit_velocity_max = 2.0000002
 scale_min = 0.5
 scale_max = 0.5
 
