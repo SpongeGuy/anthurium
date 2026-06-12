@@ -1,5 +1,5 @@
 extends Node2D
-class_name Hand
+class_name UIHand
 
 @export var current: InteractableUI
 @export var animator: SpriteAnimator
@@ -139,5 +139,5 @@ func toss_ability() -> void:
 	holding.ability = null
 	holding.erase("slot")
 	label.text = ""
-	current_state = Hand.State.HOVER_OVER_ACTIVATEABLE
+	current_state = UIHand.State.HOVER_OVER_ACTIVATEABLE
 	AudioManager.play_sound(toss_sound)

@@ -8,13 +8,13 @@ class_name AbilityHudElement
 var activation_sound: AudioStream = load("res://assets/sounds/effects/pickup.wav")
 var place_sound: AudioStream = load("res://assets/sounds/effects/align.wav")
 
-func select(hand: Hand) -> void:
+func select(hand: UIHand) -> void:
 	hand.selected_element = self
-	if hand.current_state != Hand.State.HOLDING:
-		hand.change_state(Hand.State.HOVER_OVER_ACTIVATEABLE)
+	if hand.current_state != UIHand.State.HOLDING:
+		hand.change_state(UIHand.State.HOVER_OVER_ACTIVATEABLE)
 
-func activate(hand: Hand) -> void:
-	if hand.current_state != Hand.State.HOLDING:
+func activate(hand: UIHand) -> void:
+	if hand.current_state != UIHand.State.HOLDING:
 		hand.grab_ability()
 	else:
 		hand.drop_ability()

@@ -26,7 +26,7 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var ability_3_icon: Sprite2D
 @export var ability_4_icon: Sprite2D
 
-@export var hand: Hand
+@export var hand: UIHand
 
 var ability_icons: Array[Sprite2D]
 

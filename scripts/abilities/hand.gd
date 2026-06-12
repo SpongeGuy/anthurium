@@ -14,7 +14,7 @@ var drop_sound: VoiceProfile = load("res://assets/resources/voices/early_cancel.
 var toss_force: float
 
 func initialize() -> void:
-	display_name = "Hand"
+	display_name = "UIHand"
 	
 	if not hand:
 		hand = entity.get_component(HandComponent)
