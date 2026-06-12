@@ -22,3 +22,6 @@ func set_visibility(to: bool) -> void:
 	else:
 		for node in nodes:
 			node.visible = false
+
+func is_visible() -> bool:
+	return _visible

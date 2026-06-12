@@ -4,19 +4,28 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="2_hrcsw"]
 [ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/piss_ball_guy/spawn_entity_then_exit.gd" id="3_figh2"]
 [ext_resource type="Resource" uid="uid://caei1gsudwqth" path="res://assets/resources/particle_profiles/portal.tres" id="4_0wmeh"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/ParticleEntityEffect.gd" id="4_figh2"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://assets/resources/EntityEffectVoice.gd" id="4_5fkbc"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="4_sboo8"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_0wmeh"]
+[ext_resource type="Resource" uid="uid://ciolmmgn3qpw7" path="res://assets/resources/voices/portal_warping.tres" id="5_mvuma"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="5_sboo8"]
 [ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="6_5fkbc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
 
-[sub_resource type="Resource" id="Resource_sboo8"]
-script = ExtResource("4_figh2")
+[sub_resource type="Resource" id="Resource_nalmt"]
+script = ExtResource("4_5fkbc")
+voice = ExtResource("5_mvuma")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[sub_resource type="Resource" id="Resource_0wmeh"]
+script = ExtResource("5_sboo8")
 particle_profile = ExtResource("4_0wmeh")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
 [node name="Entity" type="CharacterBody2D" unique_id=1658321148]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_t8x8u")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
@@ -34,11 +43,13 @@ script = ExtResource("3_figh2")
 spawner = NodePath("../../EntitySpawner")
 time_to_spawn = 5.0
 exit_state = NodePath("../DeathState")
-effect = SubResource("Resource_sboo8")
+enter_effect = SubResource("Resource_nalmt")
+update_effect = SubResource("Resource_0wmeh")
 metadata/_custom_type_script = "uid://dgje0wb2g3ax"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=750454608]
 script = ExtResource("4_sboo8")
+death_effects = null
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="VisibilityComponent" type="Node" parent="." unique_id=1000712436]
@@ -47,4 +58,6 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 
 [node name="EntitySpawner" type="Node" parent="." unique_id=1610317912]
 script = ExtResource("6_5fkbc")
+entities_to_spawn = Array[StringName]([&"bimpy", &"arcbimpy"])
+spawn_chance = Array[float]([1.0, 0.5])
 metadata/_custom_type_script = "uid://b0488tn8mef07"

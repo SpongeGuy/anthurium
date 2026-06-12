@@ -63,7 +63,9 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 	var string: String = ""
 	string += str(entity.get_basename(), "\n")
 	if entity.has_component(HealthComponent):
-		string += str("hp: ", entity.get_component(HealthComponent).health)
+		string += str("hp: ", entity.get_component(HealthComponent).health, "\n")
+	if entity.has_component(PhysicsComponent):
+		string += str("vel: ", entity.velocity)
 	label.text = string
 	
 func display_coordinates(label: Label) -> void:

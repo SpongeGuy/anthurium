@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EntityEffectSequence" format=3 uid="uid://bg2bks2clcl4r"]
+
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://assets/resources/EntityEffect.gd" id="1_tgmb7"]
+[ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="2_3eqs0"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="3_3eqs0"]
+[ext_resource type="Resource" uid="uid://cqmuaid6t5cgy" path="res://assets/resources/particle_profiles/soulfire.tres" id="4_saeqp"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://assets/resources/EntityEffectSequence.gd" id="5_84ok6"]
+
+[sub_resource type="Resource" id="Resource_saeqp"]
+script = ExtResource("3_3eqs0")
+particle_profile = ExtResource("2_3eqs0")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_mqfsm"]
+script = ExtResource("3_3eqs0")
+particle_profile = ExtResource("4_saeqp")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[resource]
+script = ExtResource("5_84ok6")
+parallel = true
+effects = Array[ExtResource("1_tgmb7")]([SubResource("Resource_saeqp"), SubResource("Resource_mqfsm")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"

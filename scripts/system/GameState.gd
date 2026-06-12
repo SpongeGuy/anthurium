@@ -38,6 +38,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_key_pressed(KEY_E):
 		get_tree().reload_current_scene()
+		
 	
 func _check_if_opal_score_player(subject: Entity, amount: int, source: Entity) -> void:
 	if subject == player:

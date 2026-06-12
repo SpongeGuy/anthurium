@@ -1,12 +1,13 @@
 extends EntityEffect
-class_name SequenceEntityEffect
+class_name EntityEffectSequence
 
-@export var effects: Array[EntityEffect]
 @export var parallel: bool = false
+@export var effects: Array[EntityEffect]
+
 
 signal sequence_finished
 
-func execute(entity: Entity) -> void:
+func _execute(entity: Entity) -> void:
 	if parallel:
 		for effect in effects:
 			effect.execute(entity)

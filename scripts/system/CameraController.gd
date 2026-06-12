@@ -7,7 +7,7 @@ static var camera: Camera2D
 
 static var target: Node2D
 static var behavior: Behavior = Behavior.TRACKING
-var target_position: Vector2
+static var target_position: Vector2
 
 enum Behavior{ TRACKING, FROZEN }
 
@@ -37,10 +37,10 @@ static func add_trauma_distance(position: Vector2, amount: float) -> void:
 	
 
 func _physics_process(delta: float) -> void:	
+	if target:
+		target_position = target.global_position
 	match behavior:
 		Behavior.TRACKING:
-			if target:
-				target_position = target.global_position
 			if target_position:
 				go_to(target_position, delta)
 	

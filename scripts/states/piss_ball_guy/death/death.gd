@@ -6,6 +6,7 @@ class_name DeathState
 @export var entity_create: EntitySpawner
 @export var animator: SpriteAnimator
 @export var locomotion: LocomotionHandler
+@export var death_effects: EntityEffect = preload("res://assets/resources/effects/default_death_effect.tres")
 
 var burst: ParticleProfile = preload("res://assets/resources/particle_profiles/soulfire.tres")
 var pop: ParticleProfile = preload("res://assets/resources/particle_profiles/pop.tres")
@@ -27,10 +28,8 @@ func enter() -> void:
 	if entity_create:
 		entity_create.spawn_at_entity()
 	
-	var visibility: VisibilityComponent = state_machine.entity.get_component(VisibilityComponent)
-	if visibility and visibility._visible:
-		ParticleManager.burst(burst, state_machine.entity.global_position)
-		ParticleManager.burst(pop, state_machine.entity.global_position)
+	if death_effects:
+		death_effects.execute(state_machine.entity)
 	
 	for child in state_machine.entity.get_children():
 		if child is Area2D:

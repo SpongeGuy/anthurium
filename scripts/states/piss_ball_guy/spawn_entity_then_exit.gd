@@ -4,14 +4,18 @@ class_name SpawnEntityThenExitState
 @export var spawner: EntitySpawner
 @export var time_to_spawn: float = 0.0
 @export var exit_state: BehaviorState
-@export var effect: EntityEffect
+@export var enter_effect: EntityEffect
+@export var update_effect: EntityEffect
 var _timer: float = 0.0
 
 func enter() -> void:
 	_timer = time_to_spawn
+	if enter_effect:
+		enter_effect.execute(state_machine.entity)
 	
 func update(delta: float) -> void:
-	effect.execute(state_machine.entity)
+	if update_effect:
+		update_effect.execute(state_machine.entity)
 	if _timer > 0:
 		_timer -= delta
 	if _timer <= 0:
