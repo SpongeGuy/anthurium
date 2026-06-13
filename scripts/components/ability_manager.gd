@@ -8,35 +8,145 @@ class_name AbilityManager
 @export var abilities: Array[Ability] = [null, null, null, null]
 var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
-
 @export var input: InputComponent
+
+signal ability_registered(slot: int, ability: Ability)
+signal ability_unregistered(slot: int)
+
+
 
 
 func _ready() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
 	
-func is_full() -> bool:
-	return abilities.get(0) and abilities.get(1) and abilities.get(2) and abilities.get(3)
-	
-			
 func _on_registered() -> void:
-	for ability in get_children():
-		if ability is Ability:
-			_setup_ability(ability)
+	# initialize any abilities already present as children in the scene tree
+	for child in get_children():
+		if child is Ability:
+			_register_ability_to_first_slot(child)
+			
+			
+
+
+
+	
+func is_full() -> bool:
+	return abilities.all(func(a): return a != null)
+	
+func get_first_empty_slot() -> int:
+	for i in abilities.size():
+		if abilities[i] == null:
+			return i
+	return -1
+	
+func has_ability(slot: int) -> bool:
+	return abilities.get(slot) != null
+	
+func get_ability(slot: int) -> Ability:
+	return abilities.get(slot)
+	
+
+
+
+# -------------------------------------
+# slot manipulation
+# --------------------------------------
+
+## Places [param ability] into [param slot] (default: first available slot).
+##
+## Reparents the ability under this manager and initializes it for the owning
+## entity. Returns true on success, false if the target slot is occupied or
+## the manager is full.
+func add_ability(ability: Ability, slot: int = -1) -> bool:
+	var target: int = slot if slot >= 0 else get_first_empty_slot()
+	if target < 0 or target >= abilities.size():
+		return false
+	if abilities[target] != null:
+		return false
+	if ability.get_parent():
+		ability.reparent(self)
+	else:
+		add_child(ability)
+	_initialize_ability(ability, target)
+	return true
+	
+
+## Removes the ability from [param slot] and returns it without freeing it.
+##
+## Tears down all runtime state (created nodes, entity/manager references) so
+## the ability can be safely transferred to another entity or stored in a shard.
+## Returns null if the slot was already empty.
+func extract_ability(slot: int) -> Ability:
+	var ability: Ability = abilities.get(slot)
+	if ability == null:
+		return null
+	abilities[slot] = null
+	ability.clean_up()
+	ability_unregistered.emit(slot)
+	return ability
+
+## Removes and permanently frees the ability in [param slot].
+## Returns true if an ability was destroyed, false if the slot was empty.
+func destroy_ability(slot: int) -> bool:
+	var ability: Ability = extract_ability(slot)
+	if ability == null:
+		return false
+	ability.queue_free()
+	return true
+
+## Swaps the contents of [param slot_a] and [param slot_b].
+##
+## Handles every case: both filled, one empty, or both empty. Emits change
+## signals for each slot so listeners see both halves of the swap.
+func swap_slots(slot_a: int, slot_b: int) -> void:
+	if slot_a == slot_b:
+		return
+	var a: Ability = abilities.get(slot_a)
+	var b: Ability = abilities.get(slot_b)
+	if a == b:
+		return
+	abilities[slot_a] = b
+	abilities[slot_b] = a
+	_emit_slot_changed(slot_a, b)
+	_emit_slot_changed(slot_b, a)
+	
+
+## Extracts the ability from [param slot] and spawns an [AbilityShard] at
+## [param position], transferring the ability into the shard's [AbilityContainer].
+##
+## Returns the spawned shard entity, or null if the slot was empty.
+## A scatter offset is applied when no explicit position is supplied.
+func drop_to_shard(slot: int, position: Vector2) -> Entity:
+	var ability: Ability = extract_ability(slot)
+	if ability == null:
+		return null
+	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", position)
+	var container: AbilityContainer = shard.get_component(AbilityContainer)
+	container.add_ability.call_deferred(ability)
+	return shard
+	
+
+# -----------------------------------
+# enable/disable
+# -----------------------------------
 
 func disable(id: int) -> void:
 	_disabled[id] = true
 	
 func enable(id: int) -> void:
 	_disabled[id] = false
+	
+	
+# -------------------------------
+# input handling
+# --------------------------------
 
 func _on_input_just_pressed(id: int) -> void:
 	if not abilities.get(id):
 		return
 	if _disabled[id]:
 		return
-	
 	abilities[id].on_pressed(input.modifier)
 
 func _on_input_just_released(id: int, held_time: float) -> void:
@@ -46,84 +156,30 @@ func _on_input_just_released(id: int, held_time: float) -> void:
 
 func _process(delta: float) -> void:
 	for i in range(input.is_held.size()):
-		if input.is_held[i]:
-			if i >= abilities.size():
-				continue
-			if abilities[i] == null:
-				continue
-			abilities[i].on_held(input.hold_time[i], delta, input.modifier)
+		if not input.is_held[i]:
+			continue
+		if i >= abilities.size() or abilities[i] == null:
+			continue
+		abilities[i].on_held(input.hold_time[i], delta, input.modifier)
 			
-func get_ability_from_id(id: int) -> Ability:
-	if not abilities[id]:
-		return
-	return abilities[id]
-
-func get_ability_from_string(action: String) -> Ability:
-	var id: int = input.actions.bsearch(action)
-	if not abilities[id]:
-		return
-	return abilities[id]
-	
-# ui hand "grabs" the ui ability from the hud
-# ui hand, while holding the ui ability, activates the drop hud element
-# ability is removed from player (cleaned up extra nodes)
-# ability is transferred to the container of an inert ability shard
-# when ability shard is used, the ability from its container is transferred to the player's ability_manager
-
-
-func add_ability(ability: Ability) -> void:
-	ability.reparent(self)
-	_setup_ability(ability)
-	
-func _setup_ability(ability: Ability) -> void:
+func _initialize_ability(ability: Ability, slot: int) -> void:
 	ability.entity = entity
 	ability.manager = self
 	ability.initialize()
-	register_to_nearest_slot(ability)
-	
-func remove_ability(slot: int) -> Ability:
-	if abilities[slot] == null:
-		return
-	
-	var ability: Ability = abilities[slot]
-	
-	abilities[slot].clean_up()
-	abilities[slot].queue_free()
-	
-	abilities[slot] = null
-	return ability
-	
-
-func drop_ability_shard_from_ability(ability: Ability, position: Vector2) -> void:
-	ability.clean_up()
-	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", position)
-	var container: AbilityContainer = shard.get_component(AbilityContainer)
-	container.add_ability.call_deferred(ability)
-	
-
-func drop_ability_shard(slot: int, position: Vector2) -> void:
-	var ability: Ability = abilities[slot]
-	if ability == null:
-		return
-	abilities[slot] = null
-	drop_ability_shard_from_ability(ability, position)
-	
-	
-
-func register(ability: Ability, slot: int) -> void:
-	if abilities.get(slot):
-		return
 	abilities[slot] = ability
-
-func register_to_nearest_slot(ability: Ability) -> void:
-	var slot: int = -1
-	for i in range(abilities.size()):
-		if abilities.get(i) == null:
-			slot = i
-			abilities[slot] = ability
-			return
+	ability_registered.emit(slot, ability)
 	
-	if slot == -1:
+func _register_ability_to_first_slot(ability: Ability) -> void:
+	var slot: int = get_first_empty_slot()
+	if slot < 0:
 		return
-		
+	_initialize_ability(ability, slot)
 	
+func _emit_slot_changed(slot: int, ability: Ability) -> void:
+	if ability != null:
+		ability_registered.emit(slot, ability)
+	else:
+		ability_unregistered.emit(slot)
+		
+
+		

@@ -49,14 +49,7 @@ var _voice_inv_close: VoiceProfile = preload("res://assets/resources/voices/ui_i
 enum State{BAR, MENU}
 var current_state: State = State.BAR
 
-func toggle_hud_state() -> State:
-	if current_state == State.BAR:
-		current_state = State.MENU
-		_tween_to(_get_menu_position())
-	else:
-		current_state = State.BAR
-		_tween_to(_get_hud_position())
-	return current_state
+
 
 func _ready() -> void:
 	_screen_size = get_viewport().get_visible_rect().size
@@ -68,7 +61,18 @@ func _ready() -> void:
 		ability_3_icon,
 		ability_4_icon,
 	]
-	
+
+
+
+
+func toggle_hud_state() -> State:
+	if current_state == State.BAR:
+		current_state = State.MENU
+		_tween_to(_get_menu_position())
+	else:
+		current_state = State.BAR
+		_tween_to(_get_hud_position())
+	return current_state
 	
 func go_to_bar_state() -> void:
 	if current_state == State.BAR:
@@ -85,16 +89,22 @@ func go_to_menu_state() -> void:
 	_tween_to(_get_menu_position())
 	AudioManager.play_voice(_voice_inv_open, null, true, false)
 	toss_zone_slot.visible = true
-	
+
+
+
+
 func update_health(ratio: float) -> void:
 	player_health_bar.value = ratio * 100
 	
 func update_ichor(ratio: float) -> void:
 	player_saturation_bar.value = ratio * 100
 	
-func update_ability_icon(slot: int, icon: Texture2D) -> void:
+## Sets the icon displayed for [param slot] (0–3).
+## Pass [code]null[/code] to clear the slot (shows the missing-ability placeholder).
+func update_ability_icon(slot: int, texture: Texture2D) -> void:
 	if slot < ability_icons.size():
-		ability_icons[slot].texture = icon
+		ability_icons[slot].texture = texture
+
 		
 func update_time(elapsed: float) -> void:
 	var day_length: float = TimeManager.DAYTIMES[TimeManager.DAYTIMES.size() - 1]

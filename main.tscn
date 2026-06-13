@@ -16,10 +16,28 @@
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
+[ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
 [sub_resource type="Resource" id="Resource_cegan"]
 script = ExtResource("5_074og")
 metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_yaehf"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cegan"]
+resource_local_to_scene = true
+shader = ExtResource("17_yaehf")
+shader_parameter/tex = SubResource("ViewportTexture_yaehf")
+shader_parameter/mask_type = 1
+shader_parameter/curve = 0.1200000057
+shader_parameter/sharpness = 0.6666667
+shader_parameter/color_offset = -0.21999998669999998
+shader_parameter/mask_brightness = 1.0
+shader_parameter/scanline_brightness = 1.0
+shader_parameter/min_scanline_thickness = 0.5
+shader_parameter/aspect = 0.562000002945
+shader_parameter/wobble_strength = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
 
@@ -28,7 +46,7 @@ metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
 [node name="GameMaster" type="Node" parent="." unique_id=1238098609 node_paths=PackedStringArray("game_canvas", "dungeon_generator")]
 process_mode = 3
 script = ExtResource("1_dg77c")
-game_canvas = NodePath("../Game")
+game_canvas = NodePath("../SubViewport/Game")
 dungeon_generator = NodePath("DungeonGenerator")
 
 [node name="EntityManager" type="Node" parent="GameMaster" unique_id=442705041]
@@ -46,9 +64,9 @@ metadata/_custom_type_script = "uid://rrfxfwvhpqup"
 
 [node name="UIController" type="Node" parent="GameMaster" unique_id=2010873109 node_paths=PackedStringArray("hud", "gameview", "screen")]
 script = ExtResource("8_ycdy4")
-hud = NodePath("../../UI/HUD")
-gameview = NodePath("../../UI/GameView")
-screen = NodePath("../../UI/Screen")
+hud = NodePath("../../SubViewport/UI/HUD")
+gameview = NodePath("../../SubViewport/UI/GameView")
+screen = NodePath("../../SubViewport/UI/Screen")
 ability_missing = ExtResource("6_yaehf")
 metadata/_custom_type_script = "uid://pmgi17orx2e7"
 
@@ -69,14 +87,22 @@ metadata/_custom_type_script = "uid://3iwkt7r7c01a"
 script = ExtResource("9_vivmo")
 metadata/_custom_type_script = "uid://ctuuq37605cgy"
 
-[node name="HUDParticleController" type="CanvasLayer" parent="." unique_id=1773480992]
-layer = 10
-metadata/_custom_type_script = "uid://bnx1xoe860b0e"
+[node name="CRTFilter" type="ColorRect" parent="." unique_id=379362459]
+material = SubResource("ShaderMaterial_cegan")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="UI" type="CanvasLayer" parent="." unique_id=2071487813]
+[node name="SubViewport" type="SubViewport" parent="." unique_id=427656691]
+snap_2d_transforms_to_pixel = true
+size = Vector2i(640, 360)
+
+[node name="UI" type="CanvasLayer" parent="SubViewport" unique_id=2071487813]
 layer = 5
 
-[node name="DebugHelper" type="Node2D" parent="UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "camera", "game_master")]
+[node name="DebugHelper" type="Node2D" parent="SubViewport/UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "camera", "game_master")]
 script = ExtResource("10_ycdy4")
 show = true
 vbox = NodePath("../Debug/VBoxContainer")
@@ -85,10 +111,10 @@ l1 = NodePath("../Debug/VBoxContainer/Label")
 l2 = NodePath("../Debug/VBoxContainer/Label2")
 l3 = NodePath("../Debug/VBoxContainer/Label3")
 l4 = NodePath("../Debug/VBoxContainer/Label4")
-camera = NodePath("../../GameMaster/CameraController")
-game_master = NodePath("../../GameMaster")
+camera = NodePath("../../../GameMaster/CameraController")
+game_master = NodePath("../../../GameMaster")
 
-[node name="Debug" type="Control" parent="UI" unique_id=436922413]
+[node name="Debug" type="Control" parent="SubViewport/UI" unique_id=436922413]
 modulate = Color(1, 1, 1, 0.7764706)
 material = SubResource("ShaderMaterial_yaehf")
 layout_mode = 3
@@ -99,38 +125,38 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("10_w48qg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Debug" unique_id=912685774]
+[node name="VBoxContainer" type="VBoxContainer" parent="SubViewport/UI/Debug" unique_id=912685774]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="title" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1967289439]
+[node name="title" type="Label" parent="SubViewport/UI/Debug/VBoxContainer" unique_id=1967289439]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/Debug/VBoxContainer" unique_id=1551783464]
+[node name="Label" type="Label" parent="SubViewport/UI/Debug/VBoxContainer" unique_id=1551783464]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="UI/Debug/VBoxContainer" unique_id=529828005]
-layout_mode = 2
-text = "job
-job"
-
-[node name="Label3" type="Label" parent="UI/Debug/VBoxContainer" unique_id=463304919]
+[node name="Label2" type="Label" parent="SubViewport/UI/Debug/VBoxContainer" unique_id=529828005]
 layout_mode = 2
 text = "job
 job"
 
-[node name="Label4" type="Label" parent="UI/Debug/VBoxContainer" unique_id=311188411]
+[node name="Label3" type="Label" parent="SubViewport/UI/Debug/VBoxContainer" unique_id=463304919]
 layout_mode = 2
 text = "job
 job"
 
-[node name="Screen" parent="UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
+[node name="Label4" type="Label" parent="SubViewport/UI/Debug/VBoxContainer" unique_id=311188411]
+layout_mode = 2
+text = "job
+job"
 
-[node name="HUD" parent="UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
+[node name="Screen" parent="SubViewport/UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
+
+[node name="HUD" parent="SubViewport/UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
 offset_top = 336.0
 offset_bottom = 536.0
 
-[node name="GameView" parent="UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
+[node name="GameView" parent="SubViewport/UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
 
-[node name="Game" type="CanvasLayer" parent="." unique_id=16701813]
+[node name="Game" type="CanvasLayer" parent="SubViewport" unique_id=16701813]
