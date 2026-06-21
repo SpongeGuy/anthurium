@@ -16,11 +16,10 @@ signal ability_unregistered(slot: int)
 
 
 
-func _ready() -> void:
+
+func _on_registered() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
-	
-func _on_registered() -> void:
 	# initialize any abilities already present as children in the scene tree
 	for child in get_children():
 		if child is Ability:

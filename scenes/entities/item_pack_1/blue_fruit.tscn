@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bakitoaghjsgl"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_5hjab"]
+[ext_resource type="Texture2D" uid="uid://dgqvfw8yqesrv" path="res://assets/textures/items/blue_fruit.png" id="2_ul7px"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_p124j"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="4_dv83t"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="4_gpicd"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="5_gpicd"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="5_r16g8"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="8_r16g8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p124j"]
+
+[node name="BlueFruit" type="CharacterBody2D" unique_id=118087081]
+texture_filter = 1
+script = ExtResource("1_5hjab")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=675987245]
+texture = ExtResource("2_ul7px")
+hframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=887785287]
+shape = SubResource("CircleShape2D_p124j")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1241615259 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("3_p124j")
+initial_state = NodePath("BlankState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="BlankState" type="Node" parent="StateMachine" unique_id=474800452]
+script = ExtResource("4_dv83t")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=774818091]
+script = ExtResource("5_r16g8")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="IchorComponent" type="Node" parent="." unique_id=1667920393]
+script = ExtResource("4_gpicd")
+reduction_per_second = 0.0
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="AbilityManager" type="Node" parent="." unique_id=16330037 node_paths=PackedStringArray("ichor_component", "input")]
+script = ExtResource("5_gpicd")
+ichor_component = NodePath("../IchorComponent")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="InputComponent" type="Node" parent="." unique_id=830330223]
+script = ExtResource("8_r16g8")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"

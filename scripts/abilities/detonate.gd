@@ -3,7 +3,9 @@ class_name AbilityDetonate
 
 @export var hurtbox: Hurtbox
 @export var blast_radius: float = 3
+@export var damage: float = 25
 @export var sound: VoiceProfile = preload("res://assets/resources/voices/detonate.tres")
+@export var explosion_effect: EntityEffect = preload("res://assets/resources/effects/detonation_effect.tres")
 var icon_texture: Texture2D = preload("res://assets/textures/ability_icons/detonate.png")
 
 func initialize() -> void:
@@ -29,16 +31,11 @@ func initialize() -> void:
 		entity.add_child(container)
 		entity.add_child(hurtbox)
 		
-var explosion_profile: ParticleProfile = preload("res://assets/resources/particle_profiles/explosion.tres")
+
 func on_pressed(modifier: bool) -> void:
 	hurtbox.activate(0, 1)
-	var cell: CellData = CellData.new()
-	cell.terrain = CellData.TerrainType.GROUND
-	cell.skin = 1
-	WorldGrid.set_circle(WorldGrid.world_to_tile(entity.global_position), blast_radius, cell)
-	AudioManager.play_voice(sound, entity)
-	CameraController.add_trauma_distance(entity.global_position, 1)
-	ParticleManager.burst(explosion_profile, entity.global_position)
+	WorldGrid.damage_circle(WorldGrid.world_to_tile(entity.global_position), blast_radius, damage)
+	explosion_effect.execute(entity)
 	
 	
 	

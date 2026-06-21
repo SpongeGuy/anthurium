@@ -26,14 +26,14 @@ func set_new_pathfinding_location_relative(origin: Vector2, radius: float) -> vo
 	var angle: float = randf() * TAU
 	var distance = randf() * radius
 	var target_position: Vector2 = origin + Vector2(cos(angle), sin(angle)) * distance
-	target_position = WorldGrid.get_safe_world_pos(target_position, CellData.TerrainType.GROUND)
+	target_position = WorldGrid.get_safe_world_pos(target_position, CellType.TerrainType.GROUND)
 	navigation.set_target_position(target_position)
 	picked_new_nav_point.emit(target_position)
 	has_target = true
 
 func set_new_pathfinding_location_explicit(position: Vector2, safe: bool = true) -> void:
 	if safe:
-		var safe_position: Vector2 = WorldGrid.get_safe_world_pos(position, CellData.TerrainType.GROUND)
+		var safe_position: Vector2 = WorldGrid.get_safe_world_pos(position, CellType.TerrainType.GROUND)
 		navigation.set_target_position(safe_position)
 	else:
 		navigation.set_target_position(position)

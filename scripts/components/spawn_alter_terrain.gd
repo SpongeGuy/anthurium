@@ -3,12 +3,10 @@ class_name SpawnAlterTerrain
 
 @export var type: Type
 @export var radius: int = 2
-@export var cell: CellData
+@export var cell_type: StringName
 enum Type{CIRCLE, SQUARE, SINGULAR}
 
 func _ready() -> void:
-	cell.terrain = CellData.TerrainType.GROUND
-	cell.invisible = false
 	match type:
 		Type.CIRCLE:
 			call_deferred("_set_circle")
@@ -19,10 +17,10 @@ func _ready() -> void:
 			
 			
 func _set_circle() -> void:
-	WorldGrid.set_circle(WorldGrid.world_to_tile(entity.global_position), radius, cell)
+	WorldGrid.set_circle_type(WorldGrid.world_to_tile(entity.global_position), radius, cell_type)
 
 func _set_square() -> void:
-	WorldGrid.set_rectangle(WorldGrid.world_to_tile(entity.global_position) - Vector2i(radius, radius), Vector2i(radius * 2, radius * 2), cell)
+	WorldGrid.set_rectangle_type(WorldGrid.world_to_tile(entity.global_position) - Vector2i(radius, radius), Vector2i(radius * 2, radius * 2), cell_type)
 
 func _set_cell() -> void:
-	WorldGrid.set_cell(WorldGrid.world_to_tile(entity.global_position), cell)
+	WorldGrid.set_cell_type(WorldGrid.world_to_tile(entity.global_position), cell_type)

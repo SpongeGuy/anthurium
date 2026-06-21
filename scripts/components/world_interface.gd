@@ -18,13 +18,13 @@ func sample_cell(body: CharacterBody2D) -> CellData:
 
 func cell_movement_modifier() -> float:
 	var current_cell: CellData = sample_cell(entity)
-	if current_cell == null or current_cell.terrain != CellData.TerrainType.GROUND:
+	if current_cell == null or current_cell.type.terrain != CellType.TerrainType.GROUND:
 		return 1.0
 	return current_cell.movement_multiplier
 	
 func cell_friction_multiplier() -> float:
 	var current_cell: CellData = sample_cell(entity)
-	if current_cell == null or current_cell.terrain != CellData.TerrainType.GROUND:
+	if current_cell == null or current_cell.type.terrain != CellType.TerrainType.GROUND:
 		return 1.0
 	return current_cell.friction
 	

@@ -124,20 +124,20 @@ The entity's systems — [[LocomotionHandler]], [[AbilityManager]] — read from
 ### Writing AI input from a state
 ```gdscript
 func physics_update(delta: float) -> void:
-    # AI sets direction directly
-    if not input.player_controlled:
-        input.move_input_direction = facing.get_direction()
-    # If player_controlled, the player has already written move_input_direction
-    locomotion.movement_function(delta)
+	# AI sets direction directly
+	if not input.player_controlled:
+		input.move_input_direction = facing.get_direction()
+	# If player_controlled, the player has already written move_input_direction
+	locomotion.movement_function(delta)
 ```
 
 ### Triggering an ability from a state
 ```gdscript
 func update(delta: float) -> void:
-    _timer -= delta
-    if _timer <= 0.0 and not input.player_controlled:
-        input.press_action(0)
-        input.release_action(0)
+	_timer -= delta
+	if _timer <= 0.0 and not input.player_controlled:
+		input.press_action(0)
+		input.release_action(0)
 ```
 
 See [[Possession-Ready Design]] for the full philosophy on when to gate behind `player_controlled`.

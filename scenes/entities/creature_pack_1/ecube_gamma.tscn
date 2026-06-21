@@ -21,7 +21,6 @@
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="20_fbm4g"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="21_5w8py"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="22_1oe5y"]
-[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="23_nmwdg"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="26_ik1gs"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="26_ukxse"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="27_lh1kq"]
@@ -35,11 +34,6 @@ size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dukxu"]
 size = Vector2(16, 16)
-
-[sub_resource type="Resource" id="Resource_y2riw"]
-script = ExtResource("23_nmwdg")
-skin = 1
-metadata/_custom_type_script = "uid://dwex81s0yowa4"
 
 [sub_resource type="Resource" id="Resource_my2sf"]
 script = ExtResource("11_3nmld")
@@ -135,7 +129,7 @@ metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]
 script = ExtResource("22_1oe5y")
 radius = 0
-cell = SubResource("Resource_y2riw")
+cell_type = &"ground_soil"
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
 
 [node name="CreateAbilityShardComponent" type="Node" parent="Bullshit" unique_id=1212009932 node_paths=PackedStringArray("ability_manager")]

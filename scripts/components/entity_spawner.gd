@@ -12,7 +12,8 @@ func spawn_at(position: Vector2) -> void:
 	_spawned = false
 	for i in range(entities_to_spawn.size()):
 		if randf() < spawn_chance[i]:
-			EntityManager.spawn_safely(entities_to_spawn[i], position + Vector2(randf_range(-8, 8), randf_range(-8, 8)))
+			randomize()
+			EntityManager.spawn(entities_to_spawn[i], position)
 			_spawned = true
 			
 	if _spawned:

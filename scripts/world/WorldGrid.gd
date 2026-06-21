@@ -36,12 +36,12 @@ func init_grid(w: int, h: int) -> void:
 	# initialize entire grid including padding as out of bounds
 	for i in _grid.size():
 		_grid[i] = CellData.new()
-		_grid[i].terrain = CellData.TerrainType.OUT_OF_BOUNDS
+		_grid[i].type = CellTypeRegister.get_cell_type(&"out_of_bounds")
 	
 	# set the inner area as in bounds
 	for y in height:
 		for x in width:
-			_grid[_idx(Vector2i(x, y))].terrain = CellData.TerrainType.GROUND
+			_grid[_idx(Vector2i(x, y))].type = CellTypeRegister.get_cell_type(&"ground_soil")
 	
 	# initialize visited array
 	_visited.resize(_grid.size())
@@ -57,21 +57,21 @@ func safe_get_cell(coords: Vector2i) -> CellData:
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 
-func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> void:
+func set_cell(coords: Vector2i, cell: CellData) -> void:
 	if _visible_cells.is_empty():
 		reveal_from_camera()
 	if not _visible_cells.has(coords):
 		cell.invisible = true
 	var old_cell: CellData = get_cell(coords)
-	if old_cell.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
+	if old_cell.type.terrain == CellType.TerrainType.OUT_OF_BOUNDS:
 		return
 	
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
-	if old_cell.terrain != cell.terrain and CameraController.target_position and _visible_cells.has(coords):
+	if old_cell.type.terrain != cell.terrain and CameraController.target_position and _visible_cells.has(coords):
 		reveal_from_camera()
 	
-	if cell.terrain == CellData.TerrainType.GROUND:
+	if cell.type.terrain == CellType.TerrainType.GROUND:
 		cell.skin = 1
 	else:
 		cell.skin = 0
@@ -82,7 +82,26 @@ func set_cell(coords: Vector2i, cell: CellData, reveal_area: bool = true) -> voi
 	else:
 		cell_changed.emit(coords, cell)
 		
-	
+func set_cell_type(coords: Vector2i, type_name: StringName) -> void:
+	var cell_type: CellType = CellTypeRegister.get_cell_type(type_name)
+	if not cell_type:
+		push_warning("WorldGrid: unknown cell type '%s'" % type_name)
+		return
+	if get_cell(coords).type.terrain == CellType.TerrainType.OUT_OF_BOUNDS:
+		return
+	var cell: CellData = get_cell(coords)
+	if not cell:
+		return
+	var old_terrain: CellType.TerrainType = cell.type.terrain
+	cell.type = cell_type
+	cell.max_health = cell_type.max_health
+	cell.health = cell_type.max_health
+	if old_terrain != cell_type.terrain and CameraController.target_position and _visible_cells.has(coords):
+		reveal_from_camera()
+	if _batching:
+		_dirty_cells[coords] = cell
+	else:
+		cell_changed.emit(coords, cell)
 
 func hide_cell(coords: Vector2i) -> void:
 	var cell = get_cell(coords)
@@ -112,6 +131,27 @@ func mutate(coords: Vector2i, property: String, value: Variant) -> void:
 			_dirty_cells[coords] = cell
 		else:
 			cell_changed.emit(coords, cell)
+			
+			
+func damage_cell(coords: Vector2i, amount: float) -> void:
+	var cell: CellData = get_cell(coords)
+	if not cell or cell.type.terrain == CellType.TerrainType.OUT_OF_BOUNDS:
+		return
+	
+	
+	if cell.take_damage(amount) and cell.type.destroyed_type != &"":
+		set_cell_type(coords, cell.type.destroyed_type)
+	elif _batching:
+		_dirty_cells[coords] = cell
+	else:
+		cell_changed.emit(coords, cell)
+		
+func damage_circle(coords: Vector2i, radius: int, amount: float) -> void:
+	for y in range(coords.y - radius, coords.y + radius + 1):
+		for x in range(coords.x - radius, coords.x + radius + 1):
+			var tbc = Vector2i(x, y)
+			if _in_bounds(tbc) and Vector2(tbc - coords).length() <= radius:
+				damage_cell(tbc, amount)
 		
 const CARDINAL_DIRS = {
 	"N":  Vector2i( 0, -1),
@@ -139,13 +179,13 @@ func get_neighbors(coords: Vector2i, diagonal: bool = false) -> Dictionary[Strin
 		result[key] = get_cell(neighbor_coords)
 	return result
 	
-func get_neighbors_of_type(coords: Vector2i, terrain: CellData.TerrainType, diagonal: bool = false) -> Array[Vector2i]:
+func get_neighbors_of_type(coords: Vector2i, terrain: CellType.TerrainType, diagonal: bool = false) -> Array[Vector2i]:
 	var dirs = ALL_DIRS if diagonal else CARDINAL_DIRS
 	var result: Array[Vector2i] = []
 	for key in dirs:
 		var neighbor_coords = coords + dirs[key]
 		var cell = get_cell(neighbor_coords)
-		if cell and cell.terrain == terrain:
+		if cell and cell.type and cell.type.terrain == terrain:
 			result.append(neighbor_coords)
 	return result
 	
@@ -197,38 +237,36 @@ func get_coords_in_radius(center: Vector2i, radius: int) -> Array[Vector2i]:
 # returns nearest tile coords matching the given terrain type
 # searches outward in rings from 'origin'
 # returns Vector2i(-1, -1) if none found within max_radius
-func get_safe_coords(origin: Vector2i, terrain: CellData.TerrainType, max_radius: int = 64) -> Vector2i:
+func get_safe_coords(origin: Vector2i, terrain: CellType.TerrainType, max_radius: int = 64) -> Vector2i:
 	for radius in range(0, max_radius):
 		for coords in get_coords_in_radius(origin, radius):
 			var cell: CellData = safe_get_cell(coords)
-			if cell and cell.terrain == terrain:
+			if cell and cell.type and cell.type.terrain == terrain:
 				return coords
 	return Vector2i(-1, -1)
 	
-func get_safe_world_pos(origin: Vector2, terrain: CellData.TerrainType, max_radius: int = 64) -> Vector2:
+func get_safe_world_pos(origin: Vector2, terrain: CellType.TerrainType, max_radius: int = 64) -> Vector2:
 	var coords: Vector2i = get_safe_coords(world_to_tile(origin), terrain, max_radius)
 	if coords == Vector2i(-1, -1):
 		return Vector2.INF
 	return tile_to_world(coords)
 
-func set_rectangle(position: Vector2i, size: Vector2i, cell: CellData) -> void:
+func set_rectangle_type(position: Vector2i, size: Vector2i, type_name: StringName) -> void:
 	var rectangle: Rect2i = Rect2i(position, size)
 	for y in range(rectangle.position.y, rectangle.position.y + rectangle.size.y):
 		for x in range(rectangle.position.x, rectangle.position.x + rectangle.size.x):
-			WorldGrid.set_cell(Vector2i(x, y), cell.duplicate())
+			set_cell_type(Vector2i(x, y), type_name)
 
-func set_circle(center: Vector2i, radius: int, cell: CellData, filled: bool = true) -> void:
+
+func set_circle_type(center: Vector2i, radius: int, type_name: StringName, filled: bool = true) -> void:
 	for y in range(center.y - radius, center.y + radius + 1):
 		for x in range(center.x - radius, center.x + radius + 1):
 			var coords = Vector2i(x, y)
 			if not _in_bounds(coords):
 				continue
 			var dist = Vector2(coords - center).length()
-			if filled and dist <= radius:
-				
-				set_cell(coords, cell.duplicate())
-			elif not filled and dist <= radius and dist > radius - 1.0:
-				set_cell(coords, cell.duplicate())
+			if (filled and dist <= radius) or (not filled and dist <= radius and dist > radius - 1.0):
+				set_cell_type(coords, type_name)
 
 # ------------------------------------
 # util visibility
@@ -238,6 +276,7 @@ func reveal_from_camera() -> void:
 	if not CameraController.target_position:
 		await EventBus.camera_target_changed
 	reveal_from(world_to_tile(CameraController.target_position))
+	
 	
 func hide_map() -> void:
 	for y in height:
@@ -279,7 +318,7 @@ func flood_collect(coords: Vector2i) -> Array:
 	const BORDER: int = 2
 	
 	var start: int = _idx(coords)
-	if _grid[start].terrain != CellData.TerrainType.GROUND:
+	if _grid[start].type.terrain != CellType.TerrainType.GROUND:
 		return [[] as Array[Vector2i], [] as Array[Vector2i]]
 		
 	var cardinal: Array[int] = [-_stride, 1, _stride, -1]
@@ -298,10 +337,10 @@ func flood_collect(coords: Vector2i) -> Array:
 			var n: int = current + offset
 			if _visited[n] != UNVISITED:
 				continue
-			if _grid[n].terrain == CellData.TerrainType.GROUND:
+			if _grid[n].type.terrain == CellType.TerrainType.GROUND:
 				_visited[n] = FLOODED
 				queue.push_back(n)
-			elif _grid[n].terrain != CellData.TerrainType.OUT_OF_BOUNDS:
+			elif _grid[n].type.terrain != CellType.TerrainType.OUT_OF_BOUNDS:
 				_visited[n] = BORDER
 				border.append(_idx_to_coords(n))
 		
@@ -309,7 +348,7 @@ func flood_collect(coords: Vector2i) -> Array:
 			var n: int = current + offset
 			if _visited[n] != UNVISITED:
 				continue
-			if _grid[n].terrain != CellData.TerrainType.GROUND and _grid[n].terrain != CellData.TerrainType.OUT_OF_BOUNDS:
+			if _grid[n].type.terrain != CellType.TerrainType.GROUND and _grid[n].type.terrain != CellType.TerrainType.OUT_OF_BOUNDS:
 					_visited[n] = BORDER
 					border.append(_idx_to_coords(n))
 		
@@ -333,13 +372,7 @@ func flush_all() -> void:
 		for x in width:
 			var coords = Vector2i(x, y)
 			var cell = get_cell(coords)
-			if cell.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
+			if cell.type.terrain == CellType.TerrainType.OUT_OF_BOUNDS:
 				continue
-			if cell.terrain == CellData.TerrainType.GROUND:
-				cell.skin = 1
-				cell.using_random_texture = false
-			else:
-				cell.skin = 0
-				cell.using_random_texture = true
 			_dirty_cells[coords] = cell
 	end_batch()

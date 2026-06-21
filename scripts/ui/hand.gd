@@ -67,6 +67,7 @@ var _toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
 
 func _ready() -> void:
 	state_changed.connect(_on_state_changed)
+	PlayerManager.player_set.connect(_on_player_set)
 
 func _process(delta: float) -> void:
 	if not current:
@@ -101,6 +102,10 @@ func bind_ability_manager(manager: AbilityManager) -> void:
 		change_state(State.DEFAULT)
 	_ability_manager = manager
 	
+func _on_player_set(entity: Entity) -> void:
+	var ability_manager: AbilityManager = entity.get_component(AbilityManager)
+	if ability_manager:
+		bind_ability_manager(ability_manager)
 
 # -------------- state ------------------------------------------
 
@@ -156,7 +161,7 @@ func drop_ability_onto(element: AbilityHudElement) -> void:
 		return
 	if not _ability_manager:
 		return
-	_ability_manager.sawp_slots(_held_slot, element.slot)
+	_ability_manager.swap_slots(_held_slot, element.slot)
 	_release_held()
 	AudioManager.play_sound(_place_sound)
 	change_state(State.HOVER_OVER_ACTIVATEABLE)

@@ -8,12 +8,6 @@ static var DIRECTIONS: Array[Vector2i] = [
 	Vector2i(-1, 0),                 Vector2i(1, 0),
 	Vector2i(-1, 1), Vector2i(0, 1), Vector2i(1, 1)
 ]
-	
-const OLD_TERRAIN_ATLAS: Dictionary = {
-	CellData.TerrainType.GROUND: Vector2i(0, 0),
-	CellData.TerrainType.WALL: Vector2i(1, 0),
-	CellData.TerrainType.GAP: Vector2i(2, 0),
-}
 
 static var BITMASK_TABLE: Array[Vector2i] = _build_bitmask_table()
 
@@ -30,7 +24,7 @@ func _on_cells_changed(batch: Dictionary[Vector2i, CellData]) -> void:
 	
 func _draw_cell(coords: Vector2i, cell: CellData) -> void:
 	cell.atlas_coordinate = resolve_atlas_coordinate(cell, coords)
-	set_cell(coords, cell.skin, cell.atlas_coordinate)
+	set_cell(coords, cell.type.tileset_id, cell.atlas_coordinate)
 	_redraw_neighbors(coords)
 	
 func render_all() -> void:
@@ -45,9 +39,10 @@ func render_all() -> void:
 # 2. non-tiling: every tile is a representation of a different object
 
 func resolve_atlas_coordinate(cell: CellData, coords: Vector2i) -> Vector2i:
-
-	if cell.using_random_texture:
-		var source: TileSetAtlasSource = tile_set.get_source(cell.skin) as TileSetAtlasSource
+	var source: TileSetAtlasSource = tile_set.get_source(cell.type.tileset_id) as TileSetAtlasSource
+	if cell.type.tile_mode == CellType.TileMode.RANDOM:
+		if not cell.type.possible_textures.is_empty():
+			return cell.type.possible_textures[randi() % cell.type.possible_textures.size()]
 		var texture_size: Vector2 = source.texture.get_size()
 		var tile_size: Vector2i = source.texture_region_size
 		var columns: int = int(texture_size.x / tile_size.x)
@@ -57,7 +52,7 @@ func resolve_atlas_coordinate(cell: CellData, coords: Vector2i) -> Vector2i:
 	var bitmask: int = 0
 	for i in range(DIRECTIONS.size()):
 		var neighbor: CellData = WorldGrid.get_cell(coords + DIRECTIONS[i])
-		if cell.terrain == neighbor.terrain:
+		if cell.type.terrain == neighbor.type.terrain:
 			bitmask += MAPPING[i]
 	
 	return BITMASK_TABLE[_normalize(bitmask)]
@@ -73,10 +68,10 @@ func _redraw_neighbors(coords: Vector2i) -> void:
 	for dir in DIRECTIONS:
 		var nc: Vector2i = coords + dir
 		var neighbor: CellData = WorldGrid.get_cell(nc)
-		if neighbor == null or neighbor.terrain == CellData.TerrainType.OUT_OF_BOUNDS:
+		if neighbor == null or neighbor.type.terrain == CellType.TerrainType.OUT_OF_BOUNDS:
 			continue
 		neighbor.atlas_coordinate = resolve_atlas_coordinate(neighbor, nc)
-		set_cell(nc, neighbor.skin, neighbor.atlas_coordinate)
+		set_cell(nc, neighbor.type.tileset_id, neighbor.atlas_coordinate)
 
 
 static func _build_bitmask_table() -> Array[Vector2i]:

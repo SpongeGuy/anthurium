@@ -1,0 +1,445 @@
+[gd_scene format=3 uid="uid://ck6muwdsbdym3"]
+
+[ext_resource type="Script" uid="uid://cth8saesph6ci" path="res://scenes/title_screen/title_cube_animation.gd" id="1_04egy"]
+[ext_resource type="Curve" uid="uid://cje6qmtq5ssk4" path="res://scenes/title_screen/cube_rotate_curve.tres" id="2_3aciq"]
+[ext_resource type="Texture2D" uid="uid://cl0mmyj30lrck" path="res://scenes/title_screen/starbox.png" id="3_lve1u"]
+[ext_resource type="FontFile" uid="uid://ddd0o7juuwid2" path="res://scenes/title_screen/assets/spaceflight(5).ttf" id="3_p03gh"]
+[ext_resource type="Texture2D" uid="uid://emko8or8xhrb" path="res://scenes/title_screen/greenspligwithspots.png" id="4_3aciq"]
+[ext_resource type="Theme" uid="uid://bb432ofubm5pm" path="res://scenes/title_screen/assets/base_theme.tres" id="4_8csqn"]
+[ext_resource type="Texture2D" uid="uid://ba8ho4y42uola" path="res://scenes/title_screen/assets/rickle.png" id="5_p03gh"]
+[ext_resource type="AudioStream" uid="uid://cuns740b4bhnw" path="res://scenes/title_screen/assets/main_menu.mp3" id="6_ajba6"]
+[ext_resource type="FontFile" uid="uid://dqs6c85u38wdg" path="res://scenes/title_screen/assets/ANTHURUNIC.ttf" id="7_2jm0c"]
+[ext_resource type="FontFile" uid="uid://fuidqwknq7ee" path="res://scenes/title_screen/assets/anthurium.ttf" id="7_60fkc"]
+[ext_resource type="Texture2D" uid="uid://bw5t3gsvfktva" path="res://scenes/title_screen/logo/castellar.png" id="8_085av"]
+[ext_resource type="Shader" uid="uid://c3laoxqj5mo5k" path="res://scenes/title_screen/title_logo.gdshader" id="9_v23in"]
+[ext_resource type="AudioStream" uid="uid://d2tr3lchosvhb" path="res://scenes/title_screen/assets/select.wav" id="10_ajba6"]
+[ext_resource type="AudioStream" uid="uid://dckw0svs5y1sb" path="res://scenes/title_screen/assets/ui_pick.wav" id="11_2jm0c"]
+
+[sub_resource type="Curve" id="Curve_04egy"]
+_limits = [-1.0, 0.0, 0.0, 10.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(3.782609, 0), 0.0, 0.0, 0, 0, Vector2(6.652174, -0.505618), 0.0, 0.0, 0, 0, Vector2(10, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_lve1u"]
+offsets = PackedFloat32Array(0.33170733, 0.6682927, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.008616969, 0.16219759, 0.28627646, 1, 0, 0.42690033, 0.4246989, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0xeyt"]
+gradient = SubResource("Gradient_lve1u")
+fill_from = Vector2(1, 0.7136752)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4crm"]
+albedo_texture = SubResource("GradientTexture2D_0xeyt")
+metallic_specular = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_0xeyt"]
+material = SubResource("StandardMaterial3D_l4crm")
+flip_faces = true
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0xeyt"]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("3_lve1u")
+texture_filter = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_l4crm"]
+material = SubResource("StandardMaterial3D_0xeyt")
+flip_faces = true
+radius = 1.0
+height = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p03gh"]
+shading_mode = 0
+albedo_texture = ExtResource("4_3aciq")
+
+[sub_resource type="QuadMesh" id="QuadMesh_8csqn"]
+material = SubResource("StandardMaterial3D_p03gh")
+
+[sub_resource type="GDScript" id="GDScript_v23in"]
+script/source = "extends Control
+
+
+
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_3aciq"]
+font_size = 6
+font_color = Color(1, 0.9019608, 0.44705883, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p03gh"]
+font_size = 6
+font_color = Color(1, 0.9019608, 0.44705883, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8csqn"]
+font_size = 6
+font_color = Color(1, 0.9019608, 0.44705883, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8csqn"]
+viewport_path = NodePath("Planet/UIViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ajba6"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_8csqn")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_2jm0c"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_ajba6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3xoar"]
+transparency = 1
+shading_mode = 2
+albedo_color = Color(0.5687414, 0.6385867, 0, 0.42745098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_y7k74"]
+lightmap_size_hint = Vector2i(17, 9)
+material = SubResource("StandardMaterial3D_3xoar")
+radial_segments = 4
+rings = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mom7w"]
+shading_mode = 2
+albedo_color = Color(3.080368e-06, 0.5988673, 0.85284215, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_7lgly"]
+lightmap_size_hint = Vector2i(17, 9)
+material = SubResource("StandardMaterial3D_mom7w")
+radial_segments = 4
+rings = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oyqm6"]
+shading_mode = 2
+albedo_color = Color(0.6570286, 0.1784217, 0.5382172, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_oyqm6"]
+material = SubResource("StandardMaterial3D_oyqm6")
+radial_segments = 4
+rings = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_085av"]
+render_priority = 0
+shader = ExtResource("9_v23in")
+shader_parameter/wave_amplitude = 0.1
+shader_parameter/wave_frequency = 16.0
+shader_parameter/wave_speed = 2.0
+shader_parameter/albedo_texture = ExtResource("8_085av")
+
+[sub_resource type="QuadMesh" id="QuadMesh_v23in"]
+material = SubResource("ShaderMaterial_085av")
+size = Vector2(1.25, 0.15)
+subdivide_width = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8csqn"]
+shading_mode = 0
+albedo_texture = ExtResource("5_p03gh")
+
+[sub_resource type="QuadMesh" id="QuadMesh_vpe27"]
+material = SubResource("StandardMaterial3D_8csqn")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_vpe27"]
+viewport_path = NodePath("Options/UIViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2jm0c"]
+resource_local_to_scene = true
+transparency = 1
+albedo_texture = SubResource("ViewportTexture_vpe27")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_085av"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_2jm0c")
+
+[node name="Title" type="Node3D" unique_id=1025978606]
+script = ExtResource("1_04egy")
+animation_rot_y = ExtResource("2_3aciq")
+camera_rotation_delta = SubResource("Curve_04egy")
+
+[node name="skybox" type="MeshInstance3D" parent="." unique_id=1085718856]
+transform = Transform3D(9.848078, 1.2278779, 1.2278781, 0, 7.0710683, -7.071067, -1.7364818, 6.9636416, 6.963643, 0, 0, 0)
+mesh = SubResource("SphereMesh_0xeyt")
+
+[node name="starbox" type="MeshInstance3D" parent="." unique_id=330084235]
+transform = Transform3D(9.651116, 1.2033205, 1.2033207, 0, 6.929647, -6.929646, -1.7017523, 6.824369, 6.82437, 0, 0, 0)
+mesh = SubResource("SphereMesh_l4crm")
+
+[node name="Logo" type="Node3D" parent="." unique_id=1503846987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+
+[node name="Sponge" type="MeshInstance3D" parent="Logo" unique_id=1404329900]
+transform = Transform3D(0.825, 0, 0, 0, -3.6061895e-08, -0.825, 0, 0.825, -3.6061895e-08, 0, 2.1248474, 0)
+mesh = SubResource("QuadMesh_8csqn")
+skeleton = NodePath("../../Planet")
+
+[node name="SpongeLabel" type="Label3D" parent="Logo" unique_id=216604512]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.01, 1.173, -0.338)
+texture_filter = 0
+text = "sponge made"
+font = ExtResource("3_p03gh")
+font_size = 6
+outline_size = 0
+
+[node name="Planet" type="Node3D" parent="." unique_id=526585588]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11496805, -0.079435006, -1.482)
+
+[node name="Label3D" type="Label3D" parent="Planet" unique_id=2087405666]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43973848, 0.083064236, -1.1724187)
+texture_filter = 0
+text = "main menu"
+font = ExtResource("7_60fkc")
+font_size = 16
+outline_size = 0
+
+[node name="UIViewport" type="SubViewport" parent="Planet" unique_id=1020297456]
+transparent_bg = true
+size = Vector2i(196, 196)
+
+[node name="Control" type="Control" parent="Planet/UIViewport" unique_id=1792607635]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+theme = ExtResource("4_8csqn")
+script = SubResource("GDScript_v23in")
+
+[node name="Border" type="PanelContainer" parent="Planet/UIViewport/Control" unique_id=1351084463]
+layout_mode = 0
+offset_right = 39.0
+offset_bottom = 22.0
+
+[node name="MenuOptions" type="VBoxContainer" parent="Planet/UIViewport/Control/Border" unique_id=1046473269]
+layout_mode = 2
+
+[node name="PlayButton" type="HBoxContainer" parent="Planet/UIViewport/Control/Border/MenuOptions" unique_id=1411691803]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Planet/UIViewport/Control/Border/MenuOptions/PlayButton" unique_id=468175302]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = ">"
+label_settings = SubResource("LabelSettings_3aciq")
+
+[node name="Button" type="Button" parent="Planet/UIViewport/Control/Border/MenuOptions/PlayButton" unique_id=211116373]
+layout_mode = 2
+focus_neighbor_top = NodePath("../../QuitButton/Button")
+mouse_filter = 2
+text = "start"
+alignment = 0
+
+[node name="OptionsButton" type="HBoxContainer" parent="Planet/UIViewport/Control/Border/MenuOptions" unique_id=1993774044]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Planet/UIViewport/Control/Border/MenuOptions/OptionsButton" unique_id=672095659]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = ">"
+label_settings = SubResource("LabelSettings_p03gh")
+
+[node name="Button" type="Button" parent="Planet/UIViewport/Control/Border/MenuOptions/OptionsButton" unique_id=1034442953]
+layout_mode = 2
+mouse_filter = 2
+text = "options"
+alignment = 0
+
+[node name="QuitButton" type="HBoxContainer" parent="Planet/UIViewport/Control/Border/MenuOptions" unique_id=1194769427]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Planet/UIViewport/Control/Border/MenuOptions/QuitButton" unique_id=1007548289]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+text = ">"
+label_settings = SubResource("LabelSettings_8csqn")
+
+[node name="Button" type="Button" parent="Planet/UIViewport/Control/Border/MenuOptions/QuitButton" unique_id=1375210139]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../../PlayButton/Button")
+mouse_filter = 2
+text = "quit"
+alignment = 0
+
+[node name="PlanetDescription" type="Node3D" parent="Planet" unique_id=1830949554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36599308, 0.054858446, -1.173)
+
+[node name="PlanetLabel" type="Label3D" parent="Planet/PlanetDescription" unique_id=2062324890]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.030423664, 0)
+texture_filter = 0
+modulate = Color(0, 0.69142276, 0.2627663, 1)
+text = "singularity"
+font = ExtResource("3_p03gh")
+font_size = 6
+outline_size = 0
+horizontal_alignment = 0
+vertical_alignment = 0
+
+[node name="Runes" type="Label3D" parent="Planet/PlanetDescription" unique_id=1895938953]
+texture_filter = 0
+text = "KWLQRVT JesVVknR"
+font = ExtResource("7_2jm0c")
+font_size = 8
+outline_size = 0
+horizontal_alignment = 0
+
+[node name="Description" type="Label3D" parent="Planet/PlanetDescription" unique_id=254658069]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.061074868, 0)
+texture_filter = 0
+text = "dream dungeon
+source of infinite cosmic energy
+chaos incarnate at the center of the universe
+"
+font = ExtResource("3_p03gh")
+font_size = 6
+outline_size = 0
+horizontal_alignment = 0
+vertical_alignment = 0
+
+[node name="UIMesh" type="MeshInstance3D" parent="Planet" unique_id=852904883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0732553, -0.46295872, -1.173)
+mesh = SubResource("QuadMesh_2jm0c")
+
+[node name="Model" type="Node3D" parent="Planet" unique_id=993353882]
+
+[node name="medium" type="MeshInstance3D" parent="Planet/Model" unique_id=1626199805]
+transform = Transform3D(0.5000002, 0, 0, 0, 0.5, 0, 0, 0, 0.5000002, 0, 0, -1.8252)
+mesh = SubResource("SphereMesh_y7k74")
+skeleton = NodePath("../../..")
+
+[node name="medium2" type="MeshInstance3D" parent="Planet/Model/medium" unique_id=1513719425]
+transform = Transform3D(0.74, 0, 0, 0, 0.74, 0, 0, 0, 0.74, 0, 0, 0)
+mesh = SubResource("SphereMesh_7lgly")
+skeleton = NodePath("../../../..")
+
+[node name="small" type="MeshInstance3D" parent="Planet/Model" unique_id=509577189]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0, -1.2947236)
+mesh = SubResource("SphereMesh_oyqm6")
+skeleton = NodePath("../../..")
+
+[node name="Logo" type="Node3D" parent="Planet" unique_id=373779461]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.798)
+
+[node name="Runes" type="Label3D" parent="Planet/Logo" unique_id=1472218699]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0632261, 0.30475494, 0.6261034)
+visible = false
+texture_filter = 0
+text = "KWLQRVT JesVVknR juseWn eo KaLiVS wIqZB JxkZ vtwqeMM ahlppL"
+font = ExtResource("7_2jm0c")
+font_size = 8
+outline_size = 0
+horizontal_alignment = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Planet/Logo" unique_id=1959795009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.11323643, 0.34533834, 0.894223)
+mesh = SubResource("QuadMesh_v23in")
+
+[node name="Options" type="Node3D" parent="." unique_id=1078004159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.565, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Options" unique_id=951994175]
+transform = Transform3D(1.2992662e-15, 2.9723743e-08, -0.68, 0.68, -2.9723743e-08, 0, -2.9723743e-08, -0.68, -2.9723743e-08, 2.373991, 0, 0)
+mesh = SubResource("QuadMesh_vpe27")
+
+[node name="UIViewport" type="SubViewport" parent="Options" unique_id=590826821]
+transparent_bg = true
+size = Vector2i(196, 196)
+
+[node name="Control" type="Control" parent="Options/UIViewport" unique_id=1155478866]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+theme = ExtResource("4_8csqn")
+
+[node name="Border" type="PanelContainer" parent="Options/UIViewport/Control" unique_id=297005637]
+layout_mode = 0
+offset_right = 5.0
+offset_bottom = 5.0
+
+[node name="MenuOptions" type="VBoxContainer" parent="Options/UIViewport/Control/Border" unique_id=933182148]
+layout_mode = 2
+
+[node name="dummy" type="HBoxContainer" parent="Options/UIViewport/Control/Border/MenuOptions" unique_id=2128708994]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/UIViewport/Control/Border/MenuOptions/dummy" unique_id=602182004]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+text = ">"
+label_settings = SubResource("LabelSettings_3aciq")
+
+[node name="Button" type="Button" parent="Options/UIViewport/Control/Border/MenuOptions/dummy" unique_id=147311014]
+layout_mode = 2
+mouse_filter = 2
+text = "cook 'em up!"
+alignment = 0
+
+[node name="BackButton" type="HBoxContainer" parent="Options/UIViewport/Control/Border/MenuOptions" unique_id=1584753846]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Options/UIViewport/Control/Border/MenuOptions/BackButton" unique_id=1997064013]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+text = ">"
+label_settings = SubResource("LabelSettings_3aciq")
+
+[node name="Button" type="Button" parent="Options/UIViewport/Control/Border/MenuOptions/BackButton" unique_id=1231834430]
+layout_mode = 2
+mouse_filter = 2
+text = "back"
+alignment = 0
+
+[node name="Label3D" type="Label3D" parent="Options/UIViewport" unique_id=1673253763]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 2.7379358, -0.3908981, -0.407136)
+texture_filter = 0
+text = "options"
+font = ExtResource("7_60fkc")
+font_size = 16
+outline_size = 0
+
+[node name="UIMesh" type="MeshInstance3D" parent="Options" unique_id=1850597357]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, -1, 1, -4.371139e-08, 0, -4.371139e-08, -1, -4.371139e-08, 1.173, 0, 0.133)
+mesh = SubResource("QuadMesh_085av")
+
+[node name="Start" type="Node3D" parent="." unique_id=2088178276]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2092723263]
+transform = Transform3D(1.9106855e-15, 4.3711385e-08, -0.99999994, 1, -4.3711385e-08, 0, -4.371139e-08, -0.99999994, -4.3711385e-08, 0, 0, 0)
+fov = 37.5
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D" unique_id=615018763]
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="." unique_id=25555348]
+stream = ExtResource("6_ajba6")
+volume_db = -4.2
+autoplay = true
+
+[node name="Select" type="AudioStreamPlayer" parent="." unique_id=2063403081]
+stream = ExtResource("10_ajba6")
+max_polyphony = 24
+playback_type = 1
+
+[node name="Pick" type="AudioStreamPlayer" parent="." unique_id=496128357]
+stream = ExtResource("11_2jm0c")
+max_polyphony = 24
+playback_type = 1
+
+[connection signal="pressed" from="Planet/UIViewport/Control/Border/MenuOptions/PlayButton/Button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Planet/UIViewport/Control/Border/MenuOptions/OptionsButton/Button" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Planet/UIViewport/Control/Border/MenuOptions/QuitButton/Button" to="Planet/UIViewport/Control" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Options/UIViewport/Control/Border/MenuOptions/BackButton/Button" to="." method="_on_back_button_pressed"]

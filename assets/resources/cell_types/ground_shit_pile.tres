@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="CellType" format=3 uid="uid://cg7yxxwddxes2"]
+
+[ext_resource type="Script" uid="uid://qoy5j717o0ok" path="res://assets/resources/CellType.gd" id="1_hnmvx"]
+
+[resource]
+script = ExtResource("1_hnmvx")
+tileset_id = 2
+metadata/_custom_type_script = "uid://qoy5j717o0ok"

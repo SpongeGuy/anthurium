@@ -30,7 +30,6 @@
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_dd80p"]
 [ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="30_5h3r2"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_y1fiq"]
-[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="32_ifktw"]
 [ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="33_rjj46"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="36_ryjnm"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="37_ys8ef"]
@@ -50,11 +49,6 @@ radius = 6.0827627
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g233v"]
 radius = 15.033297
-
-[sub_resource type="Resource" id="Resource_y2riw"]
-script = ExtResource("32_ifktw")
-skin = 1
-metadata/_custom_type_script = "uid://dwex81s0yowa4"
 
 [node name="Arcbimpy" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
@@ -245,7 +239,7 @@ metadata/_custom_type_script = "uid://b7fumud38ekr4"
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]
 script = ExtResource("31_y1fiq")
 radius = 0
-cell = SubResource("Resource_y2riw")
+cell_type = &"ground_soil"
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2089564920]

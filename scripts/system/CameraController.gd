@@ -18,11 +18,20 @@ static var trauma_falloff_range: float = 400.0
 
 signal found_target
 
-var coords: Vector2
+var relative_mouse_coords: Vector2
 
 func _ready() -> void:
 	EventBus.camera_ready.connect(_on_camera_ready)
 
+static func get_world_mouse_position() -> Vector2:
+	if not camera:
+		return Vector2.ZERO
+	return camera.get_global_mouse_position()
+
+static func get_screen_mouse_position() -> Vector2:
+	if not camera:
+		return Vector2.ZERO
+	return camera.get_viewport().get_mouse_position()
 
 static func add_trauma(amount: float) -> void:
 	trauma = clamp(trauma + amount, 0, 1)
@@ -35,10 +44,14 @@ static func add_trauma_distance(position: Vector2, amount: float) -> void:
 	add_trauma(amount * falloff)
 	
 func _process(delta: float) -> void:
+	if not camera:
+		return
+	relative_mouse_coords = get_viewport().get_mouse_position()
+	relative_mouse_coords = (relative_mouse_coords /3 + camera.position - Vector2(320, 180))
 	if target:
 		target_position = target.global_position
-	coords = get_viewport().get_mouse_position()
-	coords += camera.position - Vector2(320, 180)
+	
+	
 	
 	debug_handlers()
 
@@ -63,17 +76,14 @@ func _physics_process(delta: float) -> void:
 
 
 func debug_handlers() -> void:
-	var cell: CellData = CellData.new()
-	var tile_coords: Vector2i = WorldGrid.world_to_tile(coords)
+	var tile_coords: Vector2i = WorldGrid.world_to_tile(relative_mouse_coords)
 	if Input.is_action_just_pressed("debug_1"):
-		cell.terrain = CellData.TerrainType.WALL
-		WorldGrid.set_cell(tile_coords, cell)
+		WorldGrid.set_cell_type(tile_coords, &"wall_stone")
 		#BFXR.PlayRandom()
 		#WorldGrid.set_circle(tile_coords, 2, cell)
 
 	if Input.is_action_just_pressed("debug_2"):
-		cell.terrain = CellData.TerrainType.GROUND
-		WorldGrid.set_cell(tile_coords, cell)
+		WorldGrid.set_cell_type(tile_coords, &"ground_soil")
 		#WorldGrid.set_circle(tile_coords, 2, cell)
 
 func _on_camera_ready(c: Camera2D) -> void:

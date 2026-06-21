@@ -33,7 +33,6 @@ func _process(_delta: float) -> void:
 	if not GameState.state == GameState.Status.PLAYING:
 		return
 	
-	
 	for id in range(input.actions.size()):
 		if Input.is_action_just_pressed(input.actions[id]):
 			input.press_action(id)

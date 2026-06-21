@@ -21,7 +21,8 @@ static func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	var entity: Entity = _instantiate(entity_type)
 	if not entity:
 		return null
-	entity.global_position = pos
+	var random_offset: Vector2 = Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
+	entity.global_position = pos + random_offset
 	_add(entity)
 	return entity
 
@@ -30,7 +31,10 @@ static func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
 	var entity: Entity = _instantiate(entity_type)
 	if not entity:
 		return null
-	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellData.TerrainType.GROUND)
+	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.GROUND)
+	if spawn_pos == Vector2.INF:
+		push_warning("EntityManager: no safe spawn found near %s, using raw pos" % pos)
+		spawn_pos = pos
 	entity.global_position = spawn_pos
 	_add(entity)
 	return entity
@@ -43,7 +47,7 @@ static func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity
 static func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 	# this will need customized later to ensure that any creature can be spawned as a player
 	var entity: Entity = spawn_safely(entity_type, pos)
-	PlayerManager.set_player(entity)
+	entity.ready.connect(PlayerManager.set_player.bind(entity), CONNECT_ONE_SHOT)
 	
 	return entity
 	
@@ -70,7 +74,7 @@ static func _instantiate(entity_type: StringName) -> Entity:
 	return instance
 
 static func _add(e: Entity) -> void:
-	_entity_container.add_child(e)
-	EventBus.entity_spawned.emit(e)
+	_entity_container.add_child.call_deferred(e)
+	EventBus.entity_spawned.emit.call_deferred(e)
 	if WorldGrid.is_world_pos_visible(e.global_position):
-		ParticleManager.burst(pop_effect, e.global_position)
+		ParticleManager.burst.call_deferred(pop_effect, e.global_position)

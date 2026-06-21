@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="EntityEffectSequence" format=3 uid="uid://dnfkmppj7mxsk"]
+
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://assets/resources/EntityEffect.gd" id="1_7jer4"]
+[ext_resource type="Resource" uid="uid://cnr3gih8uadr6" path="res://assets/resources/particle_profiles/explosion.tres" id="1_xemsn"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://assets/resources/EntityEffectSequence.gd" id="2_xemsn"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="3_i52ar"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://assets/resources/EntityEffectVoice.gd" id="4_7kgg4"]
+[ext_resource type="Resource" uid="uid://baitdyd6ef3sk" path="res://assets/resources/voices/detonate.tres" id="5_cck0k"]
+[ext_resource type="Script" uid="uid://cqfik1k3sk2jr" path="res://assets/resources/EntityEffectScreenShake.gd" id="6_7kgg4"]
+
+[sub_resource type="Resource" id="Resource_x00qp"]
+script = ExtResource("3_i52ar")
+particle_profile = ExtResource("1_xemsn")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_gw54t"]
+script = ExtResource("4_7kgg4")
+voice = ExtResource("5_cck0k")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[sub_resource type="Resource" id="Resource_cck0k"]
+script = ExtResource("6_7kgg4")
+trauma = 1.0
+ignore_invisibility = true
+metadata/_custom_type_script = "uid://cqfik1k3sk2jr"
+
+[resource]
+script = ExtResource("2_xemsn")
+parallel = true
+effects = Array[ExtResource("1_7jer4")]([SubResource("Resource_x00qp"), SubResource("Resource_gw54t"), SubResource("Resource_cck0k")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"

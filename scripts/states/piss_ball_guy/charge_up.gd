@@ -62,6 +62,6 @@ func randomly_change_direction() -> void:
 			dir = dirs.pick_random()
 			var tile_pos_and_facing: CellData = WorldGrid.safe_get_cell(WorldGrid.world_to_tile(state_machine.entity.global_position) + Vector2i(dir.round()))
 			if tile_pos_and_facing:
-				is_wall_in_front = tile_pos_and_facing.terrain == CellData.TerrainType.WALL
+				is_wall_in_front = tile_pos_and_facing.type.terrain == CellType.TerrainType.WALL
 		
 	facing.change_direction(dir)

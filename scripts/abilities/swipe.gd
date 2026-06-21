@@ -68,7 +68,7 @@ func initialize() -> void:
 		collision_shape.shape = shape
 		collision_shape.position = Vector2(13, 0)
 		hurtbox = Hurtbox.new()
-		hurtbox.damage = 1
+		hurtbox.damage = 0.7
 		hurtbox.collision_shape = collision_shape
 		hurtbox.add_child(collision_shape)
 		

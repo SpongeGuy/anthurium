@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://dh6tjvd8nhkkh"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_idsdh"]
+[ext_resource type="Shader" uid="uid://qd5i7hd4upfp" path="res://assets/resources/shaders/scrolling_shine.gdshader" id="2_ia0gt"]
+[ext_resource type="Texture2D" uid="uid://ctvyuyowi4cev" path="res://assets/textures/items/meat_shank.png" id="2_iy5re"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_ia0gt"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="4_4kbpg"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="5_xraoj"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="6_jtya7"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="7_wlwrk"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="8_50qpg"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="9_v2rrg"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="10_y4kfh"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="11_67mhi"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="12_iy5re"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="14_4kbpg"]
+[ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="15_xraoj"]
+[ext_resource type="Shader" uid="uid://jtxsuqemjajj" path="res://assets/resources/shaders/interactable_shine.gdshader" id="16_jtya7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m8jnl"]
+radius = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kbpg"]
+shader = ExtResource("2_ia0gt")
+shader_parameter/speed = 3.26900015201762
+shader_parameter/width = 0.1
+shader_parameter/softness = 0.20400000899148
+shader_parameter/intensity = 1.0
+shader_parameter/shine_color = Color(1, 1, 1, 1)
+shader_parameter/angle = 0.5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s7gn8"]
+radius = 9.0
+
+[node name="MeatShank" type="CharacterBody2D" unique_id=1115177039]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_idsdh")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1899707934]
+shape = SubResource("CircleShape2D_m8jnl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=539036256]
+material = SubResource("ShaderMaterial_4kbpg")
+texture = ExtResource("2_iy5re")
+hframes = 5
+
+[node name="StateMachine" type="Node" parent="." unique_id=376505185 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("3_ia0gt")
+initial_state = NodePath("BlankState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="BlankState" type="Node" parent="StateMachine" unique_id=1877794736]
+script = ExtResource("4_4kbpg")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=523067796]
+script = ExtResource("5_xraoj")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="IchorComponent" type="Node" parent="." unique_id=1823621644]
+script = ExtResource("6_jtya7")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="InputComponent" type="Node" parent="." unique_id=1629700235]
+script = ExtResource("7_wlwrk")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="AbilityManager" type="Node" parent="." unique_id=1432190679 node_paths=PackedStringArray("ichor_component", "input")]
+script = ExtResource("8_50qpg")
+ichor_component = NodePath("../IchorComponent")
+input = NodePath("../InputComponent")
+metadata/_custom_type_script = "uid://byeskwmhfllnd"
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=1264121268]
+script = ExtResource("9_v2rrg")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1494865129 node_paths=PackedStringArray("hitbox", "state_machine")]
+script = ExtResource("10_y4kfh")
+hitbox = NodePath("../Hitbox")
+state_machine = NodePath("../StateMachine")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=184775827 node_paths=PackedStringArray("collision_shape", "knockback")]
+script = ExtResource("11_67mhi")
+collision_shape = NodePath("CollisionShape2D")
+knockback = NodePath("../KnockbackComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2003599846]
+shape = SubResource("CircleShape2D_s7gn8")
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=60684132 node_paths=PackedStringArray("physics")]
+script = ExtResource("12_iy5re")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
+
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=659857112 node_paths=PackedStringArray("physics", "hitbox")]
+script = ExtResource("14_4kbpg")
+physics = NodePath("../PhysicsComponent")
+hitbox = NodePath("../Hitbox")
+metadata/_custom_type_script = "uid://dqikotd5sv8r6"
+
+[node name="InteractableComponent" type="Node" parent="." unique_id=236326936 node_paths=PackedStringArray("flash_target")]
+script = ExtResource("15_xraoj")
+flash_target = NodePath("../Sprite2D")
+flash_shader = ExtResource("16_jtya7")
+metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"

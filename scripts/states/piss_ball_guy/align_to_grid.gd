@@ -25,7 +25,7 @@ func update(delta: float) -> void:
 		state_machine.switch(next_state)
 	
 func physics_update(delta: float) -> void:
-	var safe_pos: Vector2 = WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.world_to_tile(state_machine.entity.global_position), CellData.TerrainType.GROUND))
+	var safe_pos: Vector2 = WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.world_to_tile(state_machine.entity.global_position), CellType.TerrainType.GROUND))
 	
 	if not state_machine.entity.global_position.is_equal_approx(safe_pos):
 		var move_direction: Vector2 = safe_pos - state_machine.entity.global_position

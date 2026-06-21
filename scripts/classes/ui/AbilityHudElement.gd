@@ -29,6 +29,7 @@ func deselect(hand: UIHand) -> void:
 	pass
  
 func activate(hand: UIHand) -> void:
+	
 	if hand.current_state != UIHand.State.HOLDING:
 		# Nothing held yet — pick up this slot's ability.
 		hand.grab_ability_from(self)

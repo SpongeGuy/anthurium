@@ -5,8 +5,8 @@ var _lobes: Dictionary[Script, Lobe] = {}
 @export var state_machine: StateMachine
 @export var memory: Memory
 
-@export var periodically_evaluate: bool = false
-@export var time_between_evaluations: float = 1.0
+@export var periodically_evaluate: bool = true
+@export var time_between_evaluations: float = 3.0
 var _evaluation_timer: float = 0.0
 
 var last_state: Dictionary[String, Array] = {}

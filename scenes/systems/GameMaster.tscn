@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cc35kqt4co4xx"]
+
+[ext_resource type="Script" uid="uid://d4myfbotj4m52" path="res://scripts/system/GameMaster.gd" id="1_qmct4"]
+[ext_resource type="Script" uid="uid://d0mjiladgx0ad" path="res://scripts/system/EntityManager.gd" id="2_lx78f"]
+[ext_resource type="Script" uid="uid://poanoxh62038" path="res://scripts/world/world_generator.gd" id="3_w5v47"]
+[ext_resource type="Script" uid="uid://rrfxfwvhpqup" path="res://scripts/system/CameraController.gd" id="4_oqcl3"]
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://assets/resources/BfxrVoiceProfile.gd" id="5_4nmbe"]
+[ext_resource type="Script" uid="uid://c7x0vu2cn1kby" path="res://scripts/system/WeatherController.gd" id="8_cs8ty"]
+[ext_resource type="Script" uid="uid://cirg8u1irerl5" path="res://scripts/system/SpawnManager.gd" id="9_q5spc"]
+[ext_resource type="Script" uid="uid://3iwkt7r7c01a" path="res://scripts/system/TimeManager.gd" id="10_tglpd"]
+[ext_resource type="Script" uid="uid://ctuuq37605cgy" path="res://scripts/system/AnthuriumBrain.gd" id="11_e8vil"]
+
+[sub_resource type="Resource" id="Resource_cegan"]
+script = ExtResource("5_4nmbe")
+metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
+
+[node name="GameMaster" type="Node" unique_id=733943132 node_paths=PackedStringArray("dungeon_generator")]
+process_mode = 3
+script = ExtResource("1_qmct4")
+dungeon_generator = NodePath("DungeonGenerator")
+
+[node name="EntityManager" type="Node" parent="." unique_id=2050794482]
+script = ExtResource("2_lx78f")
+
+[node name="DungeonGenerator" type="Node" parent="." unique_id=512093758]
+script = ExtResource("3_w5v47")
+metadata/_custom_type_script = "uid://poanoxh62038"
+
+[node name="CameraController" type="Node" parent="." unique_id=1639077805]
+script = ExtResource("4_oqcl3")
+lerp_weight = 15.0
+debug_sound = SubResource("Resource_cegan")
+metadata/_custom_type_script = "uid://rrfxfwvhpqup"
+
+[node name="WeatherController" type="Node" parent="." unique_id=2123767120]
+script = ExtResource("8_cs8ty")
+disabled = true
+metadata/_custom_type_script = "uid://c7x0vu2cn1kby"
+
+[node name="SpawnManager" type="Node" parent="." unique_id=665180328]
+script = ExtResource("9_q5spc")
+metadata/_custom_type_script = "uid://cirg8u1irerl5"
+
+[node name="TimeManager" type="Node" parent="." unique_id=553053269]
+script = ExtResource("10_tglpd")
+metadata/_custom_type_script = "uid://3iwkt7r7c01a"
+
+[node name="AnthuriumBrain" type="Node" parent="." unique_id=1578816754]
+script = ExtResource("11_e8vil")
+metadata/_custom_type_script = "uid://ctuuq37605cgy"

@@ -73,8 +73,6 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 
 [node name="EntitySpawner" type="Node" parent="." unique_id=1610317912]
 script = ExtResource("6_5fkbc")
-entities_to_spawn = Array[StringName]([&"bimpy", &"arcbimpy", &"ecube_beta"])
-spawn_chance = Array[float]([1.0, 1.0, 1.0])
 metadata/_custom_type_script = "uid://b0488tn8mef07"
 
 [node name="HideInInvisibleCells" type="Node" parent="." unique_id=274467398 node_paths=PackedStringArray("visibility")]

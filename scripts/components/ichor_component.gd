@@ -4,6 +4,7 @@ class_name IchorComponent
 @export var max_ichor: float = 100.0
 @export var ichor: float = 100.0
 @export var reduction_per_second: float = 0.1
+@export var starve_damage: float = 0.5
 
 signal ichor_changed(value: float, max_value: float)
 

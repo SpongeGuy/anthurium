@@ -2,8 +2,6 @@ extends BehaviorState
 class_name DeathState
 
 ## called once when the state machine does its initial switch to this state
-@export var drop_ability_shard: AbilityShardSpawner
-@export var entity_create: EntitySpawner
 @export var animator: SpriteAnimator
 @export var locomotion: LocomotionHandler
 @export var death_effects: EntityEffect = preload("res://assets/resources/effects/default_death_effect.tres")
@@ -21,12 +19,6 @@ func enter() -> void:
 	if animator and play_death_animation:
 		animator.load_and_reset_animation("death")
 		await animator.animation_finished
-	
-	if drop_ability_shard:
-		drop_ability_shard.try_create()
-		
-	if entity_create:
-		entity_create.spawn_at_entity()
 	
 	if death_effects:
 		death_effects.execute(state_machine.entity)

@@ -1,4 +1,5 @@
 extends Node2D
+class_name DebugUIHelper
 
 @export var show: bool = false
 @export var vbox: VBoxContainer
@@ -7,14 +8,17 @@ extends Node2D
 @export var l2: Label
 @export var l3: Label
 @export var l4: Label
-@export var camera: CameraController
 @export var game_master: GameMaster
 
 var coords: Vector2 = Vector2.ZERO
 
 func _process(delta: float) -> void:
+	show = true
 	if not show:
 		visible = false
+		return
+		
+	if not CameraController.camera:
 		return
 	
 	title.text = ""
@@ -23,11 +27,10 @@ func _process(delta: float) -> void:
 	l3.text = ""
 	l4.text = ""
 	
-	if camera.camera:
-		coords = get_viewport().get_mouse_position()
-		coords += camera.camera.position - Vector2(320, 180)
-		vbox.position = get_window().get_mouse_position() + Vector2(5, 2)
-		
+	var screen_pos: Vector2 = get_viewport().get_mouse_position()
+	vbox.position = screen_pos + Vector2(5, 2)
+	coords = CameraController.get_world_mouse_position()
+	
 	
 	var space = game_master.world.get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
@@ -56,8 +59,8 @@ func _process(delta: float) -> void:
 	
 func update_anthurium(entity: Entity) -> void:
 	display_coordinates(l2)
-	display_anthurium_ichor(l3)
-	display_anthurium_active_parts(l4)
+	#display_anthurium_ichor(l3)
+	#display_anthurium_active_parts(l4)
 	
 func display_base_stats(label: Label, entity: Entity) -> void:
 	var string: String = ""
@@ -65,23 +68,25 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 	if entity.has_component(HealthComponent):
 		string += str("hp: ", entity.get_component(HealthComponent).health, "\n")
 	if entity.has_component(PhysicsComponent):
-		string += str("vel: ", entity.velocity)
+		string += str("vel: ", entity.velocity, "\n")
+	if entity.has_component(IchorComponent):
+		string += str("ich: ", entity.get_component(IchorComponent).ichor, "\n")
 	label.text = string
 	
 func display_coordinates(label: Label) -> void:
 	label.text = str(WorldGrid.world_to_tile(coords))
 	
-func display_anthurium_active_parts(label: Label) -> void:
-	var string = ""
-	for entry in AnthuriumBrain.active_anthurium_names:
-		string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
-	label.text = str(string)
-	
-func display_anthurium_ichor(label: Label) -> void:
-	var string: String = ""
-	string += str("ichor: ", AnthuriumBrain.ichor, "\n")
-	string += str("furor: ", AnthuriumBrain.furor, "\n")
-	label.text = string
+#func display_anthurium_active_parts(label: Label) -> void:
+	#var string = ""
+	#for entry in AnthuriumBrain.active_anthurium_names:
+		#string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
+	#label.text = str(string)
+	#
+#func display_anthurium_ichor(label: Label) -> void:
+	#var string: String = ""
+	#string += str("ichor: ", AnthuriumBrain.ichor, "\n")
+	#string += str("furor: ", AnthuriumBrain.furor, "\n")
+	#label.text = string
 
 func display_entity_brain_state(label: Label, entity: Entity) -> void:
 	if entity.has_component(Brain):

@@ -20,7 +20,7 @@ func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
 		_timer = 0 - randf_range(0, 1)
 		execute()
 	
-	sprite.position = floor(sin(GameState.time * 15)) * (Vector2.RIGHT * 2)
+	sprite.position = floor(sin(GameMaster.time * 15)) * (Vector2.RIGHT * 2)
 		
 func on_released(hold_duration: float, modifier: bool) -> void:
 	_timer = 0

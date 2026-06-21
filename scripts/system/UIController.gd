@@ -32,6 +32,11 @@ func _on_game_state_changed(status: GameState.Status) -> void:
 			_enter_paused()
 		GameState.Status.GAME_OVER:
 			_enter_game_over()
+		GameState.Status.MENU:
+			_enter_menu()
+			
+func _enter_menu() -> void:
+	_set_all_invisible()
 			
 func _enter_loading() -> void:
 	_set_all_invisible()

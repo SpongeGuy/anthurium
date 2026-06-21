@@ -22,7 +22,6 @@
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_423ow"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="24_is7rc"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="25_4qg6b"]
-[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/world/CellData.gd" id="25_hxjws"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="25_m5xbg"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="26_53b1y"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="26_dqsav"]
@@ -32,11 +31,6 @@ size = Vector2(14, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dukxu"]
 size = Vector2(16, 16)
-
-[sub_resource type="Resource" id="Resource_y2riw"]
-script = ExtResource("25_hxjws")
-skin = 1
-metadata/_custom_type_script = "uid://dwex81s0yowa4"
 
 [sub_resource type="Resource" id="Resource_my2sf"]
 script = ExtResource("11_b4hu2")
@@ -160,7 +154,7 @@ metadata/_custom_type_script = "uid://b7fumud38ekr4"
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]
 script = ExtResource("24_is7rc")
 radius = 0
-cell = SubResource("Resource_y2riw")
+cell_type = &"ground_soil"
 metadata/_custom_type_script = "uid://dyqp5rr3xkiq8"
 
 [node name="SpriteAnimator" type="Node" parent="Bullshit" unique_id=610708554 node_paths=PackedStringArray("sprite")]

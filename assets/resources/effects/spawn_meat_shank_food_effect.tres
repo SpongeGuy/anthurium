@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityEffectSpawnFood" format=3 uid="uid://bg6udggym6l1b"]
+
+[ext_resource type="Script" uid="uid://ce82xbyo1dac8" path="res://assets/resources/EntityEffectSpawnFood.gd" id="1_k4txb"]
+
+[resource]
+script = ExtResource("1_k4txb")
+entity_name = &"meat_shank"
+percent_chance = 0.445
+metadata/_custom_type_script = "uid://ce82xbyo1dac8"

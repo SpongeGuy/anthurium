@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CellType" format=3 uid="uid://cf6vva4senth"]
+
+[ext_resource type="Script" uid="uid://qoy5j717o0ok" path="res://assets/resources/CellType.gd" id="1_05e51"]
+
+[resource]
+script = ExtResource("1_05e51")
+terrain = 3
+tileset_id = -1
+tile_mode = 1
+max_health = 0.0
+metadata/_custom_type_script = "uid://qoy5j717o0ok"

@@ -32,7 +32,6 @@ script = ExtResource("3_0nok7")
 sprite = NodePath("../Sprite2D")
 starting_animation = 0
 animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_wm76h")])
-metadata/_custom_type_script = "uid://37f5rafomsw5"
 
 [node name="Control" type="Control" parent="." unique_id=420915547]
 layout_mode = 3

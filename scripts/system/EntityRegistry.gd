@@ -9,7 +9,7 @@ extends Node
 # -------------------------------------------------------
 const SCAN_PATHS: Array[String] = [
 	"res://scenes/entities/",
-	"user://mods/"
+	"user://mods/entities/"
 ]
 
 # StringName -> resource path
@@ -19,6 +19,7 @@ var registry: Dictionary = {}
 # StringName -> PackedScene (populated on first spawn, cleared on reset)
 var _cache: Dictionary = {}
 
+signal all_entities_registered
 
 func _ready() -> void:
 	_scan_all()
@@ -58,6 +59,7 @@ func _scan_all() -> void:
 	for path in SCAN_PATHS:
 		if _path_exists(path):
 			_scan_dir(path)
+	all_entities_registered.emit()
 	print("EntityRegistry: %d entities registered." % registry.size())
 	
 func _scan_dir(path: String) -> void:
