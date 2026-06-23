@@ -5,7 +5,6 @@
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="3_3eqs0"]
 [ext_resource type="Resource" uid="uid://cqmuaid6t5cgy" path="res://assets/resources/particle_profiles/soulfire.tres" id="4_saeqp"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://assets/resources/EntityEffectSequence.gd" id="5_84ok6"]
-[ext_resource type="Resource" uid="uid://c8t8v5coa6ujw" path="res://assets/resources/effects/debug_spawn_portal_effect.tres" id="6_saeqp"]
 
 [sub_resource type="Resource" id="Resource_saeqp"]
 script = ExtResource("3_3eqs0")
@@ -20,5 +19,5 @@ metadata/_custom_type_script = "uid://dqgelxi8t408e"
 [resource]
 script = ExtResource("5_84ok6")
 parallel = true
-effects = Array[ExtResource("1_tgmb7")]([ExtResource("6_saeqp"), SubResource("Resource_saeqp"), SubResource("Resource_mqfsm")])
+effects = Array[ExtResource("1_tgmb7")]([SubResource("Resource_saeqp"), SubResource("Resource_mqfsm")])
 metadata/_custom_type_script = "uid://qy3at433r6s0"

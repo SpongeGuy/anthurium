@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
+[ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="22_1cjm5"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
@@ -32,6 +33,9 @@
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
+[ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
+[ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jwlga"]
@@ -59,7 +63,12 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 size = Vector2(20, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
-radius = 12.0
+radius = 79.025314
+
+[sub_resource type="Resource" id="Resource_d1yhl"]
+script = ExtResource("36_4npmj")
+particle_profile = ExtResource("35_1cjm5")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
 texture_filter = 1
@@ -208,8 +217,8 @@ metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 [node name="ProximityDetector" type="Node" parent="Proximity" unique_id=68784327 node_paths=PackedStringArray("area")]
 script = ExtResource("22_e1qh5")
 area = NodePath("../ProximityArea")
-collision_layer = 2
-collision_mask = 2
+whitelist = Array[Script]([ExtResource("22_1cjm5")])
+collision_mask = 4
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
 [node name="ProximityArea" type="Area2D" parent="Proximity" unique_id=980590054]
@@ -274,3 +283,10 @@ metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 script = ExtResource("32_qcr3t")
 nodes = [NodePath("../Visual/Main")]
 metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="InteractorComponent" type="Node" parent="." unique_id=1383714984 node_paths=PackedStringArray("proximity", "input")]
+script = ExtResource("34_vl5tg")
+proximity = NodePath("../Proximity/ProximityDetector")
+input = NodePath("../InputComponent")
+effect = SubResource("Resource_d1yhl")
+metadata/_custom_type_script = "uid://cpjm187a6ashx"

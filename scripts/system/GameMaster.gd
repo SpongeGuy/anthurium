@@ -120,11 +120,12 @@ func _initialize_anthurium(tile_pos: Vector2i) -> void:
 	
 func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150))
 
-	#for i in range(15):
-		#var pos: Vector2 = Vector2(randf_range(100, 550), randf_range(100, 550))
+	#for i in range(600):
+		#var pos: Vector2 = Vector2(randf_range(0, 1000), randf_range(0, 1000))
 		#EntityManager.spawn_safely(&"arcbimpy", pos)
-		#
+		
 	#for i in range(15):
 		#var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
 		#EntityManager.spawn_safely(&"bimpy", pos)
@@ -194,6 +195,3 @@ func _initialize_tree() -> void:
 	
 	EventBus.weather_ready.emit(weather)
 	EventBus.ysort_ready.emit(ysort)
-
-
-

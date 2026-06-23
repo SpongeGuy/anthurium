@@ -57,4 +57,3 @@ func _apply_overrides(spawned: Entity) -> void:
 				component.set(override.property, override.value)
 		else:
 			component.set(override.property, override.value)
-

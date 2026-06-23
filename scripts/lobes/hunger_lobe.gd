@@ -23,4 +23,3 @@ func evaluate() -> Array:
 # should be used to write stuff to memory
 func commit(memory: Memory) -> void:
 	pass
-

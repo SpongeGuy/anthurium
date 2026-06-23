@@ -74,7 +74,6 @@ func _handle_cell_terrain(_delta: float) -> void:
 			
 
 func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
-	print(pre_velocity)
 	for i in entity.get_slide_collision_count():
 		var col: KinematicCollision2D = entity.get_slide_collision(i)
 		var normal: Vector2 = col.get_normal()
@@ -98,7 +97,6 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 			var into_normal: float = pre_full.dot(normal)
 			
 			if other_physics:
-				print(pre_velocity, into_normal)
 				if into_normal < 0.0:
 					var m1: float = mass
 					var m2: float = other_physics.mass

@@ -4,7 +4,7 @@ class_name InteractableComponent
 signal interacted(source: Entity)
 
 @export var effect: EntityEffect
-@export var detection_radius: float = 16
+@export var detection_radius: float = 64
 
 @export_flags_2d_physics var detection_mask: int = 3
 
@@ -21,13 +21,11 @@ var _flash_material: ShaderMaterial
 
 var interact_target: Entity:
 	get: return _closest()
-	
-func _ready() -> void:
-	_build_detection_area()
-	_build_flash_material()
+
 
 func _on_registered() -> void:
-	pass # replace with function body
+	_build_detection_area()
+	_build_flash_material()
 
 func interact(source: Entity) -> void:
 	if effect:
@@ -50,7 +48,7 @@ func _build_detection_area() -> void:
 	shape.shape = circle
 	
 	_detection_area.add_child(shape)
-	add_child(_detection_area)
+	entity.add_child(_detection_area)
 	
 	_detection_area.body_entered.connect(_on_body_entered)
 	_detection_area.body_exited.connect(_on_body_exited)

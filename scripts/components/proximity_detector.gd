@@ -63,15 +63,26 @@ func _passes_filter(subject: Entity) -> bool:
 			return whitelist.any(func(c): return subject.has_component(c))
 	return true
 
-func _resolve_body(other: Node2D) -> TileMapLayer:
+func _resolve_body(other: Node2D):
 	if other is TileMapLayer:
 		return other as TileMapLayer
+	if other is Entity:
+		return other as Entity
 	return null
 
+
 func _on_body_entered(other: Node2D) -> void:
-	if _resolve_body(other):
+	print(other)
+	var body = _resolve_body(other)
+	if body is TileMapLayer:
 		detected_wall.emit(WorldGrid.world_to_tile(area.global_position))
+	elif body is Entity:
+		detected.emit(entity, other)
+	
 
 func _on_body_exited(other: Node2D) -> void:
-	if _resolve_body(other):
+	var body = _resolve_body(other)
+	if body is TileMapLayer:
 		lost_wall.emit(WorldGrid.world_to_tile(area.global_position))
+	elif body is Entity:
+		lost.emit(entity, other)

@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bswrthbfumhgl" path="res://assets/textures/characters/debug_guy.png" id="12_bj2ba"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="13_hbxah"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_83mm5"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="16_qvp6n"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="17_rt8mq"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="18_fvtcv"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_82nbp"]
@@ -111,7 +112,7 @@ metadata/_custom_type_script = "uid://camguuycnoqcu"
 [node name="HungerLobe" type="Node" parent="Behavior/Brain" unique_id=1297243004 node_paths=PackedStringArray("ichor", "state")]
 script = ExtResource("9_ypxgn")
 ichor = NodePath("../../../IchorComponent")
-state = NodePath("../../StateMachine/WandererState")
+state = NodePath("../../StateMachine/BlankState")
 metadata/_custom_type_script = "uid://dk0spjxye1y5p"
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
@@ -120,9 +121,8 @@ initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "locomotion", "obstruction", "exit_state")]
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("facing", "input", "locomotion", "obstruction", "exit_state")]
 script = ExtResource("6_pgwxf")
-proximity = NodePath("../../../Bullshit/ProximityDetector")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
@@ -158,6 +158,10 @@ metadata/_custom_type_script = "uid://ym7engi512o4"
 script = ExtResource("10_5ewt6")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="BlankState" type="Node" parent="Behavior/StateMachine" unique_id=1107317799]
+script = ExtResource("16_qvp6n")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
 
 [node name="Rotator" type="Node2D" parent="." unique_id=1431611714 node_paths=PackedStringArray("facing")]
 script = ExtResource("11_31dna")
@@ -320,4 +324,5 @@ metadata/_custom_type_script = "uid://ccwnicoct356p"
 
 [node name="IchorComponent" type="Node" parent="." unique_id=1587558654]
 script = ExtResource("47_ypxgn")
+ichor = 50.0
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"

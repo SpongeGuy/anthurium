@@ -10,12 +10,14 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="7_wlwrk"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="8_50qpg"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="9_v2rrg"]
+[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="10_wlwrk"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="10_y4kfh"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="11_67mhi"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="12_iy5re"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="14_4kbpg"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="15_xraoj"]
 [ext_resource type="Shader" uid="uid://jtxsuqemjajj" path="res://assets/resources/shaders/interactable_shine.gdshader" id="16_jtya7"]
+[ext_resource type="Script" uid="uid://q8oievajpib8" path="res://assets/EntityEffectUseAbility.gd" id="17_50qpg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m8jnl"]
 radius = 7.0
@@ -31,6 +33,10 @@ shader_parameter/angle = 0.5
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s7gn8"]
 radius = 9.0
+
+[sub_resource type="Resource" id="Resource_v2rrg"]
+script = ExtResource("17_50qpg")
+metadata/_custom_type_script = "uid://q8oievajpib8"
 
 [node name="MeatShank" type="CharacterBody2D" unique_id=1115177039]
 texture_filter = 1
@@ -75,6 +81,10 @@ ichor_component = NodePath("../IchorComponent")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
+[node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=1203840019]
+script = ExtResource("10_wlwrk")
+metadata/_custom_type_script = "uid://tda3ohuci2fd"
+
 [node name="PhysicsComponent" type="Node" parent="." unique_id=1264121268]
 script = ExtResource("9_v2rrg")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
@@ -107,6 +117,7 @@ metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
 [node name="InteractableComponent" type="Node" parent="." unique_id=236326936 node_paths=PackedStringArray("flash_target")]
 script = ExtResource("15_xraoj")
+effect = SubResource("Resource_v2rrg")
 flash_target = NodePath("../Sprite2D")
 flash_shader = ExtResource("16_jtya7")
 metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"

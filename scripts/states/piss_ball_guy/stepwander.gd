@@ -1,7 +1,6 @@
 extends BehaviorState
 class_name WandererState
 
-@export var proximity: ProximityDetector
 @export var facing: FacingComponent
 @export var input: InputComponent
 @export var locomotion: StepLocomotionHandler
