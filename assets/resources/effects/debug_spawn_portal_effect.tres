@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EntityEffectSpawnEntity" format=3 uid="uid://c8t8v5coa6ujw"]
+
+[ext_resource type="Script" uid="uid://d45okk3fhrt5" path="res://assets/resources/ComponentPropertyOverride.gd" id="1_53isd"]
+[ext_resource type="Script" uid="uid://pk4ddbhgpjrr" path="res://assets/resources/EntityEffectSpawnEntity.gd" id="2_0ohv5"]
+[ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="2_uiutk"]
+
+[sub_resource type="Resource" id="Resource_7vkua"]
+script = ExtResource("1_53isd")
+component = ExtResource("2_uiutk")
+property = &"entities_to_spawn"
+value = [&"bimpy", &"bimpy", &"bimpy"]
+metadata/_custom_type_script = "uid://d45okk3fhrt5"
+
+[sub_resource type="Resource" id="Resource_l33wv"]
+script = ExtResource("1_53isd")
+component = ExtResource("2_uiutk")
+property = &"spawn_chance"
+value = [1.0, 1.0, 1.0]
+metadata/_custom_type_script = "uid://d45okk3fhrt5"
+
+[resource]
+script = ExtResource("2_0ohv5")
+entity_name = &"portal"
+overrides = Array[ExtResource("1_53isd")]([SubResource("Resource_7vkua"), SubResource("Resource_l33wv")])
+metadata/_custom_type_script = "uid://pk4ddbhgpjrr"

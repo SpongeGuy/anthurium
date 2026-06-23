@@ -68,7 +68,8 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 	if entity.has_component(HealthComponent):
 		string += str("hp: ", entity.get_component(HealthComponent).health, "\n")
 	if entity.has_component(PhysicsComponent):
-		string += str("vel: ", entity.velocity, "\n")
+		string += str("physv: ", entity.get_component(PhysicsComponent).physics_velocity, "\n")
+	string += str("v: ", entity.velocity, "\n")
 	if entity.has_component(IchorComponent):
 		string += str("ich: ", entity.get_component(IchorComponent).ichor, "\n")
 	label.text = string

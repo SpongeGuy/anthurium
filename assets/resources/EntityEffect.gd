@@ -7,16 +7,16 @@ var visibility: VisibilityComponent
 
 func execute(entity: Entity) -> void:
 	if ignore_invisibility:
-		_chance_try_execute(entity)
+		_execute(entity)
 	if visibility:
 		if visibility.is_visible():
-			_chance_try_execute(entity)
+			_execute(entity)
 			return
 	
 	# find visibility component if not visibility
 	visibility = entity.get_component(VisibilityComponent)
 	if not visibility or (visibility and visibility.is_visible()):
-		_chance_try_execute(entity)
+		_execute(entity)
 		return
 		
 func _chance_try_execute(entity: Entity) -> void:

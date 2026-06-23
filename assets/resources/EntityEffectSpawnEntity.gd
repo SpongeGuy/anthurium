@@ -5,7 +5,7 @@ class_name EntityEffectSpawnEntity
 @export var overrides: Array[ComponentPropertyOverride] = []
 
 func _execute(entity: Entity) -> void:
-	var spawned: Entity = EntityManager.spawn_safely(entity_name, entity.global_position)
+	var spawned: Entity = EntityManager.spawn(entity_name, entity.global_position)
 	if not spawned:
 		push_error("EntityEffectSpawnEntity: Could not spawn entity '%s', does not exist?" % spawned)
 		return

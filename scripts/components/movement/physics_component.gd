@@ -37,13 +37,17 @@ func physics_update(delta: float) -> void:
 	_handle_cell_terrain(delta)
 	
 		
+	var locomotion_velocity: Vector2 = locomotion.velocity if locomotion else Vector2.ZERO
 	var pre_slide_velocity: Vector2 = physics_velocity
+	var pre_slide_full: Vector2 = physics_velocity + locomotion_velocity
 		
-	entity.velocity = physics_velocity + (locomotion.velocity if locomotion else Vector2.ZERO)
+	entity.velocity = pre_slide_full
 	entity.move_and_slide()
-	physics_velocity = entity.velocity - (locomotion.velocity if locomotion else Vector2.ZERO)
+	physics_velocity = entity.velocity - locomotion_velocity
 	
-	_handle_collisions(pre_slide_velocity)
+	
+	
+	_handle_collisions(pre_slide_velocity, pre_slide_full)
 
 func clear_velocity() -> void:
 	physics_velocity = Vector2.ZERO
@@ -69,7 +73,8 @@ func _handle_cell_terrain(_delta: float) -> void:
 		return
 			
 
-func _handle_collisions(pre_velocity: Vector2) -> void:
+func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
+	print(pre_velocity)
 	for i in entity.get_slide_collision_count():
 		var col: KinematicCollision2D = entity.get_slide_collision(i)
 		var normal: Vector2 = col.get_normal()
@@ -89,11 +94,34 @@ func _handle_collisions(pre_velocity: Vector2) -> void:
 				wall_collision.emit(col.get_collider())
 		 
 		elif collider is Entity:
+			var other_physics: PhysicsComponent = collider.get_component(PhysicsComponent)
+			var into_normal: float = pre_full.dot(normal)
 			
-			# cancel any velocity component driving us further into the other entity
-			var into_normal: float = physics_velocity.dot(normal)
-			if into_normal < 0.0:
-				physics_velocity -= normal * into_normal
+			if other_physics:
+				print(pre_velocity, into_normal)
+				if into_normal < 0.0:
+					var m1: float = mass
+					var m2: float = other_physics.mass
+					var is_dominant: bool = m1 > m2 or (m1 == m2 and entity.get_instance_id() < collider.get_instance_id())
+					
+					if is_dominant:
+						var total: float = m1 + m2
+						# project both velocities onto the A->B axis
+						var axis: Vector2 = -normal
+						var v_a: float = -into_normal
+						var v_b: float = other_physics.physics_velocity.dot(axis)
+						
+						# generalized restitution formula (e=1: elastic, e=0: inelastic)
+						var e: float = (restitution + other_physics.restitution) * 0.5
+						var new_va: float = (m1 * v_a + m2 * v_b + m2 * e * (v_b - v_a)) / total
+						var new_vb: float = (m1 * v_a + m2 * v_b + m1 * e * (v_a - v_b)) / total
+						
+						physics_velocity += axis * (new_va - v_a)
+						other_physics.physics_velocity += axis * (new_vb - v_b)
+						
+			else:
+				if into_normal < 0.0:
+					physics_velocity -= normal * into_normal
 				
 			# gentle positional separation for deep overlaps (e.g. spawned on top)
 			var depth: float = col.get_depth()
