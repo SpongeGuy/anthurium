@@ -72,9 +72,11 @@ shape = SubResource("CircleShape2D_8wo8b")
 
 [node name="CreatureData" type="Node" parent="." unique_id=920850024]
 script = ExtResource("2_hwojd")
+display_name = &""
 behavior_class = 1
 consumer_type = 4
 tags = Array[int]([11])
+display_name = &""
 metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="Behavior" type="Node" parent="." unique_id=62069105]
@@ -106,6 +108,7 @@ metadata/_custom_type_script = "uid://73th15n3ad82"
 
 [node name="DefaultLobe" type="Node" parent="Behavior/Brain" unique_id=1801410623 node_paths=PackedStringArray("state")]
 script = ExtResource("34_pgwxf")
+priority = 0.5
 state = NodePath("../../StateMachine/WandererState")
 metadata/_custom_type_script = "uid://camguuycnoqcu"
 

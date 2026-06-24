@@ -1,0 +1,12 @@
+```
+this continent is generally arid and hot. a vast majority of the continent is a desert. 
+the desert (the western portion of the continent) is home to humanoid feathered lizards with a deep magical and ritualistic culture. they are the original inhabitants of this continent and other humanoid beings in this region are probably descendants. they have historic crimson ruins all over the desert basin including a vast, haunted crimson fortress. now, they only have three villages. they have a great trade route from the desert basin all the way from the great desert basin all the way to the fertile region of the continent. they breed and ride gigantic foxlike creatures to traverse the desert quickly. 
+additionally, the desert has vast orange chasms and canyons cut into it where another group of beings (kobold-like creatures) mine and process important oreshards for industrious trade. they have figured out the secret to air travel and build airships for trade with people in the southern and northern continent. these kobolds are generally greedy creatures born of industry. they make use of a lesser people called rhats who are essentially servants used for dirty labor. 
+in the east, there are volcanic archipelagos full of brimstone and fertile waters. the soil on these islands are very nutritious so the flora that grows here is incredibly massive and strong. the volcanic activity in this area means that the smaller landmasses change often, some being destroyed entirely, and some being created anew. the flora always grows to maturity incredibly rapidly, usually within a week. it is said that a secret society of tritons live in these waters. perhaps other types of semi-sapient creatures live here. 
+also, in the far eastern archipelago there exists another grand aether deposit which warps the fabric of reality around it. 
+the language in the west region is very rigid and tough, kind of sounding like old polish. the language is the east sounds kind of like romanian. and the names of locations reflect this. 
+there are mysterious old crimson ruins in the desert. 
+jungle mesa structures live in the east.
+```
+
+Khazuur-Na is the desert continent on the equator. The two other continents are [[Erenor]] and [[Nyxis Nimmos]].

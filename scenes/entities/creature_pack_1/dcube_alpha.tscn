@@ -194,7 +194,9 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1693664663 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("30_notcm")
-restitution = 0.185
+mass = 50.0
+base_friction = 1800.0
+restitution = 0.111
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 

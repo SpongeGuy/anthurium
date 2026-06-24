@@ -6,6 +6,7 @@ class_name AbilityDungeonCubeRush
 @export var hurtbox: Hurtbox
 @export var physics: PhysicsComponent
 @export var facing: FacingComponent
+@export var force: float = 15000
 
 var active: bool = false
 
@@ -55,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if physics.physics_velocity.length() < 800:
-		physics.apply_force(facing.get_direction(), 2500)
+		physics.apply_force(facing.get_direction(), physics.mass * 3000)
 	locomotion.handle_locomotion(delta)
 	
 func _on_wall_collision(source: Node) -> void:

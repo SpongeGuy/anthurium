@@ -64,7 +64,6 @@ enum ConsumerType{
 
 
 
-@export var display_name: String = ""
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
 @export var tags: Array[CreatureTag] = []

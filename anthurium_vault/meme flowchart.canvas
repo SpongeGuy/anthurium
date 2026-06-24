@@ -1,0 +1,92 @@
+{
+	"nodes":[
+		{"id":"65aba96bcf35ff34","type":"file","file":"more bulshit/doorbellchud.png","x":-1720,"y":-360,"width":400,"height":225},
+		{"id":"02ecf82c2966928e","type":"file","file":"more bulshit/doorbellchudsoyjak.png","x":-1187,"y":-80,"width":347,"height":400},
+		{"id":"d9c73afbc023536b","type":"file","file":"more bulshit/gem-alarm-gem-alert.gif","x":-960,"y":-1040,"width":280,"height":278},
+		{"id":"583b2f6fcf37ed54","type":"file","file":"more bulshit/sorry-you-are-a-chud-chud.gif","x":-600,"y":-447,"width":440,"height":245},
+		{"id":"a3cf7883ea513b55","type":"file","file":"more bulshit/sigma-rubbersoulgif.gif","x":123,"y":-135,"width":399,"height":222},
+		{"id":"17cdf6f254a60ce3","type":"file","file":"more bulshit/true-get-this-man-a-true.gif","x":2020,"y":-1289,"width":294,"height":400},
+		{"id":"edcd953c5bf758df","type":"file","file":"more bulshit/whatever-go-my-scarab-scarab.gif","x":2660,"y":-627,"width":294,"height":400},
+		{"id":"74da269faa44bf55","type":"file","file":"more bulshit/truthnuke.png","x":1720,"y":-730,"width":400,"height":283},
+		{"id":"7f535f1c04cdb1ea","type":"file","file":"more bulshit/truth-nuke-truth.gif","x":1080,"y":-912,"width":399,"height":300},
+		{"id":"fe9c93446765ffbd","type":"file","file":"more bulshit/gem_alarm.gif","x":-59,"y":-1027,"width":365,"height":400}
+	],
+	"edges":[
+		{
+			"id":"8dd84b220bba3bd4",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"d9c73afbc023536b",
+			"fromSide":"right",
+			"toNode":"fe9c93446765ffbd",
+			"toSide":"left"
+		},
+		{
+			"id":"13cd02e46ab115f1",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"65aba96bcf35ff34",
+			"fromSide":"right",
+			"toNode":"02ecf82c2966928e",
+			"toSide":"left"
+		},
+		{
+			"id":"cbddb93e09ebeed1",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"583b2f6fcf37ed54",
+			"fromSide":"left",
+			"toNode":"65aba96bcf35ff34",
+			"toSide":"right"
+		},
+		{
+			"id":"b0c5de52a5093746",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"a3cf7883ea513b55",
+			"fromSide":"left",
+			"toNode":"583b2f6fcf37ed54",
+			"toSide":"right"
+		},
+		{
+			"id":"8a3fc075201410c8",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"edcd953c5bf758df",
+			"fromSide":"left",
+			"toNode":"17cdf6f254a60ce3",
+			"toSide":"right"
+		},
+		{
+			"id":"8cbb5d2f1618f96f",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"74da269faa44bf55",
+			"fromSide":"top",
+			"toNode":"17cdf6f254a60ce3",
+			"toSide":"left"
+		},
+		{
+			"id":"f993ffef7e8adb5b",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"74da269faa44bf55",
+			"fromSide":"left",
+			"toNode":"7f535f1c04cdb1ea",
+			"toSide":"right"
+		},
+		{
+			"id":"a1e15052d1e1fb21",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"65aba96bcf35ff34",
+			"fromSide":"top",
+			"toNode":"d9c73afbc023536b",
+			"toSide":"left"
+		}
+	],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

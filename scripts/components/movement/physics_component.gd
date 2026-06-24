@@ -6,7 +6,7 @@ class_name PhysicsComponent
 @export var mass: float = 1.0
 @export var friction_coefficient: float = 1.0
 @export var base_friction: float = 800
-@export var restitution: float = 0.4
+@export_range(0, 1) var restitution: float = 0.4
 @export var min_bounce_speed: float = 40.0
 @export var max_speed: float = 1000.0
 @export var world_interface: WorldInterface

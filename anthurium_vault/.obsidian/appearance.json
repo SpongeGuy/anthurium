@@ -1,0 +1,11 @@
+{
+  "cssTheme": "Primary",
+  "theme": "obsidian",
+  "textFontFamily": "Consolas,Arial",
+  "interfaceFontFamily": "Consolas,Arial",
+  "baseFontSize": 13,
+  "monospaceFontFamily": "Consolas",
+  "nativeMenus": false,
+  "accentColor": "#e51010",
+  "showRibbon": true
+}
