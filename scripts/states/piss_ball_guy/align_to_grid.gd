@@ -5,6 +5,7 @@ class_name AlignToGridState
 @export var input: InputComponent
 @export var facing: FacingComponent
 @export var sound: VoiceProfile = preload("res://assets/resources/voices/machine_align.tres")
+@export var physics: PhysicsComponent
 
 @export var next_state: BehaviorState
 
@@ -39,3 +40,4 @@ func physics_update(delta: float) -> void:
 func exit() -> void:
 	_timer = 0
 	locomotion.speed = previous_max_speed
+	physics.clear_velocity()

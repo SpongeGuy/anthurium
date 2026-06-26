@@ -66,11 +66,12 @@ facing = NodePath("../../FacingComponent")
 next_state = NodePath("../AlignToGridState")
 metadata/_custom_type_script = "uid://ch1jyl631b26m"
 
-[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("locomotion", "input", "facing", "next_state")]
+[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("locomotion", "input", "facing", "physics", "next_state")]
 script = ExtResource("6_oqt4r")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../FacingComponent")
+physics = NodePath("../../Movement/PhysicsComponent")
 next_state = NodePath("../GatherEnergyState")
 metadata/_custom_type_script = "uid://fht6b026k2py"
 

@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	subtract_ichor(reduction_per_second * delta)
 	
 func add_ichor(amount: float) -> void:
-	ichor = clampf(ichor - (amount), 0.0, max_ichor)
+	ichor = clampf(ichor + (amount), 0.0, max_ichor)
 	ichor_changed.emit(ichor, max_ichor)
 	
 func subtract_ichor(amount: float) -> void:

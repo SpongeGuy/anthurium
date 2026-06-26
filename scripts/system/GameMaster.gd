@@ -121,6 +121,7 @@ func _initialize_anthurium(tile_pos: Vector2i) -> void:
 func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
 	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150))
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190))
 
 	#for i in range(600):
 		#var pos: Vector2 = Vector2(randf_range(0, 1000), randf_range(0, 1000))
@@ -135,8 +136,8 @@ func _initialize_debug_spawns() -> void:
 	#
 	#EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
 	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
-	EntityManager.spawn_on_tile(&"dcube_alpha", Vector2i(15, 4))
-	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
+	#EntityManager.spawn_on_tile(&"dcube_alpha", Vector2i(15, 4))
+	#EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
 	#EntityManager.spawn_safely(&"ecube_beta", Vector2i(500, 150))
 	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
 	#EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))

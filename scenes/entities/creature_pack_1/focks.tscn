@@ -101,6 +101,7 @@ frame = 2
 
 [node name="Ichor" type="Node" parent="Health&Damage" unique_id=288599577]
 script = ExtResource("4_e47js")
+ichor = 25.0
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "state_machine")]
@@ -109,6 +110,7 @@ max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
 state_machine = NodePath("../../StateMachine")
+god_mode = true
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite", "visibility")]

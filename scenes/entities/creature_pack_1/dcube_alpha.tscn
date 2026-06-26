@@ -68,11 +68,12 @@ facing = NodePath("../../FacingComponent")
 next_state = NodePath("../AlignToGridState")
 metadata/_custom_type_script = "uid://ch1jyl631b26m"
 
-[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("locomotion", "input", "facing", "next_state")]
+[node name="AlignToGridState" type="Node" parent="StateMachine" unique_id=1262952032 node_paths=PackedStringArray("locomotion", "input", "facing", "physics", "next_state")]
 script = ExtResource("6_152hd")
 locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 input = NodePath("../../InputComponent")
 facing = NodePath("../../FacingComponent")
+physics = NodePath("../../Movement/PhysicsComponent")
 next_state = NodePath("../GatherEnergyState")
 time = 0.5
 metadata/_custom_type_script = "uid://fht6b026k2py"
@@ -195,8 +196,8 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1693664663 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("30_notcm")
 mass = 50.0
-base_friction = 1800.0
-restitution = 0.111
+base_friction = 5000.0
+restitution = 0.086
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 

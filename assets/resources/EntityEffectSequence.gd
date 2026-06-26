@@ -12,7 +12,7 @@ func _execute(entity: Entity) -> void:
 		for effect in effects:
 			effect.execute(entity)
 	else:
-		for i in range(effects):
+		for i in range(effects.size()):
 			if not is_instance_valid(effects[i]): return
 			await effects[i].execute(entity)
 	sequence_finished.emit()

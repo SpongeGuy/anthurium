@@ -10,14 +10,23 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="7_wlwrk"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="8_50qpg"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="9_v2rrg"]
-[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="10_wlwrk"]
+[ext_resource type="Script" uid="uid://buy6ml70p0806" path="res://scripts/abilities/food_consumed.gd" id="10_e13nj"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="10_y4kfh"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://assets/resources/EntityEffect.gd" id="11_6wri1"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="11_67mhi"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="12_iy5re"]
+[ext_resource type="Script" uid="uid://cqfik1k3sk2jr" path="res://assets/resources/EntityEffectScreenShake.gd" id="12_wmiwl"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://assets/resources/EntityEffectVoice.gd" id="13_8mqv7"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="14_4kbpg"]
+[ext_resource type="Resource" uid="uid://7h5cwokaxdwi" path="res://assets/resources/voices/chomp.tres" id="14_ob0sk"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://assets/resources/EntityEffectSequence.gd" id="15_4ump7"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="15_xraoj"]
-[ext_resource type="Shader" uid="uid://jtxsuqemjajj" path="res://assets/resources/shaders/interactable_shine.gdshader" id="16_jtya7"]
-[ext_resource type="Script" uid="uid://q8oievajpib8" path="res://assets/EntityEffectUseAbility.gd" id="17_50qpg"]
+[ext_resource type="Resource" uid="uid://c24xu0hvpm8mx" path="res://assets/resources/particle_profiles/leaf.tres" id="16_50qpg"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="17_v2rrg"]
+[ext_resource type="Script" uid="uid://q8oievajpib8" path="res://assets/EntityEffectUseAbility.gd" id="24_qydi0"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="25_wmiwl"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="26_8mqv7"]
+[ext_resource type="Script" uid="uid://4neiv211rec6" path="res://scripts/components/item_stage_manager.gd" id="27_8mqv7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m8jnl"]
 radius = 7.0
@@ -31,12 +40,71 @@ shader_parameter/intensity = 1.0
 shader_parameter/shine_color = Color(1, 1, 1, 1)
 shader_parameter/angle = 0.5
 
+[sub_resource type="Resource" id="Resource_akg4v"]
+script = ExtResource("12_wmiwl")
+trauma = 0.142
+metadata/_custom_type_script = "uid://cqfik1k3sk2jr"
+
+[sub_resource type="Resource" id="Resource_8ytja"]
+script = ExtResource("13_8mqv7")
+voice = ExtResource("14_ob0sk")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[sub_resource type="Resource" id="Resource_7e3ei"]
+script = ExtResource("15_4ump7")
+effects = Array[ExtResource("11_6wri1")]([SubResource("Resource_akg4v"), SubResource("Resource_8ytja")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_s7gn8"]
 radius = 9.0
 
-[sub_resource type="Resource" id="Resource_v2rrg"]
-script = ExtResource("17_50qpg")
+[sub_resource type="Resource" id="Resource_md5gd"]
+script = ExtResource("17_v2rrg")
+particle_profile = ExtResource("16_50qpg")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_403mk"]
+script = ExtResource("24_qydi0")
 metadata/_custom_type_script = "uid://q8oievajpib8"
+
+[sub_resource type="Resource" id="Resource_8adl8"]
+script = ExtResource("15_4ump7")
+effects = Array[ExtResource("11_6wri1")]([SubResource("Resource_md5gd"), SubResource("Resource_403mk")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
+
+[sub_resource type="Resource" id="Resource_ob0sk"]
+script = ExtResource("26_8mqv7")
+name = &"stage_0"
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_4ump7"]
+script = ExtResource("26_8mqv7")
+name = &"stage_1"
+column = 1
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_qydi0"]
+script = ExtResource("26_8mqv7")
+name = &"stage_2"
+column = 2
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_nvill"]
+script = ExtResource("26_8mqv7")
+name = &"stage_3"
+column = 3
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_6mvgv"]
+script = ExtResource("26_8mqv7")
+name = &"stage_4"
+column = 4
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="MeatShank" type="CharacterBody2D" unique_id=1115177039]
 texture_filter = 1
@@ -69,6 +137,9 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="IchorComponent" type="Node" parent="." unique_id=1823621644]
 script = ExtResource("6_jtya7")
+max_ichor = 10.0
+ichor = 10.0
+reduction_per_second = 0.0
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1629700235]
@@ -81,9 +152,13 @@ ichor_component = NodePath("../IchorComponent")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=1203840019]
-script = ExtResource("10_wlwrk")
-metadata/_custom_type_script = "uid://tda3ohuci2fd"
+[node name="AbilityFoodConsumed" type="Node" parent="AbilityManager" unique_id=1126160630 node_paths=PackedStringArray("ichor", "interactable", "stage_manager")]
+script = ExtResource("10_e13nj")
+ichor = NodePath("../../IchorComponent")
+interactable = NodePath("../../InteractableComponent")
+stage_manager = NodePath("../../ItemStageManager")
+effect = SubResource("Resource_7e3ei")
+metadata/_custom_type_script = "uid://buy6ml70p0806"
 
 [node name="PhysicsComponent" type="Node" parent="." unique_id=1264121268]
 script = ExtResource("9_v2rrg")
@@ -115,9 +190,18 @@ physics = NodePath("../PhysicsComponent")
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
-[node name="InteractableComponent" type="Node" parent="." unique_id=236326936 node_paths=PackedStringArray("flash_target")]
+[node name="InteractableComponent" type="Node" parent="." unique_id=236326936]
 script = ExtResource("15_xraoj")
-effect = SubResource("Resource_v2rrg")
-flash_target = NodePath("../Sprite2D")
-flash_shader = ExtResource("16_jtya7")
+effect = SubResource("Resource_8adl8")
 metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=84091034 node_paths=PackedStringArray("sprite")]
+script = ExtResource("25_wmiwl")
+sprite = NodePath("../Sprite2D")
+animations = Array[ExtResource("26_8mqv7")]([SubResource("Resource_ob0sk"), SubResource("Resource_4ump7"), SubResource("Resource_qydi0"), SubResource("Resource_nvill"), SubResource("Resource_6mvgv")])
+metadata/_custom_type_script = "uid://carvudot6oer3"
+
+[node name="ItemStageManager" type="Node" parent="." unique_id=572519852 node_paths=PackedStringArray("animator")]
+script = ExtResource("27_8mqv7")
+animator = NodePath("../SpriteAnimator")
+metadata/_custom_type_script = "uid://4neiv211rec6"
