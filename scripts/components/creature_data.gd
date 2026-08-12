@@ -1,8 +1,8 @@
 extends Component
-class_name CreatureData
+class_name EntityTagComponent
 
 
-enum CreatureTag{
+enum EntityTag{
 	PLANTLIKE,
 	PACK,
 	LARGE,
@@ -66,10 +66,8 @@ enum ConsumerType{
 
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
-@export var tags: Array[CreatureTag] = []
-@export var liked_tags: Array[CreatureTag] = []
-@export var feared_tags: Array[CreatureTag] = []
-@export var prey_tags: Array[CreatureTag] = []
+@export var tags: Array[EntityTag] = []
+
 
 
 var spawn_weight: float = 1.0

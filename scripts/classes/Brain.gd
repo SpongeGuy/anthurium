@@ -19,6 +19,10 @@ var personality: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 # [4] = nervous
 # [5] = sympathy
 
+@export var liked_tags: Array[EntityTagComponent.EntityTag] = []
+@export var feared_tags: Array[EntityTagComponent.EntityTag] = []
+@export var prey_tags: Array[EntityTagComponent.EntityTag] = []
+
 func _ready() -> void:
 	_register_lobes(self)
 	_randomize_personality()

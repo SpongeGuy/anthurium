@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="14_i5ycx"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_jkp1v"]
 [ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="15_y3c5y"]
+[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="16_q7bn2"]
+[ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/Brain.gd" id="17_oeay5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_adop0"]
 radius = 4.0
@@ -87,9 +89,8 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 script = ExtResource("10_jkp1v")
 metadata/_custom_type_script = "uid://se8p70tr1prj"
 
-[node name="DeathState" type="Node" parent="StateMachine" unique_id=1265786023 node_paths=PackedStringArray("entity_create", "animator")]
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=1265786023 node_paths=PackedStringArray("animator")]
 script = ExtResource("11_qgsau")
-entity_create = NodePath("../../EntitySpawner")
 animator = NodePath("../../SpriteAnimator")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
@@ -122,3 +123,11 @@ script = ExtResource("15_y3c5y")
 entities_to_spawn = Array[StringName]([&"dcube_alpha"])
 spawn_chance = Array[float]([1.0])
 metadata/_custom_type_script = "uid://b0488tn8mef07"
+
+[node name="EntityTag" type="Node" parent="." unique_id=68763991]
+script = ExtResource("16_q7bn2")
+metadata/_custom_type_script = "uid://6g5weury2p"
+
+[node name="Brain" type="Node" parent="." unique_id=834847295]
+script = ExtResource("17_oeay5")
+metadata/_custom_type_script = "uid://cdl7wwoaxcqra"

@@ -1,41 +1,57 @@
 # Anthurium
 
+### Capstone
+> The goal of this capstone is to release a small yet finished and polished version of this game onto itch.io by Christmas of 2026.
+> This project will teach me more about the development cycle, designing good systems for iteration, what makes a game fun, and the process of promoting and releasing a game on a popular platform.
+
+> Ming Chen is quite knowledgeable about the development cycle (specializing in video games, which this project is obviously related to) and puts much importance on planning and designing before implementation, which I believe to be quite important and yet is a skill that I lack.
+
 Play as Pip, a little animal with many tricks up his sleeve. Befriend, defeat, and interact with the many beasts found in Dreamland to survive. Survive as long as you can throughout Dreamland and discover the mystery of the Anthurium, a mysterious ancient reality-warping plant deity.
 
-Anthurium is a modern top-down survival and exploration arcade game with low fidelity graphics and a bizarre, familiar yet otherworldly aesthetic. Anthurium leans into emergent gameplay elements, where simple elements come together to make an experience much much greater than the sum of its parts.
+*Anthurium* is a modern top-down survival and exploration arcade game with low fidelity graphics and a bizarre, familiar yet otherworldly aesthetic. *Anthurium* leans into emergent gameplay elements, where simple elements come together to make an experience much much greater than the sum of its parts. A significant portion of the game is a sandbox involving a variety of creatures, all of which have their own unique needs, abilities, and behaviors.
 
-Currently, the game is set on a board of 64x64 tiles and has no narrative story elements aside from environmental storytelling, but this can change as development continues throughout the years.
+While experiencing _Anthurium_, the player will play out the fantasy of being the protagonist at the center of a charmingly esoteric mystery, the fantasy of being a little animal in a wild and fantastical ecosystem, and if the player becomes sufficiently talented at the game, the fantasy of knowing how to effectively utilize in-game tools and systems to maximize a final score’s value.
 
-Players are placed in an evolving sandbox where they are free to explore a variety of creatures and events (perhaps characters later on?).
+The player's goal is to survive until the Anthurium's final bloom; an event that is built up to throughout a round of the game. A round is typically five minutes, but can be slowed down or accelerated through different methods.
+
+The Anthurium itself is a strange, ever-changing collection of plants, which can change the state of the game in various ways. The Anthurium, depending on its mood, can either feed surrounding animals, go on the offensive, spawn more animals, expand and grow, or many other things. Over time, the Anthurium builds up power eventually leading to a BLOOM EVENT, which is a semi-randomly chosen event the player must survive or solve in order to complete the round. (The Anthurium will give visual and auditory cues on which event will occur as the round progresses).
+
+_Anthurium_ will be playable on PC through itch.io. Eventually, _Anthurium_ has the capability of being launched on consoles; _Anthurium_ is a controller-only game created using the Godot engine, so porting to different platforms will be a trivial task.
+
+
 
 ---
 # Controls
 *Anthurium* is a game meant for controllers and does not make use of the mouse at all.
 
-| Name                 | Button   |
-| -------------------- | -------- |
-| Movement/Select      | LS/D-Pad |
-| Ability 1            | A        |
-| Ability 2            | B        |
-| Ability 3            | X        |
-| Ability 4            | Y        |
-| Modifier             | LT       |
-| Interact with nearby | RB       |
+## Game Controls
+These are keymaps relating to controlling a beast while playing the game.
 
+| Name                   | Button   |
+| ---------------------- | -------- |
+| Movement/Select        | LS/D-Pad |
+| Ability 1              | A        |
+| Ability 2              | B        |
+| Ability 3              | X        |
+| Ability 4              | Y        |
+| Modifier               | LT       |
+| Action (Context Aware) | RB       |
+## Menu Controls
+tbd
 
-
+---
 # Game Loop
 ### Defending yourself
 When playing as Pip, you are near the bottom of the food chain; there are creatures that are much more powerful than the player and will hunt you if they are hungry!
 
-Pip is unique in that he is near defenseless on his own, only having a weak swipe ability. However, Pip starts with the unique ability to **pick up and throw** lightweight creatures and objects, which allows Pip to use external resources to solve situations. Pip can pick up a creature and squeeze it (by pressing the **Action** key) to make it cast its signature ability. Use this technique to interact with the environment OR kill creatures to steal their ability shards for yourself!
+Pip is unique in that he is near defenseless when he initially spawns in, only having a push ability and the unique ability to **pick up and throw** lightweight creatures and objects, which allows Pip to use external resources to solve situations. Pip can pick up a creature and squeeze it (by pressing the **Action** key) to make it cast its signature ability. Use this technique to interact with the environment OR kill creatures to steal their ability shards for yourself!
 
 ### Map
 The map is generated using a combination of room generation and cavelike noisy generation. The caves should be small enough that gameplay feels cohesive and tense but not overwhelmingly tight to be cramped.
 
 ### Terrain
 Terrain is procedurally generated to appear cavelike.
-Terrain is interactable and can be destroyed or created. Tiles have special properties.
+Terrain cells are interactable and can be destroyed or created. Tiles have special properties.
 
 Wall tiles:
 - hardness: a modifier which alters how much damage the tile takes per hit.
@@ -45,7 +61,7 @@ Wall tiles:
 
 > Walls can have treasure or special items in them.
 
-> If there are special zones or environments behind walls, there should be visual evidence of a hidden area.
+> If there are special zones or environments behind walls, there should be visual cues of a hidden area (cracks, particles, etc.)
 
 ### Encountering prefabs
 Prefab structures can be found in levels. They contain special creatures, items, or interactable entities. Most of the time, these structures can only be found or reached by using a special ability or under certain criteria.
@@ -54,18 +70,19 @@ Prefab structures can be found in levels. They contain special creatures, items,
 The player can only see tiles of the room they are currently in. All entities on invisible tiles are also invisible. There may be rooms beyond walls that are hidden and must be broken into to discover.
 
 ### The Anthurium
-Three arbitrary phases will occur during a round!
+Three phases will occur during a round!
 
 **Phase 1**
-- The Anthurium is slow and its *Esoterica* has not had much time to flourish, so mostly Flowerings occur.
+- The Anthurium is slow and its *Esoterica* has not had much time to flourish, so mostly **Flowering** events occur.
 - The player is able to peacefully explore the starting dungeon layout and discover what creatures inhabit the map.
 
 **Phase 2**
-- Blooms start, changing the conditions and makeup of the game board.
-- The ecosystem has matured slightly and developed.
+- The Anthurium has spread slightly and has gained some *Esoterica*.
+- **Bloom** events begin to occur, changing the conditions and makeup of the game board.
+- The ecosystem has matured slightly and developed; beasts have had time to reproduce.
 
 **Phase 3**
-- The Anthurium has spread throughout the board and blooms are more potent.
+- The Anthurium has spread significantly throughout the board and blooms are more potent.
 - The Final Bloom is imminent, so the player must prepare.
 
 
@@ -196,7 +213,7 @@ The Anthurium keeps track of six parameters as it lives on in the dungeon.
 # Ichor
 Ichor is the lifeblood of the dungeon and acts as the liquid energy that creatures use to stay alive and flourish.
 
-The Anthurium is the dungeon's primary Ichor source. It slowly generates Ichor, which it uses to beat its heart and bloom. It produces fruit which have a high concentration of Ichor. A larger Anthurium network means more Ichor generated, meaning more Ichor flowing into the ecosystem.
+The Anthurium is the dungeon's primary Ichor source. It slowly generates Ichor, which it uses to beat its heart and bloom. It produces fruit which have a high concentration of Ichor. A larger Anthurium network means more Ichor generated, therefore more Ichor will circulate into the ecosystem.
 
 The Anthurium can also be predatory and eat creatures or terrain when it's either low on Ichor or cannot produce enough on its own.
 
@@ -222,7 +239,7 @@ Multiplication:
 
 ---
 # Aura
-Aura is a reflection of the vitality of the arena and is the score-keeping metric for runs.
+Aura is a reflection of the vitality of the arena and is the score-keeping metric for runs. (kinda equivalent to arcade game's points)
 
 Aura rises when the ecosystem is thriving (creatures/anthurium alive, ichor plentiful, terrain intact).
 Aura falls when things are dying or being destroyed recklessly.
@@ -277,4 +294,147 @@ Unlockables include
 - Cosmetics for pip and other creatures
 - Bestiary pages
 - Additional fun modes
-- other things?
+- other things? creature creator? woagh
+
+---
+
+# Technical Tools, Programming Languages, and External Packages
+- Godot (Engine)
+- GDScript (Scripting language provided by Godot)
+- C# (For more advanced and faster scripts)
+- Git (Version control)
+- Aseprite (Spriting, art, animation)
+- BFXR (Sound effect generation library)
+
+
+# Scope Definition
+
+| Must Have                        | Completed? |
+| -------------------------------- | ---------- |
+| Component Class                  | yes        |
+| Entity Class                     | yes        |
+| Brain Class                      | yes        |
+| Physics Component                | yes        |
+| Tile/Cell Properties/Physics     | ongoing    |
+| Main Menu                        | no         |
+| Round Results Screen             | no         |
+| 1 working ecosystem loop         | no         |
+| Anthurium mechanics              | no         |
+| 5 bloom events                   | no         |
+| 2 final bloom events             | no         |
+| Pause menu / hud                 | no         |
+| entity tags                      | yes        |
+| StateMachine/BehaviorState Class | yes        |
+| Locomotion Class                 | yes        |
+| Virtual Input Handler            | yes        |
+
+| Should Have                      | Completed? |
+| -------------------------------- | ---------- |
+| Entity Effects (visual/auditory) | ongoing    |
+| UI Effects                       | no         |
+| Logo/decorative title            | no         |
+| music                            | ongoing    |
+| decent spritework for everything | maybe?     |
+
+| Nice To Have                | Completed? |
+| --------------------------- | ---------- |
+| Dialog boxes/text animation | no         |
+| crazy trippy shader effects | no         |
+
+
+# Preliminary Production Timeline
+
+Week 1 (8/24)
+- [ ] ACTION needs fixed as it is bugged right now: fix the `InteractorComponent` (the part which picks the nearest entity) and make it simpler so it's less likely to have bugs.
+- [ ] Design an ecosystem loop involving a producer, a couple consumers, and a wild card. These creatures' mechanisms should be related.
+
+Week 2 (8/31)
+- [ ] At least half the creatures from the designed ecosystem loop should be prototyped/close to completion. (ensure that these creatures have `EntityTag` components)
+- [ ] Write the `Lobe` and `BehaviorState`s relating to hunger so that creatures have a drive to eat and stay alive.
+- [ ] ichor must be fully functional AND utilized. ichor is the hunger resource and "mana", used as currency for activating some abilities.
+- [ ] `Hurtbox` layers correctly interact with `Hitbox` layers!
+- [ ] `Zaxis.gd`: a simulated z axis layer which allows creatures to fly or jump. produces a shadow on the ground and translates the creature's sprite based on the value of the z-axis.
+- [ ] Hitbox layers correctly change based on the creature's z value, if applicable.
+- [ ] FIX: only `Hurtbox` with layer `GROUND` deal damage to ground tiles.
+
+Week 3 (9/7)
+- [ ] anthurium is prototyped; esoterica functions and bloom events trigger.
+- [ ] `Anthurium.gd` is a master entity which holds the `EsotericaVector` state and the cosine-similarity `BloomEvent` selection logic.
+- [ ] `AnthuriumRoot.gd` is a node representing one root segment; tracks parent-root link, accumulated potential, and `is_end_node` flag.
+- [ ] root extension routine: extend a root 2-3 tiles toward the nearest unclaimed space
+- [ ] Ichor correctly flows from plant parts through roots into a central Anthurium ichor pool.
+- [ ] implement a `BloomEvent` resource class
+- [ ] `BloomEvents` have criteria to be considered "complete"
+- [ ] 2 concrete `BloomEvent` resources implemented
+- [ ] 1 final bloom event designed
+
+Week 4 (9/14)
+- [ ] pause screen implemented (built on `Hand`/`InteractableUI` systems).
+- [ ] results screen implemented: results screen jumps on screen and ui system is activated when player dies or round is complete!
+- [ ] results screen correctly tallies up points using the scoring formula (displaying all of this, animated)
+- [ ] all creatures from the designed ecosystem are now implemented; all creatures interact with each other (verify not through scripted interactions, but through their behaviors).
+
+Week 5 (9/21)
+- [ ] Anthurium mechanics complete and polished.
+- [ ] Heartbeat is a pulse timer on a semi-regular interval that spreads bloom potential through the bloom network (prioritizing end nodes).
+- [ ] Ichor transfers from end nodes to the anthurium's core
+- [ ] Flowering: weighted random roll per heartbeat for anthurium's basic "abilities"
+- [ ] wire game events (creature death, plant damage, terrain destruction, room-empty checks, etc) to `EsotericaVector` deltas via signals
+- [ ] `EsotericaVector` magnitude crosses a threshold, triggering the final bloom event
+- [ ] Esoterica correctly changes when the Anthurium is reacting to stimuli
+
+Week 6 (9/28)
+- [ ] aura integrated and tracking complete
+- [ ] aura is functional and correctly reflects the state of the game board.
+
+Week 7 (10/5)
+- [ ] Main menu implemented.
+- [ ] complete the main menu: Hand class should interact well with all types of InteractableUI elements, which will power most ui elements (including the main menu).
+- [ ] option PLAY should immediately launch the player into a round.
+- [ ] option QUIT should exit the game.
+
+Week 8 (10/12)
+- [ ] design another ecosystem loop that overlaps the first one (ideally all creatures should have more than three overlaps in their relationships/behaviors)
+- [ ] map at least 3 relationship overlaps between loop 1 and loop 2 creatures (shared prey/predator/ichor/ability interactions)
+
+Week 9 (10/19)
+- [ ] prototype loop 2 creatures (`creature6.tscn` onward) per week 8's design
+- [ ] verify that overlapping relationships/behaviors produce emergent interactions with no scripted events
+
+Week 10 (10/26)
+
+Week 11 (11/2)
+
+Week 12 (11/9)
+
+Week 13 (11/16)
+
+Week 14 (11/23)
+
+Week 15 (11/30)
+
+Week 16 (12/7)
+- [ ] finish trailer, 
+- [ ] finish reflection paper, 
+- [ ] finish portfolio 
+
+`EntityTag`: defines a group that this entity belongs to. Absolutely necessary for other entities' relationships. For example, a `mouse` may not like an `explosive` entity and choose to run away from it.
+# Milestone Schedule
+| Week            | Tasks/Milestones                                                                                                 |
+| --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Week 1 (8/24)   | <br>InteractorComponent.gd<br>ecoloop_1.example                                                                  |
+| Week 2 (8/31)   | <br>creature1.tscn<br>creature2.tscn<br>creature3.tscn<br>HungryLobe.gd<br>SeekFoodState.gd<br>ChasePreyState.gd |
+| Week 3 (9/7)    |                                                                                                                  |
+| Week 4 (9/14)   |                                                                                                                  |
+| Week 5 (9/21)   | <br>Aura.gd                                                                                                      |
+| Week 6 (9/28)   |                                                                                                                  |
+| Week 7 (10/5)   |                                                                                                                  |
+| Week 8 (10/12)  |                                                                                                                  |
+| Week 9 (10/19)  |                                                                                                                  |
+| Week 10 (10/26) |                                                                                                                  |
+| Week 11 (11/2)  |                                                                                                                  |
+| Week 12 (11/9)  |                                                                                                                  |
+| Week 13 (11/16) |                                                                                                                  |
+| Week 14 (11/23) |                                                                                                                  |
+| Week 15 (11/30) |                                                                                                                  |
+| Week 16 (12/7)  |                                                                                                                  |
