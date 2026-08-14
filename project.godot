@@ -32,11 +32,17 @@ CellTypeRegister="*uid://d2ofrmjgk1kn4"
 
 window/size/viewport_width=640
 window/size/viewport_height=360
+window/size/mode=3
 window/size/initial_position_type=3
 
 [dotnet]
 
 project/assembly_name="anthurium"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
 
 [editor_plugins]
 

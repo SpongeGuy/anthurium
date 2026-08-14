@@ -4,23 +4,39 @@
 > The goal of this capstone is to release a small yet finished and polished version of this game onto itch.io by Christmas of 2026.
 > This project will teach me more about the development cycle, designing good systems for iteration, what makes a game fun, and the process of promoting and releasing a game on a popular platform.
 
-> Ming Chen is quite knowledgeable about the development cycle (specializing in video games, which this project is obviously related to) and puts much importance on planning and designing before implementation, which I believe to be quite important and yet is a skill that I lack.
-
+> _Anthurium_ is my first professional foray into game development and its completion and release will be a pivotal moment in my career. This is a large project spanning more than a year in development and features many custom systems and tools that I had to implement myself. This project will be impressive to anyone looking for a games or systems developer, so it will be at the forefront of any portfolio or resume I write in the future. I expect that the completion of this project will aid me in getting future jobs.
+### Overview
 Play as Pip, a little animal with many tricks up his sleeve. Befriend, defeat, and interact with the many beasts found in Dreamland to survive. Survive as long as you can throughout Dreamland and discover the mystery of the Anthurium, a mysterious ancient reality-warping plant deity.
 
 *Anthurium* is a modern top-down survival and exploration arcade game with low fidelity graphics and a bizarre, familiar yet otherworldly aesthetic. *Anthurium* leans into emergent gameplay elements, where simple elements come together to make an experience much much greater than the sum of its parts. A significant portion of the game is a sandbox involving a variety of creatures, all of which have their own unique needs, abilities, and behaviors.
 
 While experiencing _Anthurium_, the player will play out the fantasy of being the protagonist at the center of a charmingly esoteric mystery, the fantasy of being a little animal in a wild and fantastical ecosystem, and if the player becomes sufficiently talented at the game, the fantasy of knowing how to effectively utilize in-game tools and systems to maximize a final score’s value.
 
-The player's goal is to survive until the Anthurium's final bloom; an event that is built up to throughout a round of the game. A round is typically five minutes, but can be slowed down or accelerated through different methods.
-
-The Anthurium itself is a strange, ever-changing collection of plants, which can change the state of the game in various ways. The Anthurium, depending on its mood, can either feed surrounding animals, go on the offensive, spawn more animals, expand and grow, or many other things. Over time, the Anthurium builds up power eventually leading to a BLOOM EVENT, which is a semi-randomly chosen event the player must survive or solve in order to complete the round. (The Anthurium will give visual and auditory cues on which event will occur as the round progresses).
+*Anthurium* is a lower-resolution game (640x360) with a pixelated style. Tilesets and sprites will adopt a style reminiscent of Nintendo's "Link's Awakening". This game is targeted towards players who love roguelite-style games like *The Binding of Isaac*, *Noita*, and *Risk of Rain 2*. This game will also target players who enjoy games with a sandbox and exploration element, like *Rain World* or *The Legend of Zelda*.
 
 _Anthurium_ will be playable on PC through itch.io. Eventually, _Anthurium_ has the capability of being launched on consoles; _Anthurium_ is a controller-only game created using the Godot engine, so porting to different platforms will be a trivial task.
 
+The main mystery revolves around a clash of gods. Dreamland is an illusory dimension created by the god of decay, **Wyzzor**. As a god of decay, Wyzzor is fundamentally opposed to any force that creates new life, such as the **Anthurium**, a plant deity that bleeds chaos. In an ancient era, the Anthurium inhabited a lone solar system; all of its planets were lush alien jungles that were full of vibrant life. The Anthurium was stable for eons until a strange galactic wind picked up. Wyzzor sensed this, and broke through the galactic veil that held him prisoner to destroy the Anthurium which now threatened to spread all over the galaxy. Wyzzor attempted to consume the Anthurium, but in doing so, it inhabited his brain like a parasite. In a frantic effort to gain more power to purge the Anthurium from his body, Wyzzor flew into the core of the star to absorb its energy. When this failed, Wyzzor placed a spell upon himself that transformed his body into a static crysalis. Dreamland is Wyzzor's astral projection; a dimension flowing between the tides of chaos and decay. Now, an anomaly has appeared within the astral projection; an anomaly which has the potential to change the dream and decide if Wyzzor lives or dies.
+
+The Anthurium itself is a strange, ever-changing collection of plants, which can change the state of the game in various ways. The Anthurium, depending on its mood, can either feed surrounding animals, go on the offensive, spawn more animals, expand and grow, or many other things. Over time, the Anthurium builds up power eventually leading to a BLOOM EVENT, which is a semi-randomly chosen event the player must survive or solve in order to complete the round. (The Anthurium will give visual and auditory cues on which event will occur as the round progresses).
+
+# Pillars of development
+### Emergence over scripting.
+Every creature relationship is a product of individual behaviors reacting to each other, never a hand-placed event.
+### Composition over specialization.
+The player's power comes from ability shards stolen and assembled from the world, not a fixed skill tree.
+### Legible chaos.
+Under the hood, there may be complex systems, but the player should always be able to read why something has happened from what they see and hear on screen.
+### There are multiple valid paths to survival.
+The sandbox always offers more than one viable way to survive a given threat, phase, or bloom. If there's clearly one meta method, changes need to be made.
+### Mastery has a curve worth climbing.
+The gap between an average run and a mastered one should be large and visible. Final Aura score, manipulating the Anthurium, and how much of the chaos the player can use to their own advantage.
 
 
----
+
+
+
+
 # Controls
 *Anthurium* is a game meant for controllers and does not make use of the mouse at all.
 
@@ -39,12 +55,62 @@ These are keymaps relating to controlling a beast while playing the game.
 ## Menu Controls
 tbd
 
----
+
 # Game Loop
-### Defending yourself
+### Micro-loop
+The player must constantly monitor their **Ichor**, which is a resource much like saturation/hunger that slowly drains over time. If an entity has 0 ichor, they will slowly starve until death.
+
+The player must constantly search for new food sources which replenish Ichor; either smaller animals to hunt, fruit, or edible plants.
+
+The player must be cautious and avoid potential threats, as there are stronger animals that hunt the player. Chances are, the player will need to use abilities to escape or defeat more powerful creatures, which depletes ichor.
+
+The player can find items (consumable entities that cast abilities) or ability shards (more permanent and portable than items) which make surviving easier, but most of these cost ichor to use. Using some items or shards will deplete the player's ichor, encouraging them to find a more stable source of ichor.
+
+### Meso-loop
+The player will experience three "phases", which are arbitrary states of the game board. This is a sandbox game, so the player has multiple ways of playing and surviving.
+##### Phase 1 (minute 1-2)
+- the player will explore and forage for food
+- take note of all the creatures on the map
+- learn where the anthurium has been positioned
+- gather their first ability shard
+##### Phase 2 (minute 3-5)
+- the player will most likely get familiar with and utilize the creatures' mechanics. 
+- this is probably the most interesting phase, where the player can abuse certain mechanics to maximize their aura.
+- bloom events are common, so the player will have to find a stable source of ichor to survive.
+- the player is probably directly interacting with the anthurium to gain resources, influence the environment, and guide the anthurium to bloom in the way they want it to.
+##### Phase 3 (minute 6+)
+- the game board is being bombarded
+- the player has all of their ability slots full.
+- the player has their last chance to manipulate the anthurium to perform their preferred final bloom.
+
+After a final bloom, the results screen will be shown to the player. This screen appraises the game board at the time of completion, tallying up Aura. The player is then given the option to continue or quit. If the player continues, a new round will begin and Phase 1 will start once more.
+
+### Macro-loop
+The player begins a game by selecting the PLAY option on the main menu. When this occurs, a game board will be populated by randomly selected entities, procedurally generated terrain, the anthurium, and prefabricated structures. Then the player will spawn in the biggest cave on the map.
+
+A round is typically seven minutes long, where a game (multiple rounds) can theoretically go on infinitely as long as the player is infinitely skilled. The game is most likely soft-capped at around an hour because then it gets too hard.
+
+When a final bloom is complete, a new round will begin if the player chooses to continue.
+
+Subsequent rounds are different and harder due to some factors:
+- The Anthurium's heartbeat grows faster
+- The Anthurium's *Esoterica* values are initialized at higher base values
+- Rarer and more dangerous creatures are more likely to appear
+
+The game is over when the player dies; the player is shown the final results screen. This is where the player is shown the things they may have unlocked by achieving certain feats while playing. The player is then prompted to go back to the main menu where they can choose to play again if they wish.
+
+The player's aim is to gain as much Aura as possible. If the player dies, all the Aura that was gained throughout every round the player completed is tallied up to a final score.
+
+The player can view a scoreboard showing their highest scores.
+
+The player can view a bestiary (filled up as the player encounters creatures) which can be viewed in the main menu.
+
+
+# Important Gameplay Systems
+### Pip (THE HERO)
 When playing as Pip, you are near the bottom of the food chain; there are creatures that are much more powerful than the player and will hunt you if they are hungry!
 
-Pip is unique in that he is near defenseless when he initially spawns in, only having a push ability and the unique ability to **pick up and throw** lightweight creatures and objects, which allows Pip to use external resources to solve situations. Pip can pick up a creature and squeeze it (by pressing the **Action** key) to make it cast its signature ability. Use this technique to interact with the environment OR kill creatures to steal their ability shards for yourself!
+Pip is unique in that he is near defenseless when he initially spawns in, only having a push ability and the unique ability to **pick up and throw** lightweight creatures and objects, which allows Pip to use external resources to solve situations. Pip can pick up a creature, then squeeze it (by pressing the **Action** key) to make it cast its signature ability. Use this technique to interact with the environment OR kill creatures to steal their ability shards for yourself!
 
 ### Map
 The map is generated using a combination of room generation and cavelike noisy generation. The caves should be small enough that gameplay feels cohesive and tense but not overwhelmingly tight to be cramped.
@@ -63,7 +129,7 @@ Wall tiles:
 
 > If there are special zones or environments behind walls, there should be visual cues of a hidden area (cracks, particles, etc.)
 
-### Encountering prefabs
+### Prefabs
 Prefab structures can be found in levels. They contain special creatures, items, or interactable entities. Most of the time, these structures can only be found or reached by using a special ability or under certain criteria.
 
 ### Vision
@@ -105,7 +171,6 @@ Technically, the game can go on infinitely if the player is skilled enough.
 
 
 
----
 # Creatures
 Each creature is separated into categories which describe its basic behaviors and tendencies. More primitive creatures have a drive to live, survive, and reproduce. Other creatures have other goals that they pursue.
 
@@ -141,10 +206,6 @@ Some abilities cost Ichor to cast.
 
 
 
-
-
-
----
 # Anthurium
 Six emotional parameters (*Esoterica*) track the Anthurium's state.
 They are:
@@ -209,7 +270,6 @@ The Anthurium keeps track of six parameters as it lives on in the dungeon.
 
 
 
-
 # Ichor
 Ichor is the lifeblood of the dungeon and acts as the liquid energy that creatures use to stay alive and flourish.
 
@@ -236,8 +296,6 @@ Multiplication:
 
 
 
-
----
 # Aura
 Aura is a reflection of the vitality of the arena and is the score-keeping metric for runs. (kinda equivalent to arcade game's points)
 
@@ -259,7 +317,6 @@ Aura falls when
 
 
 
----
 # Results screen
 When the player dies or completes a round, a results screen will prompt the player to either quit the run or continue.
 
@@ -275,9 +332,6 @@ Final score
  +	(Boss completion bonus)
  -	(Anthurium damage taken x 10)
 ```
-
-
-
 
 # Run-to-run progression
 
@@ -295,8 +349,6 @@ Unlockables include
 - Bestiary pages
 - Additional fun modes
 - other things? creature creator? woagh
-
----
 
 # Technical Tools, Programming Languages, and External Packages
 - Godot (Engine)
@@ -402,39 +454,65 @@ Week 9 (10/19)
 - [ ] verify that overlapping relationships/behaviors produce emergent interactions with no scripted events
 
 Week 10 (10/26)
+- [ ] finished remaining loop 2 creatures
+- [ ] bloom event #3 designed and implemented
+- [ ] bloom event #4 designed and implemented
+- [ ] implement a tool to create prefabricated structures specifying how big, what tiles make up the structure, and what entities are a part of the structure
 
 Week 11 (11/2)
+- [ ] bloom event #5 designed and implemented (5 of 5 blooms complete)
+- [ ] final bloom #2 designed and implemented (2 of 2 final blooms complete)
 
 Week 12 (11/9)
+- [ ] some sort of save state management (research and figure this out pertaining to godot)
+- [ ] implement meta-progression; persistent unlock state via some file
+- [ ] unlock conditions specified and implemented
+- [ ] unlocked creatures/bloom events are detected and added into their respective pools when starting new games
 
 Week 13 (11/16)
+- [ ] pass over everything and add more flair through entity effects
+- [ ] spritework pass (make sure there are no placeholder sprites)
+- [ ] `DynamicMusic.gd` is created and can swap between tracks and mix layers dynamically
+- [ ] `DynamicMusic` uses signals to react to ingame events
 
 Week 14 (11/23)
+- [ ] add telemetry that is logged to a file? (probably optional, but this would make it easier to tune certain parameters especially relating to ichor, aura, and the anthurium)
+- [ ] full playtest passes (target 5 complete rounds solo?)
+- [ ] create survey, log balance and clarity issues
+- [ ] tune ichor diminishment/multiplication rates against playtest data
+- [ ] tune aura rise/fall magnitudes
+- [ ] tune final scoring formula to be satisfying and make sense
+- [ ] log and fix any bugs that come up during testing
 
 Week 15 (11/30)
+- [ ] fix any leftover bugs from testing
+- [ ] second playtest pass
+- [ ] further tuning if necessary
+- [ ] create itch.io store page
+- [ ] capture ingame footage during testing
+- [ ] edit together a trailer for the game
 
 Week 16 (12/7)
-- [ ] finish trailer, 
-- [ ] finish reflection paper, 
+- [ ] finish reflection paper
 - [ ] finish portfolio 
 
 `EntityTag`: defines a group that this entity belongs to. Absolutely necessary for other entities' relationships. For example, a `mouse` may not like an `explosive` entity and choose to run away from it.
 # Milestone Schedule
-| Week            | Tasks/Milestones                                                                                                 |
-| --------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Week 1 (8/24)   | <br>InteractorComponent.gd<br>ecoloop_1.example                                                                  |
-| Week 2 (8/31)   | <br>creature1.tscn<br>creature2.tscn<br>creature3.tscn<br>HungryLobe.gd<br>SeekFoodState.gd<br>ChasePreyState.gd |
-| Week 3 (9/7)    |                                                                                                                  |
-| Week 4 (9/14)   |                                                                                                                  |
-| Week 5 (9/21)   | <br>Aura.gd                                                                                                      |
-| Week 6 (9/28)   |                                                                                                                  |
-| Week 7 (10/5)   |                                                                                                                  |
-| Week 8 (10/12)  |                                                                                                                  |
-| Week 9 (10/19)  |                                                                                                                  |
-| Week 10 (10/26) |                                                                                                                  |
-| Week 11 (11/2)  |                                                                                                                  |
-| Week 12 (11/9)  |                                                                                                                  |
-| Week 13 (11/16) |                                                                                                                  |
-| Week 14 (11/23) |                                                                                                                  |
-| Week 15 (11/30) |                                                                                                                  |
-| Week 16 (12/7)  |                                                                                                                  |
+| Week            | Tasks/Milestones                                                                                                          |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Week 1 (8/24)   | InteractorComponent.gd<br>ecoloop_1.example                                                                               |
+| Week 2 (8/31)   | creature1.tscn<br>creature2.tscn<br>creature3.tscn<br>HungryLobe.gd<br>SeekFoodState.gd<br>ChasePreyState.gd              |
+| Week 3 (9/7)    | Anthurium.gd<br>AnthuriumRoot.gd<br>BloomEvent.gd<br>bloom_bug_swarm.tres<br>bloom_sinkhole.tres<br>FinalBloomEvent (1st) |
+| Week 4 (9/14)   | PauseMenu.tscn<br>ResultsScreen.tscn<br>creature4.tscn+ (remaining loop 1 creatures)                                      |
+| Week 5 (9/21)   | Heartbeat.gd<br>Flowering.gd<br>IchorMote.tscn<br>                                                                        |
+| Week 6 (9/28)   | Aura.gd                                                                                                                   |
+| Week 7 (10/5)   | InteractableUI.gd<br>MainMenu.gd                                                                                          |
+| Week 8 (10/12)  | ecoloop_2.md (design doc)                                                                                                 |
+| Week 9 (10/19)  | creature6.tscn+ (loop 2 creatures)                                                                                        |
+| Week 10 (10/26) | remaining loop 2 creatures<br>bloom_living_crystals.tres (#3)<br>bloom event #4                                           |
+| Week 11 (11/2)  | bloom event #5<br>FinalBloomEvent (#2)                                                                                    |
+| Week 12 (11/9)  | ProgressionManager.gd<br>Achievements.gd                                                                                  |
+| Week 13 (11/16) | entity vfx/sfx pass<br>HUD/UI juice pass<br>sprite pass<br>music tracks                                                   |
+| Week 14 (11/23) | playtest log and balance changes                                                                                          |
+| Week 15 (11/30) | exported pc build<br>itch.io page<br>trailer footage capture                                                              |
+| Week 16 (12/7)  | trailer<br>reflection paper<br>portfolio                                                                                  |
