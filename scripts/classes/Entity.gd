@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Entity
 
+@export var display_name: String
+
 ## The base class for all actors in the game world.
 ##
 ## Entities manage a component registry that allows systems to query for
