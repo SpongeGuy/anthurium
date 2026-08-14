@@ -21,7 +21,6 @@
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="22_1cjm5"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
-[ext_resource type="Script" uid="uid://cxdo2n01etkw6" path="res://scripts/components/points_interface.gd" id="23_qyswd"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
@@ -232,10 +231,6 @@ metadata/_custom_type_script = "uid://jrg503l8awgj"
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Proximity/ProximityArea" unique_id=1060462205]
 position = Vector2(1, -4)
 shape = SubResource("CircleShape2D_qyswd")
-
-[node name="PointsInterface" type="Node" parent="." unique_id=1120567189]
-script = ExtResource("23_qyswd")
-metadata/_custom_type_script = "uid://cxdo2n01etkw6"
 
 [node name="InputComponent" type="Node" parent="." unique_id=648358057]
 script = ExtResource("25_xoj7o")
