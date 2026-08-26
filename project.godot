@@ -18,15 +18,20 @@ boot_splash/show_image=false
 
 [autoload]
 
-AudioManager="*uid://uiuetvnukvsw"
-WorldGrid="*uid://bwg7qqpbsymol"
-EventBus="*uid://b8owa3ug0hg2r"
-GameState="*uid://0vmrob7f8ql5"
-EntityRegistry="*uid://da7h718q207u5"
-PlayerManager="*uid://bsea5f0xq6js7"
+Log="*uid://cqm0vj5x7nq6h"
+AppController="*uid://0vmrob7f8ql5"
 BFXR="*uid://ii1c8s5men3x"
+EventBus="*uid://b8owa3ug0hg2r"
+WorldGrid="*uid://bwg7qqpbsymol"
+EntityManager="*uid://da7h718q207u5"
+PlayerManager="*uid://bsea5f0xq6js7"
 ParticleManager="*uid://dysb6b5wli0hs"
 CellTypeRegister="*uid://d2ofrmjgk1kn4"
+CameraController="*uid://rrfxfwvhpqup"
+AudioManager="*uid://uiuetvnukvsw"
+DungeonGenerator="*uid://poanoxh62038"
+UiController="*uid://pmgi17orx2e7"
+GameInterface="*uid://d4myfbotj4m52"
 
 [display]
 

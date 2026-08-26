@@ -5,6 +5,11 @@ class_name InteractorComponent
 @export var input: InputComponent
 @export var effect: EntityEffect
 
+var target: Entity
+var old_target: Entity
+
+
+
 var _nearby: Array[Entity]
 
 func _on_registered() -> void:
@@ -12,27 +17,36 @@ func _on_registered() -> void:
 	proximity.lost.connect(_on_entity_lost)
 
 func _process(delta: float) -> void:
+	target = find_nearby_target()
 	if input.interact_just_pressed:
-		print(_nearby)
 		if effect:
 			effect.execute(entity)
-		var target: Entity
-		var dist: float
-		for e in _nearby:
-			if not target:
-				target = e
-				dist = entity.global_position.distance_to(target.global_position)
-				continue
-			else:
-				var new_dist: float = entity.global_position.distance_to(e.global_position)
-				if new_dist < dist:
-					target = e
-					dist = new_dist
-					continue
-		
+	
+	if old_target != target:
+		# give target the shader
+		# play the shader
+		var visual: CanvasItem
 		if target:
-			var interactable: InteractableComponent = target.get_component(InteractableComponent)
-			interactable.interact(entity)
+			visual = target.get_visual()
+		if visual:
+			play_flash(visual)
+		old_target = target
+		
+		
+		
+func find_nearby_target() -> Entity:
+	if _nearby.size() <= 0:
+		return
+		
+	var closest: Entity = _nearby[0]
+	var dist: float = entity.global_position.distance_to(closest.global_position)
+	for e in _nearby.slice(1):
+		var new_dist: float = entity.global_position.distance_to(e.global_position)
+		if new_dist < dist:
+			closest = e
+			dist = new_dist
+
+	return closest
 	
 # THIS PROBABLY HAS TERRIABLE PEORFERMANCE
 func _on_entity_detected(source: Entity, target: Entity) -> void:
@@ -42,44 +56,39 @@ func _on_entity_lost(source: Entity, target: Entity) -> void:
 	_nearby.erase(target)
 
 
-@export_group("Shader")
-@export var flash_target: Node
-@export var flash_shader: Shader
-@export var flash_duration: float = 0.3
-@export var flash_width: float = 0.15
-@export var flash_softness: float = 0.05
-
-var _flash_material: ShaderMaterial
-
-func _build_flash_material() -> void:
-	if not flash_shader or not flash_target:
-		return
-	_flash_material = ShaderMaterial.new()
-	_flash_material.shader = flash_shader
-	_flash_material.set_shader_parameter("width", flash_width)
-	_flash_material.set_shader_parameter("softness", flash_softness)
-	_flash_material.set_shader_parameter("progress", 0.0)
 
 
-func play_flash() -> void:
-	if not _flash_material or not flash_target:
-		return
-
+var _flash_material: ShaderMaterial = preload("uid://7uhb7uu6inj6")
+var _active_flash_material: ShaderMaterial
+var _flash_tween: Tween
+@export var flash_duration: float = 2
+func play_flash(flash_target: CanvasItem) -> void:
+	 #kill flash in progress so tweens dont interfere
+	if _flash_tween and _flash_tween.is_valid():
+		_flash_tween.kill()
+		_teardown_flash(flash_target)
+	
 	var existing_mat: Material = flash_target.material
+	_active_flash_material = _flash_material.duplicate()
+	_active_flash_material.set_shader_parameter("progress", 0.0)
+	
 	if existing_mat:
-		existing_mat.next_pass = _flash_material
+		existing_mat.next_pass = _active_flash_material
 	else:
-		flash_target.material = _flash_material
-
-	_flash_material.set_shader_parameter("progress", 0.0)
-	var tween := create_tween()
-	tween.tween_method(
-		func(v): _flash_material.set_shader_parameter("progress", v),
-		0.0, 1.0, flash_duration
+		flash_target.material = _active_flash_material
+		
+	_flash_tween = create_tween()
+	_flash_tween.tween_method(
+		func(v): _active_flash_material.set_shader_parameter("progress", v), 0.0, 1.0, flash_duration
 	)
-	tween.tween_callback(func():
-		if existing_mat:
-			existing_mat.next_pass = null
-		else:
-			flash_target.material = null
-	)
+	_flash_tween.tween_callback(_teardown_flash.bind(flash_target))
+			
+func _teardown_flash(flash_target: CanvasItem) -> void:
+	if not flash_target:
+		return
+	var existing_mat: Material = flash_target.material
+	if existing_mat == _active_flash_material:
+		flash_target.material = null
+	elif existing_mat:
+		existing_mat.next_pass = null
+	_active_flash_material = null

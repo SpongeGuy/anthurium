@@ -18,11 +18,10 @@ class_name UIHand
 ##       [method AbilityManager.drop_to_shard], removing the ability from the manager
 ##       and spawning a world shard.
 
-
-@export var current: InteractableUI
-@export var animator: SpriteAnimator
-@export var grabbed_sprite: Sprite2D
-@export var label: Label
+var selected_element: InteractableUI
+var grabbed_sprite: Sprite2D
+@onready var animator: SpriteAnimator = $SpriteAnimator
+@onready var label: Label = $Control/Label
 
 enum State{DEFAULT, HOVER_OVER_ACTIVATEABLE, HOVER_OVER_LIST, HOLDING}
 
@@ -45,7 +44,7 @@ const STATE_ANIMS = {
 
 var current_state: State = State.DEFAULT
 
-var selected_element: InteractableUI
+
 
 # The ability currently "held" visually, and the slot it came from.
 # The ability is NOT extracted from the manager until a drop or toss confirms the action.
@@ -69,26 +68,26 @@ func _ready() -> void:
 	state_changed.connect(_on_state_changed)
 	PlayerManager.player_set.connect(_on_player_set)
 
-func _process(delta: float) -> void:
-	if not current:
-		return
-	global_position = current.get_screen_position() + (current.size - Vector2(8, 4))
-	
-	if GameState.state != GameState.Status.PAUSED:
-		return
-		
-	for dir in DIR_ACTIONS:
-		if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
-			var next = current.get_neighbor(dir)
-			if next:
-				AudioManager.play_sound(_navigate_sound)
-				current.deselect(self)
-				current = next
-				focus_changed.emit(current)
-				current.select(self)
-				
-	if Input.is_action_just_pressed("ui_accept"):
-		current.activate(self)
+#func _process(delta: float) -> void:
+	#if not current:
+		#return
+	#global_position = current.get_screen_position() + (current.size - Vector2(8, 4))
+	#
+	#if GameState.state != GameState.Status.PAUSED:
+		#return
+		#
+	#for dir in DIR_ACTIONS:
+		#if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
+			#var next = current.get_neighbor(dir)
+			#if next:
+				#AudioManager.play_sound(_navigate_sound)
+				#current.deselect(self)
+				#current = next
+				#focus_changed.emit(current)
+				#current.select(self)
+				#
+	#if Input.is_action_just_pressed("ui_accept"):
+		#current.activate(self)
 
 				
 # --------------------------------

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ParticleProfile" format=3 uid="uid://cqmuaid6t5cgy"]
 
-[ext_resource type="Script" uid="uid://mcpcxayympjv" path="res://assets/resources/ParticleProfile.gd" id="1_bt5yn"]
-[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="2_tauxo"]
+[ext_resource type="Script" uid="uid://mcpcxayympjv" path="res://scripts/resources/ParticleProfile.gd" id="1_bt5yn"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="2_tauxo"]
 [ext_resource type="Texture2D" uid="uid://c6foqvmvj6bab" path="res://assets/textures/misc/fire.png" id="3_tauxo"]
 
 [sub_resource type="Resource" id="Resource_tauxo"]

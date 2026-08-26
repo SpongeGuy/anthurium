@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bnuglwwl8cbdc"]
 
-[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/themes/fancy_text.tres" id="1_ikskt"]
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_ikskt"]
 [ext_resource type="Script" uid="uid://l78eoao4t7lh" path="res://scripts/ui/gameview.gd" id="2_tcvm4"]
 
 [node name="GameView" type="Control" unique_id=107135793 node_paths=PackedStringArray("bg_color")]

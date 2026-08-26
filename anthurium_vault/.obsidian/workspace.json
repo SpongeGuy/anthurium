@@ -43,9 +43,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -10806.9408252874,
-                  "y": -16469.109860693654,
-                  "zoom": 0.3999999999999999
+                  "x": -6680.869359735069,
+                  "y": -22367.838964233768,
+                  "zoom": 0.39999999999999947
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -67,7 +67,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -245,11 +245,11 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "4f81af16fe6e3093",
+  "active": "d537bc0e412d9fa7",
   "lastOpenFiles": [
+    "anthurium.md",
     "Main.canvas",
     "for my capstone/Game Design Document.md",
-    "anthurium.md",
     "Untitled.md",
     "loop.md",
     "anthurium_checklist.md",

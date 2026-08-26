@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="13_3qtpx"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
-[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://assets/resources/SpriteAnimation.gd" id="16_v7tyf"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
@@ -34,7 +34,7 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://assets/resources/EntityEffectParticle.gd" id="36_4npmj"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2pk5b"]
@@ -62,19 +62,21 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 size = Vector2(20, 13)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
-radius = 79.025314
+radius = 17.0
 
 [sub_resource type="Resource" id="Resource_d1yhl"]
 script = ExtResource("36_4npmj")
 particle_profile = ExtResource("35_1cjm5")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
-[node name="Focks" type="CharacterBody2D" unique_id=163986961 groups=["creature"]]
+[node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual") groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_7d0cd")
+display_name = "jacob"
+visual = NodePath("Visual/Main")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
 position = Vector2(0.5, -3)
@@ -109,7 +111,6 @@ max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
 state_machine = NodePath("../../StateMachine")
-god_mode = true
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=450702520 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
@@ -217,7 +218,6 @@ script = ExtResource("21_kyqc0")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
 
 [node name="Proximity" type="Node2D" parent="." unique_id=1510964784]
-visible = false
 
 [node name="ProximityDetector" type="Node" parent="Proximity" unique_id=68784327 node_paths=PackedStringArray("area")]
 script = ExtResource("22_e1qh5")

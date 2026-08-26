@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://x8blmpfejth8"]
 
-[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/themes/numeric.tres" id="1_hv3iq"]
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/numeric.tres" id="1_hv3iq"]
 [ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/ui/hud.gd" id="2_n78go"]
 [ext_resource type="Script" uid="uid://co6s7lhvsqgst" path="res://scripts/classes/ui/AbilityHudElement.gd" id="3_1l7tj"]
 [ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability_icons/frame.png" id="3_dp7nh"]
@@ -22,7 +22,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "time_label", "time_message_label", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
+[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -36,8 +36,6 @@ bar_node = NodePath("Bar")
 menu_node = NodePath("Menu")
 toss_zone_slot = NodePath("TossZone")
 bg_color = NodePath("ColorRect")
-time_label = NodePath("Bar/Columns/C3/HBoxContainer/HBoxContainer2/Time")
-time_message_label = NodePath("Bar/Columns/C3/HBoxContainer2/HBoxContainer/Message")
 player_health_bar = NodePath("Bar/Columns/C2/Control/PlayerHealth")
 player_saturation_bar = NodePath("Bar/Columns/C2/Control3/PlayerSaturation")
 inactive_opal_score = NodePath("Bar/Columns/C3/HBoxContainer/Score/InactivePoints")

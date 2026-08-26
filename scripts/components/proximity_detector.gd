@@ -72,7 +72,6 @@ func _resolve_body(other: Node2D):
 
 
 func _on_body_entered(other: Node2D) -> void:
-	print(other)
 	var body = _resolve_body(other)
 	if body is TileMapLayer:
 		detected_wall.emit(WorldGrid.world_to_tile(area.global_position))

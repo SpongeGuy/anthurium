@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Entity
 
 @export var display_name: String
+@export var visual: CanvasItem
 
 ## The base class for all actors in the game world.
 ##
@@ -88,3 +89,7 @@ static func find_entity(node: Node) -> Entity:
 	if node is Entity:
 		return node
 	return find_entity(node.get_parent())
+
+
+func get_visual() -> CanvasItem:
+	return visual

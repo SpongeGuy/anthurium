@@ -10,7 +10,6 @@
 [ext_resource type="Script" uid="uid://nd4dqg4v5t8d" path="res://scripts/states/piss_ball_guy/idleer.gd" id="7_sy6b7"]
 [ext_resource type="Script" uid="uid://bmyd8pplkim7y" path="res://scripts/states/piss_ball_guy/navigatestepwander.gd" id="8_e37l1"]
 [ext_resource type="Script" uid="uid://ym7engi512o4" path="res://scripts/states/piss_ball_guy/face_toward_target_and_use_ability.gd" id="9_f2j0j"]
-[ext_resource type="Script" uid="uid://dk0spjxye1y5p" path="res://scripts/lobes/hunger_lobe.gd" id="9_ypxgn"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_5ewt6"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="11_31dna"]
 [ext_resource type="Texture2D" uid="uid://bswrthbfumhgl" path="res://assets/textures/characters/debug_guy.png" id="12_bj2ba"]
@@ -72,11 +71,9 @@ shape = SubResource("CircleShape2D_8wo8b")
 
 [node name="CreatureData" type="Node" parent="." unique_id=920850024]
 script = ExtResource("2_hwojd")
-display_name = &""
 behavior_class = 1
 consumer_type = 4
 tags = Array[int]([11])
-display_name = &""
 metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="Behavior" type="Node" parent="." unique_id=62069105]
@@ -111,12 +108,6 @@ script = ExtResource("34_pgwxf")
 priority = 0.5
 state = NodePath("../../StateMachine/WandererState")
 metadata/_custom_type_script = "uid://camguuycnoqcu"
-
-[node name="HungerLobe" type="Node" parent="Behavior/Brain" unique_id=1297243004 node_paths=PackedStringArray("ichor", "state")]
-script = ExtResource("9_ypxgn")
-ichor = NodePath("../../../IchorComponent")
-state = NodePath("../../StateMachine/BlankState")
-metadata/_custom_type_script = "uid://dk0spjxye1y5p"
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("5_5vf4p")

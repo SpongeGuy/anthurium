@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://7uhb7uu6inj6"]
+
+[ext_resource type="Shader" uid="uid://bwdu4iysiic0l" path="res://assets/resources/shaders/interactor_feedback.gdshader" id="1_iqe23"]
+
+[resource]
+shader = ExtResource("1_iqe23")
+shader_parameter/progress = 0.0

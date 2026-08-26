@@ -8,7 +8,6 @@ class_name DebugUIHelper
 @export var l2: Label
 @export var l3: Label
 @export var l4: Label
-@export var game_master: GameMaster
 
 var coords: Vector2 = Vector2.ZERO
 
@@ -32,7 +31,7 @@ func _process(delta: float) -> void:
 	coords = CameraController.get_world_mouse_position()
 	
 	
-	var space = game_master.world.get_world_2d().direct_space_state
+	var space = AppController.world_2d.get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
 	query.position = coords
 	query.collide_with_bodies = true

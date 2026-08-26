@@ -1,18 +1,14 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
-[ext_resource type="PackedScene" uid="uid://cc35kqt4co4xx" path="res://scenes/systems/GameMaster.tscn" id="1_kek77"]
 [ext_resource type="Shader" uid="uid://bdtihxlqy06si" path="res://assets/resources/shaders/scrolling_rainbow.gdshader" id="6_4c57u"]
-[ext_resource type="Texture2D" uid="uid://dybyvdxpxpb" path="res://assets/textures/ability_icons/dot_icon.png" id="6_yaehf"]
-[ext_resource type="Script" uid="uid://pmgi17orx2e7" path="res://scripts/system/UIController.gd" id="8_ycdy4"]
-[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/themes/debug.tres" id="10_w48qg"]
+[ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="6_7mycd"]
+[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/resources/themes/debug.tres" id="10_w48qg"]
 [ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/ui/debug_ui.gd" id="10_ycdy4"]
-[ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="11_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
-[ext_resource type="PackedScene" uid="uid://bnuglwwl8cbdc" path="res://scenes/systems/ui/game_view.tscn" id="13_vivmo"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_yaehf"]
-viewport_path = NodePath("SubViewportContainer/GameViewport")
+viewport_path = NodePath("SubViewportContainer/MainViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cegan"]
 resource_local_to_scene = true
@@ -29,7 +25,7 @@ shader_parameter/aspect = 0.562000002945
 shader_parameter/wobble_strength = 0.0
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
-viewport_path = NodePath("SubViewportContainer/GameViewport")
+viewport_path = NodePath("SubViewportContainer/MainViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4c57u"]
 resource_local_to_scene = true
@@ -63,12 +59,7 @@ shader_parameter/use_uv_x = true
 
 [node name="Main" type="Node" unique_id=1100438637]
 
-[node name="GameMaster" parent="." unique_id=733943132 node_paths=PackedStringArray("debug_ui", "game_viewport") instance=ExtResource("1_kek77")]
-debug_ui = NodePath("../SubViewportContainer/GameViewport/UI/DebugHelper")
-game_viewport = NodePath("../SubViewportContainer/GameViewport")
-
 [node name="CRTFilter" type="ColorRect" parent="." unique_id=379362459]
-visible = false
 material = SubResource("ShaderMaterial_cegan")
 anchors_preset = 15
 anchor_right = 1.0
@@ -85,36 +76,27 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(3, 3)
 
-[node name="GameViewport" type="SubViewport" parent="SubViewportContainer" unique_id=427656691]
+[node name="MainViewport" type="SubViewport" parent="SubViewportContainer" unique_id=427656691]
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 size = Vector2i(640, 360)
 render_target_update_mode = 4
 
-[node name="UI" type="CanvasLayer" parent="SubViewportContainer/GameViewport" unique_id=2071487813]
+[node name="UI" type="CanvasLayer" parent="SubViewportContainer/MainViewport" unique_id=2071487813]
 process_mode = 3
 layer = 5
 
-[node name="UIController" type="Node" parent="SubViewportContainer/GameViewport/UI" unique_id=924114801 node_paths=PackedStringArray("hud", "gameview", "screen")]
-script = ExtResource("8_ycdy4")
-hud = NodePath("../HUD")
-gameview = NodePath("../GameView")
-screen = NodePath("../Screen")
-ability_missing = ExtResource("6_yaehf")
-metadata/_custom_type_script = "uid://pmgi17orx2e7"
-
-[node name="DebugHelper" type="Node2D" parent="SubViewportContainer/GameViewport/UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "game_master")]
+[node name="DebugHelper" type="Node2D" parent="SubViewportContainer/MainViewport/UI" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4")]
 script = ExtResource("10_ycdy4")
 show = true
-vbox = NodePath("../Debug/VBoxContainer")
-title = NodePath("../Debug/VBoxContainer/title")
-l1 = NodePath("../Debug/VBoxContainer/Label")
-l2 = NodePath("../Debug/VBoxContainer/Label2")
-l3 = NodePath("../Debug/VBoxContainer/Label3")
-l4 = NodePath("../Debug/VBoxContainer/Label4")
-game_master = NodePath("../../../../GameMaster")
+vbox = NodePath("../UI_Debug/VBoxContainer")
+title = NodePath("../UI_Debug/VBoxContainer/title")
+l1 = NodePath("../UI_Debug/VBoxContainer/Label")
+l2 = NodePath("../UI_Debug/VBoxContainer/Label2")
+l3 = NodePath("../UI_Debug/VBoxContainer/Label3")
+l4 = NodePath("../UI_Debug/VBoxContainer/Label4")
 
-[node name="Debug" type="Control" parent="SubViewportContainer/GameViewport/UI" unique_id=436922413]
+[node name="UI_Debug" type="Control" parent="SubViewportContainer/MainViewport/UI" unique_id=436922413]
 modulate = Color(1, 1, 1, 0.7764706)
 material = SubResource("ShaderMaterial_yaehf")
 layout_mode = 3
@@ -125,35 +107,38 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("10_w48qg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/GameViewport/UI/Debug" unique_id=912685774]
+[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI/UI_Debug" unique_id=912685774]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="title" type="Label" parent="SubViewportContainer/GameViewport/UI/Debug/VBoxContainer" unique_id=1967289439]
+[node name="title" type="Label" parent="SubViewportContainer/MainViewport/UI/UI_Debug/VBoxContainer" unique_id=1967289439]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SubViewportContainer/GameViewport/UI/Debug/VBoxContainer" unique_id=1551783464]
+[node name="Label" type="Label" parent="SubViewportContainer/MainViewport/UI/UI_Debug/VBoxContainer" unique_id=1551783464]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="SubViewportContainer/GameViewport/UI/Debug/VBoxContainer" unique_id=529828005]
+[node name="Label2" type="Label" parent="SubViewportContainer/MainViewport/UI/UI_Debug/VBoxContainer" unique_id=529828005]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="SubViewportContainer/GameViewport/UI/Debug/VBoxContainer" unique_id=463304919]
+[node name="Label3" type="Label" parent="SubViewportContainer/MainViewport/UI/UI_Debug/VBoxContainer" unique_id=463304919]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="SubViewportContainer/GameViewport/UI/Debug/VBoxContainer" unique_id=311188411]
+[node name="Label4" type="Label" parent="SubViewportContainer/MainViewport/UI/UI_Debug/VBoxContainer" unique_id=311188411]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
-[node name="Screen" parent="SubViewportContainer/GameViewport/UI" unique_id=1606049138 instance=ExtResource("11_ycdy4")]
-
-[node name="HUD" parent="SubViewportContainer/GameViewport/UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
+[node name="UI_HUD" parent="SubViewportContainer/MainViewport/UI" unique_id=2080876964 instance=ExtResource("12_w48qg")]
 offset_top = 336.0
 offset_bottom = 536.0
 
-[node name="GameView" parent="SubViewportContainer/GameViewport/UI" unique_id=107135793 instance=ExtResource("13_vivmo")]
+[node name="Hand" parent="SubViewportContainer/MainViewport/UI" unique_id=1172565642 instance=ExtResource("6_7mycd")]
+position = Vector2(246.66667, 138.33334)
+
+[node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]
+
+[node name="Container3D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=1149179026]

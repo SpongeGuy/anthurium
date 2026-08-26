@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BfxrVoiceProfile" format=3 uid="uid://ddo0ia0nutdck"]
 
-[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://assets/resources/BfxrVoiceProfile.gd" id="1_hxego"]
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://scripts/resources/BfxrVoiceProfile.gd" id="1_hxego"]
 
 [resource]
 script = ExtResource("1_hxego")

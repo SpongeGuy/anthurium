@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c8bjpuv01on4i"]
+
+[ext_resource type="TileSet" uid="uid://ofx275c8vgy4" path="res://assets/resources/tilesets/main.tres" id="1_261u7"]
+[ext_resource type="Script" uid="uid://6psa004m1wae" path="res://scripts/classes/WorldRenderer.gd" id="2_yt613"]
+[ext_resource type="TileSet" uid="uid://b43hq6wx88hsl" path="res://assets/resources/tilesets/visual.tres" id="3_k77gk"]
+[ext_resource type="Script" uid="uid://cfyfcyhwuuwap" path="res://scripts/classes/VisibilityRenderer.gd" id="4_akve5"]
+
+[node name="World2D" type="Node2D" unique_id=1770876154]
+
+[node name="WorldRenderer" type="TileMapLayer" parent="." unique_id=1474854179]
+z_index = -10
+tile_set = ExtResource("1_261u7")
+script = ExtResource("2_yt613")
+metadata/_custom_type_script = "uid://6psa004m1wae"
+
+[node name="VisibilityRenderer" type="TileMapLayer" parent="." unique_id=1424569135]
+z_index = -9
+tile_set = ExtResource("3_k77gk")
+script = ExtResource("4_akve5")
+metadata/_custom_type_script = "uid://cfyfcyhwuuwap"
+
+[node name="YSort" type="Node2D" parent="." unique_id=471722989]
+y_sort_enabled = true
+
+[node name="Background" type="Polygon2D" parent="." unique_id=201768825]
+z_index = -50
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-100000, -100000, -100000, 100000, 100000, 100000, 100000, -100000)
+uv = PackedVector2Array(-74.5, -35, -75.5, 57, 79.5, 59, 77.5, -39)

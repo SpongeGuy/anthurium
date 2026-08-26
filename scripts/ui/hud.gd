@@ -11,8 +11,6 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var animation_speed: float = 0.5
 
 @export var bg_color: ColorRect
-@export var time_label: Label
-@export var time_message_label: Label
 @export var player_health_bar: ProgressBar
 @export var player_saturation_bar: ProgressBar
 
@@ -106,14 +104,8 @@ func update_ability_icon(slot: int, texture: Texture2D) -> void:
 		ability_icons[slot].texture = texture
 
 		
-func update_time(elapsed: float) -> void:
-	var day_length: float = TimeManager.DAYTIMES[TimeManager.DAYTIMES.size() - 1]
-	var remaining: float = day_length - elapsed
-	if remaining >= 0:
-		time_label.text = "%02d:%02d" % [int(remaining / 60), int(remaining) % 60]
+
 		
-func show_time_message(message: String) -> void:
-	time_message_label.text = message
 	
 func set_opal_score(value: float) -> void:
 	_target_opal = value

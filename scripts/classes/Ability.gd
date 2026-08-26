@@ -30,7 +30,7 @@ func clean_up() -> void:
 		count += 1
 		node.queue_free()
 	created_nodes.clear()
-	print("cleaned up ", count, " nodes from ", entity)
+	Log.info("Cleaned up %d nodes from %s" % [count, entity])
 	
 	entity = null
 	manager = null
