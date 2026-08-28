@@ -16,7 +16,7 @@ The god [[Beardo]] which created Meatspace, a shallow layer of spacetime, is an 
 The Great Aether Crystal [[Calamas|Calamas Jinn-Aetu]] is an Unfathomed; specifically a *Aelich*, a being of pure [[Aether]].
 
 # Anthurium, Entropy Incarnate
-[[Anthurium]] is an organism composed of indestructible and invincible plant matter which, on contact, transforms other organic matter into more of itself.
+[[anthurium]] is an organism composed of indestructible and invincible plant matter which, on contact, transforms other organic matter into more of itself.
 
 # Xel'oks
 [[Xel'oks]] is the chaos god of deep space.

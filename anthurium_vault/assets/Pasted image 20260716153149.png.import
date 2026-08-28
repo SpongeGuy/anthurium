@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7uvsucm1iigq"
-path="res://.godot/imported/Pasted image 20260716153149.png-919bf229f37b8b4667bb185f442f8bd4.ctex"
+uid="uid://dqibv1uw4oqhv"
+path="res://.godot/imported/Pasted image 20260716153149.png-df95a89159dc04491ae342fb1e9d4caa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/Pasted image 20260716153149.png"
-dest_files=["res://.godot/imported/Pasted image 20260716153149.png-919bf229f37b8b4667bb185f442f8bd4.ctex"]
+source_file="res://anthurium_vault/assets/Pasted image 20260716153149.png"
+dest_files=["res://.godot/imported/Pasted image 20260716153149.png-df95a89159dc04491ae342fb1e9d4caa.ctex"]
 
 [params]
 

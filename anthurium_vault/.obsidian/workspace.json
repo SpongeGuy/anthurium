@@ -11,28 +11,17 @@
             "id": "d4950eda263b63f5",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "anthurium_checklist.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -5954.842888875634,
+                  "y": -4022.1482524801972,
+                  "zoom": 0
+                }
               },
-              "icon": "lucide-file",
-              "title": "anthurium_checklist"
-            }
-          },
-          {
-            "id": "4f81af16fe6e3093",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "anthurium.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "anthurium"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           },
           {
@@ -41,33 +30,19 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Main.canvas",
+                "file": "for my capstone/plant anthurium design for the plant.canvas",
                 "viewState": {
-                  "x": -6680.869359735069,
-                  "y": -22367.838964233768,
-                  "zoom": 0.39999999999999947
+                  "x": 790.638267534145,
+                  "y": -707.5867656469053,
+                  "zoom": 0
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "Main"
-            }
-          },
-          {
-            "id": "0a8fa85bd139ed0d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "for my capstone/Game Design Document.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Game Design Document"
+              "title": "plant anthurium design for the plant"
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -101,7 +76,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#Aether/Calamas/Miracle",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -117,7 +92,10 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
             }
@@ -247,22 +225,38 @@
   },
   "active": "d537bc0e412d9fa7",
   "lastOpenFiles": [
-    "anthurium.md",
+    "for my capstone/plant anthurium design plan for implementation.md",
+    "for my capstone/plant anthurium design for the plant.canvas",
+    "for my capstone/anthurium.md",
+    "worldbuilder/Calamas.md",
     "Main.canvas",
+    "assets/Pasted image 20260620124534.png.import",
+    "assets/Pasted image 20260716153126.png.import",
+    "assets/Pasted image 20260716153149.png.import",
+    "assets/Pasted image 20260716152838.png.import",
+    "assets/Pasted image 20260716153202.png.import",
+    "blog/bob_gap.md",
+    "blog/chud meaning.md",
+    "blog/shit_ass.md",
+    "blog/Untitled.md",
+    "blog/websitelayout.md",
     "for my capstone/Game Design Document.md",
+    "JUNK/Untitled.canvas",
+    "assets/Pasted image 20260620124534.png",
+    "JUNK/anthurium_checklist.md",
+    "Creatures.md",
+    "JUNK/Anthurium Design Document.md",
     "Untitled.md",
     "loop.md",
-    "anthurium_checklist.md",
-    "Anthurium Design Document.md",
     "for my capstone",
     "Pasted image 20260716153149.png.import",
     "Pasted image 20260716153126.png.import",
     "Pasted image 20260716153202.png.import",
     "Pasted image 20260716152838.png.import",
-    "Pasted image 20260716153202.png",
-    "Pasted image 20260716153149.png",
-    "Pasted image 20260716153126.png",
-    "Pasted image 20260716152838.png",
+    "assets/Pasted image 20260716153202.png",
+    "assets/Pasted image 20260716153149.png",
+    "assets/Pasted image 20260716153126.png",
+    "assets/Pasted image 20260716152838.png",
     "worldbuilder/The Unfathomed.md",
     "worldbuilder/Timeline.md",
     "worldbuilder/Urduus.md",
@@ -274,27 +268,12 @@
     "worldbuilder/Peoples.md",
     "worldbuilder/Pamanteans.md",
     "worldbuilder/Nyxis Nimmos.md",
-    "worldbuilder/Noggon.md",
-    "worldbuilder/Mogs.md",
-    "worldbuilder/Meatspace.md",
-    "worldbuilder/Khazuur-Na.md",
-    "worldbuilder/Homepage.md",
-    "worldbuilder/Erenor.md",
-    "worldbuilder/Emer.md",
-    "worldbuilder/Carmine.md",
-    "worldbuilder",
-    "Pasted image 20260620124534.png",
-    "Untitled.canvas",
-    "meme flowchart.canvas",
+    "JUNK/meme flowchart.canvas",
     "assets/Pasted image 20260607234721.png",
-    "more bulshit",
     "more bulshit/whatever-go-my-scarab-scarab.gif",
     "more bulshit/true-get-this-man-a-true.gif",
     "more bulshit/truth-nuke-truth.gif",
     "more bulshit/sorry-you-are-a-chud-chud.gif",
-    "JUNK/posts.json",
-    "JUNK",
-    "Untitled Folder",
     "fuck.canvas"
   ]
 }

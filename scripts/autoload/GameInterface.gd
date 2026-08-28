@@ -15,35 +15,15 @@ var anthurium_cores: Array[Entity]
 var world: Node2D
 
 
-#func _ready() -> void:
-	#GameState.game_state_changed.connect(_on_game_state_changed)
-
-#func _on_game_state_changed(status: GameState.Status) -> void:
-	#match status:
-		#GameState.Status.PAUSED:
-			#get_tree().paused = true
-		#GameState.Status.PLAYING:
-			#get_tree().paused = false
-		
-		
-
 
 func start_new_game_instance() -> void:
 	EventBus.starting_new_game.emit()
 	WorldGrid.init_grid(64, 64)
-	DungeonGenerator.generate(1143)
+	DungeonGenerator.generate()
 	_initialize_player(Vector2i(16, 16))
 	_initialize_debug_spawns()
 	#_make_test_land()
-	
-	#_initialize_anthurium(Vector2i(16, 16))
-	
-	
-
-
-	
-
-
+	#1143
 
 
 
@@ -96,4 +76,3 @@ func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(450, 200))
 	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
 	
-

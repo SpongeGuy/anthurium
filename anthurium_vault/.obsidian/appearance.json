@@ -1,8 +1,8 @@
 {
   "cssTheme": "Ukiyo",
   "theme": "obsidian",
-  "textFontFamily": "Consolas,Arial",
-  "interfaceFontFamily": "Consolas,Arial",
+  "textFontFamily": "Consolas",
+  "interfaceFontFamily": "Consolas",
   "baseFontSize": 13,
   "monospaceFontFamily": "Consolas",
   "nativeMenus": false,

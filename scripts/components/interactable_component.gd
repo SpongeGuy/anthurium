@@ -13,4 +13,3 @@ func interact(source: Entity) -> void:
 	
 	interacted.emit(source)
 	
-
