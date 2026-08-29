@@ -9,3 +9,4 @@ class_name HeartbeatEmitter
 func heartbeat() -> void:
 	var strength: float = base_strength + randf_range(min_strength_add, max_strength_add)
 	artery.heartbeat(strength)
+	Log.info("heartbeat")

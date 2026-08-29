@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://b7e6imqwm3c1b"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_ilbyp"]
+[ext_resource type="Texture2D" uid="uid://c0toapvk5cjm6" path="res://assets/textures/test_anthurium/core1.png" id="2_snfhs"]
+[ext_resource type="Script" uid="uid://dwcsohu6sk2xl" path="res://scripts/components/anthurium/HeartbeatEmitter.gd" id="3_lp827"]
+[ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="4_17ekf"]
+[ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="5_w7h85"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_tt88j"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="7_kb83x"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="8_f3e47"]
+[ext_resource type="Script" uid="uid://k4ssad524jt" path="res://scripts/states/anthurium/AnthuriumStateBeatHeart.gd" id="8_thl81"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/EntityEffect.gd" id="9_kbcs1"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="9_thl81"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="10_f3e47"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/EntityEffectVoice.gd" id="10_yhkju"]
+[ext_resource type="Resource" uid="uid://saohn2kqqqjs" path="res://assets/resources/voices/heartbeat.tres" id="11_ip3k0"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="11_thl81"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/EntityEffectSequence.gd" id="12_t2y4i"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_yhkju"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+
+[sub_resource type="Resource" id="Resource_vjyem"]
+script = ExtResource("10_yhkju")
+voice = ExtResource("11_ip3k0")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[sub_resource type="Resource" id="Resource_fsagw"]
+script = ExtResource("12_t2y4i")
+parallel = true
+effects = Array[ExtResource("9_kbcs1")]([SubResource("Resource_vjyem")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
+
+[node name="AnthuriumHeart" type="CharacterBody2D" unique_id=1174205396 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+script = ExtResource("1_ilbyp")
+visual = NodePath("Sprite2D")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=474219302]
+position = Vector2(0, -9)
+texture = ExtResource("2_snfhs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2020641709]
+shape = SubResource("CircleShape2D_emcra")
+
+[node name="HeartbeatEmitter" type="Node" parent="." unique_id=830612691 node_paths=PackedStringArray("artery")]
+script = ExtResource("3_lp827")
+artery = NodePath("../ArteryComponent")
+metadata/_custom_type_script = "uid://dwcsohu6sk2xl"
+
+[node name="ArteryComponent" type="Node" parent="." unique_id=836333237 node_paths=PackedStringArray("growth_component")]
+script = ExtResource("4_17ekf")
+growth_component = NodePath("../GrowthComponent")
+max_branches = 5
+metadata/_custom_type_script = "uid://bw5rtupuevcfy"
+
+[node name="GrowthComponent" type="Node" parent="." unique_id=217064531]
+script = ExtResource("5_w7h85")
+metadata/_custom_type_script = "uid://c4uuard48bnax"
+
+[node name="StateMachine" type="Node" parent="." unique_id=459202206 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("6_tt88j")
+initial_state = NodePath("AnthuriumStateBeatHeart")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=1952578629]
+script = ExtResource("7_kb83x")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="AnthuriumStateBeatHeart" type="Node" parent="StateMachine" unique_id=1698363599 node_paths=PackedStringArray("heartbeat_emitter")]
+script = ExtResource("8_thl81")
+heartbeat_emitter = NodePath("../../HeartbeatEmitter")
+heartbeat_effect = SubResource("Resource_fsagw")
+metadata/_custom_type_script = "uid://k4ssad524jt"
+
+[node name="HealthComponent" type="Node" parent="." unique_id=583090367 node_paths=PackedStringArray("hitbox", "state_machine")]
+script = ExtResource("8_f3e47")
+hitbox = NodePath("../Hitbox")
+state_machine = NodePath("../StateMachine")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=642402203 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("9_thl81")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=737390325]
+shape = SubResource("CircleShape2D_gyaym")
+
+[node name="DamageAnimationComponent" type="Node" parent="." unique_id=1911004837 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+script = ExtResource("10_f3e47")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Sprite2D")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1351097365 node_paths=PackedStringArray("nodes")]
+script = ExtResource("11_thl81")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=2079740691 node_paths=PackedStringArray("visibility")]
+script = ExtResource("17_yhkju")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

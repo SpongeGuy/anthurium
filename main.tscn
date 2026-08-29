@@ -7,23 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_yaehf"]
-viewport_path = NodePath("SubViewportContainer/MainViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cegan"]
-resource_local_to_scene = true
-shader = ExtResource("17_yaehf")
-shader_parameter/tex = SubResource("ViewportTexture_yaehf")
-shader_parameter/mask_type = 0
-shader_parameter/curve = 0.1200000057
-shader_parameter/sharpness = 0.6666667
-shader_parameter/color_offset = -0.2199999867
-shader_parameter/mask_brightness = 1.0
-shader_parameter/scanline_brightness = 1.0
-shader_parameter/min_scanline_thickness = 0.5
-shader_parameter/aspect = 0.562000002945
-shader_parameter/wobble_strength = 0.0
-
 [sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
 viewport_path = NodePath("SubViewportContainer/MainViewport")
 
@@ -31,7 +14,7 @@ viewport_path = NodePath("SubViewportContainer/MainViewport")
 resource_local_to_scene = true
 shader = ExtResource("17_yaehf")
 shader_parameter/tex = SubResource("ViewportTexture_kek77")
-shader_parameter/mask_type = 0
+shader_parameter/mask_type = 1
 shader_parameter/curve = 0.1200000057
 shader_parameter/sharpness = 0.6666667
 shader_parameter/color_offset = -0.14999998337499998
@@ -58,14 +41,6 @@ shader_parameter/value = 1.0
 shader_parameter/use_uv_x = true
 
 [node name="Main" type="Node" unique_id=1100438637]
-
-[node name="CRTFilter" type="ColorRect" parent="." unique_id=379362459]
-material = SubResource("ShaderMaterial_cegan")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1388609310]
 material = SubResource("ShaderMaterial_4c57u")

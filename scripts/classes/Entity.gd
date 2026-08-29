@@ -28,6 +28,7 @@ func _ready() -> void:
 	_register_components(self)
 	
 	entity_initialized.emit()
+	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	basename = get_basename()
 

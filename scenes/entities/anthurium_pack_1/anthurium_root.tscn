@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dav4x3toqqgey"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_wavl4"]
+[ext_resource type="Texture2D" uid="uid://fsq4li8hk0yf" path="res://assets/textures/test_anthurium/root2.png" id="2_3q6ue"]
+[ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="3_sg717"]
+[ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="4_2h2wr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+
+[node name="AnthuriumRoot" type="CharacterBody2D" unique_id=1462106655 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+script = ExtResource("1_wavl4")
+visual = NodePath("Sprite2D")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1354018240]
+texture = ExtResource("2_3q6ue")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1593971819]
+shape = SubResource("CircleShape2D_emcra")
+
+[node name="ArteryComponent" type="Node" parent="." unique_id=758577281 node_paths=PackedStringArray("growth_component")]
+script = ExtResource("3_sg717")
+growth_component = NodePath("../GrowthComponent")
+metadata/_custom_type_script = "uid://bw5rtupuevcfy"
+
+[node name="GrowthComponent" type="Node" parent="." unique_id=1012728860]
+script = ExtResource("4_2h2wr")
+metadata/_custom_type_script = "uid://c4uuard48bnax"

@@ -19,8 +19,8 @@ func heartbeat(strength: float) -> void:
 		
 	if growth_component and next.size() < max_branches:
 		var new_root: Entity = growth_component.try_grow_root(entity)
-		next.append(new_root)
+		#next.append(new_root)
 		
 	if growth_component and accessories.size() < max_accessories:
 		var new_accessory: Entity = growth_component.try_grow_accessory(entity)
-		accessories.append(new_accessory)
+		#accessories.append(new_accessory)

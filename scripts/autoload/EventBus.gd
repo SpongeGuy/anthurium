@@ -26,10 +26,7 @@ signal change_fog_pulse_params(min: float, max: float, rate: float)
 # inventories
 signal item_put_into_inventory(item: Entity)
 
-# score
-signal added_opal_score_to(subject: Entity, amount: int, source: Entity)
-signal added_aura_score_to(subject: Entity, amount: int, source: Entity)
-
+signal anthurium_stimulus_event(event_name: StringName, context: Dictionary)
 
 # worldgrid
 signal cell_hidden(coords: Vector2i)
