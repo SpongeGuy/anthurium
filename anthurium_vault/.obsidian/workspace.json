@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -5954.842888875634,
-                  "y": -4022.1482524801972,
-                  "zoom": 0
+                  "x": -6976.330825493921,
+                  "y": -4386.258607377764,
+                  "zoom": -1.5
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -32,9 +32,9 @@
               "state": {
                 "file": "for my capstone/plant anthurium design for the plant.canvas",
                 "viewState": {
-                  "x": 790.638267534145,
-                  "y": -707.5867656469053,
-                  "zoom": 0
+                  "x": -660.7213500342513,
+                  "y": 4187.410290624063,
+                  "zoom": 0.880000011444092
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -225,11 +225,11 @@
   },
   "active": "d537bc0e412d9fa7",
   "lastOpenFiles": [
-    "for my capstone/plant anthurium design plan for implementation.md",
+    "Main.canvas",
     "for my capstone/plant anthurium design for the plant.canvas",
+    "for my capstone/plant anthurium design plan for implementation.md",
     "for my capstone/anthurium.md",
     "worldbuilder/Calamas.md",
-    "Main.canvas",
     "assets/Pasted image 20260620124534.png.import",
     "assets/Pasted image 20260716153126.png.import",
     "assets/Pasted image 20260716153149.png.import",
