@@ -41,10 +41,12 @@ func _log(type: LogType, message: String) -> void:
 	match type:
 		LogType.WARN:
 			push_warning(line)
+			print_rich("[color=yellow]%s[/color]" % line)
 		LogType.ERROR:
 			push_error(line)
-	
-	print(line)
+			print_rich("[color=red]%s[/color]" % line)
+		_:
+			print(line)
 	if log_to_file and _file:
 		_file.store_line(line)
 		
