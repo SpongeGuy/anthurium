@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -6976.330825493921,
-                  "y": -4386.258607377764,
-                  "zoom": -1.5
+                  "x": -5799.133675907895,
+                  "y": -3740.789881698148,
+                  "zoom": -0.5
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -32,17 +32,45 @@
               "state": {
                 "file": "for my capstone/plant anthurium design for the plant.canvas",
                 "viewState": {
-                  "x": -526.7300688094012,
-                  "y": 3995.7275462545317,
-                  "zoom": -0.01999998855590801
+                  "x": 166.16811474458692,
+                  "y": 1303.1318514140905,
+                  "zoom": -0.01999998855590812
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "plant anthurium design for the plant"
             }
+          },
+          {
+            "id": "46a7ffc8fa429690",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "for my capstone/anthurium.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "anthurium"
+            }
+          },
+          {
+            "id": "ea571fb8c695bc9e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "for my capstone/inspiration bible.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "inspiration bible"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -223,12 +251,16 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "d537bc0e412d9fa7",
+  "active": "ea571fb8c695bc9e",
   "lastOpenFiles": [
-    "Main.canvas",
-    "for my capstone/plant anthurium design for the plant.canvas",
-    "for my capstone/plant anthurium design plan for implementation.md",
+    "Pasted image 20260830012729.png.import",
     "for my capstone/anthurium.md",
+    "for my capstone/inspiration bible.md",
+    "the.md",
+    "Pasted image 20260830012729.png",
+    "for my capstone/plant anthurium design for the plant.canvas",
+    "Main.canvas",
+    "for my capstone/plant anthurium design plan for implementation.md",
     "worldbuilder/Calamas.md",
     "assets/Pasted image 20260620124534.png.import",
     "assets/Pasted image 20260716153126.png.import",
@@ -266,14 +298,11 @@
     "worldbuilder/Seanor Ikhor.md",
     "worldbuilder/Rhwnych.md",
     "worldbuilder/Peoples.md",
-    "worldbuilder/Pamanteans.md",
-    "worldbuilder/Nyxis Nimmos.md",
     "JUNK/meme flowchart.canvas",
     "assets/Pasted image 20260607234721.png",
     "more bulshit/whatever-go-my-scarab-scarab.gif",
     "more bulshit/true-get-this-man-a-true.gif",
     "more bulshit/truth-nuke-truth.gif",
-    "more bulshit/sorry-you-are-a-chud-chud.gif",
     "fuck.canvas"
   ]
 }

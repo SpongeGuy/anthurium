@@ -23,13 +23,13 @@ The Anthurium itself is a strange, ever-changing collection of plants, which can
 # Pillars of development
 ### Emergence over scripting.
 Every creature relationship is a product of individual behaviors reacting to each other, never a hand-placed event.
-### Composition over specialization.
+### Composition over inheritance.
 The player's power comes from ability shards stolen and assembled from the world, not a fixed skill tree.
-### Legible chaos.
+### Chaos is prevalent but legible.
 Under the hood, there may be complex systems, but the player should always be able to read why something has happened from what they see and hear on screen.
-### There are multiple valid paths to survival.
+### There exist multiple valid paths to survival.
 The sandbox always offers more than one viable way to survive a given threat, phase, or bloom. If there's clearly one meta method, changes need to be made.
-### Mastery has a curve worth climbing.
+### Mastery has a curve worth the climb.
 The gap between an average run and a mastered one should be large and visible. Final Aura score, manipulating the Anthurium, and how much of the chaos the player can use to their own advantage.
 
 
