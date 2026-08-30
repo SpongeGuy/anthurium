@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cfyfcyhwuuwap" path="res://scripts/classes/VisibilityRenderer.gd" id="4_akve5"]
 
 [node name="World2D" type="Node2D" unique_id=1770876154]
+texture_filter = 1
 
 [node name="WorldRenderer" type="TileMapLayer" parent="." unique_id=1474854179]
 z_index = -10

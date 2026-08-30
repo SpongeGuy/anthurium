@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="4_17ekf"]
 [ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="5_w7h85"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_tt88j"]
+[ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="7_ip3k0"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="7_kb83x"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="8_f3e47"]
 [ext_resource type="Script" uid="uid://k4ssad524jt" path="res://scripts/states/anthurium/AnthuriumStateBeatHeart.gd" id="8_thl81"]
@@ -19,6 +20,11 @@
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_yhkju"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+
+[sub_resource type="Resource" id="Resource_yhkju"]
+script = ExtResource("10_yhkju")
+voice = ExtResource("7_ip3k0")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
 
 [sub_resource type="Resource" id="Resource_vjyem"]
 script = ExtResource("10_yhkju")
@@ -59,6 +65,7 @@ metadata/_custom_type_script = "uid://bw5rtupuevcfy"
 
 [node name="GrowthComponent" type="Node" parent="." unique_id=217064531]
 script = ExtResource("5_w7h85")
+grow_effect = SubResource("Resource_yhkju")
 metadata/_custom_type_script = "uid://c4uuard48bnax"
 
 [node name="StateMachine" type="Node" parent="." unique_id=459202206 node_paths=PackedStringArray("initial_state", "death_state")]
@@ -79,6 +86,8 @@ metadata/_custom_type_script = "uid://k4ssad524jt"
 
 [node name="HealthComponent" type="Node" parent="." unique_id=583090367 node_paths=PackedStringArray("hitbox", "state_machine")]
 script = ExtResource("8_f3e47")
+max_health = 25.0
+health = 25.0
 hitbox = NodePath("../Hitbox")
 state_machine = NodePath("../StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"

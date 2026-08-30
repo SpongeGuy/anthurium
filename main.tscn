@@ -14,6 +14,7 @@ viewport_path = NodePath("SubViewportContainer/MainViewport")
 resource_local_to_scene = true
 shader = ExtResource("17_yaehf")
 shader_parameter/tex = SubResource("ViewportTexture_kek77")
+shader_parameter/enabled = false
 shader_parameter/mask_type = 1
 shader_parameter/curve = 0.1200000057
 shader_parameter/sharpness = 0.6666667
@@ -43,6 +44,7 @@ shader_parameter/use_uv_x = true
 [node name="Main" type="Node" unique_id=1100438637]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1388609310]
+texture_filter = 1
 material = SubResource("ShaderMaterial_4c57u")
 anchors_preset = 15
 anchor_right = 1.0
@@ -112,6 +114,7 @@ offset_top = 336.0
 offset_bottom = 536.0
 
 [node name="Hand" parent="SubViewportContainer/MainViewport/UI" unique_id=1172565642 instance=ExtResource("6_7mycd")]
+visible = false
 position = Vector2(246.66667, 138.33334)
 
 [node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]

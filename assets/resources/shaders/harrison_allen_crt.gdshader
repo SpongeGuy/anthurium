@@ -11,7 +11,7 @@ shader_type canvas_item;
 	Else The scanlines won't properly resolve and you're get moiré patters.
 	*/
 uniform sampler2D tex: filter_linear;
-
+uniform bool enabled = true;
 
 /**
 	Set the type of mask this CRT will have.
@@ -321,20 +321,26 @@ vec3 mask(vec3 linear_color, vec2 fragcoord)
 
 void fragment()
 {
-	// Warp UV coordinates
-	vec2 warped_coords = warp(UV, aspect, curve);
+	if (!enabled)
+	{
+		COLOR = texture(tex, UV);
+	} else {
+		// Warp UV coordinates
+		vec2 warped_coords = warp(UV, aspect, curve);
+		
+		// Add wobble
+		warped_coords.x += wobble;
+
+		// Sample the scanlines
+		vec3 col = scanlines(warped_coords);
+
+		// Apply phosphor mask
+		col = mask(col, FRAGCOORD.xy);
+
+		// Convert back to srgb
+		col = linear_to_srgb(col);
+
+		COLOR.rgb = col;
+	}
 	
-	// Add wobble
-	warped_coords.x += wobble;
-
-	// Sample the scanlines
-	vec3 col = scanlines(warped_coords);
-
-	// Apply phosphor mask
-	col = mask(col, FRAGCOORD.xy);
-
-	// Convert back to srgb
-	col = linear_to_srgb(col);
-
-	COLOR.rgb = col;
 }
