@@ -26,7 +26,7 @@ signal change_fog_pulse_params(min: float, max: float, rate: float)
 # inventories
 signal item_put_into_inventory(item: Entity)
 
-signal anthurium_stimulus_event(event_name: StringName, context: Dictionary)
+signal behavior_stimulus_event(event_name: GameEvent.Stimulus, context: Dictionary)
 
 # worldgrid
 signal cell_hidden(coords: Vector2i)

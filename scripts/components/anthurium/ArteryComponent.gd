@@ -10,6 +10,8 @@ var accessories: Array[ArteryLink] = []
 @export var max_branches: int = 1
 @export var transmission_timer: float = 0.1
 
+
+
 func heartbeat(strength: float) -> void:
 	await get_tree().create_timer(transmission_timer).timeout
 	
@@ -25,15 +27,14 @@ func heartbeat(strength: float) -> void:
 			accessories.remove_at(i)
 			continue
 		accessories[i].receptor.heartbeat(strength)
-		accessories[i].artery.heartbeat(strength)
 		
 	if growth_component and next.size() < max_branches:
-		var new_root: Entity = growth_component.try_grow_root(entity)
+		var new_root: Entity = growth_component.try_grow_root(entity, prev)
 		if new_root:
 			next.append(ArteryLink.new(new_root))
 		
 	if growth_component and accessories.size() < max_accessories:
-		var new_accessory: Entity = growth_component.try_grow_accessory(entity)
+		var new_accessory: Entity = growth_component.try_grow_accessory(entity, prev)
 		if new_accessory:
 			accessories.append(ArteryLink.new(new_accessory))
 

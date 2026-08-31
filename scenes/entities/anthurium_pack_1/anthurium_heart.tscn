@@ -5,21 +5,24 @@
 [ext_resource type="Script" uid="uid://dwcsohu6sk2xl" path="res://scripts/components/anthurium/HeartbeatEmitter.gd" id="3_lp827"]
 [ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="4_17ekf"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="4_vjyem"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="5_fsagw"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="5_fsagw"]
 [ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="5_w7h85"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_tt88j"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="7_ip3k0"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="7_kb83x"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="8_f3e47"]
 [ext_resource type="Script" uid="uid://k4ssad524jt" path="res://scripts/states/anthurium/AnthuriumStateBeatHeart.gd" id="8_thl81"]
-[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/EntityEffect.gd" id="9_kbcs1"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="9_kbcs1"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="9_thl81"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="10_f3e47"]
-[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/EntityEffectVoice.gd" id="10_yhkju"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="10_yhkju"]
 [ext_resource type="Resource" uid="uid://saohn2kqqqjs" path="res://assets/resources/voices/heartbeat.tres" id="11_ip3k0"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="11_thl81"]
-[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/EntityEffectSequence.gd" id="12_t2y4i"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="12_t2y4i"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_yhkju"]
+[ext_resource type="Script" uid="uid://b1c40ojt8vlw0" path="res://scripts/components/anthurium/EsotericaResponseComponent.gd" id="21_81ejs"]
+[ext_resource type="Script" uid="uid://bsbmt7ago3hpx" path="res://scripts/resources/anthurium/StimulusMapping.gd" id="22_p7hfk"]
+[ext_resource type="Script" uid="uid://c2nmi2cda4spm" path="res://scripts/resources/anthurium/behavior_stimulus_response/DamagedStimulus.gd" id="23_p7hfk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 
@@ -46,6 +49,15 @@ metadata/_custom_type_script = "uid://qy3at433r6s0"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
 
+[sub_resource type="Resource" id="Resource_vtlge"]
+script = ExtResource("23_p7hfk")
+metadata/_custom_type_script = "uid://c2nmi2cda4spm"
+
+[sub_resource type="Resource" id="Resource_epnne"]
+script = ExtResource("22_p7hfk")
+response = SubResource("Resource_vtlge")
+metadata/_custom_type_script = "uid://bsbmt7ago3hpx"
+
 [node name="AnthuriumHeart" type="CharacterBody2D" unique_id=1174205396 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 script = ExtResource("1_ilbyp")
@@ -68,6 +80,7 @@ metadata/_custom_type_script = "uid://dwcsohu6sk2xl"
 [node name="ArteryComponent" type="Node" parent="." unique_id=836333237 node_paths=PackedStringArray("growth_component")]
 script = ExtResource("4_17ekf")
 growth_component = NodePath("../GrowthComponent")
+max_branches = 5
 metadata/_custom_type_script = "uid://bw5rtupuevcfy"
 
 [node name="GrowthComponent" type="Node" parent="." unique_id=217064531]
@@ -123,3 +136,8 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 script = ExtResource("17_yhkju")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="EsotericaResponseComponent" type="Node" parent="." unique_id=776861036]
+script = ExtResource("21_81ejs")
+mappings = Array[ExtResource("22_p7hfk")]([SubResource("Resource_epnne")])
+metadata/_custom_type_script = "uid://b1c40ojt8vlw0"

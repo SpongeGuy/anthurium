@@ -19,6 +19,9 @@ func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, a
 func to_array() -> Array[float]:
 	return [felicity, furor, lacuna, tremendum, acedia, anamnesis]
 	
+func get_string() -> String:
+	return "fe:%d fu:%d la:%d tr:%d ac:%d an:%d" % [felicity, furor, lacuna, tremendum, acedia, anamnesis]
+	
 func magnitude() -> float:
 	return sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)
 	

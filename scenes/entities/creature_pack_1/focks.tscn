@@ -34,7 +34,7 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="36_4npmj"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2pk5b"]

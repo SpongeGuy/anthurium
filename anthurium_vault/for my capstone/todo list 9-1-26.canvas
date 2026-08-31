@@ -1,0 +1,50 @@
+{
+	"nodes":[
+		{"id":"9f35dfc1ac5f97d2","type":"group","x":-600,"y":-420,"width":1820,"height":640,"label":"Untitled group"},
+		{
+			"id":"e3b1c1051b07e5e1",
+			"type":"text",
+			"text":"hunger isn't really implemented yet.\n\nentities that have ichor components should slowly lose their health if they have 0% ichor.",
+			"styleAttributes":{},
+			"x":-580,
+			"y":-360,
+			"width":380,
+			"height":180
+		},
+		{
+			"id":"5337b9a1c263e641",
+			"type":"text",
+			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)",
+			"styleAttributes":{},
+			"x":-580,
+			"y":-120,
+			"width":480,
+			"height":280
+		},
+		{
+			"id":"094619fdad86f0f5",
+			"type":"text",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
+			"styleAttributes":{},
+			"x":-60,
+			"y":-380,
+			"width":420,
+			"height":320
+		},
+		{
+			"id":"21ddca2e09e20557",
+			"type":"text",
+			"text":"focks push ability",
+			"styleAttributes":{},
+			"x":420,
+			"y":-360,
+			"width":320,
+			"height":180
+		}
+	],
+	"edges":[],
+	"metadata":{
+		"version":"1.0-1.0",
+		"frontmatter":{}
+	}
+}

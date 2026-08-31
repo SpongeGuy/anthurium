@@ -46,3 +46,4 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if knockback:
 		knockback.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
 	hit_received.emit(hurtbox.damage, hurtbox.entity)
+	EventBus.behavior_stimulus_event.emit(GameEvent.Stimulus.DAMAGE_TAKEN, {"damage": hurtbox.damage, "target": entity})

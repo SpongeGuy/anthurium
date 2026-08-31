@@ -297,16 +297,6 @@
 			"height":340
 		},
 		{
-			"id":"12da5cbe05ed9e33",
-			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name StimulusMapping\n\n@export var event_name: StringName\n@export var stimulus: EsotericaStimulus\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var mappings: Array[StimulusMapping] = []\n\nvar _lookup: Dictionary = {} # a cache\n\nfunc _ready() -> void:\n\tfor m in mappings:\n\t\t_lookup[m.event_name] = m.stimulus\n\tEventBus.esoterica_stimulus_event.connect(_on_esoterica_stimulus_event)\n\t\nfunc _on_stimulus_event(event_name: StringName, context: Dictionary) -> void:\n\tvar stimulus: EsotericaStimulus = _lookup.get(event_name)\n\tif stimulus:\n\t\tinterface.esoterica.add(stimulus.get_delta(context))\n```",
-			"styleAttributes":{},
-			"x":-900,
-			"y":5400,
-			"width":660,
-			"height":520
-		},
-		{
 			"id":"f197682926fd4493",
 			"type":"text",
 			"text":"i've made AnthuriumInterface an autoload",
@@ -335,6 +325,16 @@
 			"y":5620,
 			"width":660,
 			"height":140
+		},
+		{
+			"id":"12da5cbe05ed9e33",
+			"type":"text",
+			"text":"```gdscript\nextends Resource\nclass_name StimulusMapping\n\n@export var event_name: StringName\n@export var stimulus: EsotericaStimulus\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var mappings: Array[StimulusMapping] = []\n\nvar _lookup: Dictionary = {} # a cache\n\nfunc _ready() -> void:\n\tfor m in mappings:\n\t\t_lookup[m.event_name] = m.stimulus\n\tEventBus.esoterica_stimulus_event.connect(_on_esoterica_stimulus_event)\n\t\nfunc _on_stimulus_event(event_name: StringName, context: Dictionary) -> void:\n\tvar stimulus: EsotericaStimulus = _lookup.get(event_name)\n\tif stimulus:\n\t\tinterface.esoterica.add(stimulus.get_delta(context))\n```",
+			"styleAttributes":{},
+			"x":-920,
+			"y":5430,
+			"width":660,
+			"height":520
 		}
 	],
 	"edges":[

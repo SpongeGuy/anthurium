@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cy48biwn8ghxf"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_e081u"]
-[ext_resource type="Texture2D" uid="uid://bp4wha738ix8s" path="res://assets/textures/test_anthurium/bigflower.png" id="2_yafv7"]
+[ext_resource type="Texture2D" uid="uid://bq58f3g3qvl8p" path="res://assets/textures/test_anthurium/anthurium1.png" id="2_1evqo"]
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="3_1evqo"]
 [ext_resource type="Script" uid="uid://cxu85t50kno5x" path="res://scripts/components/anthurium/BloomPotentialComponent.gd" id="4_tiu7f"]
 [ext_resource type="Script" uid="uid://dx4y3y4q3fynx" path="res://scripts/components/anthurium/BloomThresholdComponent.gd" id="5_1evqo"]
@@ -14,7 +14,8 @@ visual = NodePath("Sprite2D")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1849244897]
-texture = ExtResource("2_yafv7")
+position = Vector2(-2, -17)
+texture = ExtResource("2_1evqo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1119087854]
 shape = SubResource("CircleShape2D_emcra")

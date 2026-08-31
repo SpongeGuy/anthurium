@@ -4,11 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://fsq4li8hk0yf" path="res://assets/textures/test_anthurium/root2.png" id="2_3q6ue"]
 [ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="3_sg717"]
 [ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="4_2h2wr"]
-[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/EntityEffectVoice.gd" id="5_0gwno"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="5_0gwno"]
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="5_2h2wr"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="6_epnne"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="7_b660u"]
-[ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="8_epnne"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="10_epnne"]
 [ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="11_vtlge"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="12_o0w1n"]
@@ -24,11 +22,6 @@
 script = ExtResource("5_0gwno")
 voice = ExtResource("6_epnne")
 metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
-
-[sub_resource type="Resource" id="Resource_2h2wr"]
-script = ExtResource("7_b660u")
-particle_profile = ExtResource("8_epnne")
-metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_i05qb"]
 
@@ -49,6 +42,7 @@ shape = SubResource("CircleShape2D_emcra")
 [node name="ArteryComponent" type="Node" parent="." unique_id=758577281 node_paths=PackedStringArray("growth_component")]
 script = ExtResource("3_sg717")
 growth_component = NodePath("../GrowthComponent")
+max_accessories = 1
 metadata/_custom_type_script = "uid://bw5rtupuevcfy"
 
 [node name="GrowthComponent" type="Node" parent="." unique_id=1012728860]
@@ -58,7 +52,6 @@ metadata/_custom_type_script = "uid://c4uuard48bnax"
 
 [node name="HeartbeatReceptor" type="Node" parent="." unique_id=26942486]
 script = ExtResource("5_2h2wr")
-heartbeat_effect = SubResource("Resource_2h2wr")
 metadata/_custom_type_script = "uid://dftw2gd37h5b5"
 
 [node name="StateMachine" type="Node" parent="." unique_id=1897444181 node_paths=PackedStringArray("initial_state", "death_state")]

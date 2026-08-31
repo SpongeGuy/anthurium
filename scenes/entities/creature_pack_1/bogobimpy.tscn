@@ -35,7 +35,7 @@
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="31_ywcyt"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="32_fnlh3"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="33_lc7wp"]
-[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/resources/CellData.gd" id="34_6jxy6"]
+[ext_resource type="Script" uid="uid://dwex81s0yowa4" path="res://scripts/resources/cell/CellData.gd" id="34_6jxy6"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="35_jtj81"]
 [ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="36_khnq8"]
 [ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="37_lfupp"]

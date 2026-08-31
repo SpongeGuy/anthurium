@@ -3,6 +3,12 @@ extends Node
 var esoterica: Esoterica
 var bloom_events: Array[BloomEvent]
 
+func _ready() -> void:
+	create_new_anthurium()
+
+func create_new_anthurium() -> void:
+	esoterica = Esoterica.new()
+
 func select_bloom_event(esoterica: Esoterica) -> BloomEvent:
 	var best_event: BloomEvent
 	var best_score: float = -INF
@@ -14,10 +20,12 @@ func select_bloom_event(esoterica: Esoterica) -> BloomEvent:
 	return best_event
 	
 func trigger_bloom(source: Entity) -> void:
+	Log.info("Triggering Bloom Event at %s, %s" % [source, source.global_position])
 	var current_esoterica: Esoterica = get_current_esoterica()
 	var event: BloomEvent = select_bloom_event(current_esoterica)
 	var potency: float = esoterica.magnitude()
-	event.execute(potency)
+	if event:
+		event.execute(potency)
 	
 func grow_new_accessory(source: Entity) -> Entity:
 	# some algorithm to determine which type of plant part to spawn in

@@ -52,12 +52,13 @@ func _process(delta: float) -> void:
 	if entity.has_component(Brain):
 		display_entity_brain_state(l1, entity)
 	
-	if entity.has_component(AnthuriumComponent):
+	if entity.has_component(HeartbeatEmitter) or entity.has_component(ArteryComponent) or entity.has_component(HeartbeatReceptor):
 		update_anthurium(entity)
 	
 	
 func update_anthurium(entity: Entity) -> void:
 	display_coordinates(l2)
+	display_anthurium_esoterica(l3)
 	#display_anthurium_ichor(l3)
 	#display_anthurium_active_parts(l4)
 	
@@ -81,7 +82,11 @@ func display_coordinates(label: Label) -> void:
 	#for entry in AnthuriumBrain.active_anthurium_names:
 		#string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
 	#label.text = str(string)
-	#
+	
+func display_anthurium_esoterica(label: Label) -> void:
+	var string = str(AnthuriumInterface.esoterica.get_string())
+	label.text = string
+
 #func display_anthurium_ichor(label: Label) -> void:
 	#var string: String = ""
 	#string += str("ichor: ", AnthuriumBrain.ichor, "\n")

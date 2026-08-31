@@ -188,3 +188,5 @@ func _add(e: Entity) -> void:
 	EventBus.entity_spawned.emit.call_deferred(e)
 	if WorldGrid.is_world_pos_visible(e.global_position):
 		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
+		
+	Log.info("Spawned new %s at %s" % [e, e.global_position])
