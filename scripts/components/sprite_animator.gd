@@ -57,9 +57,9 @@ func load_and_reset_animation(animation_name: StringName) -> void:
 func _update_animation(delta: float, modifier: float = 1.0) -> void:
 	if not _current_animation:
 		return
-	
-	if not stopped:
-		_timer += delta * _current_animation.speed * modifier
+	if stopped:
+		return
+	_timer += delta * _current_animation.speed * modifier
 	old_frame = current_frame
 	if _timer >= _current_animation.frames:
 		
@@ -74,4 +74,5 @@ func _update_animation(delta: float, modifier: float = 1.0) -> void:
 	
 	if old_frame != current_frame:
 		frame_elapsed.emit(current_frame)
-	sprite.frame_coords = Vector2i(column, row)
+	if not stopped:
+		sprite.frame_coords = Vector2i(column, row)

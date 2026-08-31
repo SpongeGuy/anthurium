@@ -1,9 +1,9 @@
 extends Component
 class_name ArteryComponent
 
-var next: Array[Entity] = []
-var prev: Array[Entity] = []
-var accessories: Array[Entity] = []
+var next: Array[ArteryLink] = []
+var prev: Array[ArteryLink] = []
+var accessories: Array[ArteryLink] = []
 
 @export var growth_component: GrowthComponent
 @export var max_accessories: int = 0
@@ -13,25 +13,43 @@ var accessories: Array[Entity] = []
 func heartbeat(strength: float) -> void:
 	await get_tree().create_timer(transmission_timer).timeout
 	
-	for part in next:
-		if not is_instance_valid(part):
+	for i in range(next.size()):
+		if not is_instance_valid(next[i].entity):
+			next.remove_at(i)
 			continue
-		var receptor: HeartbeatReceptor = part.get_component(HeartbeatReceptor)
-		var artery: ArteryComponent = part.get_component(ArteryComponent)
-		receptor.heartbeat(strength)
-		artery.heartbeat(strength)
-	for part in accessories:
-		if not is_instance_valid(part):
+		next[i].receptor.heartbeat(strength)
+		next[i].artery.heartbeat(strength)
+	
+	for i in range(accessories.size()):
+		if not is_instance_valid(accessories[i]):
+			accessories.remove_at(i)
 			continue
-		var receptor: HeartbeatReceptor = part.get_component(HeartbeatReceptor)
-		receptor.heartbeat(strength)
+		accessories[i].receptor.heartbeat(strength)
+		accessories[i].artery.heartbeat(strength)
 		
 	if growth_component and next.size() < max_branches:
 		var new_root: Entity = growth_component.try_grow_root(entity)
 		if new_root:
-			next.append(new_root)
+			next.append(ArteryLink.new(new_root))
 		
 	if growth_component and accessories.size() < max_accessories:
 		var new_accessory: Entity = growth_component.try_grow_accessory(entity)
 		if new_accessory:
-			accessories.append(new_accessory)
+			accessories.append(ArteryLink.new(new_accessory))
+
+
+class ArteryLink:
+	var entity: Entity
+	var receptor: HeartbeatReceptor
+	var artery: ArteryComponent
+	
+	func _init(e: Entity) -> void:
+		entity = e
+		if e.is_initialized:
+			_resolve()
+		else:
+			e.entity_initialized.connect(_resolve, CONNECT_ONE_SHOT)
+			
+	func _resolve() -> void:
+		receptor = entity.get_component(HeartbeatReceptor)
+		artery = entity.get_component(ArteryComponent)

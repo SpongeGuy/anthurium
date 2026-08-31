@@ -1,5 +1,4 @@
 extends Node
-class_name AnthuriumInterface
 
 var esoterica: Esoterica
 var bloom_events: Array[BloomEvent]

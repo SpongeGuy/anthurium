@@ -7,7 +7,6 @@ class_name GrowthComponent
 
 func try_grow_root(source: Entity) -> Entity:
 	var chance: float = randf()
-	print(chance)
 	if chance >= chance_to_grow_root:
 		return null
 	var angle: float = randf() * TAU
@@ -15,7 +14,7 @@ func try_grow_root(source: Entity) -> Entity:
 	var offset: Vector2 = Vector2.from_angle(angle) * distance
 	var root: Entity = EntityManager.spawn_safely(&"anthurium_root", entity.global_position + offset)
 	if grow_effect:
-		grow_effect.execute(root)
+		grow_effect.execute(entity)
 	return root
 
 func try_grow_accessory(source: Entity) -> Entity:

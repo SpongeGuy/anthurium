@@ -1,10 +1,21 @@
 {
 	"nodes":[
-		{"id":"ee123050074111a5","type":"group","x":-1320,"y":3600,"width":5160,"height":2680,"label":"draft 3 / tying in esoterica"},
 		{"id":"ca11d00b8826549a","type":"group","x":-1000,"y":-1760,"width":4440,"height":1440,"label":"draft 1 / rough"},
 		{"id":"580dac188b64400f","type":"group","x":-1240,"y":880,"width":3560,"height":1660,"label":"draft 2 / composition version"},
+		{"id":"857a661e2005f517","type":"group","x":-1000,"y":5080,"width":3920,"height":1240,"label":"Untitled group"},
+		{"id":"ee123050074111a5","type":"group","x":-1320,"y":3600,"width":3280,"height":1160,"label":"draft 3 / tying in esoterica"},
 		{"id":"ad7d6998a76f10c3","type":"group","x":-840,"y":80,"width":1560,"height":580,"label":"notes before draft 2"},
 		{"id":"434c78157917e056","type":"group","x":-460,"y":2760,"width":1180,"height":600,"label":"notes before draft 3"},
+		{
+			"id":"333e307733a73016",
+			"type":"text",
+			"text":"```gdscript\nextends Resource\nclass_name EsotericaStimulus\n\nfunc get_delta(context: Dictionary) -> Esoterica:\n\treturn Esoterica.new() # override: DamageTakenStimulus, PreyEatenStimulus, IdleDecayStimulus, etc.\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var stimulus: EsotericaStimulus\nvar interface: AnthuriumInterface\n\nfunc trigger(context: Dictionary = {}) -> void:\n\tinterface.esoterica.add(stimulus.get_delta(context))\n```\n\nfor example, a damage stimulus\n\n```gdscript\nextends EsotericaStimulus\nclass_name PredatorBiteStimulus\n\n@export var felicity_delta: float = -5.0\n@export var furor_delta: float = 1.0\n@export var scale_with_damage: bool = true\n\nfunc get_delta(context: Dictionary) -> void:\n\tvar scale: float = context.get(\"damage\", 1.0) if scale_with_damage else 1.0\n\treturn Esoterica.new(felicity_delta * scale, furor_delta * scale, 0.0, 0.0, 0.0, 0.0)\n```",
+			"styleAttributes":{},
+			"x":-1240,
+			"y":3680,
+			"width":760,
+			"height":640
+		},
 		{
 			"id":"43081c816931e428",
 			"type":"text",
@@ -16,16 +27,6 @@
 			"height":730
 		},
 		{
-			"id":"333e307733a73016",
-			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name EsotericaStimulus\n\nfunc get_delta(context: Dictionary) -> Esoterica:\n\treturn Esoterica.new() # override: DamageTakenStimulus, PreyEatenStimulus, IdleDecayStimulus, etc.\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var stimulus: EsotericaStimulus\nvar interface: AnthuriumInterface\n\nfunc trigger(context: Dictionary = {}) -> void:\n\tinterface.esoterica.add(stimulus.get_delta(context))\n```\n\nfor example, a damage stimulus\n\n```gdscript\nextends EsotericaStimulus\nclass_name PredatorBiteStimulus\n\n@export var felicity_delta: float = -5.0\n@export var furor_delta: float = 1.0\n@export var scale_with_damage: bool = true\n\nfunc get_delta(context: Dictionary) -> void:\n\tvar scale: float = context.get(\"damage\", 1.0) if scale_with_damage else 1.0\n\treturn Esoterica.new(felicity_delta * scale, furor_delta * scale, 0.0, 0.0, 0.0, 0.0)\n```",
-			"styleAttributes":{},
-			"x":-1240,
-			"y":3680,
-			"width":760,
-			"height":1020
-		},
-		{
 			"id":"e361b50edf152d2f",
 			"type":"text",
 			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\nfunc add(other: Esoterica) -> void:\n\tfelicity += other.felicity\n\tfuror += other.furor\n\tlacuna += other.lacuna\n\ttremendum += other.tremendum\n\tacedia += other.acedia\n\tanamnesis += other.anamnesis\n\n```",
@@ -34,6 +35,16 @@
 			"y":3700,
 			"width":1140,
 			"height":980
+		},
+		{
+			"id":"51b8d2f43b6a5c73",
+			"type":"text",
+			"text":"basically i just think that this will be components that detect certain stimulus and update the esoterica live (or get piped through a component which then updates the esoterica directly)",
+			"styleAttributes":{},
+			"x":-400,
+			"y":2990,
+			"width":440,
+			"height":120
 		},
 		{
 			"id":"c0eba2de09cba4bc",
@@ -56,24 +67,14 @@
 			"height":160
 		},
 		{
-			"id":"51b8d2f43b6a5c73",
+			"id":"2b7cc18d430358ff",
 			"type":"text",
-			"text":"basically i just think that this will be components that detect certain stimulus and update the esoterica live (or get piped through a component which then updates the esoterica directly)",
+			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
 			"styleAttributes":{},
-			"x":-400,
-			"y":2990,
-			"width":440,
-			"height":120
-		},
-		{
-			"id":"6d2515a2428fce38",
-			"type":"text",
-			"text":"\n\n```gdscript\nextends Component\nclass_name GrowthComponent\n\n@export var accessory_growth_chance: float = 0.01\n@export var root_growth_chance: float = 0.1\nvar interface: AnthuriumInterface\n\nfunc try_grow_accessory(source: Entity) -> Entity:\n\tif randf() <= accessory_growth_chance:\n\t\treturn interface.grow_new_accessory(source)\n\n\n\nfunc try_grow_root(source: Entity) -> Entity:\n\tif randf() <= root_growth_chance:\n\t\treturn interface.grow_new_root(source)\n```",
-			"styleAttributes":{},
-			"x":-1180,
-			"y":1620,
-			"width":460,
-			"height":440
+			"x":650,
+			"y":1660,
+			"width":1140,
+			"height":800
 		},
 		{
 			"id":"dba998a59152bb2b",
@@ -86,54 +87,24 @@
 			"height":340
 		},
 		{
-			"id":"ed7b509762e093d4",
+			"id":"1c156492a12d3d4d",
 			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name HeartbeatReceptorComponent\n\n@export var behavior: HeartbeatBehaviorComponent\n@export var bloom_potential: BloomPotentialComponent\n@export var artery: ArteryComponent\n\nfunc heartbeat(strength: float) -> void:\n\tif artery:\n\t\tartery.heartbeat(strength)\n\tif behavior:\n\t\tbehavior.on_heartbeat(strength)\n\tif bloom_potential:\n\t\tbloom_potential.add(strength)\n```\n\n",
+			"text":"```gdscript\nextends Resource\nclass_name BloomEvent\n\n@export var archetype: Esoterica\n\nfunc execute(potency: float) -> void:\n\tpass # override\n```",
 			"styleAttributes":{},
-			"x":-400,
-			"y":1360,
-			"width":450,
-			"height":340
+			"x":80,
+			"y":1840,
+			"width":360,
+			"height":200
 		},
 		{
-			"id":"22054b009deecda4",
+			"id":"6d2515a2428fce38",
 			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name ArteryComponent\n\nvar next: Array[Entity] = []\nvar prev: Array[Entity] = []\nvar accessories: Array[Entity] = []\n@export var growth_component: GrowthComponent\n@export var max_accessories: int = 0\n@export var max_branches: int = 1\n\nfunc heartbeat(strength: float) -> void:\n\tfor part in next:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\tfor part in accessories:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\t\n\tif growth_component and next.size() < max_branches:\n\t\tvar new_root: Entity = growth_component.try_grow_root(entity)\n\t\tnext.append(new_root)\n\t\n\tif growth_component and accessories.size() < max_accessories:\n\t\tvar new_accessory: Entity = growth_component.try_grow_acecssory(entity)\n\t\taccessories.append(new_accessory)\n```",
+			"text":"\n\n```gdscript\nextends Component\nclass_name GrowthComponent\n\n@export var accessory_growth_chance: float = 0.01\n@export var root_growth_chance: float = 0.1\nvar interface: AnthuriumInterface\n\nfunc try_grow_accessory(source: Entity) -> Entity:\n\tif randf() <= accessory_growth_chance:\n\t\treturn interface.grow_new_accessory(source)\n\n\n\nfunc try_grow_root(source: Entity) -> Entity:\n\tif randf() <= root_growth_chance:\n\t\treturn interface.grow_new_root(source)\n```",
 			"styleAttributes":{},
 			"x":-1180,
-			"y":1000,
-			"width":760,
-			"height":580
-		},
-		{
-			"id":"35c5bf182e214933",
-			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name BloomPotentialComponent\n\nsignal potential_changed(new_value: float)\n\nvar value: float = 0.0\n\nfunc add(amount: float) -> void:\n\tvalue += amount\n\tpotential_changed.emit(value)\n\t\nfunc clear() -> void:\n\tvalue = 0.0\n```",
-			"styleAttributes":{},
-			"x":-400,
-			"y":1000,
-			"width":380,
-			"height":340
-		},
-		{
-			"id":"4faab8986d82520d",
-			"type":"text",
-			"text":"the anthurium's parts are basic entities with components attached.",
-			"styleAttributes":{},
-			"x":-1220,
-			"y":900,
-			"width":380,
-			"height":60
-		},
-		{
-			"id":"5dfd5a1ef1220092",
-			"type":"text",
-			"text":"bloom_threshold\n\n```gdscript\nextends Component\nclass_name BloomThresholdComponent\n\n@export var threshold: float = 100.0\n@export var bloom_potential: BloomPotentialComponent\nvar interface: AnthuriumInterface\n\nfunc _ready() -> void:\n\tbloom_potential.potential_changed.connect(_on_potential_changed)\n\t\nfunc _on_potential_changed(value: float) -> void:\n\tif value >= threshold:\n\t\tinterface.trigger_bloom(entity)\n\t\tbloom_potential.clear()\n```",
-			"styleAttributes":{},
-			"x":10,
-			"y":960,
-			"width":580,
-			"height":360
+			"y":1620,
+			"width":460,
+			"height":440
 		},
 		{
 			"id":"50c5d1241eac97db",
@@ -146,14 +117,14 @@
 			"height":400
 		},
 		{
-			"id":"1c156492a12d3d4d",
+			"id":"ed7b509762e093d4",
 			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name BloomEvent\n\n@export var archetype: Esoterica\n\nfunc execute(potency: float) -> void:\n\tpass # override\n```",
+			"text":"```gdscript\nextends Component\nclass_name HeartbeatReceptorComponent\n\n@export var behavior: HeartbeatBehaviorComponent\n@export var bloom_potential: BloomPotentialComponent\n@export var artery: ArteryComponent\n\nfunc heartbeat(strength: float) -> void:\n\tif artery:\n\t\tartery.heartbeat(strength)\n\tif behavior:\n\t\tbehavior.on_heartbeat(strength)\n\tif bloom_potential:\n\t\tbloom_potential.add(strength)\n```\n\n",
 			"styleAttributes":{},
-			"x":80,
-			"y":1840,
-			"width":360,
-			"height":200
+			"x":-400,
+			"y":1360,
+			"width":450,
+			"height":340
 		},
 		{
 			"id":"ec5eaeb1eeabdd90",
@@ -166,14 +137,54 @@
 			"height":680
 		},
 		{
-			"id":"2b7cc18d430358ff",
+			"id":"22054b009deecda4",
 			"type":"text",
-			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
+			"text":"```gdscript\nextends Component\nclass_name ArteryComponent\n\nvar next: Array[Entity] = []\nvar prev: Array[Entity] = []\nvar accessories: Array[Entity] = []\n@export var growth_component: GrowthComponent\n@export var max_accessories: int = 0\n@export var max_branches: int = 1\n\nfunc heartbeat(strength: float) -> void:\n\tfor part in next:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\tfor part in accessories:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\t\n\tif growth_component and next.size() < max_branches:\n\t\tvar new_root: Entity = growth_component.try_grow_root(entity)\n\t\tnext.append(new_root)\n\t\n\tif growth_component and accessories.size() < max_accessories:\n\t\tvar new_accessory: Entity = growth_component.try_grow_acecssory(entity)\n\t\taccessories.append(new_accessory)\n```",
 			"styleAttributes":{},
-			"x":650,
-			"y":1660,
-			"width":1140,
-			"height":800
+			"x":-1180,
+			"y":1000,
+			"width":760,
+			"height":580
+		},
+		{
+			"id":"98d5427ea89d9325",
+			"type":"text",
+			"text":"Heart (Entity)\n- HeartbeatEmitterComponent\n- ArteryComponent\n- GrowthComponent\n\nRoot (Entity)\n- ArteryComponent\n- GrowthComponent\n\nFlower/Bulb (Entity)\n- HeartbeatReceptorComponent\n- BloomPotentialComponent\n- BloomThresholdComponent\n\n\n",
+			"styleAttributes":{},
+			"x":1500,
+			"y":1000,
+			"width":640,
+			"height":460
+		},
+		{
+			"id":"35c5bf182e214933",
+			"type":"text",
+			"text":"```gdscript\nextends Component\nclass_name BloomPotentialComponent\n\nsignal potential_changed(new_value: float)\n\nvar value: float = 0.0\n\nfunc add(amount: float) -> void:\n\tvalue += amount\n\tpotential_changed.emit(value)\n\t\nfunc clear() -> void:\n\tvalue = 0.0\n```",
+			"styleAttributes":{},
+			"x":-400,
+			"y":1000,
+			"width":380,
+			"height":340
+		},
+		{
+			"id":"5dfd5a1ef1220092",
+			"type":"text",
+			"text":"bloom_threshold\n\n```gdscript\nextends Component\nclass_name BloomThresholdComponent\n\n@export var threshold: float = 100.0\n@export var bloom_potential: BloomPotentialComponent\nvar interface: AnthuriumInterface\n\nfunc _ready() -> void:\n\tbloom_potential.potential_changed.connect(_on_potential_changed)\n\t\nfunc _on_potential_changed(value: float) -> void:\n\tif value >= threshold:\n\t\tinterface.trigger_bloom(entity)\n\t\tbloom_potential.clear()\n```",
+			"styleAttributes":{},
+			"x":10,
+			"y":960,
+			"width":580,
+			"height":360
+		},
+		{
+			"id":"4faab8986d82520d",
+			"type":"text",
+			"text":"the anthurium's parts are basic entities with components attached.",
+			"styleAttributes":{},
+			"x":-1220,
+			"y":900,
+			"width":380,
+			"height":60
 		},
 		{
 			"id":"2a3a409264a527c8",
@@ -196,6 +207,26 @@
 			"height":60
 		},
 		{
+			"id":"3a453a4c45ae3168",
+			"type":"text",
+			"text":"```gdscript\nextends Entity\nclass_name AnthuriumRoot\n\nvar interface: AnthuriumInterface\n\nvar next: Array[Entity]\nvar prev: Array[Entity]\n\nvar accessories: Array[Entity]\n\nvar bloom_potential: float = 0.0\n\nvar accessory_growth_chance: float = 0.01\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\tfor part in next:\n\t\tpart.heartbeat(strength)\n\t\t\n\tfor part in accessories:\n\t\tpart.heartbeat(strength)\n\t\t\n\tif randf() <= accessory_growth_chance:\n\t\tinterface.grow_new_accessory(self)\n\nfunc grow_new_root() -> Entity:\n\t# some algorithm\n\t# calculate which angle the root should be placed at\n\t# distance\n\t# pick correct root sprite\n\t# spawn it in\n\tnext.append(root)\n\treturn root\n\n```",
+			"styleAttributes":{},
+			"x":440,
+			"y":-1200,
+			"width":560,
+			"height":780
+		},
+		{
+			"id":"62bf54ba07fb414d",
+			"type":"text",
+			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
+			"styleAttributes":{},
+			"x":2080,
+			"y":-1260,
+			"width":1140,
+			"height":800
+		},
+		{
 			"id":"4f02e881a84316a9",
 			"type":"text",
 			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumHeart\n\nvar interface: AnthuriumInterface\n\nvar next: Array[Entity]\nvar prev: Array[Entity]\n\nvar accessories: Array[Entity]\n\nvar bloom_potential: float = 0.0\n\nvar base_heartbeat_strength: float = 1.0\n\nfunc heartbeat() -> void:\n\tvar strength: float = base_heartbeat_strength + randf_range(0.1, 0.5)\n\tfor part in next:\n\t\tpart.heartbeat(strength)\n\tfor part in accessories:\n\t\tpart.heartbeat(strength)\n\nfunc grow_new_root() -> Entity:\n\t# some algorithm\n\t# calculate which angle the root should be placed at\n\t# distance\n\t# pick correct root sprite\n\t# spawn it in\n\tnext.append(root)\n\treturn root\n\n```",
@@ -213,6 +244,26 @@
 			"x":-900,
 			"y":-1200,
 			"width":720,
+			"height":580
+		},
+		{
+			"id":"3fad1105d0bb7059",
+			"type":"text",
+			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumFlower\n\nvar interface: AnthuriumInterface\n\nvar bloom_potential: float = 0.0\nvar bloom_threshold: float = 100.0\n\n\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\t\n\tif bloom_potential >= bloom_threshold:\n\t\tinterface.trigger_bloom(self)\n\t\t\n\t\t\n```",
+			"styleAttributes":{},
+			"x":1020,
+			"y":-1200,
+			"width":400,
+			"height":580
+		},
+		{
+			"id":"acf2cacb5c064802",
+			"type":"text",
+			"text":"```gdscript\nextends Entity\nclass_name AnthuriumAccessory\n\nvar interface: AnthuriumInterface\n\nvar bloom_potential: float = 0.0\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\t# some behavior or effect?\n\t# i could see this either being a one-shot thing, a timer, \n\t# or a unique behavior guided by a state machine\n\t# how do i make this composed so that this function is universal?\n```\n",
+			"styleAttributes":{},
+			"x":1440,
+			"y":-1200,
+			"width":580,
 			"height":580
 		},
 		{
@@ -236,16 +287,6 @@
 			"height":340
 		},
 		{
-			"id":"3a453a4c45ae3168",
-			"type":"text",
-			"text":"```gdscript\nextends Entity\nclass_name AnthuriumRoot\n\nvar interface: AnthuriumInterface\n\nvar next: Array[Entity]\nvar prev: Array[Entity]\n\nvar accessories: Array[Entity]\n\nvar bloom_potential: float = 0.0\n\nvar accessory_growth_chance: float = 0.01\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\tfor part in next:\n\t\tpart.heartbeat(strength)\n\t\t\n\tfor part in accessories:\n\t\tpart.heartbeat(strength)\n\t\t\n\tif randf() <= accessory_growth_chance:\n\t\tinterface.grow_new_accessory(self)\n\nfunc grow_new_root() -> Entity:\n\t# some algorithm\n\t# calculate which angle the root should be placed at\n\t# distance\n\t# pick correct root sprite\n\t# spawn it in\n\tnext.append(root)\n\treturn root\n\n```",
-			"styleAttributes":{},
-			"x":440,
-			"y":-1200,
-			"width":560,
-			"height":780
-		},
-		{
 			"id":"7e0e5312c927f225",
 			"type":"text",
 			"text":"how performant are signals? wait i dont need signals\n\nroots are gonna be like a linked list that you can recursively search through.\nmake a recursive function that finds the end of each list.\nthere might be an issue with roots that have multiple connections\n\tall that really needs to be known is which direction each node \"faces\"\n\tif a connection points into the root, then bloom potential flows out of that and ichor flows in\n\tif a connection points out of the root, then bloom potential flows into that and ichor flows out",
@@ -256,44 +297,44 @@
 			"height":340
 		},
 		{
-			"id":"3fad1105d0bb7059",
+			"id":"12da5cbe05ed9e33",
 			"type":"text",
-			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumFlower\n\nvar interface: AnthuriumInterface\n\nvar bloom_potential: float = 0.0\nvar bloom_threshold: float = 100.0\n\n\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\t\n\tif bloom_potential >= bloom_threshold:\n\t\tinterface.trigger_bloom(self)\n\t\t\n\t\t\n```",
+			"text":"```gdscript\nextends Resource\nclass_name StimulusMapping\n\n@export var event_name: StringName\n@export var stimulus: EsotericaStimulus\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var mappings: Array[StimulusMapping] = []\n\nvar _lookup: Dictionary = {} # a cache\n\nfunc _ready() -> void:\n\tfor m in mappings:\n\t\t_lookup[m.event_name] = m.stimulus\n\tEventBus.esoterica_stimulus_event.connect(_on_esoterica_stimulus_event)\n\t\nfunc _on_stimulus_event(event_name: StringName, context: Dictionary) -> void:\n\tvar stimulus: EsotericaStimulus = _lookup.get(event_name)\n\tif stimulus:\n\t\tinterface.esoterica.add(stimulus.get_delta(context))\n```",
 			"styleAttributes":{},
-			"x":1020,
-			"y":-1200,
-			"width":400,
-			"height":580
+			"x":-900,
+			"y":5400,
+			"width":660,
+			"height":520
 		},
 		{
-			"id":"acf2cacb5c064802",
+			"id":"f197682926fd4493",
 			"type":"text",
-			"text":"```gdscript\nextends Entity\nclass_name AnthuriumAccessory\n\nvar interface: AnthuriumInterface\n\nvar bloom_potential: float = 0.0\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\t# some behavior or effect?\n\t# i could see this either being a one-shot thing, a timer, \n\t# or a unique behavior guided by a state machine\n\t# how do i make this composed so that this function is universal?\n```\n",
+			"text":"i've made AnthuriumInterface an autoload",
 			"styleAttributes":{},
-			"x":1440,
-			"y":-1200,
-			"width":580,
-			"height":580
+			"x":-920,
+			"y":5200,
+			"width":460,
+			"height":120
 		},
 		{
-			"id":"62bf54ba07fb414d",
+			"id":"5912023f23414b9f",
 			"type":"text",
-			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
+			"text":"one component per entity that subscribes to an event bus and maps `event_name -> EsotericaStimulus` via an exported array of resources (data)",
 			"styleAttributes":{},
-			"x":2080,
-			"y":-1260,
-			"width":1140,
-			"height":800
+			"x":-420,
+			"y":5200,
+			"width":440,
+			"height":180
 		},
 		{
-			"id":"98d5427ea89d9325",
+			"id":"c9bfd39457348c2f",
 			"type":"text",
-			"text":"Heart (Entity)\n- HeartbeatEmitterComponent\n- ArteryComponent\n- GrowthComponent\n\nRoot (Entity)\n- ArteryComponent\n- GrowthComponent\n\nFlower/Bulb (Entity)\n- HeartbeatReceptorComponent\n- BloomPotentialComponent\n- BloomThresholdComponent\n\n\n",
+			"text":"emitters will just fire `EventBus.esoterica_stimulus_event.emit(&\"damage_taken\", {\"damage\": dmg})` from a hitbox or whatever",
 			"styleAttributes":{},
-			"x":1500,
-			"y":1000,
-			"width":640,
-			"height":460
+			"x":-100,
+			"y":5620,
+			"width":660,
+			"height":140
 		}
 	],
 	"edges":[
@@ -334,6 +375,24 @@
 			"fromSide":"bottom",
 			"toNode":"580dac188b64400f",
 			"toSide":"top"
+		},
+		{
+			"id":"ef6f5c9ccca4879f",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"ee123050074111a5",
+			"fromSide":"bottom",
+			"toNode":"857a661e2005f517",
+			"toSide":"top"
+		},
+		{
+			"id":"da049ad85a76b9e5",
+			"styleAttributes":{"pathfindingMethod":"square"},
+			"toFloating":false,
+			"fromNode":"12da5cbe05ed9e33",
+			"fromSide":"right",
+			"toNode":"c9bfd39457348c2f",
+			"toSide":"left"
 		}
 	],
 	"metadata":{

@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://c0toapvk5cjm6" path="res://assets/textures/test_anthurium/core1.png" id="2_snfhs"]
 [ext_resource type="Script" uid="uid://dwcsohu6sk2xl" path="res://scripts/components/anthurium/HeartbeatEmitter.gd" id="3_lp827"]
 [ext_resource type="Script" uid="uid://bw5rtupuevcfy" path="res://scripts/components/anthurium/ArteryComponent.gd" id="4_17ekf"]
+[ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="4_vjyem"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="5_fsagw"]
 [ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="5_w7h85"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_tt88j"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="7_ip3k0"]
@@ -20,6 +22,11 @@
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_yhkju"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+
+[sub_resource type="Resource" id="Resource_ip3k0"]
+script = ExtResource("5_fsagw")
+particle_profile = ExtResource("4_vjyem")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
 [sub_resource type="Resource" id="Resource_yhkju"]
 script = ExtResource("10_yhkju")
@@ -55,12 +62,12 @@ shape = SubResource("CircleShape2D_emcra")
 [node name="HeartbeatEmitter" type="Node" parent="." unique_id=830612691 node_paths=PackedStringArray("artery")]
 script = ExtResource("3_lp827")
 artery = NodePath("../ArteryComponent")
+heartbeat_effect = SubResource("Resource_ip3k0")
 metadata/_custom_type_script = "uid://dwcsohu6sk2xl"
 
 [node name="ArteryComponent" type="Node" parent="." unique_id=836333237 node_paths=PackedStringArray("growth_component")]
 script = ExtResource("4_17ekf")
 growth_component = NodePath("../GrowthComponent")
-max_branches = 5
 metadata/_custom_type_script = "uid://bw5rtupuevcfy"
 
 [node name="GrowthComponent" type="Node" parent="." unique_id=217064531]

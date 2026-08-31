@@ -20,7 +20,9 @@ var registry: Dictionary = {}
 var _cache: Dictionary = {}
 
 signal all_entities_registered
-	
+
+const MAX_SPAWN_NUDGE_ATTEMPTS: int = 16
+const SPAWN_NUDGE_DISTANCE: float = 10.0	
 
 # -----------------------------------------------------------------------------------
 # public api
@@ -122,8 +124,20 @@ func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
 		return null
 	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.GROUND)
 	if spawn_pos == Vector2.INF:
-		push_warning("EntityManager: no safe spawn found near %s, using raw pos" % pos)
+		Log.warn("No safe spawn found near %s, using raw pos" % pos)
 		spawn_pos = pos
+	
+	
+	var attempts: int = 0
+	while _is_position_occupied(spawn_pos) and attempts < MAX_SPAWN_NUDGE_ATTEMPTS:
+		var angle: float = randf() * TAU
+		spawn_pos += Vector2.from_angle(angle) * SPAWN_NUDGE_DISTANCE
+		attempts += 1
+		
+	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
+		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
+	
+	
 	entity.global_position = spawn_pos
 	_add(entity)
 	return entity
@@ -139,6 +153,16 @@ func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 	entity.ready.connect(PlayerManager.set_player.bind(entity), CONNECT_ONE_SHOT)
 	
 	return entity
+	
+func _is_position_occupied(pos: Vector2) -> bool:
+	var space_state: PhysicsDirectSpaceState2D = _entity_container.get_world_2d().direct_space_state
+	var query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
+	query.position = pos
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	query.collision_mask |= 8
+	var result: Array[Dictionary] = space_state.intersect_point(query)
+	return not result.is_empty()
 	
 # -----------------------------------------------------------------------------------
 # internal

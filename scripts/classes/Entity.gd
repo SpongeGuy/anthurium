@@ -22,11 +22,14 @@ signal entity_initialized
 ## The filename of the scene this entity was instantiated from, without extension.
 ## Useful for identifying entity types at runtime without hardcoding class names.
 var basename: StringName
+var is_initialized: bool = false
 
 func _ready() -> void:
 	basename = get_basename()
 	_register_components(self)
 	
+	
+	is_initialized = true
 	entity_initialized.emit()
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING

@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 run/max_fps=144
 boot_splash/show_image=false
 
+[audio]
+
+buses/default_bus_layout="uid://c5uthsyh468rh"
+
 [autoload]
 
 Log="*uid://cqm0vj5x7nq6h"
@@ -32,6 +36,7 @@ AudioManager="*uid://uiuetvnukvsw"
 DungeonGenerator="*uid://poanoxh62038"
 UiController="*uid://pmgi17orx2e7"
 GameInterface="*uid://d4myfbotj4m52"
+AnthuriumInterface="*uid://bqqf3kkn3ad37"
 
 [display]
 

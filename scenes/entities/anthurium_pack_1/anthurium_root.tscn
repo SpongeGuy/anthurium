@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://c4uuard48bnax" path="res://scripts/components/anthurium/GrowthComponent.gd" id="4_2h2wr"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/EntityEffectVoice.gd" id="5_0gwno"]
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="5_2h2wr"]
-[ext_resource type="Resource" uid="uid://7h5cwokaxdwi" path="res://assets/resources/voices/chomp.tres" id="6_cgwon"]
+[ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="6_epnne"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/EntityEffectParticle.gd" id="7_b660u"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="8_epnne"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="10_epnne"]
@@ -22,7 +22,7 @@
 
 [sub_resource type="Resource" id="Resource_v1qdt"]
 script = ExtResource("5_0gwno")
-voice = ExtResource("6_cgwon")
+voice = ExtResource("6_epnne")
 metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
 
 [sub_resource type="Resource" id="Resource_2h2wr"]
@@ -34,6 +34,8 @@ metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
 [node name="AnthuriumRoot" type="CharacterBody2D" unique_id=1462106655 node_paths=PackedStringArray("visual")]
 texture_filter = 1
+collision_layer = 256
+collision_mask = 256
 script = ExtResource("1_wavl4")
 visual = NodePath("Sprite2D")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
