@@ -1,12 +1,12 @@
 extends Resource
 class_name Esoterica
 
-var felicity: float
-var furor: float
-var lacuna: float
-var tremendum: float
-var acedia: float
-var anamnesis: float
+@export var felicity: float
+@export var furor: float
+@export var lacuna: float
+@export var tremendum: float
+@export var acedia: float
+@export var anamnesis: float
 
 func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:
 	felicity = fe

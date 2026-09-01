@@ -2,6 +2,7 @@ class_name ResourceScanner
 
 static func scan(paths: Array[String], extension: String, on_file: Callable) -> void:
 	for path in paths:
+		
 		if DirAccess.open(path) != null:
 			_scan_dir(path, extension, on_file)
 			

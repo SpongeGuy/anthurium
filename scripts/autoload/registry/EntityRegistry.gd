@@ -28,7 +28,7 @@ signal all_entities_registered
 
 func get_scene(entity_type: StringName) -> PackedScene:
 	if not registry.has(entity_type):
-		push_error("EntityRegistry: unknown type '%s'" % entity_type)
+		Log.error("Unknown entity type '%s'" % entity_type)
 		return null
 	if not _cache.has(entity_type):
 		_cache[entity_type] = load(registry[entity_type])

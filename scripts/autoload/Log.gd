@@ -39,12 +39,14 @@ func _log(type: LogType, message: String) -> void:
 	var line := "[%s][%s]: %s" % [time_str, script_name, message]
 	
 	match type:
+		LogType.DEBUG:
+			print_rich("[color=aquamarine]%s[/color]" % line)
 		LogType.WARN:
 			push_warning(line)
 			print_rich("[color=yellow]%s[/color]" % line)
 		LogType.ERROR:
 			push_error(line)
-			print_rich("[color=red]%s[/color]" % line)
+			print_rich("[color=tomato]%s[/color]" % line)
 		_:
 			print(line)
 	if log_to_file and _file:

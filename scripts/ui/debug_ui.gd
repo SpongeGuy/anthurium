@@ -58,7 +58,7 @@ func _process(delta: float) -> void:
 	
 func update_anthurium(entity: Entity) -> void:
 	display_coordinates(l2)
-	display_anthurium_esoterica(l3)
+	display_anthurium_esoterica(l3, entity)
 	#display_anthurium_ichor(l3)
 	#display_anthurium_active_parts(l4)
 	
@@ -83,8 +83,13 @@ func display_coordinates(label: Label) -> void:
 		#string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
 	#label.text = str(string)
 	
-func display_anthurium_esoterica(label: Label) -> void:
-	var string = str(AnthuriumInterface.esoterica.get_string())
+func display_anthurium_esoterica(label: Label, entity: Entity) -> void:
+	var string: String = ""
+	string += str(AnthuriumInterface.esoterica.get_string(), "\n")
+	
+	var bloom: BloomPotentialComponent = entity.get_component(BloomPotentialComponent)
+	if bloom:
+		string += str("bloom: %f" % bloom.value)
 	label.text = string
 
 #func display_anthurium_ichor(label: Label) -> void:

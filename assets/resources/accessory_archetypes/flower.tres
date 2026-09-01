@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AccessoryArchetype" format=3 uid="uid://8644wef7otli"]
+
+[ext_resource type="Script" uid="uid://cpu6kwb51ugya" path="res://scripts/resources/anthurium/AccessoryArchetype.gd" id="1_lta83"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="1_uqxus"]
+
+[sub_resource type="Resource" id="Resource_lta83"]
+script = ExtResource("1_uqxus")
+felicity = 20.0
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[resource]
+script = ExtResource("1_lta83")
+entity_id = &"anthurium_flower"
+archetype = SubResource("Resource_lta83")
+metadata/_custom_type_script = "uid://cpu6kwb51ugya"

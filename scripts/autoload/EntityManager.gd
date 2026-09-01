@@ -80,12 +80,16 @@ func register_ysort_entity_container(ysort: Node2D) -> void:
 	Log.info("Registered %s as new entity container." % ysort)
 
 func _instantiate_entity(entity_type: StringName) -> Entity:
+	if entity_type == "":
+		Log.error("Given blank entity_type, aborting entity instantiation.")
+		return null
+		
 	var instance = EntityRegistry.instantiate(entity_type)
 	if not instance:
-		push_error("EntityManager: failed to instantiate '%s'" % entity_type)
+		Log.error("Failed to instantiate '%s'" % entity_type)
 		return null
 	if not instance is Entity:
-		push_error("EntityManager: '%s' is not an Entity" % entity_type)
+		Log.error("EntityManager: '%s' is not an Entity" % entity_type)
 		instance.queue_free()
 		return null
 	return instance
@@ -96,4 +100,4 @@ func _add(e: Entity) -> void:
 	if WorldGrid.is_world_pos_visible(e.global_position):
 		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
 		
-	Log.info("Spawned new %s at %s" % [e, e.global_position])
+	Log.debug("Spawned new %s at %s" % [e, e.global_position])

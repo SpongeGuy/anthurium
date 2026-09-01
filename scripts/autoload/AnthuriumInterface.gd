@@ -1,8 +1,8 @@
 extends Node
 
 var esoterica: Esoterica
-var bloom_events: Array[BloomEvent]
-var accessory_archetypes: Array[AccessoryArchetype]
+#var bloom_events: Array[BloomEvent]
+#var accessory_archetypes: Array[AccessoryArchetype]
 
 var part_counts: Dictionary[StringName, int] = {}
 
@@ -25,7 +25,7 @@ func select_accessory_type() -> StringName:
 	var current: Esoterica = get_current_esoterica()
 	var best_archetype: AccessoryArchetype
 	var best_score: float = -INF
-	for archetype in accessory_archetypes:
+	for archetype in AccessoryArchetypeRegistry.archetypes:
 		if archetype.max_count >= 0 and part_counts.get(archetype.entity_id, 0) >= archetype.max_count:
 			continue
 		var similarity: float = current.cosine_similarity(archetype.archetype)
@@ -38,7 +38,7 @@ func select_bloom_event() -> BloomEvent:
 	var current: Esoterica = get_current_esoterica()
 	var best_event: BloomEvent
 	var best_score: float = -INF
-	for event in bloom_events:
+	for event in BloomEventRegistry.events:
 		var similarity: float = current.cosine_similarity(event.archetype)
 		if similarity > best_score:
 			best_score = similarity

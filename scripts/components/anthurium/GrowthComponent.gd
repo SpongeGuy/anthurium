@@ -63,6 +63,8 @@ func try_grow_accessory(source: Entity, prev: Array[ArteryComponent.ArteryLink])
 	var offset: Vector2 = Vector2.from_angle(angle) * distance
 	var accessory_name: StringName = AnthuriumInterface.select_accessory_type()
 	accessory = EntityManager.spawn(accessory_name, entity.global_position + offset)
+	if not accessory:
+		return null
 	EventBus.part_spawned.emit(&"anthurium_flower")
 	accessory.tree_exited.connect(func():EventBus.part_destroyed.emit(accessory.basename))
 	if grow_effect:

@@ -3,7 +3,7 @@ extends Node
 
 
 const SCAN_PATHS: Array[String] = [
-	"res://resources/accessory_archetypes",
+	"res://assets/resources/accessory_archetypes",
 	"user://mods/accessory_archetypes"
 ]
 

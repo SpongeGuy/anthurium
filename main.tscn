@@ -32,9 +32,9 @@ shader_parameter/wobble_strength = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
 shader = ExtResource("6_4c57u")
-shader_parameter/scale = 1.0
+shader_parameter/scale = 2.1950001010026203
 shader_parameter/speed = 1.0
-shader_parameter/saturation = 1.0
+shader_parameter/saturation = 0.2950000140125
 shader_parameter/value = 1.0
 shader_parameter/use_uv_x = true
 

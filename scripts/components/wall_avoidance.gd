@@ -53,7 +53,6 @@ func _draw() -> void:
 
 # Add to WallAvoidance for debugging
 func _draw_debug(from_position: Vector2) -> void:
-	print(Engine.is_editor_hint())
 	if not Engine.is_editor_hint() and OS.is_debug_build():
 		var space_state = entity.get_world_2d().direct_space_state
 		

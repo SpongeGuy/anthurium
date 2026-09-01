@@ -2,7 +2,7 @@ extends Node
 
 
 const SCAN_PATHS: Array[String] = [
-	"res://resources/bloom_events",
+	"res://assets/resources/bloom_events",
 	"user://mods/bloom_events"
 ]
 
