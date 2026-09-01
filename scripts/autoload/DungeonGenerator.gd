@@ -27,14 +27,14 @@ func generate(sed: int = -1) -> void:
 
 
 func _fill_walls() -> void:
-	var wall: CellType = CellTypeRegister.get_cell_type(&"wall_stone")
+	var wall: CellType = CellTypeRegistry.get_cell_type(&"wall_stone")
 	for y in WorldGrid.height:
 		for x in WorldGrid.width:
 			WorldGrid.get_cell(Vector2i(x, y)).type = wall
 
 func _cellular_automata_pass(iterations: int = 4) -> void:
-	var wall: CellType = CellTypeRegister.get_cell_type(&"wall_stone")
-	var ground: CellType = CellTypeRegister.get_cell_type(&"ground_soil")
+	var wall: CellType = CellTypeRegistry.get_cell_type(&"wall_stone")
+	var ground: CellType = CellTypeRegistry.get_cell_type(&"ground_soil")
 
 	for y in WorldGrid.height:
 		for x in WorldGrid.width:
@@ -63,7 +63,7 @@ func _drunk_walk(
 	mirror_pivot: Vector2i = Vector2i.ZERO,
 ) -> void:
 	if cell_type == null:
-		cell_type = CellTypeRegister.get_cell_type(&"ground_soil")
+		cell_type = CellTypeRegistry.get_cell_type(&"ground_soil")
 	var pos = from
 	var max_steps = (abs(to.x - from.x) + abs(to.y - from.y)) * 5
 	for _i in max_steps:
@@ -127,7 +127,7 @@ func _component_center(component: Array) -> Vector2i:
 	return sum / component.size()
 
 func _cull_and_connect_caves() -> void:
-	var wall: CellType = CellTypeRegister.get_cell_type(&"wall_stone")
+	var wall: CellType = CellTypeRegistry.get_cell_type(&"wall_stone")
 	var components = _find_connected_components()
 	components.sort_custom(func(a, b): return a.size() > b.size())
 

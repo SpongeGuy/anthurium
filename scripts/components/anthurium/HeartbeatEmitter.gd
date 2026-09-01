@@ -6,9 +6,15 @@ class_name HeartbeatEmitter
 @export var max_strength_add: float = 0.5
 @export var artery: ArteryComponent
 @export var heartbeat_effect: EntityEffect
+@export var ichor: IchorComponent
+@export var ichor_cost: float = 5
 
 func heartbeat() -> void:
 	var strength: float = base_strength + randf_range(min_strength_add, max_strength_add)
-	artery.heartbeat(strength)
-	if heartbeat_effect:
-		heartbeat_effect.execute(entity)
+	if ichor.try_spend(ichor_cost):
+		artery.heartbeat(strength)
+		if heartbeat_effect:
+			heartbeat_effect.execute(entity)
+	else:
+		artery.heartbeat(strength/2)
+		

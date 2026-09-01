@@ -10,11 +10,16 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
 viewport_path = NodePath("SubViewportContainer/MainViewport")
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_7mycd"]
+viewport_path = NodePath("SubViewportContainer/MainViewport")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4c57u"]
 resource_local_to_scene = true
 shader = ExtResource("17_yaehf")
 shader_parameter/tex = SubResource("ViewportTexture_kek77")
+shader_parameter/tex_nearest = SubResource("ViewportTexture_7mycd")
 shader_parameter/enabled = false
+shader_parameter/use_nearest_filter = true
 shader_parameter/mask_type = 1
 shader_parameter/curve = 0.1200000057
 shader_parameter/sharpness = 0.6666667

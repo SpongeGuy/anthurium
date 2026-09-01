@@ -28,6 +28,9 @@ signal item_put_into_inventory(item: Entity)
 
 signal behavior_stimulus_event(event_name: GameEvent.Stimulus, context: Dictionary)
 
+signal part_spawned(name: StringName)
+signal part_destroyed(name: StringName)
+
 # worldgrid
 signal cell_hidden(coords: Vector2i)
 signal cell_revealed(coords: Vector2i)

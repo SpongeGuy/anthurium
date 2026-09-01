@@ -5,6 +5,9 @@ class_name GrowthComponent
 @export var chance_to_grow_accessory: float = 0.01
 @export var grow_effect: EntityEffect
 @export var excluded_angle_range_degrees: float = 60.0
+@export var ichor: IchorComponent
+
+@export var root_ichor_cost: float = 5.0
 
 const MAX_ANGLE_ATTEMPTS: int = 12
 
@@ -22,8 +25,12 @@ var flower_textures: Array[Texture2D] = [
 
 
 func try_grow_root(source: Entity, prev: Array[ArteryComponent.ArteryLink]) -> Entity:
+	if not ichor:
+		return null
 	var chance: float = randf()
 	if chance >= chance_to_grow_root:
+		return null
+	if not ichor.try_spend(root_ichor_cost):
 		return null
 	var excluded_angles: Array[float] = _get_excluded_angles(prev)
 	var angle: float = _pick_valid_angle(excluded_angles)
@@ -37,6 +44,8 @@ func try_grow_root(source: Entity, prev: Array[ArteryComponent.ArteryLink]) -> E
 	else:
 		sprite.texture = root_textures[1] if randf() < 0.5 else root_textures[3]
 		
+	EventBus.part_spawned.emit(&"anthurium_root")
+	root.tree_exited.connect(func(): EventBus.part_destroyed.emit(&"anthurium_root"))
 	if grow_effect:
 		grow_effect.execute(entity)
 	return root
@@ -52,7 +61,10 @@ func try_grow_accessory(source: Entity, prev: Array[ArteryComponent.ArteryLink])
 	var angle: float = _pick_valid_angle(excluded_angles)
 	var distance: float = randf_range(4.0, 12.0)
 	var offset: Vector2 = Vector2.from_angle(angle) * distance
-	accessory = EntityManager.spawn(&"anthurium_flower", entity.global_position + offset)
+	var accessory_name: StringName = AnthuriumInterface.select_accessory_type()
+	accessory = EntityManager.spawn(accessory_name, entity.global_position + offset)
+	EventBus.part_spawned.emit(&"anthurium_flower")
+	accessory.tree_exited.connect(func():EventBus.part_destroyed.emit(accessory.basename))
 	if grow_effect:
 		grow_effect.execute(entity)
 	return accessory

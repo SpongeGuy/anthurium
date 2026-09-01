@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="13_c0j0q"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_wivth"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="15_hsm17"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="16_b88gh"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="16_vo4ab"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_3x3g6"]
 
@@ -39,15 +40,17 @@ texture = ExtResource("2_3q6ue")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1593971819]
 shape = SubResource("CircleShape2D_emcra")
 
-[node name="ArteryComponent" type="Node" parent="." unique_id=758577281 node_paths=PackedStringArray("growth_component")]
+[node name="ArteryComponent" type="Node" parent="." unique_id=758577281 node_paths=PackedStringArray("growth_component", "ichor")]
 script = ExtResource("3_sg717")
 growth_component = NodePath("../GrowthComponent")
 max_accessories = 1
+ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://bw5rtupuevcfy"
 
-[node name="GrowthComponent" type="Node" parent="." unique_id=1012728860]
+[node name="GrowthComponent" type="Node" parent="." unique_id=1012728860 node_paths=PackedStringArray("ichor")]
 script = ExtResource("4_2h2wr")
 grow_effect = SubResource("Resource_v1qdt")
+ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://c4uuard48bnax"
 
 [node name="HeartbeatReceptor" type="Node" parent="." unique_id=26942486]
@@ -68,12 +71,13 @@ metadata/_custom_type_script = "uid://mwp6ulr8npgu"
 script = ExtResource("12_o0w1n")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="HealthComponent" type="Node" parent="." unique_id=1262185135 node_paths=PackedStringArray("hitbox", "state_machine")]
+[node name="HealthComponent" type="Node" parent="." unique_id=1262185135 node_paths=PackedStringArray("hitbox", "state_machine", "ichor")]
 script = ExtResource("13_c0j0q")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../Hitbox")
 state_machine = NodePath("../StateMachine")
+ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=8178717 node_paths=PackedStringArray("collision_shape")]
@@ -100,3 +104,10 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 script = ExtResource("17_3x3g6")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="IchorComponent" type="Node" parent="." unique_id=1204837377]
+script = ExtResource("16_b88gh")
+max_ichor = 50.0
+ichor = 10.0
+reduction_per_second = 0.0
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"

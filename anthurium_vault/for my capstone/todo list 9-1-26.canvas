@@ -1,6 +1,6 @@
 {
 	"nodes":[
-		{"id":"9f35dfc1ac5f97d2","type":"group","x":-600,"y":-420,"width":1820,"height":640,"label":"Untitled group"},
+		{"id":"9f35dfc1ac5f97d2","type":"group","x":-600,"y":-420,"width":1820,"height":900,"label":"Untitled group"},
 		{
 			"id":"e3b1c1051b07e5e1",
 			"type":"text",
@@ -40,6 +40,56 @@
 			"y":-360,
 			"width":320,
 			"height":180
+		},
+		{
+			"id":"54af69f0cd6ae0a0",
+			"type":"text",
+			"text":"get z-axis working\nshadows\njumping",
+			"styleAttributes":{},
+			"x":420,
+			"y":-120,
+			"width":260,
+			"height":100
+		},
+		{
+			"id":"7063a00d7c62dd4b",
+			"type":"text",
+			"text":"verify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":410,
+			"y":0,
+			"width":280,
+			"height":100
+		},
+		{
+			"id":"d3106f13bf6163fb",
+			"type":"text",
+			"text":"abilities that spend ichor",
+			"styleAttributes":{},
+			"x":740,
+			"y":-150,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"c1c586db8a7789f4",
+			"type":"text",
+			"text":"ichor motes\nALSO GET THE DAMN INTERACTOR THING WORKING",
+			"styleAttributes":{},
+			"x":740,
+			"y":-80,
+			"width":260,
+			"height":100
+		},
+		{
+			"id":"701228c35defd60d",
+			"type":"text",
+			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!",
+			"styleAttributes":{},
+			"x":-60,
+			"y":120,
+			"width":370,
+			"height":140
 		}
 	],
 	"edges":[],

@@ -36,12 +36,12 @@ func init_grid(w: int, h: int) -> void:
 	# initialize entire grid including padding as out of bounds
 	for i in _grid.size():
 		_grid[i] = CellData.new()
-		_grid[i].type = CellTypeRegister.get_cell_type(&"out_of_bounds")
+		_grid[i].type = CellTypeRegistry.get_cell_type(&"out_of_bounds")
 	
 	# set the inner area as in bounds
 	for y in height:
 		for x in width:
-			_grid[_idx(Vector2i(x, y))].type = CellTypeRegister.get_cell_type(&"ground_soil")
+			_grid[_idx(Vector2i(x, y))].type = CellTypeRegistry.get_cell_type(&"ground_soil")
 	
 	# initialize visited array
 	_visited.resize(_grid.size())
@@ -84,7 +84,7 @@ func set_cell(coords: Vector2i, cell: CellData) -> void:
 		cell_changed.emit(coords, cell)
 		
 func set_cell_type(coords: Vector2i, type_name: StringName) -> void:
-	var cell_type: CellType = CellTypeRegister.get_cell_type(type_name)
+	var cell_type: CellType = CellTypeRegistry.get_cell_type(type_name)
 	if not cell_type:
 		push_warning("WorldGrid: unknown cell type '%s'" % type_name)
 		return

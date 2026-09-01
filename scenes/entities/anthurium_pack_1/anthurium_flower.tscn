@@ -5,8 +5,19 @@
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="3_1evqo"]
 [ext_resource type="Script" uid="uid://cxu85t50kno5x" path="res://scripts/components/anthurium/BloomPotentialComponent.gd" id="4_tiu7f"]
 [ext_resource type="Script" uid="uid://dx4y3y4q3fynx" path="res://scripts/components/anthurium/BloomThresholdComponent.gd" id="5_1evqo"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="6_8e733"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="7_qh5js"]
+[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="8_6pyw3"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="9_31024"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_4bq61"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="11_8vh6r"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="12_31024"]
+[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="13_4bq61"]
+[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_8vh6r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
 
 [node name="AnthuriumFlower" type="CharacterBody2D" unique_id=1762821779 node_paths=PackedStringArray("visual")]
 script = ExtResource("1_e081u")
@@ -33,3 +44,53 @@ metadata/_custom_type_script = "uid://cxu85t50kno5x"
 script = ExtResource("5_1evqo")
 bloom_potential = NodePath("../BloomPotentialComponent")
 metadata/_custom_type_script = "uid://dx4y3y4q3fynx"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=807629504 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("6_8e733")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1313128194]
+shape = SubResource("CircleShape2D_gyaym")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1425757699 node_paths=PackedStringArray("hitbox", "state_machine", "ichor")]
+script = ExtResource("7_qh5js")
+hitbox = NodePath("../Hitbox")
+state_machine = NodePath("../StateMachine")
+ichor = NodePath("../IchorComponent")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="StateMachine" type="Node" parent="." unique_id=1535020531 node_paths=PackedStringArray("initial_state", "death_state")]
+script = ExtResource("8_6pyw3")
+initial_state = NodePath("BlankState")
+death_state = NodePath("DeathState")
+metadata/_custom_type_script = "uid://snopn0q86518"
+
+[node name="BlankState" type="Node" parent="StateMachine" unique_id=441865081]
+script = ExtResource("9_31024")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
+
+[node name="DeathState" type="Node" parent="StateMachine" unique_id=1735300682]
+script = ExtResource("10_4bq61")
+metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
+
+[node name="IchorComponent" type="Node" parent="." unique_id=2970553]
+script = ExtResource("11_8vh6r")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="DamageAnimationComponent" type="Node" parent="." unique_id=1166124801 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+script = ExtResource("12_31024")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Sprite2D")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="VisibilityComponent" type="Node" parent="." unique_id=1037493101 node_paths=PackedStringArray("nodes")]
+script = ExtResource("13_4bq61")
+nodes = [NodePath("../Sprite2D")]
+metadata/_custom_type_script = "uid://cvaptyot73a1d"
+
+[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1875781284 node_paths=PackedStringArray("visibility")]
+script = ExtResource("14_8vh6r")
+visibility = NodePath("../VisibilityComponent")
+metadata/_custom_type_script = "uid://b7fumud38ekr4"

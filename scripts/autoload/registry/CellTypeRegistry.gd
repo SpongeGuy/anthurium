@@ -46,33 +46,11 @@ func get_all_types() -> Array[StringName]:
 # -----------------------------------------------------------
 
 func scan_all() -> void:
-	for path in SCAN_PATHS:
-		if _path_exists(path):
-			_scan_dir(path)
+	registry.clear()
+	ResourceScanner.scan(SCAN_PATHS, ".tres", _register)
 	Log.info("%d cell types registered." % registry.size())
 	all_tiles_registered.emit()
-	
-func _path_exists(path: String) -> bool:
-	return DirAccess.open(path) != null
-	
-func _scan_dir(path: String) -> void:
-	var dir: DirAccess = DirAccess.open(path)
-	if not dir:
-		push_warning("CellTypeRegistry: could not open path '%s'" % path)
-		return
-	dir.list_dir_begin()
-	var entry: String = dir.get_next()
-	
-	while entry != "":
-		var full_path: String = path.path_join(entry)
-		if dir.current_is_dir():
-			# recursive scan
-			_scan_dir(full_path + "/")
-		elif entry.ends_with(".tres"):
-			_register(full_path)
-		entry = dir.get_next()
-	dir.list_dir_end()
-	
+		
 
 func _register(resource_path: String) -> void:
 	var key: StringName = StringName(resource_path.get_file().get_basename())

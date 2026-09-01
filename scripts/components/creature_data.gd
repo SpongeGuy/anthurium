@@ -33,6 +33,13 @@ enum EntityTag{
 # ecology, behavior, physicality, diet, social
 
 
+enum Rarity{
+	COMMON,
+	UNCOMMON,
+	RARE,
+	LEGENDARY,
+}
+
 enum BehaviorClass{
 	## does not attack other creatures or flees when nearby other creatures
 	PASSIVE, 
@@ -63,12 +70,7 @@ enum ConsumerType{
 
 
 
-
+@export var rarity: Rarity
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
 @export var tags: Array[EntityTag] = []
-
-
-
-var spawn_weight: float = 1.0
-var point_cost: int = 0

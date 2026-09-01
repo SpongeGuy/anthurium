@@ -6,13 +6,22 @@ class_name HealthComponent
 @export var hitbox: Hitbox ## not mandatory
 @export var state_machine: StateMachine
 
+
 signal taken_damage(amount: float, source: Entity)
 signal died()
 signal health_changed(value: float, max_value: float)
 
+@export_group("Invincibility")
 @export var invincibility_length: float = 0.05
-var invincibility_timer: float = 0.0
+var _invincibility_timer: float = 0.0
 @export var god_mode: bool = false
+
+@export_group("Ichor Mechanics")
+@export var ichor: IchorComponent
+@export var ichor_starvation: bool = true
+@export var starvation_timer: float = 1.0
+@export var starve_damage: float = 0.5
+var _starvation_timer: float = 0.0
 
 var dying: bool = false
 
@@ -22,24 +31,36 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_process_invincibility(delta)
+	_process_ichor_starving(delta)
 	
 func _process_invincibility(delta: float) -> void:
-	if invincibility_timer >= 0.0:
-		invincibility_timer -= delta
+	if _invincibility_timer >= 0.0:
+		_invincibility_timer -= delta
+
+func _process_ichor_starving(delta: float) -> void:
+	if god_mode:
+		return
+	if ichor.ichor <= 0:
+		_starvation_timer += delta
+	if _starvation_timer >= starvation_timer:
+		health -= starve_damage
+		_starvation_timer = 0.0
+		
+		if health <= 0 and not dying:
+			die()
 
 func take_damage(amount: float, source: Entity) -> void:
 	if god_mode:
 		return
-	if invincibility_timer > 0:
+	if _invincibility_timer > 0:
 		return
-	invincibility_timer = invincibility_length
+	_invincibility_timer = invincibility_length
 	health -= amount
 	taken_damage.emit(amount, source)
 	health_changed.emit(health, max_health)
 		
 	if health <= 0 and not dying:
 		die()
-		return
 		
 func heal(amount: float, source: Entity) -> void:
 	health_changed.emit(health, max_health)

@@ -2,8 +2,9 @@
 	"nodes":[
 		{"id":"ca11d00b8826549a","type":"group","x":-1000,"y":-1760,"width":4440,"height":1440,"label":"draft 1 / rough"},
 		{"id":"580dac188b64400f","type":"group","x":-1240,"y":880,"width":3560,"height":1660,"label":"draft 2 / composition version"},
-		{"id":"857a661e2005f517","type":"group","x":-1000,"y":5080,"width":3920,"height":1240,"label":"Untitled group"},
 		{"id":"ee123050074111a5","type":"group","x":-1320,"y":3600,"width":3280,"height":1160,"label":"draft 3 / tying in esoterica"},
+		{"id":"9980d1e91b1c459f","type":"group","x":5120,"y":-1060,"width":2240,"height":1540,"label":"Untitled group"},
+		{"id":"857a661e2005f517","type":"group","x":-1000,"y":5080,"width":1720,"height":1240,"label":"retry"},
 		{"id":"ad7d6998a76f10c3","type":"group","x":-840,"y":80,"width":1560,"height":580,"label":"notes before draft 2"},
 		{"id":"434c78157917e056","type":"group","x":-460,"y":2760,"width":1180,"height":600,"label":"notes before draft 3"},
 		{
@@ -17,16 +18,6 @@
 			"height":640
 		},
 		{
-			"id":"43081c816931e428",
-			"type":"text",
-			"text":"```gdscript\nextends Node\nclass_name AnthuriumInterface\n\nvar esoterica: Esoterica\n\nfunc select_bloom_event(esoterica: Esoterica) -> BloomEvent:\n\tvar best_event: BloomEvent\n\tvar best_score: float = -INF\n\tfor event in bloom_events:\n\t\tvar similarity: float = esoterica.cosine_similarity(event.archetype)\n\t\tif similarity > best_score:\n\t\t\tbest_score = similarity\n\t\t\tbest_event = event\n\treturn best_event\n\t\nfunc trigger_bloom(source: Entity) -> void:\n\tvar esoterica: Esoterica = get_current_esoterica()\n\tvar event: BloomEvent = select_bloom_event(esoterica)\n\tvar potency: float = esoterica.magnitude()\n\tevent.execute(potency)\n\nfunc grow_new_accessory(source: Entity) -> Entity:\n\t# some algorithm to determine which type of plant part to spawn in\n\tvar accessory: Entity\n\treturn accessory\n\nfunc grow_new_root(source: Entity) -> Entity:\n\t# some algorithm to pick an angle and distance from the source\n\t# pick the right sprite\n\tvar root: Entity\n\treturn root\n\nfunc get_current_esoterica() -> Esoterica:\n\treturn esoterica\n```\n\n",
-			"styleAttributes":{},
-			"x":-120,
-			"y":3795,
-			"width":720,
-			"height":730
-		},
-		{
 			"id":"e361b50edf152d2f",
 			"type":"text",
 			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\nfunc add(other: Esoterica) -> void:\n\tfelicity += other.felicity\n\tfuror += other.furor\n\tlacuna += other.lacuna\n\ttremendum += other.tremendum\n\tacedia += other.acedia\n\tanamnesis += other.anamnesis\n\n```",
@@ -35,6 +26,76 @@
 			"y":3700,
 			"width":1140,
 			"height":980
+		},
+		{
+			"id":"62bf54ba07fb414d",
+			"type":"text",
+			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
+			"styleAttributes":{},
+			"x":2080,
+			"y":-1260,
+			"width":1140,
+			"height":800
+		},
+		{
+			"id":"4f02e881a84316a9",
+			"type":"text",
+			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumHeart\n\nvar interface: AnthuriumInterface\n\nvar next: Array[Entity]\nvar prev: Array[Entity]\n\nvar accessories: Array[Entity]\n\nvar bloom_potential: float = 0.0\n\nvar base_heartbeat_strength: float = 1.0\n\nfunc heartbeat() -> void:\n\tvar strength: float = base_heartbeat_strength + randf_range(0.1, 0.5)\n\tfor part in next:\n\t\tpart.heartbeat(strength)\n\tfor part in accessories:\n\t\tpart.heartbeat(strength)\n\nfunc grow_new_root() -> Entity:\n\t# some algorithm\n\t# calculate which angle the root should be placed at\n\t# distance\n\t# pick correct root sprite\n\t# spawn it in\n\tnext.append(root)\n\treturn root\n\n```",
+			"styleAttributes":{},
+			"x":-160,
+			"y":-1200,
+			"width":580,
+			"height":680
+		},
+		{
+			"id":"f8b55401a3ae33ad",
+			"type":"text",
+			"text":"```gdscript\nextends Node\nclass_name AnthuriumInterface\n\nvar esoterica: Esoterica\n\nfunc select_bloom_event(esoterica: Esoterica) -> BloomEvent:\n\tvar best_event: BloomEvent\n\tvar best_score: float = -INF\n\tfor event in bloom_events:\n\t\tvar similarity: float = esoterica.cosine_similarity(event.archetype)\n\t\tif similarity > best_score:\n\t\t\tbest_score = similarity\n\t\t\tbest_event = event\n\treturn best_event\n\t\nfunc trigger_bloom(source: Entity) -> void:\n\tvar esoterica: Esoterica = get_current_esoterica()\n\tvar event: BloomEvent = select_bloom_event(esoterica)\n\tvar potency: float = esoterica.magnitude()\n\tevent.execute(potency)\n\nfunc grow_new_accessory(source: Entity) -> Entity:\n\t# some algorithm to determine which type of plant part to spawn in\n\tvar accessory: Entity\n\treturn accessory\n\n```\n\n",
+			"styleAttributes":{},
+			"x":-900,
+			"y":-1200,
+			"width":720,
+			"height":580
+		},
+		{
+			"id":"a0a1dc62b099d291",
+			"type":"text",
+			"text":"macro Loop\n1. Anthurium gains ichor\n2. Ichor flows to the core\n3. ichor is spent on blooming\n4. plant hunts for more ichor\n\nmicro loop (every few seconds)\n1. heartbeat activates\n2. bloom potential flows from the core to roots, roots to roots, roots to ends.\n3. when bulb gets more bloom potential, check if threshold is passed\n\tif threshold passed, send signal to core to bloom\n\tbloom event activates, ichor is spent\n\tbloom potential value from all bulbs are cleared\n\ncreate a root\n\tinbound connections\n\toutbound connections\n\taccessories",
+			"styleAttributes":{},
+			"x":-740,
+			"y":-1680,
+			"width":640,
+			"height":440
+		},
+		{
+			"id":"d29a5bda572c9c86",
+			"type":"text",
+			"text":"\n##### Flowering\nThe Anthurium has a small chance to do one of these things every heartbeat.\n\n- Extends a root 2-3 tiles in a direction toward the nearest unclaimed space\n- Spawns a single passive creature near a root end (ex this i think, this will be the responsibility of an accessory)\n- Releases an ichor mote that drifts toward the nearest hungry creature (??????????????????????nah)\n- Reinforces a wall tile near a root (raises hardness) (visually hardwood)",
+			"styleAttributes":{},
+			"x":-60,
+			"y":-1580,
+			"width":520,
+			"height":340
+		},
+		{
+			"id":"7e0e5312c927f225",
+			"type":"text",
+			"text":"how performant are signals? wait i dont need signals\n\nroots are gonna be like a linked list that you can recursively search through.\nmake a recursive function that finds the end of each list.\nthere might be an issue with roots that have multiple connections\n\tall that really needs to be known is which direction each node \"faces\"\n\tif a connection points into the root, then bloom potential flows out of that and ichor flows in\n\tif a connection points out of the root, then bloom potential flows into that and ichor flows out",
+			"styleAttributes":{},
+			"x":520,
+			"y":-1580,
+			"width":640,
+			"height":340
+		},
+		{
+			"id":"43081c816931e428",
+			"type":"text",
+			"text":"```gdscript\nextends Node\nclass_name AnthuriumInterface\n\nvar esoterica: Esoterica\n\nfunc select_bloom_event(esoterica: Esoterica) -> BloomEvent:\n\tvar best_event: BloomEvent\n\tvar best_score: float = -INF\n\tfor event in bloom_events:\n\t\tvar similarity: float = esoterica.cosine_similarity(event.archetype)\n\t\tif similarity > best_score:\n\t\t\tbest_score = similarity\n\t\t\tbest_event = event\n\treturn best_event\n\t\nfunc trigger_bloom(source: Entity) -> void:\n\tvar esoterica: Esoterica = get_current_esoterica()\n\tvar event: BloomEvent = select_bloom_event(esoterica)\n\tvar potency: float = esoterica.magnitude()\n\tevent.execute(potency)\n\nfunc grow_new_accessory(source: Entity) -> Entity:\n\t# some algorithm to determine which type of plant part to spawn in\n\tvar accessory: Entity\n\treturn accessory\n\nfunc grow_new_root(source: Entity) -> Entity:\n\t# some algorithm to pick an angle and distance from the source\n\t# pick the right sprite\n\tvar root: Entity\n\treturn root\n\nfunc get_current_esoterica() -> Esoterica:\n\treturn esoterica\n```\n\n",
+			"styleAttributes":{},
+			"x":-120,
+			"y":3795,
+			"width":720,
+			"height":730
 		},
 		{
 			"id":"51b8d2f43b6a5c73",
@@ -67,6 +128,46 @@
 			"height":160
 		},
 		{
+			"id":"f197682926fd4493",
+			"type":"text",
+			"text":"i've made AnthuriumInterface an autoload",
+			"styleAttributes":{},
+			"x":-920,
+			"y":5200,
+			"width":460,
+			"height":120
+		},
+		{
+			"id":"5912023f23414b9f",
+			"type":"text",
+			"text":"one component per entity that subscribes to an event bus and maps `event_name -> EsotericaStimulus` via an exported array of resources (data)",
+			"styleAttributes":{},
+			"x":-420,
+			"y":5200,
+			"width":440,
+			"height":180
+		},
+		{
+			"id":"c9bfd39457348c2f",
+			"type":"text",
+			"text":"emitters will just fire `EventBus.esoterica_stimulus_event.emit(&\"damage_taken\", {\"damage\": dmg})` from a hitbox or whatever",
+			"styleAttributes":{},
+			"x":-100,
+			"y":5620,
+			"width":660,
+			"height":140
+		},
+		{
+			"id":"12da5cbe05ed9e33",
+			"type":"text",
+			"text":"```gdscript\nextends Resource\nclass_name StimulusMapping\n\n@export var event_name: StringName\n@export var stimulus: EsotericaStimulus\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var mappings: Array[StimulusMapping] = []\n\nvar _lookup: Dictionary = {} # a cache\n\nfunc _ready() -> void:\n\tfor m in mappings:\n\t\t_lookup[m.event_name] = m.stimulus\n\tEventBus.esoterica_stimulus_event.connect(_on_esoterica_stimulus_event)\n\t\nfunc _on_stimulus_event(event_name: StringName, context: Dictionary) -> void:\n\tvar stimulus: EsotericaStimulus = _lookup.get(event_name)\n\tif stimulus:\n\t\tinterface.esoterica.add(stimulus.get_delta(context))\n```",
+			"styleAttributes":{},
+			"x":-920,
+			"y":5430,
+			"width":660,
+			"height":520
+		},
+		{
 			"id":"2b7cc18d430358ff",
 			"type":"text",
 			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
@@ -77,16 +178,6 @@
 			"height":800
 		},
 		{
-			"id":"dba998a59152bb2b",
-			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name HeartbeatEmitterComponent\n\n@export var base_strength: float = 1.0\n@export var max_strength_add: float = 0.5\n@export var min_strength_add: float = 0.1\n@export var artery: ArteryComponent\n\nfunc heartbeat() -> void:\n\tvar strength: float = base_strength + randf_range(min_strength_add, max_strength_add)\n\tartery.heartbeat(strength)\n```",
-			"styleAttributes":{},
-			"x":-680,
-			"y":1720,
-			"width":640,
-			"height":340
-		},
-		{
 			"id":"1c156492a12d3d4d",
 			"type":"text",
 			"text":"```gdscript\nextends Resource\nclass_name BloomEvent\n\n@export var archetype: Esoterica\n\nfunc execute(potency: float) -> void:\n\tpass # override\n```",
@@ -95,16 +186,6 @@
 			"y":1840,
 			"width":360,
 			"height":200
-		},
-		{
-			"id":"6d2515a2428fce38",
-			"type":"text",
-			"text":"\n\n```gdscript\nextends Component\nclass_name GrowthComponent\n\n@export var accessory_growth_chance: float = 0.01\n@export var root_growth_chance: float = 0.1\nvar interface: AnthuriumInterface\n\nfunc try_grow_accessory(source: Entity) -> Entity:\n\tif randf() <= accessory_growth_chance:\n\t\treturn interface.grow_new_accessory(source)\n\n\n\nfunc try_grow_root(source: Entity) -> Entity:\n\tif randf() <= root_growth_chance:\n\t\treturn interface.grow_new_root(source)\n```",
-			"styleAttributes":{},
-			"x":-1180,
-			"y":1620,
-			"width":460,
-			"height":440
 		},
 		{
 			"id":"50c5d1241eac97db",
@@ -135,16 +216,6 @@
 			"y":940,
 			"width":720,
 			"height":680
-		},
-		{
-			"id":"22054b009deecda4",
-			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name ArteryComponent\n\nvar next: Array[Entity] = []\nvar prev: Array[Entity] = []\nvar accessories: Array[Entity] = []\n@export var growth_component: GrowthComponent\n@export var max_accessories: int = 0\n@export var max_branches: int = 1\n\nfunc heartbeat(strength: float) -> void:\n\tfor part in next:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\tfor part in accessories:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\t\n\tif growth_component and next.size() < max_branches:\n\t\tvar new_root: Entity = growth_component.try_grow_root(entity)\n\t\tnext.append(new_root)\n\t\n\tif growth_component and accessories.size() < max_accessories:\n\t\tvar new_accessory: Entity = growth_component.try_grow_acecssory(entity)\n\t\taccessories.append(new_accessory)\n```",
-			"styleAttributes":{},
-			"x":-1180,
-			"y":1000,
-			"width":760,
-			"height":580
 		},
 		{
 			"id":"98d5427ea89d9325",
@@ -187,6 +258,36 @@
 			"height":60
 		},
 		{
+			"id":"dba998a59152bb2b",
+			"type":"text",
+			"text":"```gdscript\nextends Component\nclass_name HeartbeatEmitterComponent\n\n@export var base_strength: float = 1.0\n@export var max_strength_add: float = 0.5\n@export var min_strength_add: float = 0.1\n@export var artery: ArteryComponent\n\nfunc heartbeat() -> void:\n\tvar strength: float = base_strength + randf_range(min_strength_add, max_strength_add)\n\tartery.heartbeat(strength)\n```",
+			"styleAttributes":{},
+			"x":-680,
+			"y":1720,
+			"width":640,
+			"height":340
+		},
+		{
+			"id":"6d2515a2428fce38",
+			"type":"text",
+			"text":"\n\n```gdscript\nextends Component\nclass_name GrowthComponent\n\n@export var accessory_growth_chance: float = 0.01\n@export var root_growth_chance: float = 0.1\nvar interface: AnthuriumInterface\n\nfunc try_grow_accessory(source: Entity) -> Entity:\n\tif randf() <= accessory_growth_chance:\n\t\treturn interface.grow_new_accessory(source)\n\n\n\nfunc try_grow_root(source: Entity) -> Entity:\n\tif randf() <= root_growth_chance:\n\t\treturn interface.grow_new_root(source)\n```",
+			"styleAttributes":{},
+			"x":-1180,
+			"y":1620,
+			"width":460,
+			"height":440
+		},
+		{
+			"id":"22054b009deecda4",
+			"type":"text",
+			"text":"```gdscript\nextends Component\nclass_name ArteryComponent\n\nvar next: Array[Entity] = []\nvar prev: Array[Entity] = []\nvar accessories: Array[Entity] = []\n@export var growth_component: GrowthComponent\n@export var max_accessories: int = 0\n@export var max_branches: int = 1\n\nfunc heartbeat(strength: float) -> void:\n\tfor part in next:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\tfor part in accessories:\n\t\tvar receptor: HeartbeatReceptorComponent = part.get_component(HeartbeatReceptorComponent)\n\t\treceptor.heartbeat(strength)\n\t\n\tif growth_component and next.size() < max_branches:\n\t\tvar new_root: Entity = growth_component.try_grow_root(entity)\n\t\tnext.append(new_root)\n\t\n\tif growth_component and accessories.size() < max_accessories:\n\t\tvar new_accessory: Entity = growth_component.try_grow_acecssory(entity)\n\t\taccessories.append(new_accessory)\n```",
+			"styleAttributes":{},
+			"x":-1180,
+			"y":1000,
+			"width":760,
+			"height":580
+		},
+		{
 			"id":"2a3a409264a527c8",
 			"type":"text",
 			"text":"there is some code here that is reused:\n\n\n| variant         | class                                                              |\n| --------------- | ------------------------------------------------------------------ |\n| interface       | AnthuriumHeart, AnthuriumRoot, AnthuriumFlower, AnthuriumAccessory |\n| heartbeat       | AnthuriumHeart, AnthuriumRoot, AnthuriumFlower, AnthuriumAccessory |\n| bloom_potential | AnthuriumHeart, AnthuriumRoot, AnthuriumFlower, AnthuriumAccessory |\n| next/prev       | AnthuriumHeart, AnthuriumRoot                                      |\n| accessories     | AnthuriumHeart, AnthuriumRoot                                      |\n| grow_new_root   | AnthuriumHeart, AnthuriumRoot                                      |\n| bloom_threshold | AnthuriumFlower                                                    |\nso i can create components based on these shared groups!\nlet's do it.",
@@ -217,36 +318,6 @@
 			"height":780
 		},
 		{
-			"id":"62bf54ba07fb414d",
-			"type":"text",
-			"text":"\n```gdscript\nextends Variant\nclass_name Esoterica\n\nvar felicity: float\nvar furor: float\nvar lacuna: float\nvar tremendum: float\nvar acedia: float\nvar anamnesis: float\n\nfunc _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:\n\tfelicity = fe\n\tfuror = fu\n\tlacuna = la\n\ttremendum = tr\n\tacedia = ac\n\tanamnesis = an\n\nfunc to_array() -> Array[float]:\n\treturn [felicity, furor, lacuna, tremendum, acedia, anamnesis]\n\nfunc magnitude() -> float:\n\treturn sqrt(felicity**2 + furor**2 + lacuna**2 + tremendum**2 + acedia**2 + anamnesis**2)\n\nfunc normalized() -> Esoterica:\n\tvar m: float = magnitude()\n\tif m == 0.0: return Esoterica.new()\n\treturn Esoterica.new(felicity/m, furor/m, lacuna/m, tremendum/m, acedia/m, anamnesis/m)\n\nfunc dot(other: Esoterica) -> float:\n\treturn felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis\n\nfunc cosine_similarity(other: Esoterica) -> float:\n\tvar denom: float = magnitude() * other.magnitude\n\tif denom == 0.0: return 0.0\n\treturn dot(other) / denom\n\n```",
-			"styleAttributes":{},
-			"x":2080,
-			"y":-1260,
-			"width":1140,
-			"height":800
-		},
-		{
-			"id":"4f02e881a84316a9",
-			"type":"text",
-			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumHeart\n\nvar interface: AnthuriumInterface\n\nvar next: Array[Entity]\nvar prev: Array[Entity]\n\nvar accessories: Array[Entity]\n\nvar bloom_potential: float = 0.0\n\nvar base_heartbeat_strength: float = 1.0\n\nfunc heartbeat() -> void:\n\tvar strength: float = base_heartbeat_strength + randf_range(0.1, 0.5)\n\tfor part in next:\n\t\tpart.heartbeat(strength)\n\tfor part in accessories:\n\t\tpart.heartbeat(strength)\n\nfunc grow_new_root() -> Entity:\n\t# some algorithm\n\t# calculate which angle the root should be placed at\n\t# distance\n\t# pick correct root sprite\n\t# spawn it in\n\tnext.append(root)\n\treturn root\n\n```",
-			"styleAttributes":{},
-			"x":-160,
-			"y":-1200,
-			"width":580,
-			"height":680
-		},
-		{
-			"id":"f8b55401a3ae33ad",
-			"type":"text",
-			"text":"```gdscript\nextends Node\nclass_name AnthuriumInterface\n\nvar esoterica: Esoterica\n\nfunc select_bloom_event(esoterica: Esoterica) -> BloomEvent:\n\tvar best_event: BloomEvent\n\tvar best_score: float = -INF\n\tfor event in bloom_events:\n\t\tvar similarity: float = esoterica.cosine_similarity(event.archetype)\n\t\tif similarity > best_score:\n\t\t\tbest_score = similarity\n\t\t\tbest_event = event\n\treturn best_event\n\t\nfunc trigger_bloom(source: Entity) -> void:\n\tvar esoterica: Esoterica = get_current_esoterica()\n\tvar event: BloomEvent = select_bloom_event(esoterica)\n\tvar potency: float = esoterica.magnitude()\n\tevent.execute(potency)\n\nfunc grow_new_accessory(source: Entity) -> Entity:\n\t# some algorithm to determine which type of plant part to spawn in\n\tvar accessory: Entity\n\treturn accessory\n\n```\n\n",
-			"styleAttributes":{},
-			"x":-900,
-			"y":-1200,
-			"width":720,
-			"height":580
-		},
-		{
 			"id":"3fad1105d0bb7059",
 			"type":"text",
 			"text":"\n```gdscript\nextends Entity\nclass_name AnthuriumFlower\n\nvar interface: AnthuriumInterface\n\nvar bloom_potential: float = 0.0\nvar bloom_threshold: float = 100.0\n\n\n\nfunc heartbeat(strength: float) -> void:\n\tbloom_potential += strength\n\t\n\tif bloom_potential >= bloom_threshold:\n\t\tinterface.trigger_bloom(self)\n\t\t\n\t\t\n```",
@@ -267,74 +338,14 @@
 			"height":580
 		},
 		{
-			"id":"a0a1dc62b099d291",
+			"id":"4621ddbb1e6259e8",
 			"type":"text",
-			"text":"macro Loop\n1. Anthurium gains ichor\n2. Ichor flows to the core\n3. ichor is spent on blooming\n4. plant hunts for more ichor\n\nmicro loop (every few seconds)\n1. heartbeat activates\n2. bloom potential flows from the core to roots, roots to roots, roots to ends.\n3. when bulb gets more bloom potential, check if threshold is passed\n\tif threshold passed, send signal to core to bloom\n\tbloom event activates, ichor is spent\n\tbloom potential value from all bulbs are cleared\n\ncreate a root\n\tinbound connections\n\toutbound connections\n\taccessories",
+			"text":"| *Esoterica*                                       | Rises When...                                                                                                                                                                                                     | Falls when...                                             |\n| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |\n| *Felicity*<br>(Things are as they should be)      | - the Anthurium network spreads<br>- creatures are born from blooms<br>- ichor is plentiful in the dungeon                                                                                                        | - creatures are killed                                    |\n| *Furor*<br>(Divine anger triggered by violation)  | - Anthurium parts are damaged or destroyed<br>- when a creature born from the Anthurium is killed<br>- terrain near the Anthurium is destroyed                                                                    | - time elapses                                            |\n| *Lacuna*<br>(The ache of absence)                 | - rooms are empty of creatures<br>- the Anthurium's network has been severed or fragmented<br>- a long time has elapsed without a bloom<br>- items are used or consumed                                           | - entities are created/summoned<br>- terrain is changed   |\n| *Tremendum*<br>(Awe inspired by scale and power)  | - large amounts of damage occur in a short period<br>- when a powerful creature dies<br>- when the network reaches a new size threshold                                                                           | - time elapses                                            |\n| *Acedia*<br>(Hollow spiritual numbness/festering) | - the Anthurium hasn't interacted with or been interacted with a creature for some time<br>- it doesn't have enough room to grow<br>- the anthurium is starved and unable to beat its heart at full effectiveness | - the plant spreads<br>- entities interact with the plant |\n| *Anamnesis*<br>(A spiritual recalling to memory)  | - time elapses<br>- the Anthurium absorbs ichor over the run                                                                                                                                                      | - the plant's parts are destroyed                         |",
 			"styleAttributes":{},
-			"x":-740,
-			"y":-1680,
-			"width":640,
-			"height":440
-		},
-		{
-			"id":"d29a5bda572c9c86",
-			"type":"text",
-			"text":"\n##### Flowering\nThe Anthurium has a small chance to do one of these things every heartbeat.\n\n- Extends a root 2-3 tiles in a direction toward the nearest unclaimed space\n- Spawns a single passive creature near a root end (ex this i think, this will be the responsibility of an accessory)\n- Releases an ichor mote that drifts toward the nearest hungry creature (??????????????????????nah)\n- Reinforces a wall tile near a root (raises hardness) (visually hardwood)",
-			"styleAttributes":{},
-			"x":-60,
-			"y":-1580,
-			"width":520,
-			"height":340
-		},
-		{
-			"id":"7e0e5312c927f225",
-			"type":"text",
-			"text":"how performant are signals? wait i dont need signals\n\nroots are gonna be like a linked list that you can recursively search through.\nmake a recursive function that finds the end of each list.\nthere might be an issue with roots that have multiple connections\n\tall that really needs to be known is which direction each node \"faces\"\n\tif a connection points into the root, then bloom potential flows out of that and ichor flows in\n\tif a connection points out of the root, then bloom potential flows into that and ichor flows out",
-			"styleAttributes":{},
-			"x":520,
-			"y":-1580,
-			"width":640,
-			"height":340
-		},
-		{
-			"id":"f197682926fd4493",
-			"type":"text",
-			"text":"i've made AnthuriumInterface an autoload",
-			"styleAttributes":{},
-			"x":-920,
-			"y":5200,
-			"width":460,
-			"height":120
-		},
-		{
-			"id":"5912023f23414b9f",
-			"type":"text",
-			"text":"one component per entity that subscribes to an event bus and maps `event_name -> EsotericaStimulus` via an exported array of resources (data)",
-			"styleAttributes":{},
-			"x":-420,
-			"y":5200,
-			"width":440,
-			"height":180
-		},
-		{
-			"id":"c9bfd39457348c2f",
-			"type":"text",
-			"text":"emitters will just fire `EventBus.esoterica_stimulus_event.emit(&\"damage_taken\", {\"damage\": dmg})` from a hitbox or whatever",
-			"styleAttributes":{},
-			"x":-100,
-			"y":5620,
-			"width":660,
-			"height":140
-		},
-		{
-			"id":"12da5cbe05ed9e33",
-			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name StimulusMapping\n\n@export var event_name: StringName\n@export var stimulus: EsotericaStimulus\n```\n\n```gdscript\nextends Component\nclass_name EsotericaStimulusComponent\n\n@export var mappings: Array[StimulusMapping] = []\n\nvar _lookup: Dictionary = {} # a cache\n\nfunc _ready() -> void:\n\tfor m in mappings:\n\t\t_lookup[m.event_name] = m.stimulus\n\tEventBus.esoterica_stimulus_event.connect(_on_esoterica_stimulus_event)\n\t\nfunc _on_stimulus_event(event_name: StringName, context: Dictionary) -> void:\n\tvar stimulus: EsotericaStimulus = _lookup.get(event_name)\n\tif stimulus:\n\t\tinterface.esoterica.add(stimulus.get_delta(context))\n```",
-			"styleAttributes":{},
-			"x":-920,
-			"y":5430,
-			"width":660,
-			"height":520
+			"x":5560,
+			"y":-780,
+			"width":1280,
+			"height":540
 		}
 	],
 	"edges":[

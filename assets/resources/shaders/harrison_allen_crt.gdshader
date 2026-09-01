@@ -11,7 +11,9 @@ shader_type canvas_item;
 	Else The scanlines won't properly resolve and you're get moiré patters.
 	*/
 uniform sampler2D tex: filter_linear;
+uniform sampler2D tex_nearest: filter_nearest;
 uniform bool enabled = true;
+uniform bool use_nearest_filter = false;
 
 /**
 	Set the type of mask this CRT will have.
@@ -319,11 +321,19 @@ vec3 mask(vec3 linear_color, vec2 fragcoord)
 	return primary_col;
 }
 
+// for picking the right filtered texture
+vec4 sample_tex(vec2 uv) 
+{
+	if (use_nearest_filter)
+		return texture(tex_nearest, uv);
+	return texture(tex, uv);
+}
+
 void fragment()
 {
 	if (!enabled)
 	{
-		COLOR = texture(tex, UV);
+		COLOR = sample_tex(UV);
 	} else {
 		// Warp UV coordinates
 		vec2 warped_coords = warp(UV, aspect, curve);

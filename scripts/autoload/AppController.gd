@@ -38,8 +38,10 @@ func change_app_state(status: AppStatus) -> void:
 func _ready() -> void:
 	Log.initialize()
 	Log.info("Game starting...")
-	EntityManager.scan_all()
-	CellTypeRegister.scan_all()
+	EntityRegistry.scan_all()
+	CellTypeRegistry.scan_all()
+	AccessoryArchetypeRegistry.scan_all()
+	BloomEventRegistry.scan_all()
 	_retrieve_references()
 	
 	await get_tree().process_frame

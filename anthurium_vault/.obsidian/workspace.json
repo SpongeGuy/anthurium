@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -5799.133675907895,
-                  "y": -3740.789881698148,
-                  "zoom": -0.5
+                  "x": -5793.855427266806,
+                  "y": -3558.117202107368,
+                  "zoom": -0.09999999999999998
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -32,9 +32,9 @@
               "state": {
                 "file": "for my capstone/todo list 9-1-26.canvas",
                 "viewState": {
-                  "x": 128.5,
-                  "y": -162,
-                  "zoom": 0
+                  "x": 212.2833333333333,
+                  "y": 51.34166666666664,
+                  "zoom": -0.25298074116987107
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -59,14 +59,17 @@
             "id": "ea571fb8c695bc9e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "for my capstone/inspiration bible.md",
-                "mode": "source",
-                "source": false
+                "file": "for my capstone/plant anthurium design for the plant.canvas",
+                "viewState": {
+                  "x": 6228.2120841780215,
+                  "y": -518.5279809948748,
+                  "zoom": 0.03655320899778258
+                }
               },
-              "icon": "lucide-file",
-              "title": "inspiration bible"
+              "icon": "lucide-layout-dashboard",
+              "title": "plant anthurium design for the plant"
             }
           }
         ],
@@ -255,12 +258,12 @@
   "lastOpenFiles": [
     "for my capstone/plant anthurium design for the plant.canvas",
     "for my capstone/todo list 9-1-26.canvas",
-    "for my capstone/anthurium.md",
     "for my capstone/inspiration bible.md",
+    "for my capstone/anthurium.md",
+    "Main.canvas",
     "Pasted image 20260830012729.png.import",
     "the.md",
     "Pasted image 20260830012729.png",
-    "Main.canvas",
     "for my capstone/plant anthurium design plan for implementation.md",
     "worldbuilder/Calamas.md",
     "assets/Pasted image 20260620124534.png.import",
