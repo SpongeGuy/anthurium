@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dpx55jwk8tfs0"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_206pk"]
-[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_b4hu2"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_4qg6b"]
 [ext_resource type="Texture2D" uid="uid://bs8tn4cvchfrg" path="res://assets/textures/characters/ecube.png" id="2_wl620"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="3_8herx"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_dqsav"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="4_tevbq"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_jstof"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_1a8e8"]
@@ -26,6 +27,18 @@
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="26_53b1y"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="26_dqsav"]
 
+[sub_resource type="Resource" id="Resource_dqsav"]
+script = ExtResource("2_4qg6b")
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_4qg6b"]
+script = ExtResource("3_dqsav")
+esoterica_profile = SubResource("Resource_dqsav")
+behavior_class = 4
+consumer_type = 4
+tags = Array[int]([11])
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isnys"]
 size = Vector2(14, 14)
 
@@ -44,14 +57,8 @@ texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_206pk")
+archetype = SubResource("Resource_4qg6b")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
-
-[node name="CreatureData" type="Node" parent="." unique_id=710862329]
-script = ExtResource("2_b4hu2")
-behavior_class = 4
-consumer_type = 4
-tags = Array[int]([11, 14])
-metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
 shape = SubResource("RectangleShape2D_isnys")

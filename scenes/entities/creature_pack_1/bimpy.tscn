@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://00ds72cuu2ke"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_5hmfe"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_qvp6n"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="2_xsehq"]
 [ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="3_bld4x"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_ypxgn"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="4_hwojd"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_5vf4p"]
 [ext_resource type="Script" uid="uid://c0arw8ng1qxb0" path="res://scripts/states/piss_ball_guy/stepwander.gd" id="6_pgwxf"]
@@ -46,6 +48,18 @@
 [ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/ability_shard_spawner.gd" id="47_qvp6n"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="47_ypxgn"]
 
+[sub_resource type="Resource" id="Resource_7c0cp"]
+script = ExtResource("2_qvp6n")
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_uh7kq"]
+script = ExtResource("3_ypxgn")
+esoterica_profile = SubResource("Resource_7c0cp")
+behavior_class = 1
+consumer_type = 2
+tags = Array[int]([11])
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0
 
@@ -63,6 +77,7 @@ texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_5hmfe")
+archetype = SubResource("Resource_uh7kq")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]

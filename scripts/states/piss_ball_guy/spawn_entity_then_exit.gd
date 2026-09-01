@@ -1,7 +1,7 @@
 extends BehaviorState
 class_name SpawnEntityThenExitState
 
-@export var spawner: EntitySpawner
+@export var spawner: SpawnTableSpawnerComponent
 @export var time_to_spawn: float = 0.0
 @export var exit_state: BehaviorState
 @export var enter_effect: EntityEffect
@@ -19,7 +19,7 @@ func update(delta: float) -> void:
 	if _timer > 0:
 		_timer -= delta
 	if _timer <= 0:
-		spawner.spawn_at(state_machine.entity.global_position)
+		spawner.spawn_from_table()
 		state_machine.switch(exit_state)
 	
 func physics_update(delta: float) -> void:

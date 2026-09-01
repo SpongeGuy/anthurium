@@ -9,11 +9,12 @@
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_0wmeh"]
 [ext_resource type="Resource" uid="uid://ciolmmgn3qpw7" path="res://assets/resources/voices/portal_warping.tres" id="5_mvuma"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="5_sboo8"]
-[ext_resource type="Script" uid="uid://b0488tn8mef07" path="res://scripts/components/entity_spawner.gd" id="6_5fkbc"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="6_r8iop"]
 [ext_resource type="Resource" uid="uid://brb2w6tq5mp30" path="res://assets/resources/particle_profiles/soulfire_occasional.tres" id="9_f0qsi"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="10_qtuw3"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_f0qsi"]
+[ext_resource type="Script" uid="uid://bk27kx5eq67v5" path="res://scripts/components/SpawnTableSpawnerComponent.gd" id="14_qtuw3"]
+[ext_resource type="Script" uid="uid://d351dt548vu2i" path="res://scripts/resources/SpawnTable.gd" id="15_4eukd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
 
@@ -38,6 +39,16 @@ parallel = true
 effects = Array[ExtResource("6_r8iop")]([SubResource("Resource_4eukd"), SubResource("Resource_mw54q")])
 metadata/_custom_type_script = "uid://qy3at433r6s0"
 
+[sub_resource type="Resource" id="Resource_emcra"]
+script = ExtResource("15_4eukd")
+rarity_weights = Dictionary[int, float]({
+0: 1.0,
+1: 1.0,
+2: 1.0,
+3: 1.0
+})
+metadata/_custom_type_script = "uid://d351dt548vu2i"
+
 [node name="Entity" type="CharacterBody2D" unique_id=1658321148]
 collision_layer = 0
 collision_mask = 0
@@ -55,7 +66,7 @@ metadata/_custom_type_script = "uid://snopn0q86518"
 
 [node name="SpawnEntityThenExitState" type="Node" parent="StateMachine" unique_id=1367540373 node_paths=PackedStringArray("spawner", "exit_state")]
 script = ExtResource("3_figh2")
-spawner = NodePath("../../EntitySpawner")
+spawner = NodePath("../../SpawnTableSpawnerComponent")
 time_to_spawn = 5.0
 exit_state = NodePath("../DeathState")
 enter_effect = SubResource("Resource_nalmt")
@@ -71,11 +82,12 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 script = ExtResource("5_0wmeh")
 metadata/_custom_type_script = "uid://cvaptyot73a1d"
 
-[node name="EntitySpawner" type="Node" parent="." unique_id=1610317912]
-script = ExtResource("6_5fkbc")
-metadata/_custom_type_script = "uid://b0488tn8mef07"
-
 [node name="HideInInvisibleCells" type="Node" parent="." unique_id=274467398 node_paths=PackedStringArray("visibility")]
 script = ExtResource("14_f0qsi")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="SpawnTableSpawnerComponent" type="Node" parent="." unique_id=1295110291]
+script = ExtResource("14_qtuw3")
+spawn_table = SubResource("Resource_emcra")
+metadata/_custom_type_script = "uid://bk27kx5eq67v5"

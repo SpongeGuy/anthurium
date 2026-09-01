@@ -12,6 +12,7 @@ const SPAWN_NUDGE_DISTANCE: float = 10.0
 
 var _entity_container: Node2D
 var pop_effect: ParticleProfile = load("uid://dmgf5tlac12go")
+var poof_sound: VoiceProfile = load("uid://dgiuplfa2wr8m")
 
 
 func spawn(entity_type: StringName, pos: Vector2) -> Entity:
@@ -24,7 +25,7 @@ func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	_add(entity)
 	return entity
 
-func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
+func spawn_safely(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
 	var entity: Entity = _instantiate_entity(entity_type)
 	if not entity:
@@ -44,7 +45,8 @@ func spawn_safely(entity_type: StringName, pos: Vector2) -> Entity:
 	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
 		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
 	
-	
+	if play_sound:
+		AudioManager.play_voice(poof_sound, entity)
 	entity.global_position = spawn_pos
 	_add(entity)
 	return entity

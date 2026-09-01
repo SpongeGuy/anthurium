@@ -3,35 +3,19 @@ class_name CreatureArchetype
 
 
 enum Tag{
-	PLANTLIKE,
-	PACK,
-	LARGE,
-	NOCTURNAL,
-	TERRITORIAL,
-	HOARDER,
-	BURROWER,
-	BUILDER,
-	SUMMONER,
-	CHARMER,
-	HUNTER,
-	WANDERER,
-	SPINY,
-	ARMORED,
-	FRAGILE,
-	EXPLOSIVE,
-	FLAMMABLE,
-	FRUGIVORE,
-	CARNIVORE,
-	OMNIVORE,
-	PHOTOSYNTHETIC,
-	SCAVENGER,
-	FRIENDLY,
-	SOLITARY,
-	FEARFUL,
-	WRATHFUL,
+	PLANTLIKE, PACK, LARGE, NOCTURNAL, TERRITORIAL, HOARDER, BURROWER, BUILDER,
+	SUMMONER, CHARMER, HUNTER, WANDERER, SPINY, ARMORED, FRAGILE, EXPLOSIVE,
+	FLAMMABLE, FRUGIVORE, CARNIVORE, OMNIVORE, PHOTOSYNTHETIC, SCAVENGER,
+	FRIENDLY, SOLITARY, FEARFUL, WRATHFUL,
+	AMBUSH, SPELLCASTER, SHAPESHIFTER, MULTIPLIER, NESTING, TERRAFORMER,
+	RANGED, MIMIC, ILLUSIONIST, TRADEABLE,
 }
 # ecology, behavior, physicality, diet, social
 
+enum Locomotion {
+	GROUND, FLYING, AQUATIC, BURROWING, PHASING,
+	JUMPING, ROLLING, STATIONARY, CARDINAL_ONLY, DIAGONAL_ONLY,
+}
 
 enum Rarity{
 	COMMON,
@@ -73,4 +57,7 @@ enum ConsumerType{
 @export var rarity: Rarity
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
+@export var locomotion: Locomotion = Locomotion.GROUND
 @export var tags: Array[Tag] = []
+## -1 is unlimited
+@export var max_instances: int = -1

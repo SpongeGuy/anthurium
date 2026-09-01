@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_wm0d8"]
 [ext_resource type="Texture2D" uid="uid://b4mlgj8myggag" path="res://assets/textures/characters/ecubegamma.png" id="2_i2iho"]
-[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_q4rny"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_my2sf"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="3_q4rny"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_vincq"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="4_uu043"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="6_3ndlo"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s0dc8"]
@@ -29,6 +30,18 @@
 [ext_resource type="Script" uid="uid://ccwnicoct356p" path="res://scripts/components/ability_shard_spawner.gd" id="30_vincq"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="30_w701q"]
 
+[sub_resource type="Resource" id="Resource_w701q"]
+script = ExtResource("2_my2sf")
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_v5ucd"]
+script = ExtResource("3_vincq")
+esoterica_profile = SubResource("Resource_w701q")
+behavior_class = 4
+consumer_type = 4
+tags = Array[int]([11, 15])
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isnys"]
 size = Vector2(14, 14)
 
@@ -47,14 +60,8 @@ texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_wm0d8")
+archetype = SubResource("Resource_v5ucd")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
-
-[node name="CreatureData" type="Node" parent="." unique_id=1086613880]
-script = ExtResource("2_q4rny")
-behavior_class = 4
-consumer_type = 4
-tags = Array[int]([14, 11])
-metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
 shape = SubResource("RectangleShape2D_isnys")
@@ -98,10 +105,9 @@ sound = NodePath("../../../Bullshit/SoundPlayer")
 animator = NodePath("../../../SpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
-[node name="AbilityDeathState" type="Node" parent="Behavior/StateMachine" unique_id=241602934 node_paths=PackedStringArray("input", "drop_ability_shard")]
+[node name="AbilityDeathState" type="Node" parent="Behavior/StateMachine" unique_id=241602934 node_paths=PackedStringArray("input")]
 script = ExtResource("9_vincq")
 input = NodePath("../../InputComponent")
-drop_ability_shard = NodePath("../../../Bullshit/CreateAbilityShardComponent")
 metadata/_custom_type_script = "uid://mec4gvle4nkh"
 
 [node name="Bullshit" type="Node" parent="." unique_id=972292506]

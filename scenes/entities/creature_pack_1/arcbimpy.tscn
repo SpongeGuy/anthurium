@@ -43,6 +43,9 @@ metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
 [sub_resource type="Resource" id="Resource_xtccx"]
 script = ExtResource("3_1tsi6")
 esoterica_profile = SubResource("Resource_qct2f")
+behavior_class = 1
+consumer_type = 2
+tags = Array[int]([11])
 metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
@@ -59,85 +62,6 @@ radius = 6.0827627
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_g233v"]
 radius = 15.033297
-
-[sub_resource type="GDScript" id="GDScript_ryjnm"]
-script/source = "extends Component
-class_name EntityTagComponent
-
-
-enum EntityTag{
-	PLANTLIKE,
-	PACK,
-	LARGE,
-	NOCTURNAL,
-	TERRITORIAL,
-	HOARDER,
-	BURROWER,
-	BUILDER,
-	SUMMONER,
-	CHARMER,
-	HUNTER,
-	WANDERER,
-	SPINY,
-	ARMORED,
-	FRAGILE,
-	EXPLOSIVE,
-	FLAMMABLE,
-	FRUGIVORE,
-	CARNIVORE,
-	OMNIVORE,
-	PHOTOSYNTHETIC,
-	SCAVENGER,
-	FRIENDLY,
-	SOLITARY,
-	FEARFUL,
-	WRATHFUL,
-}
-# ecology, behavior, physicality, diet, social
-
-
-enum Rarity{
-	COMMON,
-	UNCOMMON,
-	RARE,
-	LEGENDARY,
-}
-
-enum BehaviorClass{
-	## does not attack other creatures or flees when nearby other creatures
-	PASSIVE, 
-	## only retaliates if provoked
-	REACTIVE, 
-	## actively hunts other creatures
-	PREDATORY, 
-	## violent towards other creatures
-	FERAL, 
-	## does not care about other creatures
-	ALOOF
-	}
-
-
-
-enum ConsumerType{
-	## hunger is lessened passively over time given a condition
-	AMBIENT, 
-	## hunger is lessened when nearby a specific entity
-	PROXIMITY, 
-	## hunger is lessened by consuming entities
-	CONSUMER, 
-	## hunger is lessened through unconventional means
-	ESOTERIC, 
-	## does not have hunger
-	EXEMPT
-	}
-
-
-
-@export var rarity: Rarity
-@export var behavior_class: BehaviorClass
-@export var consumer_type: ConsumerType
-@export var tags: Array[EntityTag] = []
-"
 
 [node name="Arcbimpy" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
@@ -349,13 +273,6 @@ active_end = 0.1
 sprite = NodePath("../../Rotator/Sprite2D")
 locomotion = NodePath("../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
-
-[node name="CreatureData" type="Node" parent="." unique_id=1535423128]
-script = SubResource("GDScript_ryjnm")
-behavior_class = 1
-consumer_type = 4
-tags = Array[int]([11])
-metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="Movement" type="Node" parent="." unique_id=779340566]
 

@@ -5,8 +5,8 @@ class_name Entity
 @export var visual: CanvasItem
 @export var archetype: CreatureArchetype
 
-@export_flags("Fleeing", "Alert", "Aggressive", "Displaying", "Wounded", "Hunting", "Happy") var visible_state: int = 0
-enum Flag {
+var visible_state_flag: int = 0
+enum VisibleStateFlag {
 	FLEEING = 1 << 0,
 	ALERT = 1 << 1,
 	AGGRESSIVE = 1 << 2,

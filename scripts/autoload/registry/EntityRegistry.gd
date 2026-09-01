@@ -18,6 +18,14 @@ var registry: Dictionary = {}
 # StringName -> PackedScene (populated on first spawn, cleared on reset)
 var _cache: Dictionary = {}
 
+var _archetypes: Dictionary[StringName, CreatureArchetype] = {}
+
+var _index_by_rarity: Dictionary[CreatureArchetype.Rarity, Array] = {}
+var _index_by_tag: Dictionary[CreatureArchetype.Tag, Array] = {}
+var _index_by_behavior: Dictionary[CreatureArchetype.BehaviorClass, Array] = {}
+var _index_by_consumer: Dictionary[CreatureArchetype.ConsumerType, Array] = {}
+var _index_by_locomotion: Dictionary[CreatureArchetype.Locomotion, Array] = {}
+
 signal all_entities_registered
 
 
@@ -46,17 +54,25 @@ func get_all_types() -> Array[StringName]:
 	for key in registry:
 		types.append(key)
 	return types
+	
+func scan_all() -> void:
+	registry.clear()
+	_archetypes.clear()
+	_index_by_rarity.clear()
+	_index_by_tag.clear()
+	_index_by_behavior.clear()
+	_index_by_consumer.clear()
+	_index_by_locomotion.clear()
+	ResourceScanner.scan(SCAN_PATHS, ".tscn", _register)
+	all_entities_registered.emit()
+	Log.info("%d entities registered." % registry.size())
 
 
 # -----------------------------------------------------------------------------------
 # scanning
 # -----------------------------------------------------------------------------------
 
-func scan_all() -> void:
-	registry.clear()
-	ResourceScanner.scan(SCAN_PATHS, ".tscn", _register)
-	all_entities_registered.emit()
-	Log.info("%d entities registered." % registry.size())
+
 	
 
 func _register(scene_path: String) -> void:
@@ -69,3 +85,21 @@ func _register(scene_path: String) -> void:
 		Log.warn("Duplicate key '%s'!\nKeeping: %s\nSkipping: %s" % [key, registry[key], scene_path])
 		return
 	registry[key] = scene_path
+	_index_archetype(key, scene_path)
+
+func _index_archetype(key: StringName, scene_path: String) -> void:
+	var scene: PackedScene = load(scene_path)
+	_cache[key] = scene
+	var instance: Entity = scene.instantiate()
+	if instance.archetype:
+		_archetypes[key] = instance.archetype
+		_index_by_rarity.get_or_add(instance.archetype.rarity, []).append(key)
+		for tag in instance.archetype.tags:
+			_index_by_tag.get_or_add(tag, []).append(key)
+		_index_by_behavior.get_or_add(instance.archetype.behavior_class, []).append(key)
+		_index_by_consumer.get_or_add(instance.archetype.consumer_type, []).append(key)
+		_index_by_locomotion.get_or_add(instance.archetype.locomotion, []).append(key)
+	instance.free()
+	
+func get_archetype(entity_type: StringName) -> CreatureArchetype:
+	return _archetypes.get(entity_type)

@@ -21,8 +21,9 @@ func start_new_game_instance() -> void:
 	WorldGrid.init_grid(64, 64)
 	DungeonGenerator.generate(1143)
 	_initialize_player(Vector2i(16, 16))
-	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300))
-	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300))
+	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
+	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
+	EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
 	#_initialize_debug_spawns()
 	#_make_test_land()
 	#1143
