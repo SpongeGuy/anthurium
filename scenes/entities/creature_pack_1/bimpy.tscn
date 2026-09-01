@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://00ds72cuu2ke"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_5hmfe"]
-[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="2_hwojd"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="2_xsehq"]
 [ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="3_bld4x"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="4_hwojd"]
@@ -68,13 +67,6 @@ metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
 shape = SubResource("CircleShape2D_8wo8b")
-
-[node name="CreatureData" type="Node" parent="." unique_id=920850024]
-script = ExtResource("2_hwojd")
-behavior_class = 1
-consumer_type = 4
-tags = Array[int]([11])
-metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="Behavior" type="Node" parent="." unique_id=62069105]
 

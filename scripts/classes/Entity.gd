@@ -3,6 +3,18 @@ class_name Entity
 
 @export var display_name: String
 @export var visual: CanvasItem
+@export var archetype: CreatureArchetype
+
+@export_flags("Fleeing", "Alert", "Aggressive", "Displaying", "Wounded", "Hunting", "Happy") var visible_state: int = 0
+enum Flag {
+	FLEEING = 1 << 0,
+	ALERT = 1 << 1,
+	AGGRESSIVE = 1 << 2,
+	DISPLAYING = 1 << 3,
+	WOUNDED = 1 << 4,
+	HUNTING = 1 << 5,
+	HAPPY = 1 << 6
+}
 
 ## The base class for all actors in the game world.
 ##

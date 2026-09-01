@@ -1,8 +1,8 @@
-extends Component
-class_name EntityTagComponent
+extends Resource
+class_name CreatureArchetype
 
 
-enum EntityTag{
+enum Tag{
 	PLANTLIKE,
 	PACK,
 	LARGE,
@@ -69,8 +69,8 @@ enum ConsumerType{
 	}
 
 
-
+@export var esoterica_profile: Esoterica
 @export var rarity: Rarity
 @export var behavior_class: BehaviorClass
 @export var consumer_type: ConsumerType
-@export var tags: Array[EntityTag] = []
+@export var tags: Array[Tag] = []

@@ -1,17 +1,20 @@
 extends EntityEffect
 class_name EntityEffectSpawnEntity
 
+var poof_sound: VoiceProfile = preload("uid://dgiuplfa2wr8m")
 @export var entity_name: StringName
 @export var overrides: Array[ComponentPropertyOverride] = []
 
 func _execute(entity: Entity) -> void:
 	var spawned: Entity = EntityManager.spawn(entity_name, entity.global_position)
+	AudioManager.play_voice(poof_sound, entity)
 	if not spawned:
 		push_error("EntityEffectSpawnEntity: Could not spawn entity '%s', does not exist?" % spawned)
 		return
 	
 	if overrides.is_empty():
 		return
+	
 	
 	# only apply overrides after the entity's ready function is called
 	spawned.ready.connect(_apply_overrides.bind(spawned), CONNECT_ONE_SHOT)

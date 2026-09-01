@@ -9,6 +9,7 @@ var input: InputComponent
 var facing: FacingComponent
 
 signal player_set(entity: Entity)
+signal player_died(entity: Entity)
 
 func _process(delta: float) -> void:
 	if input and player:
@@ -27,6 +28,10 @@ func set_player(entity: Entity) -> void:
 	input.player_controlled = true
 	facing = player.get_component(FacingComponent)
 	player_set.emit(player)
+	
+	var health: HealthComponent = player.get_component(HealthComponent)
+	if health:
+		health.died.connect(_on_player_death)
 	
 func control_player(_delta: float) -> void:
 	for id in range(input.actions.size()):
@@ -50,3 +55,6 @@ func control_player(_delta: float) -> void:
 	if facing:
 		facing.change_direction(input.move_input_direction)
 	
+func _on_player_death() -> void:
+	Log.debug("Player %s died." % player)
+	player_died.emit(player)

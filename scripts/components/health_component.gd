@@ -31,7 +31,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_process_invincibility(delta)
-	_process_ichor_starving(delta)
+	if ichor:
+		_process_ichor_starving(delta)
 	
 func _process_invincibility(delta: float) -> void:
 	if _invincibility_timer >= 0.0:

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_10d17"]
 [ext_resource type="Texture2D" uid="uid://rugd7tkb8nmw" path="res://assets/textures/characters/dungeoncube.png" id="2_l4urd"]
-[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="3_bwafe"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="4_et83q"]
 [ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_iy5yv"]
 [ext_resource type="Script" uid="uid://fht6b026k2py" path="res://scripts/states/piss_ball_guy/align_to_grid.gd" id="6_152hd"]
@@ -46,13 +45,6 @@ shape = SubResource("RectangleShape2D_6put7")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1434763471]
 texture = ExtResource("2_l4urd")
-
-[node name="CreatureData" type="Node" parent="." unique_id=1212302661]
-script = ExtResource("3_bwafe")
-behavior_class = 4
-consumer_type = 4
-tags = Array[int]([13, 11, 23])
-metadata/_custom_type_script = "uid://6g5weury2p"
 
 [node name="StateMachine" type="Node" parent="." unique_id=1010918204 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("4_et83q")
@@ -133,6 +125,7 @@ max_health = 50.0
 health = 50.0
 hitbox = NodePath("../../Hitbox")
 state_machine = NodePath("../../StateMachine")
+ichor_starvation = false
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="ManualStateSwitcher" type="Node" parent="Healthstuff" unique_id=492656543 node_paths=PackedStringArray("state_machine", "state")]

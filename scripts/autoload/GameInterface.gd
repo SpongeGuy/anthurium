@@ -22,6 +22,7 @@ func start_new_game_instance() -> void:
 	DungeonGenerator.generate(1143)
 	_initialize_player(Vector2i(16, 16))
 	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300))
+	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300))
 	#_initialize_debug_spawns()
 	#_make_test_land()
 	#1143

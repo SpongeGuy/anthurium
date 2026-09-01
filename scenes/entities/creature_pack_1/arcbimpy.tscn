@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cd1n0ysokfk7d"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_m0j8b"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_qct2f"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="2_rjj46"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_1tsi6"]
 [ext_resource type="Script" uid="uid://bxsrgbr0uwisl" path="res://scripts/components/movement/step_locomotion_handler.gd" id="3_gn113"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="4_dupcx"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="5_a70ne"]
@@ -30,10 +32,18 @@
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_dd80p"]
 [ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="30_5h3r2"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_y1fiq"]
-[ext_resource type="Script" uid="uid://6g5weury2p" path="res://scripts/components/creature_data.gd" id="33_rjj46"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="36_ryjnm"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="37_ys8ef"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="38_ys8ef"]
+
+[sub_resource type="Resource" id="Resource_qct2f"]
+script = ExtResource("2_qct2f")
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_xtccx"]
+script = ExtResource("3_1tsi6")
+esoterica_profile = SubResource("Resource_qct2f")
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
 radius = 6.0
@@ -50,11 +60,91 @@ radius = 6.0827627
 [sub_resource type="CircleShape2D" id="CircleShape2D_g233v"]
 radius = 15.033297
 
+[sub_resource type="GDScript" id="GDScript_ryjnm"]
+script/source = "extends Component
+class_name EntityTagComponent
+
+
+enum EntityTag{
+	PLANTLIKE,
+	PACK,
+	LARGE,
+	NOCTURNAL,
+	TERRITORIAL,
+	HOARDER,
+	BURROWER,
+	BUILDER,
+	SUMMONER,
+	CHARMER,
+	HUNTER,
+	WANDERER,
+	SPINY,
+	ARMORED,
+	FRAGILE,
+	EXPLOSIVE,
+	FLAMMABLE,
+	FRUGIVORE,
+	CARNIVORE,
+	OMNIVORE,
+	PHOTOSYNTHETIC,
+	SCAVENGER,
+	FRIENDLY,
+	SOLITARY,
+	FEARFUL,
+	WRATHFUL,
+}
+# ecology, behavior, physicality, diet, social
+
+
+enum Rarity{
+	COMMON,
+	UNCOMMON,
+	RARE,
+	LEGENDARY,
+}
+
+enum BehaviorClass{
+	## does not attack other creatures or flees when nearby other creatures
+	PASSIVE, 
+	## only retaliates if provoked
+	REACTIVE, 
+	## actively hunts other creatures
+	PREDATORY, 
+	## violent towards other creatures
+	FERAL, 
+	## does not care about other creatures
+	ALOOF
+	}
+
+
+
+enum ConsumerType{
+	## hunger is lessened passively over time given a condition
+	AMBIENT, 
+	## hunger is lessened when nearby a specific entity
+	PROXIMITY, 
+	## hunger is lessened by consuming entities
+	CONSUMER, 
+	## hunger is lessened through unconventional means
+	ESOTERIC, 
+	## does not have hunger
+	EXEMPT
+	}
+
+
+
+@export var rarity: Rarity
+@export var behavior_class: BehaviorClass
+@export var consumer_type: ConsumerType
+@export var tags: Array[EntityTag] = []
+"
+
 [node name="Arcbimpy" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_m0j8b")
+archetype = SubResource("Resource_xtccx")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
@@ -76,9 +166,8 @@ initial_state = NodePath("WandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("proximity", "facing", "input", "locomotion", "obstruction", "exit_state")]
+[node name="WandererState" type="Node" parent="Behavior/StateMachine" unique_id=1096186534 node_paths=PackedStringArray("facing", "input", "locomotion", "obstruction", "exit_state")]
 script = ExtResource("6_jf7qm")
-proximity = NodePath("../../../Bullshit/ProximityDetectorDot")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/StepLocomotionHandler")
@@ -262,7 +351,7 @@ locomotion = NodePath("../../Movement/StepLocomotionHandler")
 metadata/_custom_type_script = "uid://dmj5t57v7kvmh"
 
 [node name="CreatureData" type="Node" parent="." unique_id=1535423128]
-script = ExtResource("33_rjj46")
+script = SubResource("GDScript_ryjnm")
 behavior_class = 1
 consumer_type = 4
 tags = Array[int]([11])
