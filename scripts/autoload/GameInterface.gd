@@ -14,21 +14,26 @@ var aura_score: int = 0
 var anthurium_cores: Array[Entity]
 var world: Node2D
 
+var game_instance_active: bool = false
 
 
-func start_new_game_instance() -> void:
-	EventBus.starting_new_game.emit()
-	WorldGrid.init_grid(64, 64)
-	DungeonGenerator.generate(1143)
+
+func start_new_game_instance_with_player() -> void:
+	start_new_game_instance()
 	_initialize_player(Vector2i(16, 16))
-	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
-	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
-	EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
-	#_initialize_debug_spawns()
+	
 	#_make_test_land()
 	#1143
 
-
+func start_new_game_instance() -> void:
+	EventBus.starting_new_game.emit()
+	game_instance_active = true
+	WorldGrid.init_grid(64, 64)
+	DungeonGenerator.generate()
+	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
+	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
+	EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
+	_initialize_debug_spawns()
 
 # --------------------------------------
 # internal initialization procedure
@@ -42,8 +47,7 @@ func _initialize_player(tile_pos: Vector2i) -> void:
 	CameraController.go_instantly_to(entity.global_position)
 	
 	await get_tree().process_frame
-	WorldGrid.hide_map()
-	WorldGrid.reveal_from_camera()
+	
 	
 func _make_test_land() -> void:
 	var cell: CellData = CellData.new()

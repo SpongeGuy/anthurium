@@ -4,7 +4,7 @@ extends Node
 
 
 enum GameStatus { PLAYING, PAUSED }
-enum AppStatus { MENU, GAME }
+enum AppStatus { MENU, GAME, GAMEOVER }
 var game_state: GameStatus
 var app_state: AppStatus
 
@@ -23,49 +23,29 @@ var time: float = 0
 
 signal game_state_changed(status: GameStatus)
 
-func change_game_state(status: GameStatus) -> void:
-	game_state = status
-	game_state_changed.emit(game_state)
-	
-func change_app_state(status: AppStatus) -> void:
-	match status:
-		AppStatus.MENU:
-			pass
-		AppStatus.GAME:
-			_initialize_game()
+
 	
 
 func _ready() -> void:
 	Log.initialize()
-	Log.info("Game starting...")
+	_boot()
+
+
+func _boot() -> void:
+	Log.info("Booting...")
+	Log.info("Welcome to Dreamland!")
 	EntityRegistry.scan_all()
 	CellTypeRegistry.scan_all()
 	AccessoryArchetypeRegistry.scan_all()
 	BloomEventRegistry.scan_all()
 	_retrieve_references()
+	UiController.retrieve_references(main_viewport)
 	
 	await get_tree().process_frame
 	
-	
-	change_app_state(AppStatus.GAME)
 	change_game_state(GameStatus.PLAYING)
-
-
-
-
-
-
-func _initialize_game() -> void:
-	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
-	camera_2d = Camera2D.new()
-	world_2d.add_child(camera_2d)
-	CameraController.register_camera(camera_2d)
-	UiController.retrieve_references(main_viewport)
-	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
-	GameInterface.start_new_game_instance()
+	change_app_state(AppStatus.GAME)
 	
-	
-
 
 func _retrieve_references() -> void:
 	var root: Node = get_tree().root
@@ -77,14 +57,64 @@ func _retrieve_references() -> void:
 		Log.error("An issue occurred finding containers.")
 		
 	main_viewport = root.find_child("MainViewport", true, false)
-	
 
+func _initialize_systems() -> void:
+	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
+	camera_2d = Camera2D.new()
+	world_2d.add_child(camera_2d)
+	CameraController.register_camera(camera_2d)
+	
+	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
+	
+	
+func change_game_state(status: GameStatus) -> void:
+	game_state = status
+	match status:
+		GameStatus.PAUSED:
+			_wait_for_ui()
+			UiController.hud.set_state(UIHUD.State.ACTIVE)
+		GameStatus.PLAYING:
+			_wait_for_ui()
+			UiController.hud.set_state(UIHUD.State.BAR)
+	game_state_changed.emit(game_state)
+	
+func change_app_state(status: AppStatus) -> void:
+	match status:
+		AppStatus.MENU:
+			_initialize_systems()
+			if not GameInterface.game_instance_active:
+				GameInterface.start_new_game_instance()
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
+			await _wait_for_ui()
+			UiController.hud.set_state(UIHUD.State.INACTIVE)
+		AppStatus.GAME:
+			_initialize_systems()
+			GameInterface.start_new_game_instance_with_player()
+			_link_player_death()
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
+			await _wait_for_ui()
+			UiController.hud.set_state(UIHUD.State.BAR)
+		AppStatus.GAMEOVER:
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
+			UiController.hud.set_state(UIHUD.State.INACTIVE)
+
+func _link_player_death() -> void:
+	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
+
+func _on_player_death(_e: Entity) -> void:
+	change_app_state(AppStatus.GAMEOVER)
+	
+func _wait_for_ui() -> void:
+	if not UiController.is_ready:
+		await UiController.ui_ready
 
 func toggle_pause() -> void:
 	if game_state == GameStatus.PLAYING:
 		change_game_state(GameStatus.PAUSED)
+		
 	elif game_state == GameStatus.PAUSED:
 		change_game_state(GameStatus.PLAYING)
+		
 
 
 func change_scene_and_wait(container: Node, scene: PackedScene) -> Node:
@@ -106,17 +136,13 @@ func load_game() -> void:
 	
 
 
-func game_process(delta: float) -> void:
-	PlayerManager.control_player(delta)
-
-
 func _process(delta: float) -> void:
 	time += delta
 	if Input.is_action_just_pressed("start"):
 		toggle_pause()
 		
 	if Input.is_key_pressed(KEY_E):
-		get_tree().reload_current_scene()
+		change_app_state(AppStatus.GAME)
 
 
 func initialize_main_menu() -> void:

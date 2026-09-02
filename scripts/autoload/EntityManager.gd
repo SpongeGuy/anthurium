@@ -14,6 +14,8 @@ var _entity_container: Node2D
 var pop_effect: ParticleProfile = load("uid://dmgf5tlac12go")
 var poof_sound: VoiceProfile = load("uid://dgiuplfa2wr8m")
 
+var active_entities: Array[Entity] = []
+
 
 func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
@@ -24,6 +26,29 @@ func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	entity.global_position = pos + random_offset
 	_add(entity)
 	return entity
+	
+func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
+	var portal: Entity = _instantiate_entity(&"portal")
+	var spawner: SpawnTableSpawnerComponent = portal.get_component(SpawnTableSpawnerComponent)
+	spawner.spawn_table = spawn_table.duplicate()
+	
+	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.GROUND)
+	if spawn_pos == Vector2.INF:
+		Log.warn("No safe spawn found near %s, using raw pos" % pos)
+		spawn_pos = pos
+	
+	var attempts: int = 0
+	while _is_position_occupied(spawn_pos) and attempts < MAX_SPAWN_NUDGE_ATTEMPTS:
+		var angle: float = randf() * TAU
+		spawn_pos += Vector2.from_angle(angle) * SPAWN_NUDGE_DISTANCE
+		attempts += 1
+		
+	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
+		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
+	
+	portal.global_position = spawn_pos
+	_add(portal)
+	return portal
 
 func spawn_safely(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
@@ -97,9 +122,15 @@ func _instantiate_entity(entity_type: StringName) -> Entity:
 	return instance
 
 func _add(e: Entity) -> void:
+	active_entities.append(e)
+	e.tree_exiting.connect(_on_tree_exiting.bind(e), CONNECT_ONE_SHOT)
 	_entity_container.add_child.call_deferred(e)
 	EventBus.entity_spawned.emit.call_deferred(e)
 	if WorldGrid.is_world_pos_visible(e.global_position):
 		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
 		
 	Log.debug("Spawned new %s at %s" % [e, e.global_position])
+
+func _on_tree_exiting(e: Entity) -> void:
+	active_entities.erase(e)
+	EventBus.entity_destroyed.emit()

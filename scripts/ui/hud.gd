@@ -35,58 +35,74 @@ var _target_aura: float = 0.0
 
 const _SCORE_DIGITS := 8
 
-var hud_position: Vector2 = Vector2(0, 332)
-var menu_position: Vector2 = Vector2(0, 0)
+const HUD_SIZE: Vector2 = Vector2(640, 200)
+
+const STATE_POSITIONS: Dictionary[State, Vector2] = {
+	State.BAR: Vector2(0.0, 336.0),
+	State.INACTIVE: Vector2(0.0, 360.0),
+	State.ACTIVE: Vector2(0.0, 160.0),
+}
+
+enum State { BAR, INACTIVE, ACTIVE }
+var current_state: State
+
+var _tween: Tween
 
 var _screen_size: Vector2
-var _tween: Tween
 
 var _voice_inv_open: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_open.tres")
 var _voice_inv_close: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_close.tres")
 
-enum State{BAR, MENU}
-var current_state: State = State.BAR
+
 
 
 
 func _ready() -> void:
-	_screen_size = get_viewport().get_visible_rect().size
 	ability_icons = [ability_1_icon, ability_2_icon, ability_3_icon, ability_4_icon]
 
-	ability_icons = [
-		ability_1_icon,
-		ability_2_icon,
-		ability_3_icon,
-		ability_4_icon,
-	]
 
 
 
+# ----------------------------
+# tweening menu position
+# --------------------------------
 
-func toggle_hud_state() -> State:
-	if current_state == State.BAR:
-		current_state = State.MENU
-		_tween_to(_get_menu_position())
-	else:
-		current_state = State.BAR
-		_tween_to(_get_hud_position())
-	return current_state
-	
-func go_to_bar_state() -> void:
-	if current_state == State.BAR:
+
+
+func set_state(new_state: State) -> void:
+	if current_state == new_state:
 		return
-	current_state = State.BAR
-	_tween_to(_get_hud_position())
-	AudioManager.play_voice(_voice_inv_close, null, true, false)
-	toss_zone_slot.visible = false
-	
-func go_to_menu_state() -> void:
-	if current_state == State.MENU:
-		return
-	current_state = State.MENU
-	_tween_to(_get_menu_position())
-	AudioManager.play_voice(_voice_inv_open, null, true, false)
-	toss_zone_slot.visible = true
+	current_state = new_state
+	_tween_to(STATE_POSITIONS[new_state])
+	Log.debug("pos after tween start: %s" % position)
+
+	match new_state:
+		State.ACTIVE:
+			AudioManager.play_voice(_voice_inv_open, null, true, false)
+			toss_zone_slot.visible = true
+		State.BAR, State.INACTIVE:
+			AudioManager.play_voice(_voice_inv_close, null, true, false)
+			toss_zone_slot.visible = false
+
+func _tween_to(target: Vector2) -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_tween = create_tween()
+	_tween.set_trans(Tween.TRANS_CUBIC)
+	_tween.set_ease(Tween.EASE_OUT)
+	_tween.tween_property(self, "position", target, animation_speed)
+
+
+
+
+
+
+
+
+
+# ------------------------------------
+# updating values
+# ----------------------------------
 
 
 
@@ -132,20 +148,3 @@ func _write_score(value: float, active: Label, inactive: Label) -> void:
 	inactive.text = "0".repeat(max(0, _SCORE_DIGITS - text.length()))
 
 
-# -------------------------------------------------------
-# slide animation
-# -------------------------------------------------------
-
-func _get_hud_position() -> Vector2:
-	return Vector2(0, _screen_size.y - bar_node.size.y - hud_offset_from_bottom)
-
-func _get_menu_position() -> Vector2:
-	return Vector2(0, _screen_size.y - bar_node.size.y - menu_node.size.y - menu_offset_from_bottom)
-
-func _tween_to(target: Vector2) -> void:
-	if _tween and _tween.is_valid():
-		_tween.kill()
-	_tween = create_tween()
-	_tween.set_trans(Tween.TRANS_CUBIC)
-	_tween.set_ease(Tween.EASE_OUT)
-	_tween.tween_property(self, "position", target, animation_speed)

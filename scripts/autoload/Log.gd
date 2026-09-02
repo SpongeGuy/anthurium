@@ -48,7 +48,7 @@ func _log(type: LogType, message: String) -> void:
 			push_error(line)
 			print_rich("[color=tomato]%s[/color]" % line)
 		_:
-			print(line)
+			print_rich("[color=lavender]%s[/color]" % line)
 	if log_to_file and _file:
 		_file.store_line(line)
 		

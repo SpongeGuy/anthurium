@@ -15,8 +15,8 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -3595.5227298161503,
-                  "y": -23264.045817408405,
+                  "x": -6607.959290110666,
+                  "y": -23038.409964666247,
                   "zoom": -0.4000000000000006
                 }
               },
@@ -32,9 +32,9 @@
               "state": {
                 "file": "for my capstone/todo list 9-1-26.canvas",
                 "viewState": {
-                  "x": 280.20833333333326,
-                  "y": -45.18333333333335,
-                  "zoom": -0.25298074116987107
+                  "x": -1971.9213815109995,
+                  "y": 40.29336064176903,
+                  "zoom": -0.252980741169871
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -72,7 +72,8 @@
               "title": "plant anthurium design for the plant"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -253,13 +254,13 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "d4950eda263b63f5",
+  "active": "d537bc0e412d9fa7",
   "lastOpenFiles": [
+    "Main.canvas",
     "for my capstone/todo list 9-1-26.canvas",
     "for my capstone/plant anthurium design for the plant.canvas",
     "for my capstone/inspiration bible.md",
     "for my capstone/anthurium.md",
-    "Main.canvas",
     "Pasted image 20260830012729.png.import",
     "the.md",
     "Pasted image 20260830012729.png",

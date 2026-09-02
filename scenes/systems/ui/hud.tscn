@@ -27,9 +27,9 @@ z_index = -2
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
-offset_top = 332.0
+offset_top = 336.0
 offset_right = 640.0
-offset_bottom = 532.0
+offset_bottom = 536.0
 theme = ExtResource("1_hv3iq")
 script = ExtResource("2_n78go")
 bar_node = NodePath("Bar")
@@ -400,10 +400,9 @@ grow_horizontal = 2
 text = "ABILITIES"
 vertical_alignment = 1
 
-[node name="Hand" parent="." unique_id=1172565642 node_paths=PackedStringArray("current") instance=ExtResource("9_u330w")]
+[node name="Hand" parent="." unique_id=1172565642 instance=ExtResource("9_u330w")]
 z_index = 10
 position = Vector2(13, 25)
-current = NodePath("../Bar/Columns/C1/HBoxContainer/Items/Control")
 
 [node name="TossZone" type="Control" parent="." unique_id=989109228 node_paths=PackedStringArray("neighbor_down")]
 visible = false

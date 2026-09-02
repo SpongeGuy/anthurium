@@ -1,34 +1,26 @@
 {
 	"nodes":[
-		{"id":"9f35dfc1ac5f97d2","type":"group","x":-600,"y":-420,"width":1820,"height":1000,"label":"Untitled group"},
+		{"id":"379ee5ab18ee73f1","type":"group","x":640,"y":-420,"width":1520,"height":1380,"label":"done"},
+		{"id":"9f35dfc1ac5f97d2","type":"group","x":-2800,"y":-450,"width":1820,"height":1000,"label":"not done"},
+		{"id":"28faf08bea793d10","type":"group","x":-840,"y":-420,"width":1320,"height":880,"label":"working on"},
+		{
+			"id":"701228c35defd60d",
+			"type":"text",
+			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
+			"styleAttributes":{},
+			"x":680,
+			"y":-380,
+			"width":500,
+			"height":540
+		},
 		{
 			"id":"e3b1c1051b07e5e1",
 			"type":"text",
-			"text":"hunger isn't really implemented yet.\n\nentities that have ichor components should slowly lose their health if they have 0% ichor.",
+			"text":"hunger isn't really implemented yet.\n\nentities that have ichor components should slowly lose their health if they have 0% ichor.\n\n> done 09-01-2026\n\nmade these changes\n- literally just made ichor and health interface with each other because i dont wanna bother with being clever\n- ichor now decays over time and when it reaches zero, health will slowly tick down.",
 			"styleAttributes":{},
-			"x":-580,
-			"y":-360,
-			"width":380,
-			"height":180
-		},
-		{
-			"id":"5337b9a1c263e641",
-			"type":"text",
-			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)",
-			"styleAttributes":{},
-			"x":-580,
-			"y":-120,
-			"width":480,
-			"height":280
-		},
-		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-60,
+			"x":1240,
 			"y":-380,
-			"width":420,
+			"width":460,
 			"height":320
 		},
 		{
@@ -36,38 +28,18 @@
 			"type":"text",
 			"text":"focks push ability",
 			"styleAttributes":{},
-			"x":420,
-			"y":-360,
+			"x":-2260,
+			"y":-420,
 			"width":320,
 			"height":180
-		},
-		{
-			"id":"54af69f0cd6ae0a0",
-			"type":"text",
-			"text":"get z-axis working\nshadows\njumping",
-			"styleAttributes":{},
-			"x":420,
-			"y":-120,
-			"width":260,
-			"height":100
-		},
-		{
-			"id":"7063a00d7c62dd4b",
-			"type":"text",
-			"text":"verify that the hitbox/hurtbox levels work by making a flying entity",
-			"styleAttributes":{},
-			"x":410,
-			"y":0,
-			"width":280,
-			"height":100
 		},
 		{
 			"id":"d3106f13bf6163fb",
 			"type":"text",
 			"text":"abilities that spend ichor",
 			"styleAttributes":{},
-			"x":740,
-			"y":-150,
+			"x":-1900,
+			"y":-420,
 			"width":260,
 			"height":60
 		},
@@ -76,20 +48,60 @@
 			"type":"text",
 			"text":"ichor motes\nALSO GET THE DAMN INTERACTOR THING WORKING",
 			"styleAttributes":{},
-			"x":740,
-			"y":-80,
+			"x":-1900,
+			"y":-200,
 			"width":260,
 			"height":100
 		},
 		{
-			"id":"701228c35defd60d",
+			"id":"094619fdad86f0f5",
 			"type":"text",
-			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
 			"styleAttributes":{},
-			"x":-60,
-			"y":120,
-			"width":370,
-			"height":140
+			"x":-1600,
+			"y":-260,
+			"width":420,
+			"height":320
+		},
+		{
+			"id":"54af69f0cd6ae0a0",
+			"type":"text",
+			"text":"get z-axis working\nshadows\njumping",
+			"styleAttributes":{},
+			"x":-2770,
+			"y":-410,
+			"width":260,
+			"height":100
+		},
+		{
+			"id":"5337b9a1c263e641",
+			"type":"text",
+			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n---\n\nit is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n**MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n\ntitle, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
+			"styleAttributes":{},
+			"x":-2770,
+			"y":-260,
+			"width":710,
+			"height":680
+		},
+		{
+			"id":"7063a00d7c62dd4b",
+			"type":"text",
+			"text":"verify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":-1880,
+			"y":-80,
+			"width":280,
+			"height":100
+		},
+		{
+			"id":"2c5d06a364b13a19",
+			"type":"text",
+			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. ",
+			"styleAttributes":{},
+			"x":-1960,
+			"y":130,
+			"width":360,
+			"height":180
 		}
 	],
 	"edges":[],

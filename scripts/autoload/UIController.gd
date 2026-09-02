@@ -11,6 +11,9 @@ var _ability_manager: AbilityManager
 
 var ability_missing: Texture2D = load("uid://ghuabptc2k60")
 
+signal ui_ready
+var is_ready: bool = false
+
 func _ready() -> void:
 	AppController.game_state_changed.connect(_on_game_state_changed)
 	PlayerManager.player_set.connect(_on_player_set)
@@ -19,6 +22,11 @@ func retrieve_references(starting_point: Node) -> void:
 	hud = starting_point.find_child("UI_HUD", true, false)
 	if not hud:
 		Log.error("Could not find HUD element while retrieving!")
+		return
+	
+	is_ready = true
+	ui_ready.emit()
+	
 
 
 	
@@ -41,11 +49,13 @@ func _enter_loading() -> void:
 func _enter_playing() -> void:
 	#_set_all_invisible()
 	#gameview.visible = true
-	hud.visible = true
-	hud.go_to_bar_state()
+	#hud.visible = true
+	#hud.go_to_bar_state()
+	pass
 	
 func _enter_paused() -> void:
-	hud.go_to_menu_state()
+	pass
+	#hud.set_state(UIHUD.State.ACTIVE)
 	
 func _enter_game_over() -> void:
 	pass #TODO
