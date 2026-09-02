@@ -131,8 +131,7 @@ grow_vertical = 2
 offset_top = 360.0
 offset_bottom = 559.9999
 
-[node name="Hand" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
-visible = false
+[node name="UI_Hand" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
 position = Vector2(246.66667, 138.33334)
 
 [node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]

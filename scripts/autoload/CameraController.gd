@@ -17,6 +17,10 @@ signal found_target
 var tracking_random_patience: float = 5.0
 var _tracking_random_timer: float = 0.0
 var _delay_timer: float = 0.0
+var delay_tween: Tween
+
+var _visibility_timer: float = 0.0
+var visibility_check_interval: float = 0.5
 
 	
 func _process(delta: float) -> void:
@@ -34,16 +38,31 @@ func _physics_process(delta: float) -> void:
 		return
 	_handle_camera_behavior(delta)
 	_handle_screen_shake(delta)
+	_fix_if_standing_on_invisible(delta)
 	
+	
+func _fix_if_standing_on_invisible(delta: float) -> void:
+	_visibility_timer += delta
+	if _visibility_timer >= visibility_check_interval:
+		_visibility_timer = 0
+		if target:
+			var tile_pos: Vector2i = WorldGrid.world_to_tile(target.global_position)
+			var occupying_cell: CellData = WorldGrid.get_cell(tile_pos)
+			if not occupying_cell:
+				return
+			if occupying_cell.invisible:
+				WorldGrid.reveal_from(tile_pos)
 
 func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 	if delay == 0:
 		behavior = b
+		if delay_tween:
+			delay_tween.kill()
 		return
 	
-	var tween: Tween = create_tween()
-	tween.tween_property(self, "_delay_timer", delay, delay)
-	tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
+	delay_tween = create_tween()
+	delay_tween.tween_property(self, "_delay_timer", delay, delay)
+	delay_tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
 
 
 func register_camera(c: Camera2D) -> void:

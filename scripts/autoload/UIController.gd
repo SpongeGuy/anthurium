@@ -28,6 +28,11 @@ func retrieve_references(starting_point: Node) -> void:
 	if not screen:
 		Log.error("Could not find screen element while retrieving!")
 		return
+		
+	hand = starting_point.find_child("UI_Hand", true, false)
+	if not hand:
+		Log.error("Could not find hand element while retrieving!")
+		return
 	
 	is_ready = true
 	ui_ready.emit()

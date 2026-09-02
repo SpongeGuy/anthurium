@@ -11,9 +11,6 @@ var facing: FacingComponent
 signal player_set(entity: Entity)
 signal player_died(entity: Entity)
 
-func _process(delta: float) -> void:
-	if input and player:
-		control_player(delta)
 
 func set_player(entity: Entity) -> void:
 	if player:
@@ -34,6 +31,8 @@ func set_player(entity: Entity) -> void:
 		health.died.connect(_on_player_death)
 	
 func control_player(_delta: float) -> void:
+	if not (input and player):
+		return
 	for id in range(input.actions.size()):
 		if Input.is_action_just_pressed(input.actions[id]):
 			input.press_action(id)

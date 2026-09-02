@@ -3,7 +3,7 @@ extends Node
 
 
 const MAX_SPAWN_NUDGE_ATTEMPTS: int = 16
-const SPAWN_NUDGE_DISTANCE: float = 10.0	
+const SPAWN_NUDGE_DISTANCE: float = 12.0
 
 
 # -----------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-extends Control
+extends UIStage
 class_name UIHUD
 
 static var score_collect_pos: Vector2 = Vector2(600, 350)
@@ -23,8 +23,6 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var ability_2_icon: Sprite2D
 @export var ability_3_icon: Sprite2D
 @export var ability_4_icon: Sprite2D
-
-@export var hand: UIHand
 
 var ability_icons: Array[Sprite2D]
 
@@ -70,11 +68,8 @@ func _ready() -> void:
 
 
 func set_state(new_state: State) -> void:
-	if current_state == new_state:
-		return
 	current_state = new_state
 	_tween_to(STATE_POSITIONS[new_state])
-	Log.debug("pos after tween start: %s" % position)
 
 	match new_state:
 		State.ACTIVE:

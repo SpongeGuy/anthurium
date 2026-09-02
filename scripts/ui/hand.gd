@@ -44,7 +44,7 @@ const STATE_ANIMS = {
 
 var current_state: State = State.DEFAULT
 
-
+var movement_tween: Tween
 
 # The ability currently "held" visually, and the slot it came from.
 # The ability is NOT extracted from the manager until a drop or toss confirms the action.
@@ -76,19 +76,37 @@ func _ready() -> void:
 	#if GameState.state != GameState.Status.PAUSED:
 		#return
 		#
-	#for dir in DIR_ACTIONS:
-		#if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
-			#var next = current.get_neighbor(dir)
-			#if next:
-				#AudioManager.play_sound(_navigate_sound)
-				#current.deselect(self)
-				#current = next
-				#focus_changed.emit(current)
-				#current.select(self)
-				#
+	
 	#if Input.is_action_just_pressed("ui_accept"):
 		#current.activate(self)
+		
+func go_invisible() -> void:
+	selected_element = null
+	visible = false
+		
+func control(delta: float) -> void:
+	for dir in DIR_ACTIONS:
+		if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
+			var next = selected_element.get_neighbor(dir)
+			if next:
+				AudioManager.play_sound(_navigate_sound)
+				selected_element.deselect(self)
+				switch_selected_element(next)
+				focus_changed.emit(selected_element)
+				selected_element.select(self)
+				
+		
+func switch_stages(stage: UIStage) -> void:
+	switch_selected_element(stage.starting_element)
+	visible = true
 
+
+func switch_selected_element(element: InteractableUI) -> void:
+	selected_element = element
+	if movement_tween:
+		movement_tween.kill()
+	movement_tween = create_tween()
+	movement_tween.tween_property(self, "global_position", selected_element.get_screen_position() + (selected_element.size - Vector2(8, 4)), 0.5)
 				
 # --------------------------------
 # binding

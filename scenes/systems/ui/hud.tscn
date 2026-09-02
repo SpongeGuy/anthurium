@@ -9,7 +9,6 @@
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
-[ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="9_u330w"]
 [ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scenes/systems/ui/toss_zone.gd" id="11_4p43q"]
 [ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability_icons/toss_icon.png" id="12_8rlmo"]
 
@@ -22,7 +21,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=2080876964 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "hand")]
+[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "starting_element")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -46,7 +45,8 @@ ability_1_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control/AbilityIco
 ability_2_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control2/AbilityIcon2")
 ability_3_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control3/AbilityIcon3")
 ability_4_icon = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control4/AbilityIcon4")
-hand = NodePath("Hand")
+starting_element = NodePath("Bar/Columns/C1/HBoxContainer/Items/Control")
+metadata/_custom_type_script = "uid://dagk4uclh6cc1"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=619029859]
 layout_mode = 1
@@ -399,10 +399,6 @@ offset_bottom = 8.0
 grow_horizontal = 2
 text = "ABILITIES"
 vertical_alignment = 1
-
-[node name="Hand" parent="." unique_id=1172565642 instance=ExtResource("9_u330w")]
-z_index = 10
-position = Vector2(13, 25)
 
 [node name="TossZone" type="Control" parent="." unique_id=989109228 node_paths=PackedStringArray("neighbor_down")]
 visible = false

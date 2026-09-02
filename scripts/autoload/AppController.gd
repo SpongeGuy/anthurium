@@ -10,6 +10,8 @@ var logo_voices: Array[VoiceProfile] = [
 
 enum GameStatus { PLAYING, PAUSED }
 enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
+enum Controller { PLAYER, HAND }
+var active_controller: Controller
 var game_state: GameStatus
 var app_state: AppStatus
 
@@ -53,13 +55,12 @@ func _run_boot_sequence() -> void:
 	Log.info("Welcome to Dreamland!")
 	UiController.screen.set_message("")
 	for i in range(logo_scenes.size()):
-		
 		await _show_logo(logo_scenes[i], logo_voices[i], 2.5, 0.7, 0.4)
-		
 	await _fade(1.0, 0.6)
 	UiController.screen.set_bg_visible(false)
-	change_game_state(GameStatus.PLAYING)
+	
 	change_app_state(AppStatus.MENU)
+	
 	await _wait_for_ui()
 	await _fade(0, 0.6)
 	
@@ -87,21 +88,31 @@ func _initialize_systems() -> void:
 	
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
 	
+func change_active_controller(controller: Controller) -> void:
+	active_controller = controller
 	
 func change_game_state(status: GameStatus) -> void:
+	if not app_state == AppStatus.GAME:
+		return
 	game_state = status
 	match status:
 		GameStatus.PAUSED:
 			_wait_for_ui()
+			change_active_controller(Controller.HAND)
+			UiController.hand.switch_stages(UiController.hud)
 			UiController.hud.set_state(UIHUD.State.ACTIVE)
 		GameStatus.PLAYING:
 			_wait_for_ui()
+			change_active_controller(Controller.PLAYER)
 			UiController.hud.set_state(UIHUD.State.BAR)
 	game_state_changed.emit(game_state)
 	
+
 func change_app_state(status: AppStatus) -> void:
+	app_state = status
 	match status:
 		AppStatus.BOOT:
+			UiController.hand.visible = false
 			_run_boot_sequence()
 		AppStatus.MENU:
 			_initialize_systems()
@@ -110,16 +121,21 @@ func change_app_state(status: AppStatus) -> void:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
 			await _wait_for_ui()
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
+			change_active_controller(Controller.HAND)
+			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
 		AppStatus.GAME:
 			_initialize_systems()
 			GameInterface.start_new_game_instance_with_player()
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
-			await _wait_for_ui()
-			UiController.hud.set_state(UIHUD.State.BAR)
+			change_game_state(GameStatus.PLAYING)
+			change_active_controller(Controller.PLAYER)
+			UiController.hand.go_invisible()
 		AppStatus.GAMEOVER:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
+			change_active_controller(Controller.HAND)
+			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
 
 
 
@@ -158,6 +174,8 @@ func _process(delta: float) -> void:
 		
 	if Input.is_key_pressed(KEY_E):
 		change_app_state(AppStatus.GAME)
+		
+	_handle_control_inputs(delta)
 
 
 func initialize_main_menu() -> void:
@@ -208,3 +226,11 @@ func _fade(target_alpha: float, duration: float) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_property(fade_rect, "modulate:a", target_alpha, duration)
 	await tween.finished
+
+
+func _handle_control_inputs(delta: float) -> void:
+	match active_controller:
+		Controller.PLAYER:
+			PlayerManager.control_player(delta)
+		Controller.HAND:
+			pass
