@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://d1bn1no2fwcee"]
+
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_rpsxs"]
+[ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="1_veghu"]
+[ext_resource type="FontFile" uid="uid://bwq37iwv1q6pm" path="res://assets/textures/fonts/Thesead-8O1gn.ttf" id="3_sjuov"]
+[ext_resource type="Script" uid="uid://bj82h33km47f1" path="res://scripts/classes/ui/InteractableUI.gd" id="4_mbejk"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_emcra"]
+font = ExtResource("3_sjuov")
+
+[node name="MainMenuStage" type="Control" unique_id=621003854 node_paths=PackedStringArray("starting_element")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_rpsxs")
+script = ExtResource("1_veghu")
+starting_element = NodePath("CenterContainer/VBoxContainer/JOHN UI")
+metadata/_custom_type_script = "uid://dagk4uclh6cc1"
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1735745097]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=265145605]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=82604192]
+layout_mode = 2
+text = "anthurium"
+label_settings = SubResource("LabelSettings_emcra")
+
+[node name="JOHN UI" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1172873473]
+layout_mode = 2
+script = ExtResource("4_mbejk")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/JOHN UI" unique_id=386485731]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "jame"

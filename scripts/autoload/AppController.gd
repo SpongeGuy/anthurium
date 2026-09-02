@@ -8,6 +8,7 @@ var logo_voices: Array[VoiceProfile] = [
 	load("uid://xfogely1wm48")
 ]
 
+
 enum GameStatus { PLAYING, PAUSED }
 enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
 enum Controller { PLAYER, HAND }
@@ -65,7 +66,7 @@ func _run_boot_sequence() -> void:
 	await _fade(0, 0.6)
 	
 
-	
+
 
 func _retrieve_references() -> void:
 	var root: Node = get_tree().root
@@ -78,6 +79,8 @@ func _retrieve_references() -> void:
 		
 	main_viewport = root.find_child("MainViewport", true, false)
 	ui_canvas_layer = root.find_child("UI_Layer", true, false)
+	if ui_canvas_layer:
+		UiController.ui_canvas_layer = ui_canvas_layer
 	logo_canvas_layer = root.find_child("Logo_Layer", true, false)
 
 func _initialize_systems() -> void:
@@ -123,6 +126,7 @@ func change_app_state(status: AppStatus) -> void:
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.HAND)
 			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
+			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
 			_initialize_systems()
 			GameInterface.start_new_game_instance_with_player()

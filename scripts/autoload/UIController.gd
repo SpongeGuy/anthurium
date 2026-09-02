@@ -5,6 +5,13 @@ var gameview: UIGameView
 var screen: UIScreen
 var hand: UIHand
 
+var ui_canvas_layer: CanvasLayer
+
+var ui_scenes: Dictionary[String, PackedScene] = {
+	"title": load("uid://d1bn1no2fwcee")
+}
+var active_ui_scenes: Dictionary[String, UIStage] = {}
+
 var _health_component: HealthComponent
 var _ichor_component: IchorComponent
 var _ability_manager: AbilityManager
@@ -17,6 +24,21 @@ var is_ready: bool = false
 func _ready() -> void:
 	AppController.game_state_changed.connect(_on_game_state_changed)
 	PlayerManager.player_set.connect(_on_player_set)
+	
+	
+func add_stage(name: String) -> UIStage:
+	var new_stage: UIStage = ui_scenes[name].instantiate() as UIStage
+	active_ui_scenes[name] = new_stage
+	ui_canvas_layer.add_child(new_stage)
+	return new_stage
+	
+func remove_stage(name: String) -> void:
+	if not active_ui_scenes.has(name):
+		return
+	active_ui_scenes[name].queue_free()
+	active_ui_scenes.erase(name)
+	
+	
 	
 func retrieve_references(starting_point: Node) -> void:
 	hud = starting_point.find_child("UI_HUD", true, false)
@@ -37,6 +59,7 @@ func retrieve_references(starting_point: Node) -> void:
 	is_ready = true
 	ui_ready.emit()
 	
+
 
 
 	

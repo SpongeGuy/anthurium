@@ -105,9 +105,22 @@ func switch_selected_element(element: InteractableUI) -> void:
 	selected_element = element
 	if movement_tween:
 		movement_tween.kill()
+	var new_position: Vector2 = await get_settled_position(selected_element)
 	movement_tween = create_tween()
-	movement_tween.tween_property(self, "global_position", selected_element.get_screen_position() + (selected_element.size - Vector2(8, 4)), 0.5)
+	movement_tween.tween_property(self, "global_position", new_position + (selected_element.size - Vector2(8, 4)), 0.5)
 				
+func get_control_screen_position(control: Control) -> Vector2:
+	return control.get_global_transform_with_canvas().origin
+	
+func get_control_center(control: Control) -> Vector2:
+	var transform: Transform2D = control.get_global_transform_with_canvas()
+	return transform.origin + transform.basis_xform(control.size * 0.5)
+	
+func get_settled_position(control: Control) -> Vector2:
+	if control.is_inside_tree() and control.size != Vector2.ZERO:
+		return get_control_center(control)
+	await control.resized
+	return get_control_center(control)
 # --------------------------------
 # binding
 # ---------------------------------
