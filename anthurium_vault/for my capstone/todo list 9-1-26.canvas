@@ -24,16 +24,6 @@
 			"height":320
 		},
 		{
-			"id":"21ddca2e09e20557",
-			"type":"text",
-			"text":"focks push ability",
-			"styleAttributes":{},
-			"x":-2260,
-			"y":-420,
-			"width":320,
-			"height":180
-		},
-		{
 			"id":"d3106f13bf6163fb",
 			"type":"text",
 			"text":"abilities that spend ichor",
@@ -46,22 +36,12 @@
 		{
 			"id":"c1c586db8a7789f4",
 			"type":"text",
-			"text":"ichor motes\nALSO GET THE DAMN INTERACTOR THING WORKING",
+			"text":"ichor motes",
 			"styleAttributes":{},
 			"x":-1900,
 			"y":-200,
-			"width":260,
-			"height":100
-		},
-		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-1600,
-			"y":-260,
-			"width":420,
-			"height":320
+			"width":170,
+			"height":60
 		},
 		{
 			"id":"54af69f0cd6ae0a0",
@@ -72,16 +52,6 @@
 			"y":-410,
 			"width":260,
 			"height":100
-		},
-		{
-			"id":"5337b9a1c263e641",
-			"type":"text",
-			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n---\n\nit is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n**MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n\ntitle, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
-			"styleAttributes":{},
-			"x":-2770,
-			"y":-260,
-			"width":710,
-			"height":680
 		},
 		{
 			"id":"7063a00d7c62dd4b",
@@ -101,6 +71,56 @@
 			"x":-1960,
 			"y":130,
 			"width":360,
+			"height":180
+		},
+		{
+			"id":"8d7d71efe5b6be14",
+			"type":"text",
+			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
+			"styleAttributes":{},
+			"x":-1520,
+			"y":140,
+			"width":320,
+			"height":140
+		},
+		{
+			"id":"5337b9a1c263e641",
+			"type":"text",
+			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n---\n\nit is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n**MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n\ntitle, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
+			"styleAttributes":{},
+			"x":-2770,
+			"y":-200,
+			"width":710,
+			"height":680
+		},
+		{
+			"id":"22ff6807b5d45222",
+			"type":"text",
+			"text":"GET THE DAMN INTERACTOR WORKING",
+			"styleAttributes":{},
+			"x":-1860,
+			"y":-320,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"094619fdad86f0f5",
+			"type":"text",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
+			"styleAttributes":{},
+			"x":-1520,
+			"y":-360,
+			"width":420,
+			"height":320
+		},
+		{
+			"id":"21ddca2e09e20557",
+			"type":"text",
+			"text":"focks push ability",
+			"styleAttributes":{},
+			"x":-2380,
+			"y":-420,
+			"width":320,
 			"height":180
 		}
 	],

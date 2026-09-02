@@ -1,14 +1,21 @@
 extends Node
 
 ## Orchestrates the external shell of the application.
-
+var logo_scenes: Array[PackedScene] = [
+	load("uid://cs4i88vmrey4p")
+]
+var logo_voices: Array[VoiceProfile] = [
+	load("uid://xfogely1wm48")
+]
 
 enum GameStatus { PLAYING, PAUSED }
-enum AppStatus { MENU, GAME, GAMEOVER }
+enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
 var game_state: GameStatus
 var app_state: AppStatus
 
 var main_viewport: SubViewport
+var logo_canvas_layer: CanvasLayer
+var ui_canvas_layer: CanvasLayer
 var title_screen_scene: PackedScene = load("uid://ck6muwdsbdym3")
 var world_2d_scene: PackedScene = load("uid://c8bjpuv01on4i")
 
@@ -19,6 +26,8 @@ var world_3d: Node3D
 var camera_2d: Camera2D
 var camera_3d: Camera3D
 
+var fade_rect: ColorRect
+
 var time: float = 0
 
 signal game_state_changed(status: GameStatus)
@@ -28,23 +37,33 @@ signal game_state_changed(status: GameStatus)
 
 func _ready() -> void:
 	Log.initialize()
-	_boot()
-
-
-func _boot() -> void:
-	Log.info("Booting...")
-	Log.info("Welcome to Dreamland!")
+	_retrieve_references()
+	_create_fade_overlay()
+	
 	EntityRegistry.scan_all()
 	CellTypeRegistry.scan_all()
 	AccessoryArchetypeRegistry.scan_all()
 	BloomEventRegistry.scan_all()
-	_retrieve_references()
 	UiController.retrieve_references(main_viewport)
 	
-	await get_tree().process_frame
-	
+	change_app_state(AppStatus.BOOT)
+
+func _run_boot_sequence() -> void:
+	Log.info("Booting...")
+	Log.info("Welcome to Dreamland!")
+	UiController.screen.set_message("")
+	for i in range(logo_scenes.size()):
+		
+		await _show_logo(logo_scenes[i], logo_voices[i], 2.5, 0.7, 0.4)
+		
+	await _fade(1.0, 0.6)
+	UiController.screen.set_bg_visible(false)
 	change_game_state(GameStatus.PLAYING)
-	change_app_state(AppStatus.GAME)
+	change_app_state(AppStatus.MENU)
+	await _wait_for_ui()
+	await _fade(0, 0.6)
+	
+
 	
 
 func _retrieve_references() -> void:
@@ -57,6 +76,8 @@ func _retrieve_references() -> void:
 		Log.error("An issue occurred finding containers.")
 		
 	main_viewport = root.find_child("MainViewport", true, false)
+	ui_canvas_layer = root.find_child("UI_Layer", true, false)
+	logo_canvas_layer = root.find_child("Logo_Layer", true, false)
 
 func _initialize_systems() -> void:
 	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
@@ -80,6 +101,8 @@ func change_game_state(status: GameStatus) -> void:
 	
 func change_app_state(status: AppStatus) -> void:
 	match status:
+		AppStatus.BOOT:
+			_run_boot_sequence()
 		AppStatus.MENU:
 			_initialize_systems()
 			if not GameInterface.game_instance_active:
@@ -98,15 +121,7 @@ func change_app_state(status: AppStatus) -> void:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 
-func _link_player_death() -> void:
-	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
 
-func _on_player_death(_e: Entity) -> void:
-	change_app_state(AppStatus.GAMEOVER)
-	
-func _wait_for_ui() -> void:
-	if not UiController.is_ready:
-		await UiController.ui_ready
 
 func toggle_pause() -> void:
 	if game_state == GameStatus.PLAYING:
@@ -149,3 +164,47 @@ func initialize_main_menu() -> void:
 	var title: Node3D = title_screen_scene.instantiate()
 	main_viewport.add_child(title)
 	title.camera.make_current()
+
+
+
+
+# -----------------------------------
+# utility stuff
+# -----------------------------------
+
+func _link_player_death() -> void:
+	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
+
+func _on_player_death(_e: Entity) -> void:
+	change_app_state(AppStatus.GAMEOVER)
+	
+func _wait_for_ui() -> void:
+	if not UiController.is_ready:
+		await UiController.ui_ready
+
+func _create_fade_overlay() -> void:
+	fade_rect = ColorRect.new()
+	fade_rect.color = Color.BLACK
+	fade_rect.modulate.a = 0.0
+	fade_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fade_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+	logo_canvas_layer.add_child(fade_rect)
+
+func _show_logo(scene: PackedScene, voice: VoiceProfile = null, hold_time: float = 1.5, fade_in_time: float = 0.4, fade_out_time: float = 0.4) -> void:
+	var logo: Control = scene.instantiate()
+	logo.modulate.a = 0.0
+	logo_canvas_layer.add_child(logo)
+	var tween_in: Tween = create_tween()
+	tween_in.tween_property(logo, "modulate:a", 1.0, fade_in_time)
+	await tween_in.finished
+	AudioManager.play_voice(voice, null, true, false)
+	await get_tree().create_timer(hold_time).timeout
+	var tween_out: Tween = create_tween()
+	tween_out.tween_property(logo, "modulate:a", 0.0, fade_out_time)
+	await tween_out.finished
+	logo.queue_free()
+		
+func _fade(target_alpha: float, duration: float) -> void:
+	var tween: Tween = create_tween()
+	tween.tween_property(fade_rect, "modulate:a", target_alpha, duration)
+	await tween.finished

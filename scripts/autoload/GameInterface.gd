@@ -58,28 +58,25 @@ func _initialize_anthurium(tile_pos: Vector2i) -> void:
 	EntityManager.spawn_on_tile(&"test_tree", tile_pos)
 	
 func _initialize_debug_spawns() -> void:
-	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
-	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150))
-	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190))
+	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150), false)
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190), false)
 
 	for i in range(15):
 		var pos: Vector2 = Vector2(randf_range(0, 1000), randf_range(0, 1000))
-		EntityManager.spawn_safely(&"arcbimpy", pos)
+		EntityManager.spawn_safely(&"arcbimpy", pos, false)
 		
 	for i in range(15):
 		var pos: Vector2 = Vector2(randf_range(100, 1000), randf_range(100, 550))
-		EntityManager.spawn_safely(&"bimpy", pos)
+		EntityManager.spawn_safely(&"bimpy", pos, false)
 	
-	EntityManager.spawn_on_tile(&"smiley_guy", Vector2i(15, 15))
-	EntityManager.spawn_on_tile(&"portal", Vector2i(17, 16))
 	
-	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150))
-	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150))
-	EntityManager.spawn_on_tile(&"dcube_alpha", Vector2i(15, 4))
-	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500))
-	EntityManager.spawn_safely(&"ecube_beta", Vector2i(500, 150))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200))
-	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(450, 200))
-	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125))
+	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(200, 150), false)
+	EntityManager.spawn_safely(&"dcube_beta", Vector2i(700, 500), false)
+	EntityManager.spawn_safely(&"ecube_beta", Vector2i(500, 150), false)
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(550, 150), false)
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200), false)
+	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(450, 200), false)
+	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125), false)
 	

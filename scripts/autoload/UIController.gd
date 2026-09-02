@@ -24,6 +24,11 @@ func retrieve_references(starting_point: Node) -> void:
 		Log.error("Could not find HUD element while retrieving!")
 		return
 	
+	screen = starting_point.find_child("UI_Screen", true, false)
+	if not screen:
+		Log.error("Could not find screen element while retrieving!")
+		return
+	
 	is_ready = true
 	ui_ready.emit()
 	

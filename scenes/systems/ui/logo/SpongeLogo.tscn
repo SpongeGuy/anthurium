@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cs4i88vmrey4p"]
+
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_ajq2a"]
+[ext_resource type="Texture2D" uid="uid://dy7y5wvwex3fy" path="res://assets/textures/logo/buff sponge traspeonrt stench.png" id="2_ajq2a"]
+
+[node name="SpongeLogo" type="Control" unique_id=1961714859]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ajq2a")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2040024796]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1348303537]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/VBoxContainer" unique_id=467875665]
+custom_maximum_size = Vector2(300, 300)
+layout_mode = 2
+texture = ExtResource("2_ajq2a")
+
+[node name="Label" type="Label" parent="." unique_id=1850285028]
+layout_mode = 0
+offset_left = 282.0
+offset_top = 240.0
+offset_right = 347.0
+offset_bottom = 254.0
+text = "sponge made"
