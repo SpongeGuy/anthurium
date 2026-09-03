@@ -11,11 +11,12 @@ var logo_voices: Array[VoiceProfile] = [
 
 enum GameStatus { PLAYING, PAUSED }
 enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
-enum Controller { PLAYER, HAND }
+enum Controller { NONE, PLAYER, HAND, CAMERA }
 var active_controller: Controller
 var game_state: GameStatus
 var app_state: AppStatus
 
+var viewport_container: SubViewportContainer
 var main_viewport: SubViewport
 var logo_canvas_layer: CanvasLayer
 var ui_canvas_layer: CanvasLayer
@@ -60,6 +61,7 @@ func _run_boot_sequence() -> void:
 	await _fade(1.0, 0.6)
 	UiController.screen.set_bg_visible(false)
 	
+	
 	change_app_state(AppStatus.MENU)
 	
 	await _wait_for_ui()
@@ -68,20 +70,9 @@ func _run_boot_sequence() -> void:
 
 
 
-func _retrieve_references() -> void:
-	var root: Node = get_tree().root
-	container_2d = root.find_child("Container2D", true, false)
-	container_3d = root.find_child("Container3D", true, false)
-	if container_2d and container_3d:
-		Log.info("Found containers successfully.")
-	else:
-		Log.error("An issue occurred finding containers.")
-		
-	main_viewport = root.find_child("MainViewport", true, false)
-	ui_canvas_layer = root.find_child("UI_Layer", true, false)
-	if ui_canvas_layer:
-		UiController.ui_canvas_layer = ui_canvas_layer
-	logo_canvas_layer = root.find_child("Logo_Layer", true, false)
+
+
+
 
 func _initialize_systems() -> void:
 	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
@@ -93,6 +84,9 @@ func _initialize_systems() -> void:
 	
 func change_active_controller(controller: Controller) -> void:
 	active_controller = controller
+	match controller:
+		Controller.CAMERA:
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
 	
 func change_game_state(status: GameStatus) -> void:
 	if not app_state == AppStatus.GAME:
@@ -110,6 +104,19 @@ func change_game_state(status: GameStatus) -> void:
 			UiController.hud.set_state(UIHUD.State.BAR)
 	game_state_changed.emit(game_state)
 	
+func _process(delta: float) -> void:
+	time += delta
+	if Input.is_action_just_pressed("start"):
+		toggle_pause()
+		
+	if Input.is_key_pressed(KEY_E):
+		change_app_state(AppStatus.GAME)
+		
+	_handle_control_inputs(delta)
+	
+	#match app_state:
+		#AppStatus.GAMEOVER:
+			#world_2d.global_position += Vector2(sin((time)) * 1, -sin((time + PI/3)) * 1)
 
 func change_app_state(status: AppStatus) -> void:
 	app_state = status
@@ -135,10 +142,11 @@ func change_app_state(status: AppStatus) -> void:
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
+			UiController.remove_stage("title")
 		AppStatus.GAMEOVER:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
-			change_active_controller(Controller.HAND)
+			change_active_controller(Controller.CAMERA)
 			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
 
 
@@ -171,15 +179,7 @@ func load_game() -> void:
 	
 
 
-func _process(delta: float) -> void:
-	time += delta
-	if Input.is_action_just_pressed("start"):
-		toggle_pause()
-		
-	if Input.is_key_pressed(KEY_E):
-		change_app_state(AppStatus.GAME)
-		
-	_handle_control_inputs(delta)
+
 
 
 func initialize_main_menu() -> void:
@@ -237,4 +237,23 @@ func _handle_control_inputs(delta: float) -> void:
 		Controller.PLAYER:
 			PlayerManager.control_player(delta)
 		Controller.HAND:
-			pass
+			UiController.hand.control(delta)
+		Controller.CAMERA:
+			CameraController.directly_control(delta)
+
+
+func _retrieve_references() -> void:
+	var root: Node = get_tree().root
+	container_2d = root.find_child("Container2D", true, false)
+	container_3d = root.find_child("Container3D", true, false)
+	if container_2d and container_3d:
+		Log.info("Found containers successfully.")
+	else:
+		Log.error("An issue occurred finding containers.")
+		
+	viewport_container = root.find_child("SubViewportContainer", true, false)
+	main_viewport = root.find_child("MainViewport", true, false)
+	ui_canvas_layer = root.find_child("UI_Layer", true, false)
+	if ui_canvas_layer:
+		UiController.ui_canvas_layer = ui_canvas_layer
+	logo_canvas_layer = root.find_child("Logo_Layer", true, false)

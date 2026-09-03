@@ -19,9 +19,12 @@ class_name UIHand
 ##       and spawning a world shard.
 
 var selected_element: InteractableUI
+var selected_stage: UIStage
 var grabbed_sprite: Sprite2D
 @onready var animator: SpriteAnimator = $SpriteAnimator
 @onready var label: Label = $Control/Label
+
+var height: float = 8
 
 enum State{DEFAULT, HOVER_OVER_ACTIVATEABLE, HOVER_OVER_LIST, HOLDING}
 
@@ -44,8 +47,6 @@ const STATE_ANIMS = {
 
 var current_state: State = State.DEFAULT
 
-var movement_tween: Tween
-
 # The ability currently "held" visually, and the slot it came from.
 # The ability is NOT extracted from the manager until a drop or toss confirms the action.
 var _held_ability: Ability = null
@@ -58,6 +59,9 @@ var _activation_sound: AudioStream = load("res://assets/sounds/effects/pickup.wa
 var _place_sound: AudioStream = load("res://assets/sounds/effects/align.wav")
 var _toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
 
+var target_position: Vector2 = Vector2.ZERO
+var move_tween: Tween
+
 # ---------------------------------
 # lifecycle
 # ----------------------------------
@@ -68,19 +72,14 @@ func _ready() -> void:
 	state_changed.connect(_on_state_changed)
 	PlayerManager.player_set.connect(_on_player_set)
 
-#func _process(delta: float) -> void:
-	#if not current:
-		#return
-	#global_position = current.get_screen_position() + (current.size - Vector2(8, 4))
-	#
-	#if GameState.state != GameState.Status.PAUSED:
-		#return
-		#
-	
-	#if Input.is_action_just_pressed("ui_accept"):
-		#current.activate(self)
+func _process(delta: float) -> void:
+	var speed: float = 15
+	if selected_element:
+		target_position = _get_interactable_selection_position(selected_element)
+	global_position = global_position.lerp(target_position, 1.0 - exp(delta * -speed))
 		
 func go_invisible() -> void:
+	target_position = Vector2(-100, -100)
 	selected_element = null
 	visible = false
 		
@@ -94,33 +93,47 @@ func control(delta: float) -> void:
 				switch_selected_element(next)
 				focus_changed.emit(selected_element)
 				selected_element.select(self)
+	if Input.is_action_just_pressed("action_primary"):
+		selected_element.activate(self)
 				
 		
 func switch_stages(stage: UIStage) -> void:
-	switch_selected_element(stage.starting_element)
+	if stage.last_selected_element:
+		switch_selected_element(stage.last_selected_element)
+	else:
+		switch_selected_element(stage.starting_element)
+	selected_stage = stage
 	visible = true
 
 
-func switch_selected_element(element: InteractableUI) -> void:
+func switch_selected_element(element: Control) -> void:
+	if element is UIStage:
+		switch_stages(element)
+		return
+	
 	selected_element = element
-	if movement_tween:
-		movement_tween.kill()
-	var new_position: Vector2 = await get_settled_position(selected_element)
-	movement_tween = create_tween()
-	movement_tween.tween_property(self, "global_position", new_position + (selected_element.size - Vector2(8, 4)), 0.5)
+	if selected_element.stage:
+		selected_element.stage.last_selected_element = selected_element
+	if move_tween:
+		move_tween.kill()
+
+func _get_interactable_selection_position(element: InteractableUI) -> Vector2:
+	if not element.selection_location:
+		return _get_control_screen_position(element)
+	return element.selection_location.global_position
 				
-func get_control_screen_position(control: Control) -> Vector2:
+func _get_control_screen_position(control: Control) -> Vector2:
 	return control.get_global_transform_with_canvas().origin
 	
-func get_control_center(control: Control) -> Vector2:
+func _get_control_center(control: Control) -> Vector2:
 	var transform: Transform2D = control.get_global_transform_with_canvas()
 	return transform.origin + transform.basis_xform(control.size * 0.5)
 	
-func get_settled_position(control: Control) -> Vector2:
+func _get_settled_position(control: Control) -> Vector2:
 	if control.is_inside_tree() and control.size != Vector2.ZERO:
-		return get_control_center(control)
+		return _get_control_center(control)
 	await control.resized
-	return get_control_center(control)
+	return _get_control_center(control)
 # --------------------------------
 # binding
 # ---------------------------------

@@ -19,6 +19,7 @@ class_name AbilityHudElement
 @export var ability_icon: Sprite2D
 
 
+
 func select(hand: UIHand) -> void:
 	hand.selected_element = self
 	if hand.current_state != UIHand.State.HOLDING:

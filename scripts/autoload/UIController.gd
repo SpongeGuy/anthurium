@@ -12,6 +12,12 @@ var ui_scenes: Dictionary[String, PackedScene] = {
 }
 var active_ui_scenes: Dictionary[String, UIStage] = {}
 
+var crt_shader: Shader = preload("uid://b7fav5cdhceky")
+var _crt_material: ShaderMaterial
+
+enum CRT_SHADER_MODES{ NEAREST, OFF, DOT, APERTURE, NULL }
+var crt_shader_mode: CRT_SHADER_MODES
+
 var _health_component: HealthComponent
 var _ichor_component: IchorComponent
 var _ability_manager: AbilityManager
@@ -22,8 +28,46 @@ signal ui_ready
 var is_ready: bool = false
 
 func _ready() -> void:
-	AppController.game_state_changed.connect(_on_game_state_changed)
 	PlayerManager.player_set.connect(_on_player_set)
+	_crt_material = ShaderMaterial.new()
+	_crt_material.shader = crt_shader
+	var vp_tex := AppController.main_viewport.get_texture()
+	_crt_material.set_shader_parameter("tex", vp_tex)
+	_crt_material.set_shader_parameter("tex_nearest", vp_tex)
+	AppController.viewport_container.material = _crt_material
+	set_crt_shader_mode(CRT_SHADER_MODES.NEAREST)
+	
+	
+func set_crt_shader_mode(mode: CRT_SHADER_MODES) -> void:
+	crt_shader_mode = mode
+	match mode:
+		CRT_SHADER_MODES.NEAREST:
+			_crt_material.set_shader_parameter("enabled", false)
+			_crt_material.set_shader_parameter("use_nearest_filter", true)
+		CRT_SHADER_MODES.OFF:
+			_crt_material.set_shader_parameter("enabled", false)
+			_crt_material.set_shader_parameter("use_nearest_filter", false)
+		CRT_SHADER_MODES.DOT:
+			_crt_material.set_shader_parameter("enabled", true)
+			_crt_material.set_shader_parameter("use_nearest_filter", false)
+			_crt_material.set_shader_parameter("mask_type", 0)
+			_crt_material.set_shader_parameter("aspect", 0.562)
+			_crt_material.set_shader_parameter("curve", 0.12)
+			_crt_material.set_shader_parameter("color_offset", -0.15)
+		CRT_SHADER_MODES.APERTURE:
+			_crt_material.set_shader_parameter("enabled", true)
+			_crt_material.set_shader_parameter("use_nearest_filter", false)
+			_crt_material.set_shader_parameter("mask_type", 1)
+			_crt_material.set_shader_parameter("aspect", 0.562)
+			_crt_material.set_shader_parameter("curve", 0.12)
+			_crt_material.set_shader_parameter("color_offset", -0.15)
+		CRT_SHADER_MODES.NULL:
+			_crt_material.set_shader_parameter("enabled", true)
+			_crt_material.set_shader_parameter("use_nearest_filter", false)
+			_crt_material.set_shader_parameter("mask_type", 5)
+			_crt_material.set_shader_parameter("aspect", 0.562)
+			_crt_material.set_shader_parameter("curve", 0.12)
+			_crt_material.set_shader_parameter("color_offset", -0.15)
 	
 	
 func add_stage(name: String) -> UIStage:
@@ -63,40 +107,6 @@ func retrieve_references(starting_point: Node) -> void:
 
 
 	
-func _on_game_state_changed(status: AppController.GameStatus) -> void:
-	match status:
-		AppController.GameStatus.PLAYING:
-			_enter_playing()
-		AppController.GameStatus.PAUSED:
-			_enter_paused()
-			
-func _enter_menu() -> void:
-	_set_all_invisible()
-			
-func _enter_loading() -> void:
-	_set_all_invisible()
-	screen.visible = true
-	screen.bg_color.color = Color.BLACK
-	screen.central_message.text = "Loading..."
-	
-func _enter_playing() -> void:
-	#_set_all_invisible()
-	#gameview.visible = true
-	#hud.visible = true
-	#hud.go_to_bar_state()
-	pass
-	
-func _enter_paused() -> void:
-	pass
-	#hud.set_state(UIHUD.State.ACTIVE)
-	
-func _enter_game_over() -> void:
-	pass #TODO
-	
-func _set_all_invisible() -> void:
-	hud.visible = false
-	gameview.visible = false
-	screen.visible = false			
 
 
 

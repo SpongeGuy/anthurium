@@ -8,7 +8,7 @@ var target: Node2D
 var behavior: Behavior
 var target_position: Vector2
 
-enum Behavior{ TRACKING_PLAYER, TRACKING_RANDOM, FROZEN }
+enum Behavior{ TRACKING_PLAYER, TRACKING_RANDOM, FROZEN, CONTROLLED }
 
 
 signal found_target
@@ -42,27 +42,38 @@ func _physics_process(delta: float) -> void:
 	
 	
 func _fix_if_standing_on_invisible(delta: float) -> void:
+	if not target:
+		WorldGrid.reveal_from_camera()
+		return
 	_visibility_timer += delta
 	if _visibility_timer >= visibility_check_interval:
 		_visibility_timer = 0
-		if target:
-			var tile_pos: Vector2i = WorldGrid.world_to_tile(target.global_position)
-			var occupying_cell: CellData = WorldGrid.get_cell(tile_pos)
-			if not occupying_cell:
-				return
-			if occupying_cell.invisible:
-				WorldGrid.reveal_from(tile_pos)
+		var tile_pos: Vector2i = WorldGrid.world_to_tile(target.global_position)
+		var occupying_cell: CellData = WorldGrid.get_cell(tile_pos)
+		if not occupying_cell:
+			return
+		if occupying_cell.invisible:
+			WorldGrid.reveal_from(tile_pos)
+				
+func directly_control(delta: float) -> void:
+	var magnitude: float = 150.0
+	var move_input_direction = Input.get_vector("west", "east", "north", "south")
+	target_position += move_input_direction * magnitude * delta
 
 func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
-	if delay == 0:
-		behavior = b
-		if delay_tween:
-			delay_tween.kill()
-		return
+	behavior = b
+	if delay_tween:
+		delay_tween.kill()
+	match b:
+		Behavior.TRACKING_RANDOM:
+			delay_tween = create_tween()
+			delay_tween.tween_property(self, "_delay_timer", delay, delay)
+			delay_tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
+		Behavior.CONTROLLED:
+			target = null
+			
 	
-	delay_tween = create_tween()
-	delay_tween.tween_property(self, "_delay_timer", delay, delay)
-	delay_tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
+	
 
 
 func register_camera(c: Camera2D) -> void:

@@ -1,21 +1,14 @@
 extends Resource
 class_name EntityEffect
 
-var visibility: VisibilityComponent
 @export var ignore_invisibility: bool = false
 @export_range(0.0, 1.0) var percent_chance: float = 1.0
 
 func execute(entity: Entity) -> void:
 	if ignore_invisibility:
 		_execute(entity)
-	if visibility:
-		if visibility.is_visible():
-			_execute(entity)
-			return
-	
-	# find visibility component if not visibility
-	visibility = entity.get_component(VisibilityComponent)
-	if not visibility or (visibility and visibility.is_visible()):
+	var is_invisible: bool = WorldGrid.get_cell(WorldGrid.world_to_tile(entity.position)).invisible
+	if is_invisible == false:
 		_execute(entity)
 		return
 		

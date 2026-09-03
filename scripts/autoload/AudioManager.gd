@@ -107,8 +107,8 @@ func play_voice(
 	# ── Visibility gate (before any generation work) ──────────────────────────
 	# Checked only for non-global sounds when check_if_visible is true.
 	if not global_sound and check_if_visible:
-		var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
-		if vis != null and not vis._visible:
+		var is_invisible: bool = WorldGrid.get_cell(WorldGrid.world_to_tile(entity.position)).invisible
+		if is_invisible:
 			return
  
 	# ── Capture position now, on the main thread ──────────────────────────────

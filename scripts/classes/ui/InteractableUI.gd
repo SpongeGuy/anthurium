@@ -1,10 +1,13 @@
 extends Control
 class_name InteractableUI
 
-@export var neighbor_left: InteractableUI
-@export var neighbor_up: InteractableUI
-@export var neighbor_right: InteractableUI
-@export var neighbor_down: InteractableUI
+@export var neighbor_left: Control
+@export var neighbor_up: Control
+@export var neighbor_right: Control
+@export var neighbor_down: Control
+
+var stage: UIStage
+@export var selection_location: Marker2D
 
 
 func select(hand: UIHand) -> void:
@@ -16,7 +19,7 @@ func activate(hand: UIHand) -> void:
 func deselect(hand: UIHand) -> void:
 	pass
 
-func get_neighbor(direction: Vector2i) -> InteractableUI:
+func get_neighbor(direction: Vector2i) -> Control:
 	match direction:
 		Vector2i.LEFT: return neighbor_left
 		Vector2i.RIGHT: return neighbor_right

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_272bh"]
 viewport_path = NodePath("SubViewportContainer/MainViewport")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7mycd"]
@@ -17,11 +17,11 @@ viewport_path = NodePath("SubViewportContainer/MainViewport")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4c57u"]
 resource_local_to_scene = true
 shader = ExtResource("17_yaehf")
-shader_parameter/tex = SubResource("ViewportTexture_kek77")
+shader_parameter/tex = SubResource("ViewportTexture_272bh")
 shader_parameter/tex_nearest = SubResource("ViewportTexture_7mycd")
 shader_parameter/enabled = true
 shader_parameter/use_nearest_filter = false
-shader_parameter/mask_type = 1
+shader_parameter/mask_type = 2
 shader_parameter/curve = 0.1200000057
 shader_parameter/sharpness = 0.6666667
 shader_parameter/color_offset = -0.14999998337499998
@@ -132,6 +132,7 @@ offset_top = 360.0
 offset_bottom = 559.9999
 
 [node name="UI_Hand" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
+z_index = 10
 position = Vector2(246.66667, 138.33334)
 
 [node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]

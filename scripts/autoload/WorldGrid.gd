@@ -355,6 +355,11 @@ func flood_collect(coords: Vector2i) -> Array:
 					border.append(_idx_to_coords(n))
 		
 	return [flooded, border]
+	
+func reveal_all() -> void:
+	for x in range(width):
+		for y in range(height):
+			reveal_cell(Vector2i(x, y))
 
 func reveal_from(coords: Vector2i) -> void:
 	var result:= flood_collect(coords)

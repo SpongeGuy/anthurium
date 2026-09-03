@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Entity
 
 @export var display_name: String
-@export var visual: CanvasItem
+@export var visual: Sprite2D
 @export var archetype: CreatureArchetype
 
 var visible_state_flag: int = 0

@@ -3,12 +3,25 @@
 [ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_rpsxs"]
 [ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="1_veghu"]
 [ext_resource type="FontFile" uid="uid://bwq37iwv1q6pm" path="res://assets/textures/fonts/Thesead-8O1gn.ttf" id="3_sjuov"]
-[ext_resource type="Script" uid="uid://bj82h33km47f1" path="res://scripts/classes/ui/InteractableUI.gd" id="4_mbejk"]
+[ext_resource type="Script" uid="uid://b3pehbpoc7qyi" path="res://scripts/classes/ui/PlayButtonElement.gd" id="4_sjuov"]
+[ext_resource type="Script" uid="uid://b5yi37xgoxo62" path="res://scripts/classes/ui/ShaderToggleElement.gd" id="5_sjuov"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjuov"]
+
+[sub_resource type="Theme" id="Theme_rpsxs"]
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_sjuov")
+
+[sub_resource type="LabelSettings" id="LabelSettings_rpsxs"]
+font = ExtResource("3_sjuov")
+font_size = 58
+font_color = Color(0.74558026, 0.7455802, 0.7455802, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_emcra"]
 font = ExtResource("3_sjuov")
+font_size = 58
+font_color = Color(1.1792034e-06, 0.48074484, 0.023207396, 1)
 
-[node name="MainMenuStage" type="Control" unique_id=621003854 node_paths=PackedStringArray("starting_element")]
+[node name="MainMenuStage" type="Control" unique_id=774012473 node_paths=PackedStringArray("starting_element")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,10 +30,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_rpsxs")
 script = ExtResource("1_veghu")
-starting_element = NodePath("CenterContainer/VBoxContainer/JOHN UI")
-metadata/_custom_type_script = "uid://dagk4uclh6cc1"
+starting_element = NodePath("HBoxContainer/VBoxContainer/InteractableUI")
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1735745097]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1707851953]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,21 +40,61 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=265145605]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=265145605]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=82604192]
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer" unique_id=259412320]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_rpsxs")
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=1882265414]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(2, 2)
+text = "anthurium"
+label_settings = SubResource("LabelSettings_rpsxs")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=82604192]
 layout_mode = 2
 text = "anthurium"
 label_settings = SubResource("LabelSettings_emcra")
 
-[node name="JOHN UI" type="Control" parent="CenterContainer/VBoxContainer" unique_id=1172873473]
+[node name="InteractableUI" type="CenterContainer" parent="HBoxContainer/VBoxContainer" unique_id=198535401 node_paths=PackedStringArray("neighbor_down", "selection_location")]
+propagate_maximum_size = false
 layout_mode = 2
-script = ExtResource("4_mbejk")
+size_flags_horizontal = 4
+mouse_filter = 0
+script = ExtResource("4_sjuov")
+neighbor_down = NodePath("../InteractableUI2")
+selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://bj82h33km47f1"
 
-[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/JOHN UI" unique_id=386485731]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "jame"
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/InteractableUI" unique_id=1639967190]
+layout_mode = 2
+text = "PLAY"
+
+[node name="Marker2D" type="Marker2D" parent="HBoxContainer/VBoxContainer/InteractableUI" unique_id=1579849734]
+position = Vector2(22, 11)
+
+[node name="InteractableUI2" type="CenterContainer" parent="HBoxContainer/VBoxContainer" unique_id=866924052 node_paths=PackedStringArray("neighbor_up", "selection_location")]
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+mouse_filter = 0
+script = ExtResource("5_sjuov")
+neighbor_up = NodePath("../InteractableUI")
+selection_location = NodePath("Marker2D")
+metadata/_custom_type_script = "uid://bj82h33km47f1"
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/InteractableUI2" unique_id=2010256991]
+layout_mode = 2
+text = "TOGGLE SHADERS"
+
+[node name="Marker2D" type="Marker2D" parent="HBoxContainer/VBoxContainer/InteractableUI2" unique_id=536725038]
+position = Vector2(71, 11)
