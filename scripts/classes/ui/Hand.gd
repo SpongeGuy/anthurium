@@ -88,7 +88,7 @@ func _process(delta: float) -> void:
 	global_position = global_position.lerp(target_position, 1.0 - exp(delta * -speed))
 		
 func go_invisible() -> void:
-	target_position = Vector2(-100, -100)
+	target_position = get_viewport_rect().get_center()
 	selected_element = null
 	visible = false
 		

@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bm2hef8ebwxl0" path="res://assets/textures/fonts/Typecast-Bold.ttf" id="3_mbejk"]
 [ext_resource type="Script" uid="uid://b3pehbpoc7qyi" path="res://scripts/classes/ui/PlayButtonElement.gd" id="4_sjuov"]
 [ext_resource type="Script" uid="uid://b5yi37xgoxo62" path="res://scripts/classes/ui/ShaderToggleElement.gd" id="5_sjuov"]
-[ext_resource type="Resource" uid="uid://cud5hfeisji" path="res://assets/resources/voices/select.tres" id="6_mbejk"]
+[ext_resource type="Resource" uid="uid://cud5hfeisji" path="res://assets/resources/voices/ui/select.tres" id="6_mbejk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjuov"]
 

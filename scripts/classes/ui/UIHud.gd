@@ -48,8 +48,8 @@ var _tween: Tween
 
 var _screen_size: Vector2
 
-var _voice_inv_open: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_open.tres")
-var _voice_inv_close: VoiceProfile = preload("res://assets/resources/voices/ui_inventory_close.tres")
+var _voice_inv_open: VoiceProfile = preload("uid://b778tjvr2o26a")
+var _voice_inv_close: VoiceProfile = preload("uid://dy7px8dso8tvd")
 
 
 
