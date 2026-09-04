@@ -70,10 +70,11 @@ func spawn_safely(entity_type: StringName, pos: Vector2, play_sound: bool = true
 	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
 		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
 	
-	if play_sound:
-		AudioManager.play_voice(poof_sound, entity)
+	
 	entity.global_position = spawn_pos
 	_add(entity)
+	if play_sound:
+		AudioManager.play_voice(poof_sound, entity)
 	return entity
 	
 func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity:

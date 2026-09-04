@@ -7,6 +7,7 @@ var mode: UiController.CRT_SHADER_MODES
 
 func select(hand: UIHand) -> void:
 	mode = UiController.crt_shader_mode
+	hand.change_state(UIHand.State.HOVER_OVER_ACTIVATEABLE)
 	
 func activate(hand: UIHand) -> void:
 	mode = (mode + 1) % UiController.CRT_SHADER_MODES.size()

@@ -4,7 +4,7 @@ class_name PlayButtonElement
 @export var activate_sound: VoiceProfile
 
 func select(hand: UIHand) -> void:
-	pass
+	hand.change_state(UIHand.State.HOVER_OVER_ACTIVATEABLE)
 	
 func activate(hand: UIHand) -> void:
 	AppController.change_app_state(AppController.AppStatus.GAME)

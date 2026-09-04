@@ -21,7 +21,6 @@ class_name AbilityHudElement
 
 
 func select(hand: UIHand) -> void:
-	hand.selected_element = self
 	if hand.current_state != UIHand.State.HOLDING:
 		hand.change_state(UIHand.State.HOVER_OVER_ACTIVATEABLE)
 

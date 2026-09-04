@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_rpsxs"]
 [ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="1_veghu"]
-[ext_resource type="FontFile" uid="uid://bwq37iwv1q6pm" path="res://assets/textures/fonts/Thesead-8O1gn.ttf" id="3_sjuov"]
+[ext_resource type="FontFile" uid="uid://bm2hef8ebwxl0" path="res://assets/textures/fonts/Typecast-Bold.ttf" id="3_mbejk"]
 [ext_resource type="Script" uid="uid://b3pehbpoc7qyi" path="res://scripts/classes/ui/PlayButtonElement.gd" id="4_sjuov"]
 [ext_resource type="Script" uid="uid://b5yi37xgoxo62" path="res://scripts/classes/ui/ShaderToggleElement.gd" id="5_sjuov"]
 [ext_resource type="Resource" uid="uid://cud5hfeisji" path="res://assets/resources/voices/select.tres" id="6_mbejk"]
@@ -13,12 +13,12 @@
 PanelContainer/styles/panel = SubResource("StyleBoxEmpty_sjuov")
 
 [sub_resource type="LabelSettings" id="LabelSettings_rpsxs"]
-font = ExtResource("3_sjuov")
+font = ExtResource("3_mbejk")
 font_size = 58
 font_color = Color(0.74558026, 0.7455802, 0.7455802, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_emcra"]
-font = ExtResource("3_sjuov")
+font = ExtResource("3_mbejk")
 font_size = 58
 font_color = Color(1.1792034e-06, 0.48074484, 0.023207396, 1)
 

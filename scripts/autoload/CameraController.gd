@@ -64,6 +64,7 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 	behavior = b
 	if delay_tween:
 		delay_tween.kill()
+		_delay_timer = 0
 	match b:
 		Behavior.TRACKING_RANDOM:
 			delay_tween = create_tween()

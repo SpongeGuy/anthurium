@@ -5,12 +5,13 @@
 [resource]
 script = ExtResource("1_vnmuc")
 master_volume = 0.289
-wave_type = 1
+wave_type = 2
 sustain_time = 0.251
 sustain_punch = 0.3
 decay_time = 0.095
-frequency_start = 0.102
-frequency_slide = 0.363
+frequency_start = 0.103
+frequency_start_variance = 0.014
+frequency_slide = 0.32800000000000007
 frequency_acceleration = 0.1479999999999999
 vibrato_depth = 0.164
 vibrato_speed = 0.143
