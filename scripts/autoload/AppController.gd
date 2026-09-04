@@ -65,7 +65,7 @@ func _run_boot_sequence() -> void:
 	change_app_state(AppStatus.MENU)
 	
 	await _wait_for_ui()
-	await _fade(0, 0.6)
+	
 	
 
 
@@ -127,15 +127,19 @@ func change_app_state(status: AppStatus) -> void:
 			UiController.hand.visible = false
 			_run_boot_sequence()
 		AppStatus.MENU:
+			_fade(0, 1.4)
 			_initialize_systems()
 			if not GameInterface.game_instance_active:
 				GameInterface.start_new_game_instance()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
 			await _wait_for_ui()
+			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
+			MusicController.play(true)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.HAND)
 			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
+			MusicController.stop()
 			_initialize_systems()
 			GameInterface.start_new_game_instance_with_player()
 			_link_player_death()

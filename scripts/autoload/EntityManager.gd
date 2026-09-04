@@ -17,7 +17,7 @@ var poof_sound: VoiceProfile = load("uid://dgiuplfa2wr8m")
 var active_entities: Array[Entity] = []
 
 
-func spawn(entity_type: StringName, pos: Vector2) -> Entity:
+func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
 	var entity: Entity = _instantiate_entity(entity_type)
 	if not entity:
@@ -25,6 +25,8 @@ func spawn(entity_type: StringName, pos: Vector2) -> Entity:
 	var random_offset: Vector2 = Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
 	entity.global_position = pos + random_offset
 	_add(entity)
+	if play_sound:
+		AudioManager.play_voice(poof_sound, entity)
 	return entity
 	
 func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:

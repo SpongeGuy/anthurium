@@ -36,7 +36,7 @@ func try_grow_root(source: Entity, prev: Array[ArteryComponent.ArteryLink]) -> E
 	var angle: float = _pick_valid_angle(excluded_angles)
 	var distance: float = randf_range(25.0, 38.0)
 	var offset: Vector2 = Vector2.from_angle(angle) * distance
-	var root: Entity = EntityManager.spawn_safely(&"anthurium_root", entity.global_position + offset)
+	var root: Entity = EntityManager.spawn_safely(&"anthurium_root", entity.global_position + offset, false)
 	
 	var sprite: Sprite2D = root.visual
 	if (angle >= (PI * 7/4) or angle < (PI * 1/4)) or (angle >= (PI * 3/4) and angle < (PI * 5/4)):
@@ -62,7 +62,7 @@ func try_grow_accessory(source: Entity, prev: Array[ArteryComponent.ArteryLink])
 	var distance: float = randf_range(4.0, 12.0)
 	var offset: Vector2 = Vector2.from_angle(angle) * distance
 	var accessory_name: StringName = AnthuriumInterface.select_accessory_type()
-	accessory = EntityManager.spawn(accessory_name, entity.global_position + offset)
+	accessory = EntityManager.spawn(accessory_name, entity.global_position + offset, false)
 	if not accessory:
 		return null
 	EventBus.part_spawned.emit(&"anthurium_flower")

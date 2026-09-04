@@ -40,6 +40,7 @@ DungeonGenerator="*uid://poanoxh62038"
 UiController="*uid://pmgi17orx2e7"
 GameInterface="*uid://d4myfbotj4m52"
 AnthuriumInterface="*uid://bqqf3kkn3ad37"
+MusicController="*uid://s3f234v7vm1e"
 
 [display]
 

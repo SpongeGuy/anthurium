@@ -206,7 +206,8 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 script = ExtResource("30_notcm")
 mass = 50.0
 base_friction = 5000.0
-restitution = 0.086
+restitution = 0.026
+max_speed = 900.0
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
