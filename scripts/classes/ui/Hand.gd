@@ -64,8 +64,9 @@ var _held_slot: int = -1
 var _ability_manager: AbilityManager = null
 
 var _navigate_sound: VoiceProfile = load("uid://ck7gjscvikr5")
-var _activation_sound: AudioStream = load("res://assets/sounds/effects/pickup.wav")
-var _place_sound: AudioStream = load("res://assets/sounds/effects/align.wav")
+var _activation_sound: VoiceProfile = load("uid://b1cwr2xunjytl")
+var _place_sound: VoiceProfile = load("uid://bn0nptno78ae")
+var _illegal_move_sound: VoiceProfile = load("uid://orxsqy4175p7")
 var _toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
 
 var target_position: Vector2 = Vector2.ZERO
@@ -75,6 +76,8 @@ var move_tween: Tween
 # lifecycle
 # ----------------------------------
 
+func _on_activating_unactivateable() -> void:
+	AudioManager.play_voice(_illegal_move_sound, null, true, false)
 
 
 func _ready() -> void:
@@ -204,7 +207,7 @@ func grab_ability_from(element: AbilityHudElement) -> void:
 	_held_ability = ability
 	_held_slot = element.slot
 	grabbed_sprite.texture = ability.icon
-	AudioManager.play_sound(_activation_sound)
+	AudioManager.play_voice(_activation_sound, null, true, false)
 	change_state(State.HOLDING)
 	
 ## Drops the held ability onto [param element]'s slot.
@@ -219,7 +222,7 @@ func drop_ability_onto(element: AbilityHudElement) -> void:
 		return
 	_ability_manager.swap_slots(_held_slot, element.slot)
 	_release_held()
-	AudioManager.play_sound(_place_sound)
+	AudioManager.play_voice(_place_sound, null, true, false)
 	change_state(State.HOVER_OVER_ACTIVATEABLE)
 	element.select(self)
 
@@ -240,6 +243,7 @@ func toss_held_ability() -> void:
 	var spawn_pos: Vector2 = _ability_manager.entity.global_position
 	_release_held()
 	_ability_manager.drop_to_shard(slot, spawn_pos)
+	AudioManager.play_voice(_activation_sound, null, true, false)
 	AudioManager.play_sound(_toss_sound)
 	change_state(State.HOVER_OVER_ACTIVATEABLE)
 	
