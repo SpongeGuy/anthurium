@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bwq37iwv1q6pm" path="res://assets/textures/fonts/Thesead-8O1gn.ttf" id="3_sjuov"]
 [ext_resource type="Script" uid="uid://b3pehbpoc7qyi" path="res://scripts/classes/ui/PlayButtonElement.gd" id="4_sjuov"]
 [ext_resource type="Script" uid="uid://b5yi37xgoxo62" path="res://scripts/classes/ui/ShaderToggleElement.gd" id="5_sjuov"]
+[ext_resource type="Resource" uid="uid://cud5hfeisji" path="res://assets/resources/voices/select.tres" id="6_mbejk"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjuov"]
 
@@ -70,6 +71,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 0
 script = ExtResource("4_sjuov")
+activate_sound = ExtResource("6_mbejk")
 neighbor_down = NodePath("../InteractableUI2")
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://bj82h33km47f1"
@@ -88,6 +90,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 mouse_filter = 0
 script = ExtResource("5_sjuov")
+activate_sound = ExtResource("6_mbejk")
 neighbor_up = NodePath("../InteractableUI")
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://bj82h33km47f1"

@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dd0xlhuktb0p2"]
+
+[ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="1_1e5tl"]
+[ext_resource type="Script" uid="uid://cqiqvy32f8ccl" path="res://scripts/ui/misc/wave_node_around.gd" id="2_cuypa"]
+
+[node name="FloatingSquareCutout" type="Control" unique_id=1809069540]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1e5tl")
+
+[node name="Control" type="Control" parent="." unique_id=724868032]
+anchors_preset = 0
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1477767008]
+position = Vector2(443, 151)
+script = ExtResource("2_cuypa")
+
+[node name="ColorRect" type="ColorRect" parent="Node2D" unique_id=1946118733]
+offset_left = -5883.6533
+offset_top = -406.0
+offset_right = 1.0
+offset_bottom = 4922.778
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Node2D" unique_id=159502238]
+offset_left = 92.0
+offset_top = -5548.3413
+offset_right = 7605.0454
+offset_bottom = 1191.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Node2D" unique_id=958357945]
+offset_left = -6366.0
+offset_top = -4965.0
+offset_right = 1552.0
+offset_bottom = -1.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Node2D" unique_id=1899798770]
+offset_left = -173.0
+offset_top = 96.0
+offset_right = 8003.434
+offset_bottom = 7415.6025
+color = Color(0, 0, 0, 1)

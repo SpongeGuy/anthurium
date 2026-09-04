@@ -24,12 +24,32 @@
 			"height":320
 		},
 		{
+			"id":"5337b9a1c263e641",
+			"type":"text",
+			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n---\n\n- [x] it is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n- [x] **MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n- [x] title, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
+			"styleAttributes":{},
+			"x":680,
+			"y":210,
+			"width":710,
+			"height":680
+		},
+		{
 			"id":"d3106f13bf6163fb",
 			"type":"text",
 			"text":"abilities that spend ichor",
 			"styleAttributes":{},
-			"x":-1900,
-			"y":-420,
+			"x":-2770,
+			"y":-170,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"22ff6807b5d45222",
+			"type":"text",
+			"text":"GET THE DAMN INTERACTOR WORKING",
+			"styleAttributes":{},
+			"x":-2770,
+			"y":-90,
 			"width":260,
 			"height":60
 		},
@@ -38,60 +58,30 @@
 			"type":"text",
 			"text":"ichor motes",
 			"styleAttributes":{},
-			"x":-1900,
-			"y":-200,
+			"x":-2725,
+			"y":0,
 			"width":170,
 			"height":60
-		},
-		{
-			"id":"7063a00d7c62dd4b",
-			"type":"text",
-			"text":"verify that the hitbox/hurtbox levels work by making a flying entity",
-			"styleAttributes":{},
-			"x":-1880,
-			"y":-80,
-			"width":280,
-			"height":100
 		},
 		{
 			"id":"2c5d06a364b13a19",
 			"type":"text",
 			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. ",
 			"styleAttributes":{},
-			"x":-1960,
-			"y":130,
+			"x":-2460,
+			"y":100,
 			"width":360,
 			"height":180
 		},
 		{
-			"id":"5337b9a1c263e641",
+			"id":"8d7d71efe5b6be14",
 			"type":"text",
-			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n---\n\nit is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n**MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n\ntitle, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
+			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
 			"styleAttributes":{},
-			"x":-2770,
-			"y":-200,
-			"width":710,
-			"height":680
-		},
-		{
-			"id":"22ff6807b5d45222",
-			"type":"text",
-			"text":"GET THE DAMN INTERACTOR WORKING",
-			"styleAttributes":{},
-			"x":-1860,
-			"y":-320,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"21ddca2e09e20557",
-			"type":"text",
-			"text":"focks push ability",
-			"styleAttributes":{},
-			"x":-2380,
-			"y":-420,
+			"x":-2060,
+			"y":-40,
 			"width":320,
-			"height":60
+			"height":140
 		},
 		{
 			"id":"54af69f0cd6ae0a0",
@@ -99,39 +89,59 @@
 			"text":"get z-axis working\nshadows\njumping",
 			"styleAttributes":{},
 			"x":-2770,
-			"y":-410,
+			"y":-300,
 			"width":260,
 			"height":100
-		},
-		{
-			"id":"8d7d71efe5b6be14",
-			"type":"text",
-			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
-			"styleAttributes":{},
-			"x":-1520,
-			"y":140,
-			"width":320,
-			"height":140
-		},
-		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-1520,
-			"y":-360,
-			"width":420,
-			"height":320
 		},
 		{
 			"id":"019b01a78a3edd79",
 			"type":"text",
 			"text":"make explosion entity that is spawned in on an explosion",
 			"styleAttributes":{},
-			"x":-2000,
-			"y":380,
+			"x":-2750,
+			"y":-420,
 			"width":580,
 			"height":80
+		},
+		{
+			"id":"094619fdad86f0f5",
+			"type":"text",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
+			"styleAttributes":{},
+			"x":-1710,
+			"y":-30,
+			"width":420,
+			"height":320
+		},
+		{
+			"id":"7063a00d7c62dd4b",
+			"type":"text",
+			"text":"verify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":-2280,
+			"y":-240,
+			"width":280,
+			"height":100
+		},
+		{
+			"id":"21ddca2e09e20557",
+			"type":"text",
+			"text":"focks push ability",
+			"styleAttributes":{},
+			"x":-2460,
+			"y":-90,
+			"width":320,
+			"height":60
+		},
+		{
+			"id":"2a1027d88103d458",
+			"type":"text",
+			"text":"add ability/hud support for MODIFIER key\n\nhud smartly switching ability icons when MODIFIER key is held down\n\nability will have to have two different icons as well\n\ndefine a fallback texture for no icon",
+			"styleAttributes":{},
+			"x":-1960,
+			"y":-380,
+			"width":460,
+			"height":210
 		}
 	],
 	"edges":[],

@@ -20,9 +20,11 @@ class_name UIHand
 
 var selected_element: InteractableUI
 var selected_stage: UIStage
-var grabbed_sprite: Sprite2D
+@onready var grabbed_sprite: Sprite2D = $Grabbed
 @onready var animator: SpriteAnimator = $SpriteAnimator
 @onready var label: Label = $Control/Label
+
+const DEADZONE: float = 0.75
 
 var height: float = 8
 
@@ -36,6 +38,13 @@ const DIR_ACTIONS = {
 	Vector2i.RIGHT: "east",
 	Vector2i.UP: "north",
 	Vector2i.DOWN: "south"
+}
+
+var _dir_pressed: Dictionary = {
+	Vector2i.LEFT: false,
+	Vector2i.RIGHT: false,
+	Vector2i.UP: false,
+	Vector2i.DOWN: false
 }
 
 const STATE_ANIMS = {
@@ -54,7 +63,7 @@ var _held_slot: int = -1
 
 var _ability_manager: AbilityManager = null
 
-var _navigate_sound: AudioStream = load("res://assets/sounds/effects/put.wav")
+var _navigate_sound: VoiceProfile = load("uid://ck7gjscvikr5")
 var _activation_sound: AudioStream = load("res://assets/sounds/effects/pickup.wav")
 var _place_sound: AudioStream = load("res://assets/sounds/effects/align.wav")
 var _toss_sound: AudioStream = load("res://assets/sounds/effects/throw.wav")
@@ -85,20 +94,24 @@ func go_invisible() -> void:
 		
 func control(delta: float) -> void:
 	for dir in DIR_ACTIONS:
-		if Input.is_action_just_pressed(DIR_ACTIONS[dir]):
+		var strength: float = Input.get_action_raw_strength(DIR_ACTIONS[dir])
+		var is_down: bool = strength >= DEADZONE
+		if is_down and not _dir_pressed[dir]:
 			var next = selected_element.get_neighbor(dir)
 			if next:
-				AudioManager.play_sound(_navigate_sound)
+				AudioManager.play_voice(_navigate_sound, null, true, false)
 				selected_element.deselect(self)
 				switch_selected_element(next)
 				focus_changed.emit(selected_element)
 				selected_element.select(self)
+		_dir_pressed[dir] = is_down
 	if Input.is_action_just_pressed("action_primary"):
 		selected_element.activate(self)
 				
 		
 func switch_stages(stage: UIStage) -> void:
 	if stage.last_selected_element:
+		print(stage.last_selected_element)
 		switch_selected_element(stage.last_selected_element)
 	else:
 		switch_selected_element(stage.starting_element)

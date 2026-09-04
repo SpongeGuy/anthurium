@@ -121,6 +121,7 @@ func drop_to_shard(slot: int, position: Vector2) -> Entity:
 	if ability == null:
 		return null
 	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", position)
+	await shard.entity_initialized
 	var container: AbilityContainer = shard.get_component(AbilityContainer)
 	container.add_ability.call_deferred(ability)
 	return shard

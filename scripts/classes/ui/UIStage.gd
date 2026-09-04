@@ -13,5 +13,5 @@ func register_children(node: Control) -> void:
 	for child in node.get_children():
 		if child is InteractableUI:
 			child.stage = self
-		else:
+		elif child is Control:
 			register_children(child)

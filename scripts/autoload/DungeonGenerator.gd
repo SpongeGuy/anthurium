@@ -14,7 +14,7 @@ func generate(sed: int = -1) -> void:
 		_rng.seed = sed
 	else:
 		_rng.randomize()
-
+	
 	_rooms.clear()
 
 	_fill_walls()

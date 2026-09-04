@@ -8,7 +8,8 @@ var hand: UIHand
 var ui_canvas_layer: CanvasLayer
 
 var ui_scenes: Dictionary[String, PackedScene] = {
-	"title": load("uid://d1bn1no2fwcee")
+	"title": load("uid://d1bn1no2fwcee"),
+	"floating_square_cutout": load("uid://dd0xlhuktb0p2")
 }
 var active_ui_scenes: Dictionary[String, UIStage] = {}
 
@@ -35,7 +36,7 @@ func _ready() -> void:
 	_crt_material.set_shader_parameter("tex", vp_tex)
 	_crt_material.set_shader_parameter("tex_nearest", vp_tex)
 	AppController.viewport_container.material = _crt_material
-	set_crt_shader_mode(CRT_SHADER_MODES.NEAREST)
+	set_crt_shader_mode(CRT_SHADER_MODES.DOT)
 	
 	
 func set_crt_shader_mode(mode: CRT_SHADER_MODES) -> void:
@@ -50,21 +51,23 @@ func set_crt_shader_mode(mode: CRT_SHADER_MODES) -> void:
 		CRT_SHADER_MODES.DOT:
 			_crt_material.set_shader_parameter("enabled", true)
 			_crt_material.set_shader_parameter("use_nearest_filter", false)
-			_crt_material.set_shader_parameter("mask_type", 0)
+			
+			_crt_material.set_shader_parameter("mask_type", 1)
 			_crt_material.set_shader_parameter("aspect", 0.562)
 			_crt_material.set_shader_parameter("curve", 0.12)
 			_crt_material.set_shader_parameter("color_offset", -0.15)
 		CRT_SHADER_MODES.APERTURE:
 			_crt_material.set_shader_parameter("enabled", true)
 			_crt_material.set_shader_parameter("use_nearest_filter", false)
-			_crt_material.set_shader_parameter("mask_type", 1)
+			_crt_material.set_shader_parameter("mask_type", 5)
 			_crt_material.set_shader_parameter("aspect", 0.562)
 			_crt_material.set_shader_parameter("curve", 0.12)
 			_crt_material.set_shader_parameter("color_offset", -0.15)
 		CRT_SHADER_MODES.NULL:
 			_crt_material.set_shader_parameter("enabled", true)
 			_crt_material.set_shader_parameter("use_nearest_filter", false)
-			_crt_material.set_shader_parameter("mask_type", 5)
+			
+			_crt_material.set_shader_parameter("mask_type", 0)
 			_crt_material.set_shader_parameter("aspect", 0.562)
 			_crt_material.set_shader_parameter("curve", 0.12)
 			_crt_material.set_shader_parameter("color_offset", -0.15)

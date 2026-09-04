@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://bdtihxlqy06si" path="res://assets/resources/shaders/scrolling_rainbow.gdshader" id="6_4c57u"]
 [ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="6_7mycd"]
 [ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/resources/themes/debug.tres" id="10_w48qg"]
-[ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/ui/debug_ui.gd" id="10_ycdy4"]
+[ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/classes/ui/DebugUIHelper.gd" id="10_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
@@ -21,7 +21,7 @@ shader_parameter/tex = SubResource("ViewportTexture_272bh")
 shader_parameter/tex_nearest = SubResource("ViewportTexture_7mycd")
 shader_parameter/enabled = true
 shader_parameter/use_nearest_filter = false
-shader_parameter/mask_type = 2
+shader_parameter/mask_type = 1
 shader_parameter/curve = 0.1200000057
 shader_parameter/sharpness = 0.6666667
 shader_parameter/color_offset = -0.14999998337499998

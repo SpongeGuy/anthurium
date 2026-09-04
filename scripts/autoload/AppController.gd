@@ -96,12 +96,14 @@ func change_game_state(status: GameStatus) -> void:
 		GameStatus.PAUSED:
 			_wait_for_ui()
 			change_active_controller(Controller.HAND)
-			UiController.hand.switch_stages(UiController.hud)
+			
 			UiController.hud.set_state(UIHUD.State.ACTIVE)
+			UiController.hand.switch_stages(UiController.hud)
 		GameStatus.PLAYING:
 			_wait_for_ui()
 			change_active_controller(Controller.PLAYER)
 			UiController.hud.set_state(UIHUD.State.BAR)
+			UiController.hand.go_invisible()
 	game_state_changed.emit(game_state)
 	
 func _process(delta: float) -> void:
@@ -132,7 +134,6 @@ func change_app_state(status: AppStatus) -> void:
 			await _wait_for_ui()
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.HAND)
-			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
 			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
 			_initialize_systems()
@@ -146,7 +147,7 @@ func change_app_state(status: AppStatus) -> void:
 		AppStatus.GAMEOVER:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
-			change_active_controller(Controller.CAMERA)
+			change_active_controller(Controller.NONE)
 			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
 
 
