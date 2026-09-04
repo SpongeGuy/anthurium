@@ -74,13 +74,15 @@ func _run_boot_sequence() -> void:
 
 
 
-func _initialize_systems() -> void:
+func _initialize_world() -> void:
 	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
 	camera_2d = Camera2D.new()
 	world_2d.add_child(camera_2d)
+	#CameraController.reset()
 	CameraController.register_camera(camera_2d)
 	
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
+	EntityManager.destroy_all()
 	
 func change_active_controller(controller: Controller) -> void:
 	active_controller = controller
@@ -112,7 +114,7 @@ func _process(delta: float) -> void:
 		toggle_pause()
 		
 	if Input.is_key_pressed(KEY_E):
-		change_app_state(AppStatus.GAME)
+		change_app_state(AppStatus.MENU, true)
 		
 	_handle_control_inputs(delta)
 	
@@ -120,19 +122,18 @@ func _process(delta: float) -> void:
 		#AppStatus.GAMEOVER:
 			#world_2d.global_position += Vector2(sin((time)) * 1, -sin((time + PI/3)) * 1)
 
-func change_app_state(status: AppStatus) -> void:
-	app_state = status
+func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 	match status:
 		AppStatus.BOOT:
 			UiController.hand.visible = false
 			_run_boot_sequence()
 		AppStatus.MENU:
-			_fade(0, 1.4)
-			_initialize_systems()
-			if not GameInterface.game_instance_active:
+			_initialize_world()
+			if not (GameInterface.game_instance_active and !forcing):
 				GameInterface.start_new_game_instance()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
 			await _wait_for_ui()
+			_fade(0, 1.6)
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
 			MusicController.play(true)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
@@ -140,20 +141,26 @@ func change_app_state(status: AppStatus) -> void:
 			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
 			MusicController.stop()
-			_initialize_systems()
+			await _fade(1, 0.6)
+			_fade(1, 0.2)
+			_initialize_world()
 			GameInterface.start_new_game_instance_with_player()
+			
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
 			UiController.remove_stage("title")
+			UiController.hud.set_state(UIHUD.State.BAR)
+			_fade(0, 0.5)
 		AppStatus.GAMEOVER:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.NONE)
 			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
-
+	
+	app_state = status
 
 
 func toggle_pause() -> void:

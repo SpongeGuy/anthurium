@@ -4,7 +4,7 @@ class_name AbilityDetonate
 
 @export var blast_radius: float = 3
 @export var damage: float = 25
-var icon_texture: Texture2D = preload("res://assets/textures/ability_icons/detonate.png")
+var icon_texture: Texture2D = preload("uid://d4ixqeh4puotd")
 
 
 		

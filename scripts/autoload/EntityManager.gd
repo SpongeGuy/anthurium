@@ -16,6 +16,10 @@ var poof_sound: VoiceProfile = load("uid://dgiuplfa2wr8m")
 
 var active_entities: Array[Entity] = []
 
+func destroy_all() -> void:
+	for i in range(active_entities.size() - 1, -1, -1):
+		active_entities[i].queue_free()
+
 
 func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)

@@ -74,12 +74,17 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 			target = null
 			
 	
-	
+func reset() -> void:
+	target = null
+	target_position = Vector2.ZERO
+	behavior = 2
+	_delay_timer = 0
 
 
 func register_camera(c: Camera2D) -> void:
 	Log.info("Camera %s registered." % c)
 	camera = c
+	camera.make_current()
 
 func change_camera_target(new_target: Node2D) -> void:
 	target = new_target
