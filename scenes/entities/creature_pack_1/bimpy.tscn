@@ -24,7 +24,6 @@
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_xa547"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="23_l5amt"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="24_k5xxe"]
-[ext_resource type="Script" uid="uid://cps7owvkpo4og" path="res://scripts/components/anthurium_component.gd" id="24_sy6b7"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="25_g5faw"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="26_1w6la"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_3s7qd"]
@@ -71,6 +70,33 @@ size = Vector2(12, 12)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_sv7g5"]
 radius = 6.0827627
+
+[sub_resource type="GDScript" id="GDScript_bn7x7"]
+script/source = "extends Component
+class_name AnthuriumComponent
+
+# ---------------------------------
+# registers the entity to the anthurium brain!
+# ---------------------------------
+
+var basename: StringName
+@export var health_component: HealthComponent
+
+# Called when the node enters the scene tree for the first time.
+#func _ready() -> void:
+	#if health_component:
+		#health_component.taken_damage.connect(_on_hit)
+
+#func _on_registered() -> void:
+	#AnthuriumBrain.add_active_part(entity)
+	#
+#func _exit_tree() -> void:
+	#AnthuriumBrain.remove_active_part(entity)
+#
+#func _on_hit(amount: float, source: Entity) -> void:
+	#AnthuriumBrain.just_took_damage.emit(amount, source)
+	#
+"
 
 [node name="Bimpy" type="CharacterBody2D" unique_id=511333519]
 texture_filter = 1
@@ -179,6 +205,7 @@ position = Vector2(12, 0)
 shape = SubResource("CircleShape2D_isghd")
 
 [node name="Hurtbox" type="Area2D" parent="Rotator" unique_id=1808532791 node_paths=PackedStringArray("collision_shape")]
+visible = false
 script = ExtResource("13_hbxah")
 damage = 1.0
 collision_shape = NodePath("CollisionShape2D")
@@ -189,6 +216,7 @@ position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_vh157")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape", "friends", "knockback")]
+visible = false
 script = ExtResource("14_83mm5")
 collision_shape = NodePath("CollisionShape2D")
 friends = NodePath("../Bullshit/FriendComponent")
@@ -204,7 +232,7 @@ shape = SubResource("CircleShape2D_sv7g5")
 script = ExtResource("17_rt8mq")
 area = NodePath("../../Rotator/Proximity")
 whitelist = Array[Script]([ExtResource("18_fvtcv")])
-blacklist = Array[Script]([ExtResource("24_sy6b7")])
+blacklist = Array[Script]([SubResource("GDScript_bn7x7")])
 collision_mask = 65
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 

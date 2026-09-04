@@ -8,12 +8,12 @@ func _ready() -> void:
 func _on_cells_changed(batch: Dictionary[Vector2i, CellData]) -> void:
 	for coords in batch:
 		if coords == WorldGrid.world_to_tile(entity.global_position):
-			if batch[coords].terrain == CellData.TerrainType.WALL:
+			if batch[coords].type.terrain == CellType.TerrainType.WALL:
 				entity.queue_free()
 				
 	
 func _on_cell_changed(coords: Vector2i, cell: CellData) -> void:
 	if coords == WorldGrid.world_to_tile(entity.global_position):
-		if cell.terrain == CellData.TerrainType.WALL:
+		if cell.type.terrain == CellType.TerrainType.WALL:
 			entity.queue_free()
 			
