@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_7d0cd"]
 [ext_resource type="Texture2D" uid="uid://b0spj6h1gkhif" path="res://assets/textures/characters/focks.png" id="2_e1qh5"]
-[ext_resource type="Texture2D" uid="uid://brm8tbiplb1bk" path="res://assets/textures/misc/shadow.png" id="3_qyswd"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
@@ -34,8 +33,10 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
+[ext_resource type="Script" uid="uid://bug3rdbfdn4dh" path="res://scripts/components/ZDrive.gd" id="36_1cjm5"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
+[ext_resource type="Curve" uid="uid://cfvo42q61korj" path="res://assets/resources/curves/shadow_size_curve.tres" id="37_1cjm5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2pk5b"]
 size = Vector2(9, 8)
@@ -85,18 +86,10 @@ shape = SubResource("RectangleShape2D_2pk5b")
 [node name="Visual" type="Node2D" parent="." unique_id=333898871]
 
 [node name="Main" type="Sprite2D" parent="Visual" unique_id=1600768525]
+position = Vector2(0, -8)
 texture = ExtResource("2_e1qh5")
-offset = Vector2(0, -7.5)
 hframes = 2
 vframes = 3
-
-[node name="Shadow" type="Sprite2D" parent="Visual" unique_id=1071683397]
-z_index = -1
-position = Vector2(0, 7)
-texture = ExtResource("3_qyswd")
-offset = Vector2(0, -7)
-hframes = 3
-frame = 2
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
 
@@ -162,7 +155,6 @@ physics = NodePath("../PhysicsComponent")
 metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
 [node name="HitDetection" type="Node2D" parent="." unique_id=1085286240]
-visible = false
 
 [node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape", "knockback")]
 script = ExtResource("12_mutx0")
@@ -292,3 +284,10 @@ proximity = NodePath("../Proximity/ProximityDetector")
 input = NodePath("../InputComponent")
 effect = SubResource("Resource_d1yhl")
 metadata/_custom_type_script = "uid://cpjm187a6ashx"
+
+[node name="ZDrive" type="Node" parent="." unique_id=1726783809 node_paths=PackedStringArray("nodes_to_translate", "main_sprite")]
+script = ExtResource("36_1cjm5")
+shadow_size_curve = ExtResource("37_1cjm5")
+nodes_to_translate = [NodePath("../HitDetection/Hitbox")]
+main_sprite = NodePath("../Visual/Main")
+metadata/_custom_type_script = "uid://bug3rdbfdn4dh"

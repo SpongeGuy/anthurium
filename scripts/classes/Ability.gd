@@ -10,6 +10,21 @@ class_name Ability
 ## Any nodes created at runtime during [method initialize] should be appended to [member created_nodes]
 ## so they are properly cleaned up when the ability is transferred or removed.
 
+## Time in seconds before this ability can be used again after [method execute] is called.
+@export var cooldown: float = 0
+## Minimum hold duration in seconds before [method execute] is called automatically.
+## Useful for charge-style abilities.
+@export var cast_time: float = 0
+## When [code]true[/code], [method execute] will not fire.
+@export var disabled: bool = false
+## The icon displayed in the ability HUD slot.
+@export var icon: Texture2D
+## Emitted when the ability has fully resolved — for example, after an animation completes.
+## [AbilityManager] and [BehaviorState] use this to know when the ability is done.
+signal finished
+
+var _cd: float = 0
+
 ## The [Entity] this ability is currently attached to.
 var entity: Entity
 ## The [AbilityManager] managing this ability.
@@ -44,20 +59,7 @@ func initialize() -> void:
 func _ready() -> void:
 	finished.connect(_start_cooldown)
 
-## Time in seconds before this ability can be used again after [method execute] is called.
-@export var cooldown: float = 0
-## Minimum hold duration in seconds before [method execute] is called automatically.
-## Useful for charge-style abilities.
-@export var cast_time: float = 0
-## When [code]true[/code], [method execute] will not fire.
-@export var disabled: bool = false
-## The icon displayed in the ability HUD slot.
-@export var icon: Texture2D
-## Emitted when the ability has fully resolved — for example, after an animation completes.
-## [AbilityManager] and [BehaviorState] use this to know when the ability is done.
-signal finished
 
-var _cd: float = 0
 
 ## Called when the ability's input is first pressed.[br]
 ## [param modifier] reflects whether the modifier input was held at the time of the press.

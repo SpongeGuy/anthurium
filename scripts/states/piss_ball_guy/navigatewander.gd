@@ -5,7 +5,6 @@ class_name PathfindWandererState
 @export var facing: FacingComponent
 @export var input: InputComponent
 @export var locomotion: LocomotionHandler
-@export var sound: SoundPlayer
 @export var animator: SpriteAnimator
 
 @export var radius: float = 100

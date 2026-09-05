@@ -28,7 +28,7 @@ const DEADZONE: float = 0.75
 
 var height: float = 8
 
-enum State{DEFAULT, HOVER_OVER_ACTIVATEABLE, HOVER_OVER_LIST, HOLDING}
+enum State{DEFAULT, HOVER_OVER_ACTIVATE, HOVER_OVER_LIST, HOLDING, HOVER_OVER_GRAB}
 
 signal focus_changed(element: InteractableUI)
 signal state_changed(to: State)
@@ -49,9 +49,10 @@ var _dir_pressed: Dictionary = {
 
 const STATE_ANIMS = {
 	State.DEFAULT: "default",
-	State.HOVER_OVER_ACTIVATEABLE: "hov_activateable",
+	State.HOVER_OVER_ACTIVATE: "hov_activate",
 	State.HOVER_OVER_LIST: "hov_list",
 	State.HOLDING: "holding",
+	State.HOVER_OVER_GRAB: "hov_grab",
 }
 
 var current_state: State = State.DEFAULT
@@ -60,6 +61,7 @@ var current_state: State = State.DEFAULT
 # The ability is NOT extracted from the manager until a drop or toss confirms the action.
 var _held_ability: Ability = null
 var _held_slot: int = -1
+var _held_element: AbilityHudElement = null
 
 var _ability_manager: AbilityManager = null
 
@@ -89,7 +91,10 @@ func _process(delta: float) -> void:
 	if selected_element:
 		target_position = _get_interactable_selection_position(selected_element)
 	global_position = global_position.lerp(target_position, 1.0 - exp(delta * -speed))
-		
+	
+func illegal_move() -> void:
+	AudioManager.play_voice(_illegal_move_sound, null, true, false)
+
 func go_invisible() -> void:
 	target_position = get_viewport_rect().get_center()
 	selected_element = null
@@ -102,15 +107,12 @@ func control(delta: float) -> void:
 		if is_down and not _dir_pressed[dir]:
 			var next = selected_element.get_neighbor(dir)
 			if next:
-				AudioManager.play_voice(_navigate_sound, null, true, false)
-				selected_element.deselect(self)
 				switch_selected_element(next)
-				focus_changed.emit(selected_element)
-				selected_element.select(self)
 		_dir_pressed[dir] = is_down
 	if Input.is_action_just_pressed("action_primary"):
 		selected_element.activate(self)
 				
+	
 		
 func switch_stages(stage: UIStage) -> void:
 	if stage.last_selected_element:
@@ -123,6 +125,10 @@ func switch_stages(stage: UIStage) -> void:
 
 
 func switch_selected_element(element: Control) -> void:
+	
+	if selected_element:
+		AudioManager.play_voice(_navigate_sound, null, true, false)
+		selected_element.deselect(self)
 	if element is UIStage:
 		switch_stages(element)
 		return
@@ -130,8 +136,11 @@ func switch_selected_element(element: Control) -> void:
 	selected_element = element
 	if selected_element.stage:
 		selected_element.stage.last_selected_element = selected_element
-	if move_tween:
-		move_tween.kill()
+		
+	if current_state != State.HOLDING:
+		change_state(selected_element.type) # switch animation based on the type of InteractableUI
+	selected_element.select(self)
+	focus_changed.emit(selected_element)
 
 func _get_interactable_selection_position(element: InteractableUI) -> Vector2:
 	if not element.selection_location:
@@ -182,7 +191,7 @@ func _on_state_changed(to: State) -> void:
 	match current_state:
 		State.DEFAULT:
 			pass
-		State.HOVER_OVER_ACTIVATEABLE:
+		State.HOVER_OVER_ACTIVATE:
 			pass
 		State.HOVER_OVER_LIST:
 			pass
@@ -196,19 +205,23 @@ func _on_state_changed(to: State) -> void:
 ## The ability is not removed from [AbilityManager]; it remains active and
 ## usable while held. Call [method drop_ability_onto] or [method toss_held_ability]
 ## to confirm the action.
-func grab_ability_from(element: AbilityHudElement) -> void:
+## returns true if successful, false if nothing was picked up.
+func grab_ability_from(element: AbilityHudElement) -> bool:
 	if current_state == State.HOLDING:
-		return
+		return false
 	if not _ability_manager:
-		return
+		return false
 	var ability: Ability = _ability_manager.get_ability(element.slot)
 	if ability == null:
-		return
+		return false
 	_held_ability = ability
 	_held_slot = element.slot
+	_held_element = element
+	element.ability_icon.visible = false
 	grabbed_sprite.texture = ability.icon
 	AudioManager.play_voice(_activation_sound, null, true, false)
 	change_state(State.HOLDING)
+	return true
 	
 ## Drops the held ability onto [param element]'s slot.
 ##
@@ -223,7 +236,7 @@ func drop_ability_onto(element: AbilityHudElement) -> void:
 	_ability_manager.swap_slots(_held_slot, element.slot)
 	_release_held()
 	AudioManager.play_voice(_place_sound, null, true, false)
-	change_state(State.HOVER_OVER_ACTIVATEABLE)
+	change_state(selected_element.type)
 	element.select(self)
 
 ## Tosses the held ability to the world as an [AbilityShard].
@@ -231,11 +244,12 @@ func drop_ability_onto(element: AbilityHudElement) -> void:
 ## Calls [method AbilityManager.drop_to_shard], which extracts the ability from
 ## its slot (emitting [signal AbilityManager.ability_unregistered] so the HUD
 ## updates automatically) and spawns a shard at the owning entity's feet.
-func toss_held_ability() -> void:
+## returns true if successful, false if not.
+func toss_held_ability() -> bool:
 	if _held_ability == null or _held_slot < 0:
-		return
+		return false
 	if not _ability_manager:
-		return
+		return false
 		
 	# capture the slot before releasing so drop_to_shard can find it
 	var slot: int = _held_slot
@@ -245,10 +259,14 @@ func toss_held_ability() -> void:
 	_ability_manager.drop_to_shard(slot, spawn_pos)
 	AudioManager.play_voice(_activation_sound, null, true, false)
 	AudioManager.play_sound(_toss_sound)
-	change_state(State.HOVER_OVER_ACTIVATEABLE)
+	change_state(selected_element.type)
+	return true
 	
 func _release_held() -> void:
+	if _held_element:
+		_held_element.ability_icon.visible = true
 	_held_ability = null
 	_held_slot = -1
+	_held_element = null
 	grabbed_sprite.texture = null
 	label.text = ""

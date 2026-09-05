@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EntityEffectSequence" format=3 uid="uid://dly24jhonlofh"]
+
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="1_1fml4"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="2_0pta5"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="2_iy2lu"]
+[ext_resource type="Resource" uid="uid://dk5b2flswt6uj" path="res://assets/resources/voices/landing_stomp.tres" id="3_v7a82"]
+
+[sub_resource type="Resource" id="Resource_cdhi4"]
+script = ExtResource("2_0pta5")
+voice = ExtResource("3_v7a82")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[resource]
+script = ExtResource("2_iy2lu")
+parallel = true
+effects = Array[ExtResource("1_1fml4")]([SubResource("Resource_cdhi4")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"

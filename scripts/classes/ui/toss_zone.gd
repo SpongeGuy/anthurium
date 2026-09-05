@@ -11,6 +11,7 @@ extends InteractableUI
 
 func activate(hand: UIHand) -> void:
 	# create ability shard and spawn it on player
-	hand.toss_held_ability()
+	if not hand.toss_held_ability():
+		hand.illegal_move()
 	
 	

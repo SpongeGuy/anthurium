@@ -4,66 +4,6 @@
 		{"id":"379ee5ab18ee73f1","type":"group","x":280,"y":-705,"width":1520,"height":1905,"label":"done"},
 		{"id":"28faf08bea793d10","type":"group","x":-1200,"y":-705,"width":1320,"height":1785,"label":"working on"},
 		{
-			"id":"fd62621a6af2ee71",
-			"type":"text",
-			"text":"whole buncha terrain types with effects and have",
-			"styleAttributes":{},
-			"x":-3000,
-			"y":60,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"2c5d06a364b13a19",
-			"type":"text",
-			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. ",
-			"styleAttributes":{},
-			"x":-2900,
-			"y":-180,
-			"width":360,
-			"height":180
-		},
-		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-2150,
-			"y":-310,
-			"width":420,
-			"height":320
-		},
-		{
-			"id":"2a1027d88103d458",
-			"type":"text",
-			"text":"add ability/hud support for MODIFIER key\n\nhud smartly switching ability icons when MODIFIER key is held down\n\nability will have to have two different icons as well\n\ndefine a fallback texture for no icon",
-			"styleAttributes":{},
-			"x":-2400,
-			"y":-660,
-			"width":460,
-			"height":210
-		},
-		{
-			"id":"8d7d71efe5b6be14",
-			"type":"text",
-			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
-			"styleAttributes":{},
-			"x":-2500,
-			"y":-320,
-			"width":320,
-			"height":140
-		},
-		{
-			"id":"6f8380beab67c98b",
-			"type":"text",
-			"text":"ANTHURIUM should use a mix of SNES-sounding instruments and techniques with more modern sounding instruments.\n\nnew title screen track\n\tvaried, interesting (there will be periods of time that this track will be playing nonstop for minutes)\n\tmotif?\n    \ntwo main tracks for gameplay\n\ttracks should be split into layers (DRUMS, BASS, CHORDS, MELODY, PAD, LEAD, VOCALS)???\n\tat the beginning of the game, there are 2 layers playing.\n\tas the anthurium grows in size (esoterica in magnitude), additional layers will increase in volume.\n\t\nbloom song!\n\tcrazy stuff is happening here, so the song should sound chaotic but not tuneless\n\n(undecided if i even want) game over song (30 seconds, then the title screen track will begin playing again)\n\tthe player has just died, possibly after hours of playing.\n\nundecided on sound profile for ANTHURIUM!\n\n\ntribal percussion\nbitcrush\nearthbound soundfont\nreally close reverb/delay\nfretless bass",
-			"styleAttributes":{},
-			"x":-2440,
-			"y":120,
-			"width":620,
-			"height":800
-		},
-		{
 			"id":"701228c35defd60d",
 			"type":"text",
 			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
@@ -104,6 +44,66 @@
 			"height":135
 		},
 		{
+			"id":"094619fdad86f0f5",
+			"type":"text",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
+			"styleAttributes":{},
+			"x":-2150,
+			"y":-310,
+			"width":420,
+			"height":320
+		},
+		{
+			"id":"2a1027d88103d458",
+			"type":"text",
+			"text":"add ability/hud support for MODIFIER key\n\nhud smartly switching ability icons when MODIFIER key is held down\n\nability will have to have two different icons as well\n\ndefine a fallback texture for no icon",
+			"styleAttributes":{},
+			"x":-2400,
+			"y":-660,
+			"width":460,
+			"height":210
+		},
+		{
+			"id":"8d7d71efe5b6be14",
+			"type":"text",
+			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
+			"styleAttributes":{},
+			"x":-2500,
+			"y":-320,
+			"width":320,
+			"height":140
+		},
+		{
+			"id":"54af69f0cd6ae0a0",
+			"type":"text",
+			"text":"get z-axis working\n\n#### okay\nz-axis needs to connect to hitbox and change its layer based on z-axis value\nz-axis must connect to ability manager\n- ability should have a field `affected by z-axis`\n- so that abilities that have hurtboxes can change hurtbox layer based on z-axis\nphysicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\nz-axis needs a reference to sprite `scale` to generate a shadow of a particular size\nshadow should decrease in size the higher up z value is\n\nshadows\njumping\n\nverify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":-3195,
+			"y":-705,
+			"width":590,
+			"height":510
+		},
+		{
+			"id":"fd62621a6af2ee71",
+			"type":"text",
+			"text":"whole buncha terrain types with effects and have",
+			"styleAttributes":{},
+			"x":-3000,
+			"y":60,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"6f8380beab67c98b",
+			"type":"text",
+			"text":"ANTHURIUM should use a mix of SNES-sounding instruments and techniques with more modern sounding instruments.\n\nnew title screen track\n\tvaried, interesting (there will be periods of time that this track will be playing nonstop for minutes)\n\tmotif?\n    \ntwo main tracks for gameplay\n\ttracks should be split into layers (DRUMS, BASS, CHORDS, MELODY, PAD, LEAD, VOCALS)???\n\tat the beginning of the game, there are 2 layers playing.\n\tas the anthurium grows in size (esoterica in magnitude), additional layers will increase in volume.\n\t\nbloom song!\n\tcrazy stuff is happening here, so the song should sound chaotic but not tuneless\n\n(undecided if i even want) game over song (30 seconds, then the title screen track will begin playing again)\n\tthe player has just died, possibly after hours of playing.\n\nundecided on sound profile for ANTHURIUM!\n\n\ntribal percussion\nbitcrush\nearthbound soundfont\nreally close reverb/delay\nfretless bass",
+			"styleAttributes":{},
+			"x":-2440,
+			"y":120,
+			"width":620,
+			"height":800
+		},
+		{
 			"id":"d3106f13bf6163fb",
 			"type":"text",
 			"text":"abilities that spend ichor",
@@ -124,16 +124,6 @@
 			"height":60
 		},
 		{
-			"id":"c1c586db8a7789f4",
-			"type":"text",
-			"text":"ichor motes",
-			"styleAttributes":{},
-			"x":-3125,
-			"y":350,
-			"width":170,
-			"height":60
-		},
-		{
 			"id":"21ddca2e09e20557",
 			"type":"text",
 			"text":"focks push ability",
@@ -144,14 +134,24 @@
 			"height":60
 		},
 		{
-			"id":"54af69f0cd6ae0a0",
+			"id":"c1c586db8a7789f4",
 			"type":"text",
-			"text":"get z-axis working\n\n#### okay\nz-axis needs to connect to hitbox and change its layer based on z-axis value\nz-axis must connect to ability manager\n- ability should have a field `affected by z-axis`\n- so that abilities that have hurtboxes can change hurtbox layer based on z-axis\nphysicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\nz-axis needs a reference to sprite `scale` to generate a shadow of a particular size\nshadow should decrease in size the higher up z value is\n\nshadows\njumping\n\nverify that the hitbox/hurtbox levels work by making a flying entity",
+			"text":"ichor motes",
+			"styleAttributes":{},
+			"x":-3125,
+			"y":350,
+			"width":170,
+			"height":60
+		},
+		{
+			"id":"2c5d06a364b13a19",
+			"type":"text",
+			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. ",
 			"styleAttributes":{},
 			"x":-3195,
-			"y":-705,
-			"width":590,
-			"height":510
+			"y":-170,
+			"width":360,
+			"height":180
 		}
 	],
 	"edges":[],

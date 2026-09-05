@@ -6,6 +6,8 @@ class_name InteractableUI
 @export var neighbor_right: Control
 @export var neighbor_down: Control
 
+@export var type: UIHand.State = UIHand.State.DEFAULT
+
 var stage: UIStage
 @export var selection_location: Marker2D
 

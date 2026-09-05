@@ -1,6 +1,8 @@
 extends Component
 class_name FacingComponent
 
+## update direction by calling change_direction() in a behavior state.
+
 var _direction: Vector2 = Vector2.ZERO
 
 var _old_direction: Vector2 = Vector2.ZERO

@@ -40,6 +40,7 @@ signal game_state_changed(status: GameStatus)
 	
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	Log.initialize()
 	_retrieve_references()
 	_create_fade_overlay()
@@ -78,6 +79,7 @@ func _initialize_world() -> void:
 	world_2d = change_scene_and_wait(container_2d, world_2d_scene)
 	camera_2d = Camera2D.new()
 	world_2d.add_child(camera_2d)
+	world_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
 	#CameraController.reset()
 	CameraController.register_camera(camera_2d)
 	
@@ -98,11 +100,12 @@ func change_game_state(status: GameStatus) -> void:
 		GameStatus.PAUSED:
 			_wait_for_ui()
 			change_active_controller(Controller.HAND)
-			
+			get_tree().paused = true
 			UiController.hud.set_state(UIHUD.State.ACTIVE)
 			UiController.hand.switch_stages(UiController.hud)
 		GameStatus.PLAYING:
 			_wait_for_ui()
+			get_tree().paused = false
 			change_active_controller(Controller.PLAYER)
 			UiController.hud.set_state(UIHUD.State.BAR)
 			UiController.hand.go_invisible()
@@ -267,5 +270,8 @@ func _retrieve_references() -> void:
 	main_viewport = root.find_child("MainViewport", true, false)
 	ui_canvas_layer = root.find_child("UI_Layer", true, false)
 	if ui_canvas_layer:
+		ui_canvas_layer.process_mode = Node.PROCESS_MODE_ALWAYS
 		UiController.ui_canvas_layer = ui_canvas_layer
 	logo_canvas_layer = root.find_child("Logo_Layer", true, false)
+	if logo_canvas_layer:
+		logo_canvas_layer.process_mode = Node.PROCESS_MODE_ALWAYS

@@ -21,8 +21,7 @@ class_name AbilityHudElement
 
 
 func select(hand: UIHand) -> void:
-	if hand.current_state != UIHand.State.HOLDING:
-		hand.change_state(UIHand.State.HOVER_OVER_ACTIVATEABLE)
+	pass
 
 
 func deselect(hand: UIHand) -> void:
@@ -32,7 +31,8 @@ func activate(hand: UIHand) -> void:
 	
 	if hand.current_state != UIHand.State.HOLDING:
 		# Nothing held yet — pick up this slot's ability.
-		hand.grab_ability_from(self)
+		if not hand.grab_ability_from(self):
+			hand.illegal_move()
 	else:
 		# Already holding — drop onto this slot (swap or move).
 		hand.drop_ability_onto(self)

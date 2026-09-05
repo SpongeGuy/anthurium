@@ -22,6 +22,8 @@ func on_pressed(modifier: bool) -> void:
 	var subject: Entity = recently_interacted.recently_interacted
 	if subject:
 		var ability_manager: AbilityManager = subject.get_component(AbilityManager)
+		if not ability_manager:
+			return
 		if ability_manager.is_full():
 			return
 		for ability in ability_container.abilities:

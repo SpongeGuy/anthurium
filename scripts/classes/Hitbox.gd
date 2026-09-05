@@ -15,6 +15,7 @@ var entity: Entity
 	Hurtbox.DamageType.SELF: DamageResponses.DAMAGE,
 }
 var knockback_force: float = 100
+var zdrive: ZDrive
 const COLLIDER_BITS = [6, 12, 14]
 enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 
@@ -32,6 +33,7 @@ func _ready() -> void:
 		collision_layer |= 1 << COLLIDER_BITS[type]
 	area_entered.connect(_on_hurtbox_contact)
 	entity = Entity.find_entity(self)
+	zdrive = entity.get_component(ZDrive) if entity else null
 	
 
 
@@ -43,7 +45,16 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 		return
 	if friends and friends.is_friend(hurtbox.entity):
 		return
+	if not _z_layers_compatible(hurtbox):
+		return
 	if knockback:
 		knockback.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
 	hit_received.emit(hurtbox.damage, hurtbox.entity)
 	EventBus.behavior_stimulus_event.emit(GameEvent.Stimulus.DAMAGE_TAKEN, {"damage": hurtbox.damage, "target": entity})
+
+
+func _z_layers_compatible(hurtbox: Hurtbox) -> bool:
+	var their_zdrive: ZDrive = hurtbox.entity.get_component(ZDrive) if hurtbox.entity else null
+	if not zdrive or not their_zdrive:
+		return true # no vertical logic on one side, don't gate
+	return zdrive.layer == their_zdrive.layer

@@ -10,7 +10,8 @@
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
-[ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scenes/systems/ui/toss_zone.gd" id="11_4p43q"]
+[ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scripts/classes/ui/toss_zone.gd" id="11_4p43q"]
+[ext_resource type="Script" uid="uid://d315vbgqswj2g" path="res://scripts/ui/misc/blink_visually.gd" id="11_8rlmo"]
 [ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability_icons/toss_icon.png" id="12_8rlmo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u330w"]
@@ -22,7 +23,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_1_icon", "ability_2_icon", "ability_3_icon", "ability_4_icon", "starting_element")]
+[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_hud_elements", "starting_element")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -42,10 +43,7 @@ inactive_opal_score = NodePath("Bar/Columns/C3/HBoxContainer/Score/InactivePoint
 active_opal_score = NodePath("Bar/Columns/C3/HBoxContainer/Score/ActivePoints")
 inactive_aura_score = NodePath("Bar/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
 active_aura_score = NodePath("Bar/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
-ability_1_icon = NodePath("Bar/Columns/C1/ItemStage/Items/Control/AbilityIcon1")
-ability_2_icon = NodePath("Bar/Columns/C1/ItemStage/Items/Control2/AbilityIcon2")
-ability_3_icon = NodePath("Bar/Columns/C1/ItemStage/Items/Control3/AbilityIcon3")
-ability_4_icon = NodePath("Bar/Columns/C1/ItemStage/Items/Control4/AbilityIcon4")
+ability_hud_elements = [NodePath("Bar/Columns/C1/ItemStage/Items/Control"), NodePath("Bar/Columns/C1/ItemStage/Items/Control2"), NodePath("Bar/Columns/C1/ItemStage/Items/Control3"), NodePath("Bar/Columns/C1/ItemStage/Items/Control4")]
 starting_element = NodePath("Bar/Columns/C1/ItemStage/Items/Control")
 metadata/_custom_type_script = "uid://dagk4uclh6cc1"
 
@@ -98,6 +96,7 @@ ability_icon = NodePath("AbilityIcon1")
 neighbor_left = NodePath("../Control4")
 neighbor_up = NodePath("../../../../../../TossStage")
 neighbor_right = NodePath("../Control2")
+type = 4
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
@@ -140,6 +139,7 @@ ability_icon = NodePath("AbilityIcon2")
 neighbor_left = NodePath("../Control")
 neighbor_up = NodePath("../../../../../../TossStage")
 neighbor_right = NodePath("../Control3")
+type = 4
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
@@ -182,6 +182,7 @@ ability_icon = NodePath("AbilityIcon3")
 neighbor_left = NodePath("../Control2")
 neighbor_up = NodePath("../../../../../../TossStage")
 neighbor_right = NodePath("../Control4")
+type = 4
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
@@ -223,6 +224,7 @@ ability_icon = NodePath("AbilityIcon4")
 neighbor_left = NodePath("../Control3")
 neighbor_up = NodePath("../../../../../../TossStage")
 neighbor_right = NodePath("../Control")
+type = 4
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://co6s7lhvsqgst"
 
@@ -299,10 +301,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/fill = SubResource("StyleBoxFlat_2cqfq")
 value = 100.0
-
-[node name="Label" type="Label" parent="Bar/Columns/C2" unique_id=1176031403]
-layout_mode = 2
-text = "feafeafewafe"
 
 [node name="C3" type="VBoxContainer" parent="Bar/Columns" unique_id=1531262092]
 layout_mode = 2
@@ -401,27 +399,48 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 28.0
+offset_top = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="Menu" unique_id=1560146291]
-anchors_preset = 0
-offset_top = -3.0
-offset_right = 107.0
-offset_bottom = 37.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu" unique_id=67958985]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="Menu/Control" unique_id=1578880859]
+[node name="Control" type="Control" parent="Menu/HBoxContainer" unique_id=1560146291]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/HBoxContainer/Control" unique_id=1578880859]
+layout_mode = 1
+offset_right = 72.0
+offset_bottom = 8.0
+text = "ABILITIES"
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="Menu/HBoxContainer" unique_id=1489615066]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Menu/HBoxContainer/Control2" unique_id=1792449256]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -36.0
-offset_right = 36.0
+offset_left = -24.0
+offset_right = 24.0
 offset_bottom = 8.0
 grow_horizontal = 2
-text = "ABILITIES"
-vertical_alignment = 1
+text = "PAUSED"
+script = ExtResource("11_8rlmo")
+
+[node name="Control3" type="Control" parent="Menu/HBoxContainer" unique_id=1571931547]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="TossStage" type="HBoxContainer" parent="." unique_id=1010786914 node_paths=PackedStringArray("starting_element")]
 layout_mode = 0

@@ -19,12 +19,8 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var inactive_aura_score: Label
 @export var active_aura_score: Label
 
-@export var ability_1_icon: Sprite2D
-@export var ability_2_icon: Sprite2D
-@export var ability_3_icon: Sprite2D
-@export var ability_4_icon: Sprite2D
-
-var ability_icons: Array[Sprite2D]
+@export var ability_hud_elements: Array[AbilityHudElement]
+var ability_missing_texture: Texture2D = load("uid://ghuabptc2k60")
 
 var _opal_score: float = 0.0
 var _aura_score: float = 0.0
@@ -38,7 +34,7 @@ const HUD_SIZE: Vector2 = Vector2(640, 200)
 const STATE_POSITIONS: Dictionary[State, Vector2] = {
 	State.BAR: Vector2(0.0, 336.0),
 	State.INACTIVE: Vector2(0.0, 360.0),
-	State.ACTIVE: Vector2(0.0, 160.0),
+	State.ACTIVE: Vector2(0.0, 240.0),
 }
 
 enum State { BAR, INACTIVE, ACTIVE }
@@ -51,12 +47,6 @@ var _screen_size: Vector2
 var _voice_inv_open: VoiceProfile = preload("uid://b778tjvr2o26a")
 var _voice_inv_close: VoiceProfile = preload("uid://dy7px8dso8tvd")
 
-
-
-
-
-func _ready() -> void:
-	ability_icons = [ability_1_icon, ability_2_icon, ability_3_icon, ability_4_icon]
 
 
 
@@ -111,8 +101,14 @@ func update_ichor(ratio: float) -> void:
 ## Sets the icon displayed for [param slot] (0–3).
 ## Pass [code]null[/code] to clear the slot (shows the missing-ability placeholder).
 func update_ability_icon(slot: int, texture: Texture2D) -> void:
-	if slot < ability_icons.size():
-		ability_icons[slot].texture = texture
+	if slot < ability_hud_elements.size():
+		if not texture:
+			ability_hud_elements[slot].ability_icon.texture = ability_missing_texture
+			ability_hud_elements[slot].type = UIHand.State.DEFAULT
+		else:
+			ability_hud_elements[slot].ability_icon.texture = texture
+			ability_hud_elements[slot].type = UIHand.State.HOVER_OVER_GRAB
+	print(texture)
 
 		
 

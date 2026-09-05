@@ -6,7 +6,9 @@ class_name AbilityDetonate
 @export var damage: float = 25
 var icon_texture: Texture2D = preload("uid://d4ixqeh4puotd")
 
-
+func initialize() -> void:
+	icon = icon_texture
+	display_name = "Detonate"
 		
 
 func on_pressed(modifier: bool) -> void:

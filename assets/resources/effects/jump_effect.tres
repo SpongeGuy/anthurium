@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="EntityEffectVoice" format=3 uid="uid://biw543fd31een"]
+
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="1_x3o31"]
+[ext_resource type="Resource" uid="uid://cb8ota3tr48qu" path="res://assets/resources/voices/jump.tres" id="2_e63q4"]
+
+[resource]
+script = ExtResource("1_x3o31")
+voice = ExtResource("2_e63q4")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"

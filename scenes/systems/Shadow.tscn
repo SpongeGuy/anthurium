@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cimer7u58jm6v"]
+
+[ext_resource type="Script" uid="uid://cnqfs7mpt6kch" path="res://scripts/classes/Shadow.gd" id="1_3ccn8"]
+[ext_resource type="Texture2D" uid="uid://csgcjdj6a05rq" path="res://assets/textures/misc/shadow.png" id="2_2eahv"]
+
+[node name="Shadow" type="Node2D" unique_id=715137679 node_paths=PackedStringArray("sprite")]
+z_index = -1
+script = ExtResource("1_3ccn8")
+sprite = NodePath("Sprite2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1996198220]
+scale = Vector2(0.009999996, 0.009999996)
+texture = ExtResource("2_2eahv")

@@ -23,8 +23,6 @@ var _health_component: HealthComponent
 var _ichor_component: IchorComponent
 var _ability_manager: AbilityManager
 
-var ability_missing: Texture2D = load("uid://ghuabptc2k60")
-
 signal ui_ready
 var is_ready: bool = false
 
@@ -163,13 +161,17 @@ func _refresh_ability_icons() -> void:
 		return
 	for i in _ability_manager.abilities.size():
 		var ability: Ability = _ability_manager.get_ability(i)
-		hud.update_ability_icon(i, ability.icon if ability else ability_missing)
+		if ability:
+			hud.update_ability_icon(i, ability.icon)
+		else:
+			hud.update_ability_icon(i, null)
+
  
 func _on_ability_registered(slot: int, ability: Ability) -> void:
 	hud.update_ability_icon(slot, ability.icon)
  
 func _on_ability_unregistered(slot: int) -> void:
-	hud.update_ability_icon(slot, ability_missing)
+	hud.update_ability_icon(slot, null)
 
 func _on_health_changed(value: float, max_value: float) -> void:
 	hud.update_health(value / max_value)

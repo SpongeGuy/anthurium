@@ -8,9 +8,31 @@
 
 [sub_resource type="Resource" id="Resource_wm76h"]
 script = ExtResource("4_lc2g5")
-name = &"hov_activateable"
+name = &"hov_activate"
 frames = 2
 speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_jy4b1"]
+script = ExtResource("4_lc2g5")
+name = &"hov_grab"
+row = 1
+frames = 2
+speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_4p43q"]
+script = ExtResource("4_lc2g5")
+name = &"default"
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_8rlmo"]
+script = ExtResource("4_lc2g5")
+name = &"holding"
+row = 1
+column = 1
+loop = false
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [node name="Hand" type="Node2D" unique_id=1172565642]
@@ -23,12 +45,13 @@ position = Vector2(-7, -7)
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1396170626]
 texture = ExtResource("1_hib0p")
 hframes = 2
+vframes = 2
 
 [node name="SpriteAnimator" type="Node" parent="." unique_id=1910142732 node_paths=PackedStringArray("sprite")]
 script = ExtResource("3_0nok7")
 sprite = NodePath("../Sprite2D")
 starting_animation = 0
-animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_wm76h")])
+animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_wm76h"), SubResource("Resource_jy4b1"), SubResource("Resource_4p43q"), SubResource("Resource_8rlmo")])
 
 [node name="Control" type="Control" parent="." unique_id=420915547]
 layout_mode = 3
