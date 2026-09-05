@@ -143,6 +143,7 @@ func enable(id: int) -> void:
 # --------------------------------
 
 func _on_input_just_pressed(id: int) -> void:
+	Log.info(str(entity))
 	if not abilities.get(id):
 		return
 	if _disabled[id]:

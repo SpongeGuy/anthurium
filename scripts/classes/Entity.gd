@@ -28,6 +28,8 @@ enum VisibleStateFlag {
 
 var _components: Dictionary[Script, Array] = {}
 
+var z_drive: ZDrive
+
 ## Emitted after all components have been registered and the entity is ready.
 signal entity_initialized
 
@@ -46,6 +48,9 @@ func _ready() -> void:
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
 	basename = get_basename()
+	
+	_initialize_z_drive()
+	
 
 func _register_components(node: Node) -> void:
 	for child in node.get_children():
@@ -62,6 +67,8 @@ func _register_component(component: Component) -> void:
 		_components[script].append(component)
 		script = script.get_base_script()
 	component.entity = self
+	if component is ZDrive:
+		z_drive = component
 	component._on_registered()
 	component.registered.emit()
 
@@ -109,3 +116,144 @@ static func find_entity(node: Node) -> Entity:
 
 func get_visual() -> CanvasItem:
 	return visual
+
+
+
+# ---------------------------------------------------
+# z drive
+# ----------------------------------------------------
+
+@export_category("ZDrive")
+var s: PackedScene = preload("uid://cimer7u58jm6v")
+
+const GROUND_LEVEL: float = 0
+
+signal layer_changed(new_layer: VerticalLayer, old_layer: VerticalLayer)
+signal z_updated(value: float, layer: VerticalLayer)
+enum VerticalLayer{ SUBTERRANEAN, GROUND, AERIAL }
+
+var _z_tracked_nodes: Dictionary = {}
+
+@export var render_shadow: bool = true
+@export var base_z_level: float = 0.0
+@export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
+@export var nodes_to_translate: Array[Node2D]
+@export var jump_velocity: float = 60
+@export var apply_gravity: bool = true
+@export var gravity: float = 300
+@export var min_z: float = -8
+@export var max_z: float = 16
+@export var is_subterranean: bool = false
+
+@export var jump_effect: EntityEffect = preload("uid://biw543fd31een")
+@export var land_effect: EntityEffect = preload("uid://dly24jhonlofh")
+@export var go_subterranean_effect: EntityEffect
+@export var is_subterranean_effect: EntityEffect
+
+var z: float = 0.0
+var _vz: float = 0.0
+var _is_on_ground: bool = true
+
+var _last_broadcast_z: float = 0.0
+var _last_broadcast_layer: VerticalLayer = VerticalLayer.GROUND
+
+var layer: VerticalLayer
+
+var shadow: Shadow
+var shadow_base_size: float
+
+func _layer_for_z(value: float) -> VerticalLayer:
+	if value > 4:
+		return VerticalLayer.AERIAL
+	elif value < 0:
+		return VerticalLayer.SUBTERRANEAN
+	else:
+		return VerticalLayer.GROUND
+
+func go_subterranean() -> void:
+	set_z_value(-4)
+	is_subterranean = true
+	layer = VerticalLayer.SUBTERRANEAN
+
+func _initialize_z_drive() -> void:
+	if render_shadow:
+		shadow = s.instantiate()
+		self.add_child(shadow)
+		shadow_base_size = (visual.texture.get_width() / visual.hframes)
+		shadow.set_shadow_size(shadow_base_size)
+		shadow.set_shadow_alpha(0.65)
+
+	for node in nodes_to_translate:
+		register_z_node(node)
+
+func register_z_node(node: Node2D) -> void:
+	_z_tracked_nodes[node] = node.position.y
+
+func unregister_z_node(node: Node2D) -> void:
+	_z_tracked_nodes.erase(node)
+	
+func _apply_z_offset() -> void:
+	if absf(z - _last_broadcast_z) < 0.01 and layer == _last_broadcast_layer:
+		return
+	
+	var offset: float = min(0.0, -z * 4.0)
+	if visual:
+		visual.offset.y = offset
+	for node in _z_tracked_nodes.keys():
+		if is_instance_valid(node):
+			node.position.y = _z_tracked_nodes[node] + offset
+		else:
+			_z_tracked_nodes.erase(node)
+	if render_shadow and shadow:
+		shadow.set_shadow_size(shadow_base_size * shadow_size_curve.sample(z))
+	
+	_last_broadcast_z = z
+	_last_broadcast_layer = layer
+	z_updated.emit(z, layer)
+	
+
+	
+func jump(velocity: float) -> void:
+	_vz = velocity
+	_is_on_ground = false
+	jump_effect.execute(self)
+	
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("action_modifier") and _is_on_ground and self == PlayerManager.player:
+		jump(jump_velocity)
+
+	print(self, z)
+	if not _is_on_ground:
+		if apply_gravity and not is_subterranean:
+			_vz -= gravity * delta
+		z += _vz * delta
+
+		if z > GROUND_LEVEL and is_subterranean:
+			is_subterranean = false
+
+		if z <= GROUND_LEVEL and not is_subterranean:
+			z = GROUND_LEVEL
+			_vz = 0.0
+			_is_on_ground = true
+			land_effect.execute(self)
+
+	z = clamp(z, min_z, max_z)
+
+	var old_layer: VerticalLayer = layer
+	layer = _layer_for_z(z)
+
+	if layer != old_layer:
+		layer_changed.emit(layer, old_layer)
+		if layer == VerticalLayer.SUBTERRANEAN and is_subterranean_effect:
+			is_subterranean_effect.execute(self)
+		elif old_layer == VerticalLayer.SUBTERRANEAN and go_subterranean_effect:
+			go_subterranean_effect.execute(self)
+
+	_apply_z_offset()
+	
+func set_z_value(value: float) -> void:
+	z = clamp(value, min_z, max_z)
+	_vz = 0.0
+	_is_on_ground = is_zero_approx(z)
+	layer = _layer_for_z(z)
+	_apply_z_offset()

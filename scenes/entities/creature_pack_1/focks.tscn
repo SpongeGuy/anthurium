@@ -25,7 +25,7 @@
 [ext_resource type="Script" uid="uid://dy1nhmegj3sv7" path="res://scripts/abilities/hand.gd" id="26_sumsn"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
-[ext_resource type="Script" uid="uid://cini61n7sdso5" path="res://scripts/abilities/dcube_rush.gd" id="30_3qtpx"]
+[ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="29_vl5tg"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="32_qcr3t"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
@@ -36,7 +36,6 @@
 [ext_resource type="Script" uid="uid://bug3rdbfdn4dh" path="res://scripts/components/ZDrive.gd" id="36_1cjm5"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
-[ext_resource type="Curve" uid="uid://cfvo42q61korj" path="res://assets/resources/curves/shadow_size_curve.tres" id="37_1cjm5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2pk5b"]
 size = Vector2(9, 8)
@@ -70,7 +69,7 @@ script = ExtResource("36_4npmj")
 particle_profile = ExtResource("35_1cjm5")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
-[node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual") groups=["creature"]]
+[node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual", "nodes_to_translate") groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
@@ -78,6 +77,7 @@ motion_mode = 1
 script = ExtResource("1_7d0cd")
 display_name = "jacob"
 visual = NodePath("Visual/Main")
+nodes_to_translate = [NodePath("HitDetection/Hitbox")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
 position = Vector2(0.5, -3)
@@ -248,14 +248,14 @@ script = ExtResource("29_jr5rt")
 icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 
-[node name="AbilityDungeonCubeRush" type="Node" parent="AbilityManager" unique_id=972252231]
-script = ExtResource("30_3qtpx")
-cooldown = 10.0
-metadata/_custom_type_script = "uid://cini61n7sdso5"
-
 [node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=2109672073]
 script = ExtResource("31_ypaju")
 metadata/_custom_type_script = "uid://tda3ohuci2fd"
+
+[node name="AbilitySpawnEntity" type="Node" parent="AbilityManager" unique_id=1855551236]
+script = ExtResource("29_vl5tg")
+entity_name = &"meat_shank"
+metadata/_custom_type_script = "uid://yatksxan7xhj"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")
@@ -285,9 +285,6 @@ input = NodePath("../InputComponent")
 effect = SubResource("Resource_d1yhl")
 metadata/_custom_type_script = "uid://cpjm187a6ashx"
 
-[node name="ZDrive" type="Node" parent="." unique_id=1726783809 node_paths=PackedStringArray("nodes_to_translate", "main_sprite")]
+[node name="ZDrive" type="Node" parent="." unique_id=1726783809]
 script = ExtResource("36_1cjm5")
-shadow_size_curve = ExtResource("37_1cjm5")
-nodes_to_translate = [NodePath("../HitDetection/Hitbox")]
-main_sprite = NodePath("../Visual/Main")
 metadata/_custom_type_script = "uid://bug3rdbfdn4dh"

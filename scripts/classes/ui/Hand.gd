@@ -116,7 +116,6 @@ func control(delta: float) -> void:
 		
 func switch_stages(stage: UIStage) -> void:
 	if stage.last_selected_element:
-		print(stage.last_selected_element)
 		switch_selected_element(stage.last_selected_element)
 	else:
 		switch_selected_element(stage.starting_element)

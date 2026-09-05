@@ -33,6 +33,7 @@ func initialize() -> void:
 		
 		
 		entity.add_child(rotator)
+		entity.register_z_node(rotator)
 		
 	
 	# create animator

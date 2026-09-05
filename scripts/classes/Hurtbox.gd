@@ -6,9 +6,11 @@ var entity: Entity
 @export var constant_hurtbox: bool = false
 @export var can_hurt_self: bool = false
 @export var collision_shape: CollisionShape2D
-@export var layer: Array[Layer] = [Layer.NORMAL]
 @export var type: DamageType
-enum Layer{NORMAL, FLYING, GROUND}
+
+var z: float = 0.0
+var layer: Entity.VerticalLayer = Entity.VerticalLayer.GROUND
+
 # projectile: a singular travelling instance of damage
 # melee: usually close-range damage
 # force: things like explosions, magic, or environmental damage
@@ -29,16 +31,19 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	name = "Hurtbox"
-	if layer.is_empty():
-		push_error("Collider type for hitbox cannot be empty!")
 	
-	collision_mask = 0
-	collision_layer = 0
-	for type in layer:
-		collision_layer |= 1 << COLLIDER_BITS[type] + 1
-		collision_mask |= 1 << COLLIDER_BITS[type]
+	collision_layer |= 7
+	collision_mask |= 6
 	entity = Entity.find_entity(self)
-	
+	if entity:
+		z = entity.z
+		layer = entity.layer
+		entity.z_updated.connect(_on_entity_z_updated)
+		
+func _on_entity_z_updated(new_z: float, new_layer: Entity.VerticalLayer) -> void:
+	z = new_z
+	layer = new_layer
+
 
 		
 func set_active(value: bool) -> void:

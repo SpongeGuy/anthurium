@@ -6,6 +6,9 @@ class_name AbilityFoodConsumed
 @export var stage_manager: ItemStageManager
 @export var effect: EntityEffect
 
+var _cache_ichor: IchorComponent
+var _last_interacted: Entity
+
 ## Called when the ability's input is first pressed.[br]
 ## [param modifier] reflects whether the modifier input was held at the time of the press.
 func on_pressed(modifier: bool) -> void:
@@ -27,12 +30,18 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 ## The internal execution logic. Override this in subclasses to define what the ability does.
 ## Only called by [method execute] after cooldown and disabled checks pass.
 func _execute() -> void:
+	Log.info(str(entity))
 	if effect:
 		effect.execute(entity)
 	
 	var subject: Entity = interactable.recently_interacted
-	var subject_i: IchorComponent = subject.get_component(IchorComponent)
-	if subject_i:
-		subject_i.add_ichor(ichor.ichor)
+	if subject != _last_interacted:
+		_cache_ichor = subject.get_component(IchorComponent)
+		_last_interacted = subject
+	if subject == null:
+		_cache_ichor = null
+	if _cache_ichor:
+		var value: float = ichor.take_ichor(ichor.max_ichor / stage_manager.stages)
+		_cache_ichor.add_ichor(value)
 	
 	stage_manager.increment_stage()

@@ -21,14 +21,16 @@ func destroy_all() -> void:
 		active_entities[i].queue_free()
 
 
-func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
+func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true, z: float = 0) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
 	var entity: Entity = _instantiate_entity(entity_type)
 	if not entity:
 		return null
 	var random_offset: Vector2 = Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
 	entity.global_position = pos + random_offset
+	entity.set_z_value(z)
 	_add(entity)
+	
 	if play_sound:
 		AudioManager.play_voice(poof_sound, entity)
 	return entity
@@ -128,14 +130,14 @@ func _instantiate_entity(entity_type: StringName) -> Entity:
 		return null
 	return instance
 
-func _add(e: Entity) -> void:
+func _add(e: Entity, z: float = 0) -> void:
 	active_entities.append(e)
 	e.tree_exiting.connect(_on_tree_exiting.bind(e), CONNECT_ONE_SHOT)
 	_entity_container.add_child.call_deferred(e)
 	EventBus.entity_spawned.emit.call_deferred(e)
 	if WorldGrid.is_world_pos_visible(e.global_position):
 		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
-		
+	
 	Log.debug("Spawned new %s at %s" % [e, e.global_position])
 
 func _on_tree_exiting(e: Entity) -> void:

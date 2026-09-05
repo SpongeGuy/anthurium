@@ -8,6 +8,7 @@ class_name RecentlyInteracted
 # other scripted components will have to interact with this component manually.
 # -----------------------------------------
 
+@export var interactable: InteractableComponent
 @export var physics: PhysicsComponent
 @export var hitbox: Hitbox
 
@@ -21,6 +22,8 @@ func _ready() -> void:
 		physics.entity_collision.connect(_on_collision)
 	if hitbox:
 		hitbox.hit_received.connect(_on_harmed)
+	if interactable:
+		interactable.interacted.connect(_on_interacted)
 	
 func _on_collision(source: Entity) -> void:
 	interact(source)
@@ -28,6 +31,9 @@ func _on_collision(source: Entity) -> void:
 func _on_harmed(damage_amount: float, source: Node2D) -> void:
 	if source is Entity:
 		interact(source)
+		
+func _on_interacted(source: Entity) -> void:
+	interact(source)
 
 func _process(delta: float) -> void:
 	if _timer > 0:

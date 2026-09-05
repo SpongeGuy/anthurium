@@ -23,17 +23,19 @@ func start_new_game_instance_with_player() -> void:
 	_initialize_player(Vector2i(16, 16))
 	
 	#_make_test_land()
-	#1143
+	#
 
 func start_new_game_instance() -> void:
 	EventBus.starting_new_game.emit()
 	game_instance_active = true
 	WorldGrid.init_grid(64, 64)
-	DungeonGenerator.generate()
-	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
+	DungeonGenerator.generate(1143)
+	#EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
 	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
-	EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
-	_initialize_debug_spawns()
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150), false)
+	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190), false)
+	#EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
+	#_initialize_debug_spawns()
 
 # --------------------------------------
 # internal initialization procedure
@@ -59,8 +61,8 @@ func _initialize_anthurium(tile_pos: Vector2i) -> void:
 	
 func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
-	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150), false)
-	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190), false)
+	
+	
 
 	for i in range(15):
 		var pos: Vector2 = Vector2(randf_range(0, 1000), randf_range(0, 1000))

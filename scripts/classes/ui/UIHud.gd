@@ -108,7 +108,6 @@ func update_ability_icon(slot: int, texture: Texture2D) -> void:
 		else:
 			ability_hud_elements[slot].ability_icon.texture = texture
 			ability_hud_elements[slot].type = UIHand.State.HOVER_OVER_GRAB
-	print(texture)
 
 		
 

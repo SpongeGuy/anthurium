@@ -8,6 +8,8 @@ class_name InteractorComponent
 var target: Entity
 var old_target: Entity
 
+var interactable_component: InteractableComponent
+
 
 
 var _nearby: Array[Entity]
@@ -21,16 +23,22 @@ func _process(delta: float) -> void:
 	if input.interact_just_pressed:
 		if effect:
 			effect.execute(entity)
+		if interactable_component:
+			interactable_component.interact(entity)
 	
 	if old_target != target:
 		# give target the shader
 		# play the shader
-		var visual: CanvasItem
+		var visual: Sprite2D
 		if target:
 			visual = target.get_visual()
 		if visual:
 			play_flash(visual)
 		old_target = target
+		if target:
+			interactable_component = target.get_component(InteractableComponent)
+		else:
+			interactable_component = null
 		
 		
 		
@@ -61,27 +69,29 @@ func _on_entity_lost(source: Entity, target: Entity) -> void:
 var _flash_material: ShaderMaterial = preload("uid://7uhb7uu6inj6")
 var _active_flash_material: ShaderMaterial
 var _flash_tween: Tween
-@export var flash_duration: float = 2
+@export var flash_duration: float = 0.2
 func play_flash(flash_target: CanvasItem) -> void:
-	 #kill flash in progress so tweens dont interfere
 	if _flash_tween and _flash_tween.is_valid():
 		_flash_tween.kill()
 		_teardown_flash(flash_target)
-	
+
 	var existing_mat: Material = flash_target.material
 	_active_flash_material = _flash_material.duplicate()
-	_active_flash_material.set_shader_parameter("progress", 0.0)
-	
+	_active_flash_material.set_shader_parameter("progress", 1.0) # start normal
+
 	if existing_mat:
 		existing_mat.next_pass = _active_flash_material
 	else:
 		flash_target.material = _active_flash_material
-		
+
+	var stage: float = flash_duration / 4.0
 	_flash_tween = create_tween()
-	_flash_tween.tween_method(
-		func(v): _active_flash_material.set_shader_parameter("progress", v), 0.0, 1.0, flash_duration
-	)
-	_flash_tween.tween_callback(_teardown_flash.bind(flash_target))
+	_flash_tween.tween_callback(func(): _active_flash_material.set_shader_parameter("progress", 0.0)) # white
+	_flash_tween.tween_callback(func(): _active_flash_material.set_shader_parameter("progress", 1.0)).set_delay(stage) # normal
+	_flash_tween.tween_callback(func(): _active_flash_material.set_shader_parameter("progress", 0.0)).set_delay(stage) # white
+	_flash_tween.tween_callback(func(): _active_flash_material.set_shader_parameter("progress", 1.0)).set_delay(stage) # normal
+	_flash_tween.tween_callback(_teardown_flash.bind(flash_target)).set_delay(stage)
+
 			
 func _teardown_flash(flash_target: CanvasItem) -> void:
 	if not flash_target:

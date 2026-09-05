@@ -15,7 +15,6 @@
 [ext_resource type="Resource" uid="uid://bg2bks2clcl4r" path="res://assets/resources/effects/default_death_effect.tres" id="11_htl5y"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="11_qgsau"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="12_8sseg"]
-[ext_resource type="Script" uid="uid://d45okk3fhrt5" path="res://scripts/resources/ComponentPropertyOverride.gd" id="12_va4vv"]
 [ext_resource type="Script" uid="uid://pk4ddbhgpjrr" path="res://scripts/resources/entity_effect/EntityEffectSpawnEntity.gd" id="13_678sj"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="13_i5ycx"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="14_gxhi0"]
@@ -68,18 +67,21 @@ speed = 5.0
 loop = false
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
-[node name="Entity" type="CharacterBody2D" unique_id=1440474964]
+[node name="Entity" type="CharacterBody2D" unique_id=1440474964 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 script = ExtResource("1_55jur")
+visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_qtuw3")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=372542618]
+position = Vector2(0, -7)
 texture = ExtResource("2_ps7tj")
 hframes = 4
 vframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1870576264]
+position = Vector2(0, -6)
 shape = SubResource("CircleShape2D_adop0")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=2073798996 node_paths=PackedStringArray("hitbox", "state_machine", "ichor")]
@@ -92,6 +94,7 @@ ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1560614441 node_paths=PackedStringArray("collision_shape", "knockback")]
+position = Vector2(0, -6)
 script = ExtResource("5_a3ryl")
 collision_shape = NodePath("CollisionShape2D")
 knockback = NodePath("../KnockbackComponent")

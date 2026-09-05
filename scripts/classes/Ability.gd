@@ -43,9 +43,11 @@ func clean_up() -> void:
 	
 	for node in created_nodes:
 		count += 1
+		entity.unregister_z_node(node)
 		node.queue_free()
 	created_nodes.clear()
 	Log.info("Cleaned up %d nodes from %s" % [count, entity])
+	
 	
 	entity = null
 	manager = null
@@ -53,6 +55,8 @@ func clean_up() -> void:
 ## Called once when this ability is assigned to an entity.
 ## Link exported component references here, and create any runtime nodes the ability needs.
 ## Append runtime-created nodes to [member created_nodes].
+## also make sure to register nodes that need to be transformed based on z using entity.register_z_node()
+## remember to define icon and display_name 
 func initialize() -> void:
 	pass
 	

@@ -20,7 +20,10 @@
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="18_r3st6"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="20_gbc8y"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="22_gbc8y"]
+[ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="22_mvwcn"]
+[ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_73w5w"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_mvwcn"]
+[ext_resource type="Script" uid="uid://bug3rdbfdn4dh" path="res://scripts/components/ZDrive.gd" id="24_73w5w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
 radius = 5.0
@@ -34,11 +37,16 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xpqok"]
 
-[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931]
+[sub_resource type="Resource" id="Resource_emcra"]
+script = ExtResource("23_73w5w")
+metadata/_custom_type_script = "uid://q8oievajpib8"
+
+[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 collision_layer = 4
 collision_mask = 7
 script = ExtResource("1_dgkf4")
+visual = NodePath("Sprite2D")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1169875588]
@@ -79,17 +87,19 @@ script = ExtResource("10_6afsf")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
-[node name="AbilityShardUse" type="Node" parent="AbilityManager" unique_id=1217008420 node_paths=PackedStringArray("recently_interacted")]
+[node name="AbilityShardUse" type="Node" parent="AbilityManager" unique_id=1217008420 node_paths=PackedStringArray("recently_interacted", "ability_container")]
 script = ExtResource("10_xpqok")
 recently_interacted = NodePath("../../RecentlyInteracted")
+ability_container = NodePath("../../AbilityContainer")
 metadata/_custom_type_script = "uid://b420r8tw5oyu6"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1295419246]
 script = ExtResource("11_4sxbx")
 metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
-[node name="RecentlyInteracted" type="Node" parent="." unique_id=1063134860 node_paths=PackedStringArray("physics", "hitbox")]
+[node name="RecentlyInteracted" type="Node" parent="." unique_id=1063134860 node_paths=PackedStringArray("interactable", "physics", "hitbox")]
 script = ExtResource("11_5fcyu")
+interactable = NodePath("../InteractableComponent")
 physics = NodePath("../PhysicsComponent")
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
@@ -149,3 +159,12 @@ metadata/_custom_type_script = "uid://cvaptyot73a1d"
 script = ExtResource("23_mvwcn")
 visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://b7fumud38ekr4"
+
+[node name="InteractableComponent" type="Node" parent="." unique_id=1922570257]
+script = ExtResource("22_mvwcn")
+effect = SubResource("Resource_emcra")
+metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"
+
+[node name="ZDrive" type="Node" parent="." unique_id=1504189757]
+script = ExtResource("24_73w5w")
+metadata/_custom_type_script = "uid://bug3rdbfdn4dh"
