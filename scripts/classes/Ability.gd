@@ -25,7 +25,7 @@ signal finished
 
 ## -1 means infinite uses
 @export var uses: int = -1
-@export var use_up_effect: EntityEffect
+@export var use_up_effect: EntityEffect = preload("uid://beo48ab5ks11a")
 
 var slot: int = -1
 
@@ -49,7 +49,8 @@ func clean_up() -> void:
 	slot = -1
 	for node in created_nodes:
 		count += 1
-		entity.unregister_z_node(node)
+		if node is Node2D:
+			entity.unregister_z_node(node)
 		node.queue_free()
 	created_nodes.clear()
 	Log.info("Cleaned up %d nodes from %s" % [count, entity])
@@ -100,12 +101,6 @@ func execute() -> void:
 	if _cd > 0.0:
 		return
 	_execute()
-	if uses > 0:
-		uses -= 1
-	if uses <= 0:
-		manager.destroy_ability(slot)
-		if use_up_effect:
-			use_up_effect.execute(entity)
 
 func _start_cooldown() -> void:
 	_cd = cooldown

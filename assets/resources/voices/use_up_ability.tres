@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="VoiceProfile" format=3 uid="uid://cbn3a2rxjdmq7"]
+
+[ext_resource type="Script" uid="uid://bqktbxfbfrhkq" path="res://scripts/resources/BfxrVoiceProfile.gd" id="1_0khjh"]
+
+[resource]
+script = ExtResource("1_0khjh")
+master_volume = 0.254
+wave_type = 3
+attack_time = 0.005270997695095502
+sustain_time = 0.30303489049044535
+sustain_punch = 0.744
+decay_time = 0.449
+frequency_start = 0.3228319536630133
+frequency_slide = 0.5779999999999998
+frequency_acceleration = 0.25
+vibrato_depth = 0.216
+vibrato_speed = 0.2596076
+overtones = 0.059
+square_duty = 0.9120359516143799
+duty_sweep = -0.060361996673752
+flanger_offset = -0.494
+flanger_sweep = -4.3406321445861656e-06
+lp_filter_cutoff = 0.407
+lp_filter_cutoff_sweep = 0.5893444453158926
+lp_filter_resonance = 0.95588833
+hp_filter_cutoff = 0.174
+hp_filter_cutoff_sweep = -0.010754396047571493
+bit_crush = 0.146
+bit_crush_sweep = 0.36248733353997564
+metadata/_custom_type_script = "uid://bqktbxfbfrhkq"
