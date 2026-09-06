@@ -39,3 +39,7 @@ static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, posit
 			seen[entity] = true
 			entities.append(entity)
 	return entities
+
+
+static func z_ranges_overlap(z_min_a: float, height_a: float, z_min_b: float, height_b: float) -> bool:
+	return z_min_a < z_min_b + height_b_and_z_min_b < z_min_a + height_a

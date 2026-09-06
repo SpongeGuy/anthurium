@@ -1,13 +1,31 @@
+## Autoload: Log
+##
+## Project-wide logger. Prefixes each message with the in-game time
+## ([member AppController.time]) and the name of the calling script, colors
+## output by severity via [method @GlobalScope.print_rich], and optionally
+## mirrors every line to a log file on disk.
+##
+## Call [method initialize] once at boot (before anything else logs) — see
+## [code]AppController._ready()[/code].
 extends Node
 
+## Severity levels, in ascending order. Messages below [member min_level] are
+## dropped.
 enum LogType {DEBUG, INFO, WARN, ERROR }
 
+## Minimum severity that will actually be logged.
 var min_level: LogType = LogType.DEBUG
 
+## If [code]true[/code], every logged line is also appended to
+## [member log_file_path].
 var log_to_file: bool = false
+## Path the log file is written to when [member log_to_file] is enabled.
 var log_file_path: String = "user://game.log"
 var _file: FileAccess
 
+## Opens [member log_file_path] for writing if [member log_to_file] is set,
+## and prints/writes a session-start banner. Must be called once at boot
+## before any other [Log] method.
 func initialize() -> void:
 	if log_to_file:
 		_file = FileAccess.open(log_file_path, FileAccess.WRITE)
@@ -18,18 +36,27 @@ func initialize() -> void:
 		_file.store_line(start_line)
 	
 	
+## Logs [param message] at [constant LogType.DEBUG].
 func debug(message: String) -> void:
 	_log(LogType.DEBUG, message)
 	
+## Logs [param message] at [constant LogType.INFO].
 func info(message: String) -> void:
 	_log(LogType.INFO, message)
 	
+## Logs [param message] at [constant LogType.WARN]. Also raises an editor
+## warning via [method @GlobalScope.push_warning].
 func warn(message: String) -> void:
 	_log(LogType.WARN, message)
 	
+## Logs [param message] at [constant LogType.ERROR]. Also raises an editor
+## error via [method @GlobalScope.push_error].
 func error(message: String) -> void:
 	_log(LogType.ERROR, message)
 	
+## Formats and emits a single log line if [param type] meets
+## [member min_level], colorizing by severity and writing to
+## [member log_file_path] if file logging is enabled.
 func _log(type: LogType, message: String) -> void:
 	if type < min_level:
 		return
@@ -52,6 +79,8 @@ func _log(type: LogType, message: String) -> void:
 	if log_to_file and _file:
 		_file.store_line(line)
 		
+## Returns the current wall-clock time as [code]HH:MM:SS.mmm[/code], used
+## for the session-start banner.
 func _get_time_string() -> String:
 	var time_dict := Time.get_time_dict_from_system()
 	var unix_time := Time.get_unix_time_from_system()
@@ -64,6 +93,9 @@ func _get_time_string() -> String:
 	]
 		
 
+## Walks the call stack to find the name of the script that called into
+## [Log] (skipping [Log]'s own frames), so each line can be tagged with its
+## source. Returns [code]"Unknown"[/code] if the stack is too shallow.
 func _get_caller_name() -> String:
 	var stack := get_stack()
 	if stack.size() > 3:
@@ -71,6 +103,7 @@ func _get_caller_name() -> String:
 		return source.get_file().get_basename()
 	return "Unknown"
 
+## Formats [param seconds] of in-game time as [code]HH:MM:SS.mmm[/code].
 func _format_game_time(seconds: float) -> String:
 	var total_ms := int(round(seconds * 1000.0))
 	var ms := total_ms % 1000

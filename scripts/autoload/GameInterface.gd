@@ -1,3 +1,9 @@
+## Autoload: GameInterface
+##
+## Orchestrates a single run of the game itself (as opposed to
+## [AppController], which orchestrates the surrounding app shell): resets and
+## generates the world, seeds initial entities, spawns and hands off the
+## player, and tracks run-scoped score state.
 extends Node
 
 # -----------------------------------------------------------
@@ -5,19 +11,33 @@ extends Node
 # utilizes all system nodes
 # -----------------------------------------------------------
 
+## Gameplay tileset, currently unused directly in this script's reachable
+## code but loaded for use elsewhere.
 var tile_set: TileSet = load("uid://ofx275c8vgy4")
+## Visual/decorative tileset, currently unused directly in this script's
+## reachable code but loaded for use elsewhere.
 var visual_tile_set: TileSet = load("uid://b43hq6wx88hsl")
 
 
+## Current run's Opal score.
 var opal_score: int = 0
+## Current run's Aura score.
 var aura_score: int = 0
+## Every anthurium core entity currently tracked this run.
 var anthurium_cores: Array[Entity]
+## Reference to the active world node, currently unused beyond its
+## declaration.
 var world: Node2D
 
+## Whether a game instance is currently active (set by
+## [method start_new_game_instance]).
 var game_instance_active: bool = false
 
 
 
+## Starts a fresh game instance (see [method start_new_game_instance]) and
+## additionally spawns and hands control to a player entity at tile
+## [code](16, 16)[/code].
 func start_new_game_instance_with_player() -> void:
 	start_new_game_instance()
 	_initialize_player(Vector2i(16, 16))
@@ -25,6 +45,10 @@ func start_new_game_instance_with_player() -> void:
 	#_make_test_land()
 	#
 
+## Resets and generates a new world: emits
+## [signal EventBus.starting_new_game], marks the instance active,
+## initializes [WorldGrid] and runs [DungeonGenerator], and spawns the
+## initial set of non-player entities.
 func start_new_game_instance() -> void:
 	EventBus.starting_new_game.emit()
 	game_instance_active = true
@@ -42,6 +66,8 @@ func start_new_game_instance() -> void:
 # --------------------------------------
 	
 	
+## Spawns a [code]&"focks"[/code] entity as the player at [param tile_pos]
+## and snaps the camera to it.
 func _initialize_player(tile_pos: Vector2i) -> void:
 	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
 	var entity: Entity = EntityManager.spawn_as_player(&"focks", player_spawn)
@@ -51,17 +77,24 @@ func _initialize_player(tile_pos: Vector2i) -> void:
 	await get_tree().process_frame
 	
 	
+## Test helper for flooding a rectangular region with ground terrain.
+## References an outdated [WorldGrid] API ([code]set_rectangle[/code]) and is
+## not currently wired up to run.
 func _make_test_land() -> void:
 	var cell: CellData = CellData.new()
 	cell.terrain = CellType.TerrainType.GROUND
 	WorldGrid.set_rectangle(Vector2i(0, 0), Vector2i(64, 64), cell)
 	
+## Spawns a [code]&"test_tree"[/code] entity on [param tile_pos]. Reserved
+## for anthurium-specific world setup.
 func _initialize_anthurium(tile_pos: Vector2i) -> void:
 	EntityManager.spawn_on_tile(&"test_tree", tile_pos)
 	
+## Debug helper that seeds the world with a variety of test entities at
+## fixed and randomized positions. Not currently called from
+## [method start_new_game_instance].
 func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
-	
 	
 
 	for i in range(15):
@@ -81,4 +114,3 @@ func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(500, 200), false)
 	EntityManager.spawn_safely(&"ecube_gamma", Vector2i(450, 200), false)
 	EntityManager.spawn_safely(&"arcbimpy", Vector2i(100, 125), false)
-	

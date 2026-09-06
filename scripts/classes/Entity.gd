@@ -130,6 +130,7 @@ enum VerticalLayer{ SUBTERRANEAN, GROUND, AERIAL }
 
 var _z_tracked_nodes: Dictionary = {}
 
+@export var height: float = 1.0
 @export var render_shadow: bool = true
 @export var base_z_level: float = 0.0
 @export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
@@ -153,10 +154,12 @@ var _is_on_ground: bool = true
 var _last_broadcast_z: float = 0.0
 var _last_broadcast_layer: VerticalLayer = VerticalLayer.GROUND
 
+var layer_mask: int = 1 << VerticalLayer.GROUND
 var layer: VerticalLayer
 
 var shadow: Shadow
 var shadow_base_size: float
+
 
 func _layer_for_z(value: float) -> VerticalLayer:
 	if value > 4:
