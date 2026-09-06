@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Texture2D" uid="uid://dp2c6migtkbt3" path="res://assets/textures/ability_icons/grab_icon.png" id="29_oduj7"]
 [ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="29_vl5tg"]
+[ext_resource type="Texture2D" uid="uid://813kpydefwym" path="res://assets/textures/ability_icons/hand_icon.png" id="30_vl5tg"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="32_qcr3t"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
@@ -33,7 +34,6 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
-[ext_resource type="Script" uid="uid://bug3rdbfdn4dh" path="res://scripts/components/ZDrive.gd" id="36_1cjm5"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="36_vl5tg"]
 
@@ -69,7 +69,7 @@ script = ExtResource("36_4npmj")
 particle_profile = ExtResource("35_1cjm5")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
-[node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual", "nodes_to_translate") groups=["creature"]]
+[node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual") groups=["creature"]]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
@@ -77,7 +77,6 @@ motion_mode = 1
 script = ExtResource("1_7d0cd")
 display_name = "jacob"
 visual = NodePath("Visual/Main")
-nodes_to_translate = [NodePath("HitDetection/Hitbox")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
 position = Vector2(0.5, -3)
@@ -255,6 +254,7 @@ metadata/_custom_type_script = "uid://tda3ohuci2fd"
 [node name="AbilitySpawnEntity" type="Node" parent="AbilityManager" unique_id=1855551236]
 script = ExtResource("29_vl5tg")
 entity_name = &"meat_shank"
+icon = ExtResource("30_vl5tg")
 metadata/_custom_type_script = "uid://yatksxan7xhj"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
@@ -284,7 +284,3 @@ proximity = NodePath("../Proximity/ProximityDetector")
 input = NodePath("../InputComponent")
 effect = SubResource("Resource_d1yhl")
 metadata/_custom_type_script = "uid://cpjm187a6ashx"
-
-[node name="ZDrive" type="Node" parent="." unique_id=1726783809]
-script = ExtResource("36_1cjm5")
-metadata/_custom_type_script = "uid://bug3rdbfdn4dh"

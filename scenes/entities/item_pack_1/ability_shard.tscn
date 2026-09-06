@@ -23,7 +23,6 @@
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="22_mvwcn"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_73w5w"]
 [ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_mvwcn"]
-[ext_resource type="Script" uid="uid://bug3rdbfdn4dh" path="res://scripts/components/ZDrive.gd" id="24_73w5w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
 radius = 5.0
@@ -164,7 +163,3 @@ metadata/_custom_type_script = "uid://b7fumud38ekr4"
 script = ExtResource("22_mvwcn")
 effect = SubResource("Resource_emcra")
 metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"
-
-[node name="ZDrive" type="Node" parent="." unique_id=1504189757]
-script = ExtResource("24_73w5w")
-metadata/_custom_type_script = "uid://bug3rdbfdn4dh"

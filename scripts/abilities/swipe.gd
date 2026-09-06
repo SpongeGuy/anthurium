@@ -81,9 +81,11 @@ func initialize() -> void:
 	
 
 func on_pressed(modifier: bool) -> void:
+	execute()
+	
+func _execute() -> void:
 	animator.load_and_reset_animation("swipe")
 	AudioManager.play_voice(swipe_sound, entity)
 	locomotion.disabled = true
 	await hurtbox.activate(0.0, 0.2)
 	locomotion.disabled = false
-	

@@ -23,6 +23,12 @@ class_name Ability
 ## [AbilityManager] and [BehaviorState] use this to know when the ability is done.
 signal finished
 
+## -1 means infinite uses
+@export var uses: int = -1
+@export var use_up_effect: EntityEffect
+
+var slot: int = -1
+
 var _cd: float = 0
 
 ## The [Entity] this ability is currently attached to.
@@ -40,7 +46,7 @@ var created_nodes: Array[Node] = []
 ## Called automatically when the ability is removed or transferred.
 func clean_up() -> void:
 	var count: int = 0
-	
+	slot = -1
 	for node in created_nodes:
 		count += 1
 		entity.unregister_z_node(node)
@@ -94,6 +100,12 @@ func execute() -> void:
 	if _cd > 0.0:
 		return
 	_execute()
+	if uses > 0:
+		uses -= 1
+	if uses <= 0:
+		manager.destroy_ability(slot)
+		if use_up_effect:
+			use_up_effect.execute(entity)
 
 func _start_cooldown() -> void:
 	_cd = cooldown

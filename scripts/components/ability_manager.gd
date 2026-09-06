@@ -107,6 +107,8 @@ func swap_slots(slot_a: int, slot_b: int) -> void:
 		return
 	abilities[slot_a] = b
 	abilities[slot_b] = a
+	abilities[slot_a].slot = slot_a
+	abilities[slot_b].slot = slot_b
 	_emit_slot_changed(slot_a, b)
 	_emit_slot_changed(slot_b, a)
 	
@@ -166,6 +168,7 @@ func _process(delta: float) -> void:
 func _initialize_ability(ability: Ability, slot: int) -> void:
 	ability.entity = entity
 	ability.manager = self
+	ability.slot = slot
 	ability.initialize()
 	abilities[slot] = ability
 	ability_registered.emit(slot, ability)

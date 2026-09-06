@@ -11,8 +11,5 @@ func _execute(entity: Entity) -> void:
 		push_error("EntityEffectSpawnEntity: Could not spawn entity '%s', does not exist?" % spawned)
 		return
 	
-	var their_zdrive: ZDrive = spawned.get_component(ZDrive)
-	var my_zdrive: ZDrive = entity.get_component(ZDrive)
-	if my_zdrive and their_zdrive:
-		their_zdrive.set_z_value(my_zdrive.z)
+
 		

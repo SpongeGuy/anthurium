@@ -28,8 +28,6 @@ enum VisibleStateFlag {
 
 var _components: Dictionary[Script, Array] = {}
 
-var z_drive: ZDrive
-
 ## Emitted after all components have been registered and the entity is ready.
 signal entity_initialized
 
@@ -67,8 +65,6 @@ func _register_component(component: Component) -> void:
 		_components[script].append(component)
 		script = script.get_base_script()
 	component.entity = self
-	if component is ZDrive:
-		z_drive = component
 	component._on_registered()
 	component.registered.emit()
 

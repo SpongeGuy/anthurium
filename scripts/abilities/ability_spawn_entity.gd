@@ -5,6 +5,7 @@ class_name AbilitySpawnEntity
 
 func initialize() -> void:
 	display_name = "Spawn %s" % [entity_name]
+	uses = 1
 
 func on_pressed(modifier: bool) -> void:
 	execute()
