@@ -80,7 +80,7 @@ func _update_z_collision_exceptions() -> void:
 	if is_zero_approx(entity.z):
 		return
 	var space_state: PhysicsDirectSpaceState2D = entity.get_world_2d().direct_space_state
-	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, 24, SpatialUtil.PhysicsLayers.CREATURES)
+	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, 16, SpatialUtil.PhysicsLayers.CREATURES)
 	var still_relevant: Dictionary[Entity, bool] = {}
 	
 	for other in nearby:
