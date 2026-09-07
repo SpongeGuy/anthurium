@@ -73,12 +73,15 @@ radius = 6.0827627
 
 [sub_resource type="GDScript" id="GDScript_bn7x7"]
 
-[node name="Bimpy" type="CharacterBody2D" unique_id=511333519]
+[node name="Bimpy" type="CharacterBody2D" unique_id=511333519 node_paths=PackedStringArray("visual", "nodes_to_translate")]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_5hmfe")
+visual = NodePath("Rotator/Sprite2D")
 archetype = SubResource("Resource_uh7kq")
+mass = 0.5
+nodes_to_translate = [NodePath("Hitbox"), NodePath("Rotator/Hurtbox")]
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1029130901]
@@ -119,7 +122,7 @@ metadata/_custom_type_script = "uid://camguuycnoqcu"
 
 [node name="StateMachine" type="Node" parent="Behavior" unique_id=523757393 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("5_5vf4p")
-initial_state = NodePath("PathfindWandererState")
+initial_state = NodePath("BlankState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 

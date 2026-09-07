@@ -58,6 +58,7 @@ func start_new_game_instance() -> void:
 	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190), false)
+	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
 	#EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
 	#_initialize_debug_spawns()
 

@@ -8,8 +8,17 @@ var entity: Entity
 @export var collision_shape: CollisionShape2D
 @export var type: DamageType
 
-var z: float = 0.0
-var layer: Entity.VerticalLayer = Entity.VerticalLayer.GROUND
+## Height offset of this hurtbox's damage volume from the owning entity's
+## current [member Entity.z] (its base). 0 means the volume starts at the
+## entity's own base. For a standalone projectile flying at a fixed
+## altitude, set this (or drive it from the projectile's own z-drive)
+## instead of relying on the entity default.
+@export var z_offset: float = 0.0
+## Vertical extent of this hurtbox's damage volume, from
+## [code]entity.z + z_offset[/code] up to [code]+ height[/code]. A tall
+## height clears more of the space above it — e.g. a low melee swing vs. a
+## soaring fireball.
+@export var height: float = 2.0
 
 # projectile: a singular travelling instance of damage
 # melee: usually close-range damage
@@ -17,7 +26,6 @@ var layer: Entity.VerticalLayer = Entity.VerticalLayer.GROUND
 # contact: contact damage with an entity or damaging tile
 # self: self-inflicted damage
 enum DamageType{GENERIC, PROJECTILE, MELEE, FORCE, CONTACT, SELF}
-const COLLIDER_BITS = [6, 12, 14]
 
 var tween: Tween
 
@@ -35,14 +43,6 @@ func _ready() -> void:
 	collision_layer |= 7
 	collision_mask |= 6
 	entity = Entity.find_entity(self)
-	if entity:
-		z = entity.z
-		layer = entity.layer
-		entity.z_updated.connect(_on_entity_z_updated)
-		
-func _on_entity_z_updated(new_z: float, new_layer: Entity.VerticalLayer) -> void:
-	z = new_z
-	layer = new_layer
 
 
 		

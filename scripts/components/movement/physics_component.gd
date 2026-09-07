@@ -3,7 +3,6 @@ class_name PhysicsComponent
 
 @export var disabled: bool = false
 
-@export var mass: float = 1.0
 @export var friction_coefficient: float = 1.0
 @export var base_friction: float = 800
 @export_range(0, 1) var restitution: float = 0.4
@@ -19,6 +18,7 @@ const OVERLAP_DEPTH_THRESHOLD: float = 1.0
 
 var physics_velocity: Vector2 = Vector2.ZERO
 var _accumulated_force: Vector2 = Vector2.ZERO
+var _z_excepted: Dictionary[Entity, bool] = {}
 
 signal wall_collision(source: Node)
 signal entity_collision(source: Entity)
@@ -32,6 +32,7 @@ func _physics_process(delta: float) -> void:
 	physics_update(delta)
 	
 func physics_update(delta: float) -> void:
+	_update_z_collision_exceptions()
 	_apply_forces(delta)
 	_apply_friction(delta)
 	_handle_cell_terrain(delta)
@@ -53,25 +54,56 @@ func clear_velocity() -> void:
 	physics_velocity = Vector2.ZERO
 
 func apply_impulse(direction: Vector2, magnitude: float) -> void:
-	physics_velocity += direction.normalized() * (magnitude / mass)
+	physics_velocity += direction.normalized() * (magnitude / entity.mass)
 
 func apply_force(direction: Vector2, magnitude: float) -> void:
 	_accumulated_force += direction.normalized() * magnitude
 	
 
 func _apply_forces(delta: float) -> void:
-	physics_velocity += (_accumulated_force / mass) * delta
+	physics_velocity += (_accumulated_force / entity.mass) * delta
 	_accumulated_force = Vector2.ZERO
 	physics_velocity = physics_velocity.limit_length(max_speed)
 	
 func _apply_friction(delta: float) -> void:
-	var deceleration: float = base_friction * friction_coefficient * (1.0 / mass)
+	var deceleration: float = base_friction * friction_coefficient * (1.0 / entity.mass)
 	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, deceleration * delta)
 	
 func _handle_cell_terrain(_delta: float) -> void:
 	if not world_interface:
 		return
-			
+		
+		
+func _update_z_collision_exceptions() -> void:
+	if not entity.is_initialized:
+		return
+	if is_zero_approx(entity.z):
+		return
+	var space_state: PhysicsDirectSpaceState2D = entity.get_world_2d().direct_space_state
+	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, 24, SpatialUtil.PhysicsLayers.CREATURES)
+	var still_relevant: Dictionary[Entity, bool] = {}
+	
+	for other in nearby:
+		if other == entity or not is_instance_valid(other):
+			continue
+		var overlaps: bool = SpatialUtil.z_ranges_overlap(entity.z, entity.height, other.z, other.height)
+		if not overlaps:
+			if not _z_excepted.has(other):
+				entity.add_collision_exception_with(other)
+				other.add_collision_exception_with(entity)
+			still_relevant[other] = true
+		elif _z_excepted.has(other):
+			entity.remove_collision_exception_with(other)
+			other.remove_collision_exception_with(entity)
+	
+	# clean up anything that fell out of range or got freed
+	for other in _z_excepted.keys():
+		if not still_relevant.has(other):
+			if is_instance_valid(other):
+				entity.remove_collision_exception_with(other)
+				other.remove_collision_exception_with(entity)
+				
+	_z_excepted = still_relevant
 
 func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 	for i in entity.get_slide_collision_count():
@@ -93,13 +125,21 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 				wall_collision.emit(col.get_collider())
 		 
 		elif collider is Entity:
+			# different vertical spans (e.g. a flying entity passing over a
+			# burrowing one) don't push or shove each other. note: this only
+			# stops the *lasting* force — move_and_slide() has already
+			# resolved this frame's position against the raw 2D shape, so a
+			# one-frame graze can still occur. see SpatialUtil.z_ranges_overlap.
+			if not SpatialUtil.z_ranges_overlap(entity.z, entity.height, collider.z, collider.height):
+				continue
+			
 			var other_physics: PhysicsComponent = collider.get_component(PhysicsComponent)
 			var into_normal: float = pre_full.dot(normal)
 			
 			if other_physics:
 				if into_normal < 0.0:
-					var m1: float = mass
-					var m2: float = other_physics.mass
+					var m1: float = entity.mass
+					var m2: float = collider.mass
 					var is_dominant: bool = m1 > m2 or (m1 == m2 and entity.get_instance_id() < collider.get_instance_id())
 					
 					if is_dominant:

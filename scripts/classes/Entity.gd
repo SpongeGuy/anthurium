@@ -5,6 +5,16 @@ class_name Entity
 @export var visual: Sprite2D
 @export var archetype: CreatureArchetype
 
+## Physical vertical extent of this entity, from [member z] (its base/feet)
+## to [code]z + height[/code] (its top). Drives z-based collision overlap —
+## see [method SpatialUtil.z_ranges_overlap] — for both entity-vs-entity
+## physics ([PhysicsComponent]) and [Hitbox]/[Hurtbox] damage checks.
+@export var height: float = 1.0
+## This entity's mass. Used by [PhysicsComponent] for collision response,
+## and available directly here so behavior/AI code can compare relative
+## size against other creatures without needing to fetch a component.
+@export var mass: float = 1.0
+
 var visible_state_flag: int = 0
 enum VisibleStateFlag {
 	FLEEING = 1 << 0,
@@ -124,13 +134,10 @@ var s: PackedScene = preload("uid://cimer7u58jm6v")
 
 const GROUND_LEVEL: float = 0
 
-signal layer_changed(new_layer: VerticalLayer, old_layer: VerticalLayer)
-signal z_updated(value: float, layer: VerticalLayer)
-enum VerticalLayer{ SUBTERRANEAN, GROUND, AERIAL }
+signal z_updated(value: float)
 
 var _z_tracked_nodes: Dictionary = {}
 
-@export var height: float = 1.0
 @export var render_shadow: bool = true
 @export var base_z_level: float = 0.0
 @export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
@@ -152,27 +159,14 @@ var _vz: float = 0.0
 var _is_on_ground: bool = true
 
 var _last_broadcast_z: float = 0.0
-var _last_broadcast_layer: VerticalLayer = VerticalLayer.GROUND
 
-var layer_mask: int = 1 << VerticalLayer.GROUND
-var layer: VerticalLayer
 
 var shadow: Shadow
 var shadow_base_size: float
 
-
-func _layer_for_z(value: float) -> VerticalLayer:
-	if value > 4:
-		return VerticalLayer.AERIAL
-	elif value < 0:
-		return VerticalLayer.SUBTERRANEAN
-	else:
-		return VerticalLayer.GROUND
-
 func go_subterranean() -> void:
 	set_z_value(-4)
 	is_subterranean = true
-	layer = VerticalLayer.SUBTERRANEAN
 
 func _initialize_z_drive() -> void:
 	if render_shadow:
@@ -192,7 +186,7 @@ func unregister_z_node(node: Node2D) -> void:
 	_z_tracked_nodes.erase(node)
 	
 func _apply_z_offset() -> void:
-	if absf(z - _last_broadcast_z) < 0.01 and layer == _last_broadcast_layer:
+	if absf(z - _last_broadcast_z) < 0.01:
 		return
 	
 	var offset: float = min(0.0, -z * 4.0)
@@ -207,8 +201,7 @@ func _apply_z_offset() -> void:
 		shadow.set_shadow_size(shadow_base_size * shadow_size_curve.sample(z))
 	
 	_last_broadcast_z = z
-	_last_broadcast_layer = layer
-	z_updated.emit(z, layer)
+	z_updated.emit(z)
 	
 
 	
@@ -238,15 +231,7 @@ func _physics_process(delta: float) -> void:
 
 	z = clamp(z, min_z, max_z)
 
-	var old_layer: VerticalLayer = layer
-	layer = _layer_for_z(z)
 
-	if layer != old_layer:
-		layer_changed.emit(layer, old_layer)
-		if layer == VerticalLayer.SUBTERRANEAN and is_subterranean_effect:
-			is_subterranean_effect.execute(self)
-		elif old_layer == VerticalLayer.SUBTERRANEAN and go_subterranean_effect:
-			go_subterranean_effect.execute(self)
 
 	_apply_z_offset()
 	
@@ -254,5 +239,4 @@ func set_z_value(value: float) -> void:
 	z = clamp(value, min_z, max_z)
 	_vz = 0.0
 	_is_on_ground = is_zero_approx(z)
-	layer = _layer_for_z(z)
 	_apply_z_offset()

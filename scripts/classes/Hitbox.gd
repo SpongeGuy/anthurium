@@ -14,11 +14,21 @@ var entity: Entity
 	Hurtbox.DamageType.SELF: DamageResponses.DAMAGE,
 }
 var knockback_force: float = 100
-var z: float = 0.0
-var layer: Entity.VerticalLayer = Entity.VerticalLayer.GROUND
 enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 
-@export_flags("Subterranean", "Ground", "Aerial") var forced_hittable_layers: int = 0
+## Height offset of this hitbox's damage volume from the owning entity's
+## current [member Entity.z] (its base). 0 means the volume starts at the
+## entity's own base.
+@export var z_offset: float = 0.0
+## Vertical extent of this hitbox's damage volume, from
+## [code]entity.z + z_offset[/code] up to [code]+ height[/code]. Defaults to
+## roughly a creature's body height — set higher/lower for hitboxes meant to
+## represent a specific body part, or for projectiles that fly at their own
+## altitude.
+@export var height: float = 2.0
+## If true, this hitbox hits regardless of vertical overlap with the
+## hurtbox — for abilities/effects that should ignore height entirely.
+@export var ignore_height: bool = false
 
 signal hit_received(damage_amount: float, source: Node2D)
 
@@ -31,21 +41,18 @@ func _ready() -> void:
 	collision_layer |= 1 << 6
 	area_entered.connect(_on_hurtbox_contact)
 	entity = Entity.find_entity(self)
-	if entity:
-		z = entity.z
-		layer = entity.layer
-		entity.z_updated.connect(_on_entity_z_updated)
-		
-func _on_entity_z_updated(new_z: float, new_layer: Entity.VerticalLayer) -> void:
-	z = new_z
-	layer = new_layer
 
-func _z_layers_compatible(hurtbox: Hurtbox) -> bool:
-	if not entity or not hurtbox.entity:
+## Returns whether this hitbox's damage volume vertically overlaps
+## [param hurtbox]'s, using each side's owning entity's live [member Entity.z]
+## plus its own [member z_offset]/[member height]. See
+## [method SpatialUtil.z_ranges_overlap].
+func _hits_by_height(hurtbox: Hurtbox) -> bool:
+	if ignore_height or not entity or not hurtbox.entity:
 		return true
-	if forced_hittable_layers & (1 << hurtbox.layer):
-		return true
-	return layer == hurtbox.layer
+	return SpatialUtil.z_ranges_overlap(
+		entity.z + z_offset, height,
+		hurtbox.entity.z + hurtbox.z_offset, hurtbox.height
+	)
 	
 
 
@@ -57,11 +64,9 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 		return
 	if friends and friends.is_friend(hurtbox.entity):
 		return
-	if not _z_layers_compatible(hurtbox):
+	if not _hits_by_height(hurtbox):
 		return
 	if knockback:
 		knockback.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
 	hit_received.emit(hurtbox.damage, hurtbox.entity)
 	EventBus.behavior_stimulus_event.emit(GameEvent.Stimulus.DAMAGE_TAKEN, {"damage": hurtbox.damage, "target": entity})
-
-
