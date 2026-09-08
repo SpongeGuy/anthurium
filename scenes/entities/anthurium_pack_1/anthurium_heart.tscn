@@ -17,9 +17,7 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="10_f3e47"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="10_yhkju"]
 [ext_resource type="Resource" uid="uid://saohn2kqqqjs" path="res://assets/resources/voices/heartbeat.tres" id="11_ip3k0"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="11_thl81"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="12_t2y4i"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_yhkju"]
 [ext_resource type="Script" uid="uid://b1c40ojt8vlw0" path="res://scripts/components/anthurium/EsotericaResponseComponent.gd" id="21_81ejs"]
 [ext_resource type="Script" uid="uid://bsbmt7ago3hpx" path="res://scripts/resources/anthurium/StimulusMapping.gd" id="22_p7hfk"]
 [ext_resource type="Script" uid="uid://c2nmi2cda4spm" path="res://scripts/resources/anthurium/behavior_stimulus_response/DamagedStimulus.gd" id="23_p7hfk"]
@@ -129,18 +127,8 @@ shape = SubResource("CircleShape2D_gyaym")
 script = ExtResource("10_f3e47")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../Sprite2D")
-visibility = NodePath("../VisibilityComponent")
+visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="VisibilityComponent" type="Node" parent="." unique_id=1351097365 node_paths=PackedStringArray("nodes")]
-script = ExtResource("11_thl81")
-nodes = [NodePath("../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=2079740691 node_paths=PackedStringArray("visibility")]
-script = ExtResource("17_yhkju")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
 
 [node name="EsotericaResponseComponent" type="Node" parent="." unique_id=776861036]
 script = ExtResource("21_81ejs")

@@ -14,8 +14,6 @@
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_wivth"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="15_hsm17"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="16_b88gh"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="16_vo4ab"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="17_3x3g6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 
@@ -92,18 +90,8 @@ shape = SubResource("CircleShape2D_i05qb")
 script = ExtResource("15_hsm17")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../Sprite2D")
-visibility = NodePath("../VisibilityComponent")
+visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="VisibilityComponent" type="Node" parent="." unique_id=2132494594 node_paths=PackedStringArray("nodes")]
-script = ExtResource("16_vo4ab")
-nodes = [NodePath("../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=825877844 node_paths=PackedStringArray("visibility")]
-script = ExtResource("17_3x3g6")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
 
 [node name="IchorComponent" type="Node" parent="." unique_id=1204837377]
 script = ExtResource("16_b88gh")

@@ -19,8 +19,6 @@
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="17_lofxb"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="19_yfgwh"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="21_03kl3"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="22_1pdgn"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_423ow"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="24_is7rc"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="25_4qg6b"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="25_m5xbg"]
@@ -52,11 +50,12 @@ frames = 2
 speed = 20.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
-[node name="Energycube" type="CharacterBody2D" unique_id=511333519]
+[node name="Energycube" type="CharacterBody2D" unique_id=511333519 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_206pk")
+visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_4qg6b")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
@@ -93,13 +92,12 @@ initial_state = NodePath("PathfindWandererState")
 death_state = NodePath("DeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "sound", "animator")]
+[node name="PathfindWandererState" type="Node" parent="Behavior/StateMachine" unique_id=2055295880 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "animator")]
 script = ExtResource("10_mhapp")
 navigation = NodePath("../../../Bullshit/NavigationHelper")
 facing = NodePath("../../FacingComponent")
 input = NodePath("../../InputComponent")
 locomotion = NodePath("../../../Movement/NormalLocomotionHandler")
-sound = NodePath("../../../Bullshit/SoundPlayer")
 animator = NodePath("../../../Bullshit/SpriteAnimator")
 metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
@@ -112,7 +110,7 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 [node name="SoundPlayer" type="Node" parent="Bullshit" unique_id=342820092 node_paths=PackedStringArray("visibility")]
 script = ExtResource("13_b78km")
 possible_sounds = Array[AudioStream]([ExtResource("14_5qur6")])
-visibility = NodePath("../Visibility/VisibilityComponent")
+visibility = NodePath("")
 metadata/_custom_type_script = "uid://q4guieta4fy0"
 
 [node name="FriendComponent" type="Node" parent="Bullshit" unique_id=1196642861]
@@ -143,20 +141,8 @@ metadata/_custom_type_script = "uid://rhl072pc6k5q"
 script = ExtResource("21_03kl3")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../../Sprite2D")
-visibility = NodePath("../../Visibility/VisibilityComponent")
+visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]
-
-[node name="VisibilityComponent" type="Node" parent="Bullshit/Visibility" unique_id=1485227511 node_paths=PackedStringArray("nodes")]
-script = ExtResource("22_1pdgn")
-nodes = [NodePath("../../../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="Bullshit/Visibility" unique_id=1667577986 node_paths=PackedStringArray("visibility")]
-script = ExtResource("23_423ow")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
 
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]
 script = ExtResource("24_is7rc")
@@ -186,7 +172,6 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=202221768 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("25_4qg6b")
-mass = 0.1
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 

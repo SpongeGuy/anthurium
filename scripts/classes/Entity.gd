@@ -59,6 +59,11 @@ func _ready() -> void:
 	
 	_initialize_z_drive()
 	
+	WorldGrid.cell_hidden.connect(_on_cell_hidden)
+	WorldGrid.cell_revealed.connect(_on_cell_revealed)
+	WorldGrid.cells_visibled.connect(_on_cells_visibled)
+	resolve_visibility(WorldGrid.safe_get_cell(WorldGrid.world_to_tile(global_position)))
+	
 
 func _register_components(node: Node) -> void:
 	for child in node.get_children():
@@ -211,10 +216,9 @@ func jump(velocity: float) -> void:
 	jump_effect.execute(self)
 	
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("action_modifier") and _is_on_ground and self == PlayerManager.player:
-		jump(jump_velocity)
+	#if Input.is_action_just_pressed("action_modifier") and _is_on_ground and self == PlayerManager.player:
+		#jump(jump_velocity)
 
-	print(self, z)
 	if not _is_on_ground:
 		if apply_gravity and not is_subterranean:
 			_vz -= gravity * delta
@@ -240,3 +244,57 @@ func set_z_value(value: float) -> void:
 	_vz = 0.0
 	_is_on_ground = is_zero_approx(z)
 	_apply_z_offset()
+
+
+# -------------------------------------------------------
+# visibility
+# -----------------------------------------------------------
+
+
+
+# ---------------------------------------------
+# changes visibility of all sprites in the array
+# ---------------------------------------------
+
+
+@export_category("Hiding")
+@export var hide_in_invisible_cells: bool = true
+@export var nodes: Array[Node2D]
+
+func set_visibility(to: bool) -> void:
+	visible = to
+	visibility_changed.emit(to)
+	
+	if to == true:
+		for node in nodes:
+			node.visible = true
+	else:
+		for node in nodes:
+			node.visible = false
+
+func register_visibility_node(node: Node2D) -> void:
+	nodes.append(node)
+
+
+
+func _on_cell_hidden(coords: Vector2i) -> void:
+	resolve_visibility(get_current_cell())
+	
+func _on_cell_revealed(coords: Vector2i) -> void:
+	resolve_visibility(get_current_cell())
+	
+func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
+	resolve_visibility(get_current_cell())
+
+func get_current_cell() -> CellData:
+	return WorldGrid.safe_get_cell(WorldGrid.world_to_tile(position))
+
+
+func resolve_visibility(cell: CellData) -> void:
+	if not cell:
+		return
+	if cell.invisible and visible == true:
+		set_visibility(false)
+	
+	if not cell.invisible and visible == false:
+		set_visibility(true)

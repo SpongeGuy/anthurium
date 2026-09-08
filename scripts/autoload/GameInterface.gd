@@ -54,13 +54,13 @@ func start_new_game_instance() -> void:
 	game_instance_active = true
 	WorldGrid.init_grid(64, 64)
 	DungeonGenerator.generate(1143)
-	#EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
+	EntityManager.spawn_safely(&"anthurium_heart", Vector2(300, 300), false)
 	EntityManager.spawn_safely(&"smiley_guy", Vector2(400, 300), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 150), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2i(200, 190), false)
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
 	#EntityManager.spawn_safely(&"portal", Vector2(300, 400), false)
-	#_initialize_debug_spawns()
+	_initialize_debug_spawns()
 
 # --------------------------------------
 # internal initialization procedure

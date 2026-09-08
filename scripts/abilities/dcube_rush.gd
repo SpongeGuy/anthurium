@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		return
 	
 	if physics.physics_velocity.length() < 800:
-		physics.apply_force(facing.get_direction(), physics.mass * 3000)
+		physics.apply_force(facing.get_direction(), entity.mass * 3000)
 	#locomotion.handle_locomotion(delta)
 	
 func _on_wall_collision(source: Node) -> void:

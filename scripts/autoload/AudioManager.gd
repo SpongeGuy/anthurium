@@ -309,8 +309,7 @@ func play_entity_sound(
 ) -> AudioStreamPlayer:
 	if sounds.is_empty():
 		push_error("AudioManager: empty sounds array"); return null
-	var vis: VisibilityComponent = entity.get_component(VisibilityComponent)
-	if vis and not vis._visible:
+	if entity.visible:
 		return null
 	return play_2d(
 		sounds.pick_random(), entity.global_position,

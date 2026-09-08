@@ -7,7 +7,6 @@ class_name DamageAnimationComponent
 
 @export var health_component: HealthComponent
 @export var sprite: Sprite2D
-@export var visibility: VisibilityComponent
 
 @export var damage_voice: VoiceProfile = preload("res://assets/resources/voices/meat_hit.tres")
 
@@ -23,7 +22,7 @@ func _ready() -> void:
 	
 		
 func _on_damaged(amount: float, source: Node2D) -> void:
-	if not visibility._visible:
+	if not entity.visible:
 		return
 	_play_hit_flash()
 	_play_hit_shake(Vector2.RIGHT)

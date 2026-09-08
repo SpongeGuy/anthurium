@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_4bq61"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="11_8vh6r"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="12_31024"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="13_4bq61"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_8vh6r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 
@@ -78,19 +76,8 @@ metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 script = ExtResource("11_8vh6r")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="DamageAnimationComponent" type="Node" parent="." unique_id=1166124801 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+[node name="DamageAnimationComponent" type="Node" parent="." unique_id=1166124801 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("12_31024")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../Sprite2D")
-visibility = NodePath("../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="VisibilityComponent" type="Node" parent="." unique_id=1037493101 node_paths=PackedStringArray("nodes")]
-script = ExtResource("13_4bq61")
-nodes = [NodePath("../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1875781284 node_paths=PackedStringArray("visibility")]
-script = ExtResource("14_8vh6r")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"

@@ -20,8 +20,6 @@
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="22_g5cl0"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="24_gsmje"]
 [ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/ui/icon-gold.png" id="25_i5u1v"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="28_jm04d"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="29_jmvcx"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="30_8ngw4"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="30_notcm"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="31_1qmy4"]
@@ -50,9 +48,10 @@ size = Vector2(18, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg8r1"]
 size = Vector2(16, 16)
 
-[node name="Dungeoncube" type="CharacterBody2D" unique_id=1672520735]
+[node name="Dungeoncube" type="CharacterBody2D" unique_id=1672520735 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 script = ExtResource("1_10d17")
+visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_0jgxc")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
@@ -154,7 +153,7 @@ metadata/_custom_type_script = "uid://ibgyf864g08i"
 script = ExtResource("22_g5cl0")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
-visibility = NodePath("../../VisibilityComponent")
+visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="Rotator" type="Node2D" parent="." unique_id=2118178921 node_paths=PackedStringArray("facing")]
@@ -184,16 +183,6 @@ position = Vector2(-5, 4.7683716e-07)
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("25_i5u1v")
 
-[node name="VisibilityComponent" type="Node" parent="." unique_id=1737589856 node_paths=PackedStringArray("nodes")]
-script = ExtResource("28_jm04d")
-nodes = [NodePath("../Sprite2D"), NodePath("../Rotator/Dots")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=44365447 node_paths=PackedStringArray("visibility")]
-script = ExtResource("29_jmvcx")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
-
 [node name="Movement" type="Node" parent="." unique_id=1623049112]
 
 [node name="NormalLocomotionHandler" type="Node" parent="Movement" unique_id=314854012 node_paths=PackedStringArray("input")]
@@ -204,7 +193,6 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="PhysicsComponent" type="Node" parent="Movement" unique_id=1693664663 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("30_notcm")
-mass = 50.0
 base_friction = 5000.0
 restitution = 0.026
 max_speed = 900.0
