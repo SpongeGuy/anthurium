@@ -45,6 +45,7 @@ signal entity_initialized
 ## Useful for identifying entity types at runtime without hardcoding class names.
 var basename: StringName
 var is_initialized: bool = false
+var age: float = 0.0
 
 func _ready() -> void:
 	basename = get_basename()
@@ -214,6 +215,9 @@ func jump(velocity: float) -> void:
 	_vz = velocity
 	_is_on_ground = false
 	jump_effect.execute(self)
+	
+func _process(delta: float) -> void:
+	age += delta
 	
 func _physics_process(delta: float) -> void:
 	#if Input.is_action_just_pressed("action_modifier") and _is_on_ground and self == PlayerManager.player:

@@ -32,9 +32,9 @@
               "state": {
                 "file": "for my capstone/todo list 9-1-26.canvas",
                 "viewState": {
-                  "x": -2503.008863690645,
-                  "y": -356.4428325073099,
-                  "zoom": 0.19999999999999996
+                  "x": -2007.04932200812,
+                  "y": -2013.5236604982263,
+                  "zoom": -0.30000000000000004
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -63,9 +63,9 @@
               "state": {
                 "file": "for my capstone/plant anthurium design for the plant.canvas",
                 "viewState": {
-                  "x": 6228.2120841780215,
-                  "y": -518.5279809948748,
-                  "zoom": 0.03655320899778258
+                  "x": 7125.449761616901,
+                  "y": 1143.5095502632862,
+                  "zoom": -2.9634467910022173
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -73,7 +73,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -254,10 +254,11 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "d537bc0e412d9fa7",
+  "active": "46a7ffc8fa429690",
   "lastOpenFiles": [
-    "for my capstone/anthurium.md",
     "for my capstone/todo list 9-1-26.canvas",
+    "for my capstone/plant anthurium design for the plant.canvas",
+    "for my capstone/anthurium.md",
     "old/Game loop 1.md",
     "old/Game loop.md",
     "loop.md",
@@ -265,7 +266,6 @@
     "old",
     "Untitled 1.canvas",
     "Untitled.canvas",
-    "for my capstone/plant anthurium design for the plant.canvas",
     "Main.canvas",
     "for my capstone/inspiration bible.md",
     "Pasted image 20260830012729.png.import",
