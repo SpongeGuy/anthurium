@@ -1,11 +1,17 @@
 extends Resource
 class_name Esoterica
 
+## things are as they should be
 @export var felicity: float
+## divine anger triggered by violation
 @export var furor: float
+## the ache of absence
 @export var lacuna: float
+## awe inspired by scale and power
 @export var tremendum: float
+## spiritual festering
 @export var acedia: float
+## an inevitable recalling to memory
 @export var anamnesis: float
 
 func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:

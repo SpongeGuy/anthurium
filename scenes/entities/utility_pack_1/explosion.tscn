@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="2_jr2wo"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_7wp5n"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="4_nxt5f"]
-[ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_nxt5f"]
+[ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/simple/wait.gd" id="5_nxt5f"]
 [ext_resource type="Resource" uid="uid://dnfkmppj7mxsk" path="res://assets/resources/effects/detonation_effect.tres" id="6_gpywb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]

@@ -21,6 +21,7 @@ enum PhysicsLayers {
 }
 
 const LOW_TERRAIN_CLEARANCE: int = 3
+const MAX_NUDGE_ATTEMPTS: int = 15
 
 static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, position: Vector2, radius: float, collision_mask: int = 0xFFFFFFFF) -> Array[Entity]:
 	_query_shape.radius = radius
@@ -42,6 +43,8 @@ static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, posit
 			seen[entity] = true
 			entities.append(entity)
 	return entities
+	
+
 
 ## Returns whether two vertical spans overlap, where each span runs from
 ## its given bottom ([param z_min_a]/[param z_min_b]) up to bottom + height.
@@ -50,3 +53,40 @@ static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, posit
 ## altitude, independent of their 2D footprint.
 static func z_ranges_overlap(z_min_a: float, height_a: float, z_min_b: float, height_b: float) -> bool:
 	return z_min_a < z_min_b + height_b and z_min_b < z_min_a + height_a
+
+static func get_safe_location(position: Vector2) -> Vector2:
+	var pos: Vector2 = WorldGrid.get_safe_world_pos(position, CellType.TerrainType.WALL)
+	return pos
+	
+	
+
+static func get_safe_location_relative(position: Vector2, min_distance: float, max_distance: float) -> Vector2:
+	var pos: Vector2 = random_position(position, min_distance, max_distance)
+	pos = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.WALL)
+	return pos
+
+
+static func raycast_hits_terrain(space_state: PhysicsDirectSpaceState2D, origin: Vector2, target: Vector2) -> bool:
+	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(origin, target)
+	query.collision_mask = PhysicsLayers.TERRAIN | PhysicsLayers.TERRAIN_LOW
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+
+	var result: Dictionary = space_state.intersect_ray(query)
+	return not result.is_empty()
+
+
+static func get_entities_in_cone(space_state: PhysicsDirectSpaceState2D, origin: Vector2, direction: Vector2, radius: float, angle: float, collision_mask: int = PhysicsLayers.CREATURES) -> Array[Entity]:
+	var candidates: Array[Entity] = get_entities_in_radius(space_state, origin, radius, collision_mask)
+
+	var forward: Vector2 = direction.normalized()
+	var half_angle: float = angle * 0.5
+
+	var entities: Array[Entity] = []
+	for entity in candidates:
+		var to_entity: Vector2 = entity.global_position - origin
+		if to_entity.is_zero_approx():
+			continue
+		if absf(forward.angle_to(to_entity)) <= half_angle:
+			entities.append(entity)
+	return entities

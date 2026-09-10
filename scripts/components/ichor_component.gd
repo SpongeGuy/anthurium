@@ -13,6 +13,14 @@ signal ichor_changed(value: float, max_value: float)
 func _process(delta: float) -> void:
 	subtract_ichor(reduction_per_second * delta)
 	
+func reset_stats(value: float, max: float) -> void:
+	max_ichor = max
+	set_ichor(value)
+	
+func set_ichor(value: float) -> void:
+	ichor = clampf(value, 0.0, max_ichor)
+	ichor_changed.emit(ichor, max_ichor)
+	
 func add_ichor(amount: float) -> void:
 	ichor = clampf(ichor + (amount), 0.0, max_ichor)
 	ichor_changed.emit(ichor, max_ichor)

@@ -27,6 +27,9 @@ signal finished
 @export var uses: int = -1
 @export var use_up_effect: EntityEffect = preload("uid://beo48ab5ks11a")
 
+@export var ichor_cost: float = 0
+@export var ichor_component: IchorComponent
+
 var slot: int = -1
 
 var _cd: float = 0
@@ -96,11 +99,17 @@ func _process(delta: float) -> void:
 ## Attempts to execute the ability. Does nothing if [member disabled] is [code]true[/code]
 ## or the ability is on cooldown. Starts the cooldown timer on success.
 func execute() -> void:
+	var ichor_spend_successful: bool = true
 	if disabled:
 		return
 	if _cd > 0.0:
 		return
+	if ichor_component:
+		ichor_spend_successful = ichor_component.try_spend(ichor_cost)
+	if not ichor_spend_successful:
+		return
 	_execute()
+	
 
 func _start_cooldown() -> void:
 	_cd = cooldown

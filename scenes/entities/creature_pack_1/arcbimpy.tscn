@@ -42,7 +42,7 @@ script = ExtResource("3_1tsi6")
 esoterica_profile = SubResource("Resource_qct2f")
 behavior_class = 1
 consumer_type = 2
-tags = Array[int]([11])
+tags = Array[int]([35, 36])
 metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
@@ -226,11 +226,10 @@ hitbox = NodePath("../../../Hitbox")
 state_machine = NodePath("../../../Behavior/StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("24_inx30")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../../Rotator/Sprite2D")
-visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=1102290206]

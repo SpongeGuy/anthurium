@@ -13,6 +13,8 @@ var _disabled: Array[bool] = [false, false, false, false]
 signal ability_registered(slot: int, ability: Ability)
 signal ability_unregistered(slot: int)
 
+signal ability_cast_successfully(slot: int)
+
 
 
 
@@ -81,6 +83,7 @@ func extract_ability(slot: int) -> Ability:
 	if ability == null:
 		return null
 	abilities[slot] = null
+	ability.finished.disconnect(_on_ability_finished)
 	ability.clean_up()
 	ability_unregistered.emit(slot)
 	return ability
@@ -145,7 +148,6 @@ func enable(id: int) -> void:
 # --------------------------------
 
 func _on_input_just_pressed(id: int) -> void:
-	Log.info(str(entity))
 	if not abilities.get(id):
 		return
 	if _disabled[id]:
@@ -171,6 +173,7 @@ func _initialize_ability(ability: Ability, slot: int) -> void:
 	ability.slot = slot
 	ability.initialize()
 	abilities[slot] = ability
+	ability.finished.connect(_on_ability_finished.bind(slot))
 	ability_registered.emit(slot, ability)
 	
 func _register_ability_to_first_slot(ability: Ability) -> void:
@@ -186,4 +189,5 @@ func _emit_slot_changed(slot: int, ability: Ability) -> void:
 		ability_unregistered.emit(slot)
 		
 
-		
+func _on_ability_finished(slot: int) -> void:
+	ability_cast_successfully.emit(slot)

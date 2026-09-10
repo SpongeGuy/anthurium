@@ -42,7 +42,6 @@ func _process(delta: float) -> void:
 			hold_time[id] = 0	
 	
 func press_action(id: int) -> void:
-	Log.info(str(entity))
 	if is_held[id] == true:
 		return
 	just_pressed[id] = true

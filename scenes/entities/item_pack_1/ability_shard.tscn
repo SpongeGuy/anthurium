@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_5fcyu"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="15_eer0l"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="16_gnawu"]
-[ext_resource type="Script" uid="uid://se8p70tr1prj" path="res://scripts/states/piss_ball_guy/empty_state.gd" id="17_27l84"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="16_mvwcn"]
 [ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/states/piss_ball_guy/death/ability_death.gd" id="18_gnawu"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="18_r3st6"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="20_gbc8y"]
@@ -114,13 +114,13 @@ shape = SubResource("CircleShape2D_xpqok")
 
 [node name="StateMachine" type="Node" parent="." unique_id=1077872555 node_paths=PackedStringArray("initial_state", "death_state")]
 script = ExtResource("16_gnawu")
-initial_state = NodePath("EmptyState")
+initial_state = NodePath("BlankState")
 death_state = NodePath("AbilityDeathState")
 metadata/_custom_type_script = "uid://snopn0q86518"
 
-[node name="EmptyState" type="Node" parent="StateMachine" unique_id=1090441562]
-script = ExtResource("17_27l84")
-metadata/_custom_type_script = "uid://se8p70tr1prj"
+[node name="BlankState" type="Node" parent="StateMachine" unique_id=1299934253]
+script = ExtResource("16_mvwcn")
+metadata/_custom_type_script = "uid://mwp6ulr8npgu"
 
 [node name="AbilityDeathState" type="Node" parent="StateMachine" unique_id=388598118 node_paths=PackedStringArray("input")]
 script = ExtResource("18_gnawu")
@@ -141,12 +141,11 @@ hitbox = NodePath("../../Hitbox")
 state_machine = NodePath("../../StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
-[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=972566010 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+[node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=972566010 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("20_gbc8y")
 flash_duration = 0.5
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
-visibility = NodePath("../../VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="VisibilityComponent" type="Node" parent="." unique_id=866264973 node_paths=PackedStringArray("nodes")]

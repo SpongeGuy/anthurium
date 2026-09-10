@@ -148,11 +148,13 @@ var _z_tracked_nodes: Dictionary = {}
 @export var base_z_level: float = 0.0
 @export var collide_with_terrain: bool = true
 @export var nodes_to_translate: Array[Node2D]
-@export var jump_velocity: float = 60
 @export var apply_gravity: bool = true
 @export var gravity: float = 300
+@export_range(0, 1) var bounciness: float = 0.0
+@export var min_bounce_velocity: float = 20
 @export var min_z: float = -8
-@export var max_z: float = 16
+@export var max_z: float = 32
+
 @export var is_subterranean: bool = false
 
 @export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
@@ -229,9 +231,12 @@ func _update_terrain_collision_layers() -> void:
 		
 	
 func jump(velocity: float) -> void:
+	if not _is_on_ground:
+		return
 	_vz = velocity
 	_is_on_ground = false
-	jump_effect.execute(self)
+	if jump_effect:
+		jump_effect.execute(self)
 	
 func _process(delta: float) -> void:
 	age += delta
@@ -247,9 +252,15 @@ func _physics_process(delta: float) -> void:
 
 		if z <= GROUND_LEVEL and not is_subterranean:
 			z = GROUND_LEVEL
-			_vz = 0.0
-			_is_on_ground = true
-			land_effect.execute(self)
+			if bounciness > 0.0 and absf(_vz) * bounciness >= min_bounce_velocity:
+				_vz = -_vz * bounciness
+				if land_effect:
+					land_effect.execute(self)
+			else:
+				_vz = 0.0
+				_is_on_ground = true
+				if land_effect:
+					land_effect.execute(self)
 
 	z = clamp(z, min_z, max_z)
 	_update_terrain_collision_layers()

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="5_2h2wr"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="6_epnne"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="10_epnne"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="11_vtlge"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="11_vtlge"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="12_o0w1n"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="13_c0j0q"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_wivth"]

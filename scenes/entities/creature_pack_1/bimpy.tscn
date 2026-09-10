@@ -16,7 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bswrthbfumhgl" path="res://assets/textures/characters/debug_guy.png" id="12_bj2ba"]
 [ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/classes/Hurtbox.gd" id="13_hbxah"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_83mm5"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/piss_ball_guy/blank_state.gd" id="16_qvp6n"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="16_qvp6n"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="17_rt8mq"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="18_fvtcv"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_82nbp"]
@@ -56,7 +56,7 @@ script = ExtResource("3_ypxgn")
 esoterica_profile = SubResource("Resource_7c0cp")
 behavior_class = 1
 consumer_type = 2
-tags = Array[int]([11])
+tags = Array[int]([35])
 metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8wo8b"]
@@ -244,11 +244,10 @@ state_machine = NodePath("../../../Behavior/StateMachine")
 state = NodePath("../../../Behavior/StateMachine/DeathState")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
-[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+[node name="DamageAnimationComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=2038919869 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("24_k5xxe")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../../Rotator/Sprite2D")
-visibility = NodePath("../../Visibility/VisibilityComponent")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]

@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
-[ext_resource type="Script" uid="uid://cini61n7sdso5" path="res://scripts/abilities/dcube_rush.gd" id="28_3qtpx"]
+[ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="28_3qtpx"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/ability_jump.gd" id="29_tkxpy"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
@@ -243,9 +243,12 @@ metadata/_custom_type_script = "uid://tda3ohuci2fd"
 script = ExtResource("29_tkxpy")
 metadata/_custom_type_script = "uid://ckl5wy0pud2yy"
 
-[node name="AbilityDungeonCubeRush" type="Node" parent="AbilityManager" unique_id=1313123655]
+[node name="AbilitySpawnEntity" type="Node" parent="AbilityManager" unique_id=1050257195 node_paths=PackedStringArray("ichor_component")]
 script = ExtResource("28_3qtpx")
-metadata/_custom_type_script = "uid://cini61n7sdso5"
+entity_name = &"meat_shank"
+ichor_cost = 30.0
+ichor_component = NodePath("../../Health&Damage/Ichor")
+metadata/_custom_type_script = "uid://yatksxan7xhj"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")

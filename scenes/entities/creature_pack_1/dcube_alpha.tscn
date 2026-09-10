@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://rugd7tkb8nmw" path="res://assets/textures/characters/dungeoncube.png" id="2_l4urd"]
 [ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_0af13"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="4_et83q"]
-[ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/piss_ball_guy/wait.gd" id="5_iy5yv"]
+[ext_resource type="Script" uid="uid://ch1jyl631b26m" path="res://scripts/states/simple/wait.gd" id="5_iy5yv"]
 [ext_resource type="Script" uid="uid://fht6b026k2py" path="res://scripts/states/piss_ball_guy/align_to_grid.gd" id="6_152hd"]
 [ext_resource type="Script" uid="uid://c7l6kiac662iu" path="res://scripts/states/piss_ball_guy/charge_up.gd" id="7_jukf1"]
 [ext_resource type="Resource" uid="uid://ddo0ia0nutdck" path="res://assets/resources/voices/machine_agree_light.tres" id="8_43fx8"]
@@ -36,7 +36,7 @@ esoterica_profile = SubResource("Resource_m5xbg")
 rarity = 2
 behavior_class = 4
 consumer_type = 3
-tags = Array[int]([13, 11])
+tags = Array[int]([36, 1, 35])
 metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6put7"]
@@ -149,11 +149,10 @@ state_machine = NodePath("../../StateMachine")
 state = NodePath("../../StateMachine/DeathState")
 metadata/_custom_type_script = "uid://ibgyf864g08i"
 
-[node name="DamageAnimationComponent" type="Node" parent="Healthstuff" unique_id=622633230 node_paths=PackedStringArray("health_component", "sprite", "visibility")]
+[node name="DamageAnimationComponent" type="Node" parent="Healthstuff" unique_id=622633230 node_paths=PackedStringArray("health_component", "sprite")]
 script = ExtResource("22_g5cl0")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
-visibility = NodePath("")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="Rotator" type="Node2D" parent="." unique_id=2118178921 node_paths=PackedStringArray("facing")]

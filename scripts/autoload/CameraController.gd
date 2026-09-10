@@ -135,6 +135,8 @@ func register_camera(c: Camera2D) -> void:
 ## to it, and re-reveals [WorldGrid] fog-of-war from the new target's tile.
 ## Emits [signal EventBus.camera_target_changed].
 func change_camera_target(new_target: Node2D) -> void:
+	if not new_target:
+		return
 	target = new_target
 	target_position = target.global_position
 	WorldGrid.hide_map()
