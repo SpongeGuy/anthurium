@@ -16,8 +16,11 @@ enum PhysicsLayers {
 	CREATURES = 1 << 1,
 	ITEMS = 1 << 2,
 	PROJECTILES = 1 << 3,
-	PLANTS = 1 << 8
+	PLANTS = 1 << 4,
+	TERRAIN_LOW = 1 << 8,
 }
+
+const LOW_TERRAIN_CLEARANCE: int = 3
 
 static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, position: Vector2, radius: float, collision_mask: int = 0xFFFFFFFF) -> Array[Entity]:
 	_query_shape.radius = radius

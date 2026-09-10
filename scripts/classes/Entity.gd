@@ -145,7 +145,7 @@ var _z_tracked_nodes: Dictionary = {}
 
 @export var render_shadow: bool = true
 @export var base_z_level: float = 0.0
-@export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
+@export var collide_with_terrain: bool = true
 @export var nodes_to_translate: Array[Node2D]
 @export var jump_velocity: float = 60
 @export var apply_gravity: bool = true
@@ -154,6 +154,7 @@ var _z_tracked_nodes: Dictionary = {}
 @export var max_z: float = 16
 @export var is_subterranean: bool = false
 
+@export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
 @export var jump_effect: EntityEffect = preload("uid://biw543fd31een")
 @export var land_effect: EntityEffect = preload("uid://dly24jhonlofh")
 @export var go_subterranean_effect: EntityEffect
@@ -164,6 +165,8 @@ var _vz: float = 0.0
 var _is_on_ground: bool = true
 
 var _last_broadcast_z: float = 0.0
+
+
 
 
 var shadow: Shadow
@@ -183,6 +186,7 @@ func _initialize_z_drive() -> void:
 
 	for node in nodes_to_translate:
 		register_z_node(node)
+	_update_terrain_collision_layers()
 
 func register_z_node(node: Node2D) -> void:
 	_z_tracked_nodes[node] = node.position.y
@@ -208,7 +212,20 @@ func _apply_z_offset() -> void:
 	_last_broadcast_z = z
 	z_updated.emit(z)
 	
-
+func _update_terrain_collision_layers() -> void:
+	if not collide_with_terrain:
+		collision_mask &= ~(SpatialUtil.PhysicsLayers.TERRAIN | SpatialUtil.PhysicsLayers.TERRAIN_LOW)
+		return
+		
+	var new_mask: int = collision_mask | SpatialUtil.PhysicsLayers.TERRAIN
+	if z >= SpatialUtil.LOW_TERRAIN_CLEARANCE:
+		new_mask &= ~SpatialUtil.PhysicsLayers.TERRAIN_LOW
+	else:
+		new_mask |= SpatialUtil.PhysicsLayers.TERRAIN_LOW
+	
+	if new_mask != collision_mask:
+		collision_mask = new_mask
+		
 	
 func jump(velocity: float) -> void:
 	_vz = velocity
@@ -216,9 +233,6 @@ func jump(velocity: float) -> void:
 	jump_effect.execute(self)
 	
 func _physics_process(delta: float) -> void:
-	#if Input.is_action_just_pressed("action_modifier") and _is_on_ground and self == PlayerManager.player:
-		#jump(jump_velocity)
-
 	if not _is_on_ground:
 		if apply_gravity and not is_subterranean:
 			_vz -= gravity * delta
@@ -234,9 +248,7 @@ func _physics_process(delta: float) -> void:
 			land_effect.execute(self)
 
 	z = clamp(z, min_z, max_z)
-
-
-
+	_update_terrain_collision_layers()
 	_apply_z_offset()
 	
 func set_z_value(value: float) -> void:

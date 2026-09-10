@@ -30,15 +30,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "for my capstone/todo list 9-1-26.canvas",
+                "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -2503.008863690645,
-                  "y": -356.4428325073099,
-                  "zoom": 0.19999999999999996
+                  "x": -1022.9113930957151,
+                  "y": -0.2912493033827559,
+                  "zoom": -2.4000000000000004
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "todo list 9-1-26"
+              "title": "job list 9-1-26"
             }
           },
           {
@@ -257,7 +257,7 @@
   "active": "d537bc0e412d9fa7",
   "lastOpenFiles": [
     "for my capstone/anthurium.md",
-    "for my capstone/todo list 9-1-26.canvas",
+    "for my capstone/job list 9-1-26.canvas",
     "old/Game loop 1.md",
     "old/Game loop.md",
     "loop.md",

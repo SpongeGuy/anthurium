@@ -6,5 +6,6 @@
 script = ExtResource("1_ddg1q")
 tileset_id = 1
 tile_with_aliens = true
+height = 0.0
 destroyed_type = &"ground_shit_pile"
 metadata/_custom_type_script = "uid://qoy5j717o0ok"

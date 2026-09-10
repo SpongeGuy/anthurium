@@ -28,6 +28,7 @@ script = ExtResource("2_jr2wo")
 constant_hurtbox = true
 collision_shape = NodePath("CollisionShape2D")
 type = 3
+height = 20.0
 metadata/_custom_type_script = "uid://d4dkusgurvri8"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1367907666]

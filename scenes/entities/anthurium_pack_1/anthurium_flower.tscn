@@ -18,6 +18,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
 
 [node name="AnthuriumFlower" type="CharacterBody2D" unique_id=1762821779 node_paths=PackedStringArray("visual")]
+collision_layer = 16
+collision_mask = 16
 script = ExtResource("1_e081u")
 visual = NodePath("Sprite2D")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"

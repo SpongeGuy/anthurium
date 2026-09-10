@@ -21,4 +21,5 @@ enum TileMode{TILING, RANDOM}
 
 @export_group("Other Properties")
 @export var max_health: float = 10
+@export var height: float = 10
 @export var destroyed_type: StringName = &""
