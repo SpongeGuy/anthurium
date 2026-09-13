@@ -9,7 +9,7 @@ extends Node
 
 # -----------------------------------------------------------------------------------
 # autoload singleton for reliable audio playback
-# single pool of AudioStreamPlayer nodes — no 2D nodes, no viewport listener issues
+# single pool of AudioStreamPlayer nodes; no 2D nodes, no viewport listener issues
 # positional sounds manually compute volume from distance to camera
 # -----------------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ func play_sound(
 	return p
 
 
-## play a positional sound at a world position — volume computed from camera distance
+## play a positional sound at a world position; volume computed from camera distance
 func play_2d(
 	sound:        AudioStream,
 	position:     Vector2,
@@ -231,7 +231,7 @@ func get_pool_size() -> int:
 # internal
 # -----------------------------------------------------------------------------------
 
-## inverse power falloff — attenuation = 1.0 is linear, 2.0 is squared, higher = tighter
+## inverse power falloff; attenuation = 1.0 is linear, 2.0 is squared, higher = tighter
 ## returns -INF when out of range so the caller can skip the play entirely
 func _distance_to_db(position: Vector2, max_distance: float, attenuation: float) -> float:
 	if _camera == null:

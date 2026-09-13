@@ -21,6 +21,7 @@
 [ext_resource type="Resource" uid="uid://dqeaes70nnefx" path="res://assets/resources/voices/alien.tres" id="15_mkwxs"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="16_h0flj"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="17_6w5ym"]
+[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="22_c1yd2"]
 
 [sub_resource type="Resource" id="Resource_suep0"]
 script = ExtResource("2_suep0")
@@ -35,7 +36,7 @@ tags = Array[int]([24, 23, 22])
 metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y8n2y"]
-radius = 6.0
+radius = 4.0
 
 [sub_resource type="Resource" id="Resource_emcra"]
 script = ExtResource("6_qwd8k")
@@ -77,6 +78,8 @@ metadata/_custom_type_script = "uid://qy3at433r6s0"
 radius = 9.0
 
 [node name="Entity" type="CharacterBody2D" unique_id=987241771 node_paths=PackedStringArray("visual")]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_7o6ex")
 display_name = "Blom Bulb"
 visual = NodePath("Sprite2D")
@@ -112,31 +115,25 @@ script = ExtResource("9_ppatb")
 input_component = NodePath("../../InputComponent")
 ability_manager = NodePath("../../AbilityManager")
 animator = NodePath("../../SpriteAnimator")
-ichor_component = NodePath("../../IchorComponent")
+ichor_component = NodePath("../../health/IchorComponent")
 metadata/_custom_type_script = "uid://cuobnqrp7yfvf"
 
 [node name="DeathState" type="Node" parent="StateMachine" unique_id=570139932]
 script = ExtResource("9_gyahl")
 metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
-[node name="IchorComponent" type="Node" parent="." unique_id=2119751128]
-script = ExtResource("9_qicmm")
-ichor = 29.0
-reduction_per_second = -1.0
-metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
-
 [node name="AbilityManager" type="Node" parent="." unique_id=1998840827 node_paths=PackedStringArray("ichor_component", "input")]
 script = ExtResource("10_ppatb")
-ichor_component = NodePath("../IchorComponent")
+ichor_component = NodePath("../health/IchorComponent")
 input = NodePath("../InputComponent")
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
 [node name="AbilitySpawnEntity" type="Node" parent="AbilityManager" unique_id=1177284441 node_paths=PackedStringArray("ichor_component")]
 script = ExtResource("11_vvi4s")
-entity_name = &"meat_shank"
+entity_name = &"blom_blorb"
 spawn_effect = SubResource("Resource_huaam")
 ichor_cost = 30.0
-ichor_component = NodePath("../../IchorComponent")
+ichor_component = NodePath("../../health/IchorComponent")
 metadata/_custom_type_script = "uid://yatksxan7xhj"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1073930557]
@@ -145,12 +142,13 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="health" type="Node" parent="." unique_id=1919176938]
 
-[node name="HealthComponent" type="Node" parent="health" unique_id=527008711 node_paths=PackedStringArray("hitbox", "state_machine")]
+[node name="HealthComponent" type="Node" parent="health" unique_id=527008711 node_paths=PackedStringArray("hitbox", "state_machine", "ichor")]
 script = ExtResource("14_vvi4s")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../Hitbox")
 state_machine = NodePath("../../StateMachine")
+ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="health" unique_id=2086920028 node_paths=PackedStringArray("health_component", "sprite")]
@@ -159,11 +157,23 @@ health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
+[node name="IchorComponent" type="Node" parent="health" unique_id=2119751128 node_paths=PackedStringArray("lifespan")]
+script = ExtResource("9_qicmm")
+ichor = 29.0
+reduction_per_second = -3.0
+lifespan = NodePath("../LifespanComponent")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="LifespanComponent" type="Node" parent="health" unique_id=515928257]
+script = ExtResource("22_c1yd2")
+lifespan = 30.0
+metadata/_custom_type_script = "uid://cx8kdl1vaiqo"
+
 [node name="Hitbox" type="Area2D" parent="." unique_id=1142437226 node_paths=PackedStringArray("collision_shape")]
+position = Vector2(0, -3)
 script = ExtResource("15_526jv")
 collision_shape = NodePath("CollisionShape2D")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1535408448]
-position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_emcra")

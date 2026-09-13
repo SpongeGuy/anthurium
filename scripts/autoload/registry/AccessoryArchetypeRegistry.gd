@@ -6,7 +6,7 @@
 extends Node
 
 
-## Directories scanned for accessory archetype resources — [code]res://[/code]
+## Directories scanned for accessory archetype resources; [code]res://[/code]
 ## for built-in content, [code]user://[/code] for creator mods.
 const SCAN_PATHS: Array[String] = [
 	"res://assets/resources/accessory_archetypes",

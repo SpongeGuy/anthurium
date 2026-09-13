@@ -8,7 +8,7 @@ class_name AbilityHudElement
 ## [signal AbilityManager.ability_registered] / [signal AbilityManager.ability_unregistered]
 ## and calls [method UIHUD.update_ability_icon], which sets [member ability_icon]'s texture.
 ##
-## This element does not hold a reference to the [Ability] itself — the manager
+## This element does not hold a reference to the [Ability] itself; the manager
 ## is the single source of truth for what lives in each slot.
  
 ## Which slot in [AbilityManager.abilities] this element represents (0–3).
@@ -30,9 +30,9 @@ func deselect(hand: UIHand) -> void:
 func activate(hand: UIHand) -> void:
 	
 	if hand.current_state != UIHand.State.HOLDING:
-		# Nothing held yet — pick up this slot's ability.
+		# nothing held yet, pick up this slot's ability.
 		if not hand.grab_ability_from(self):
 			hand.illegal_move()
 	else:
-		# Already holding — drop onto this slot (swap or move).
+		# already holding so drop onto this slot (swap or move).
 		hand.drop_ability_onto(self)

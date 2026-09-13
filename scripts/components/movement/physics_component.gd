@@ -127,7 +127,7 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 		elif collider is Entity:
 			# different vertical spans (e.g. a flying entity passing over a
 			# burrowing one) don't push or shove each other. note: this only
-			# stops the *lasting* force — move_and_slide() has already
+			# stops the *lasting* force; move_and_slide() has already
 			# resolved this frame's position against the raw 2D shape, so a
 			# one-frame graze can still occur. see SpatialUtil.z_ranges_overlap.
 			if not SpatialUtil.z_ranges_overlap(entity.z, entity.height, collider.z, collider.height):

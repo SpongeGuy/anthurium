@@ -7,14 +7,18 @@ class_name Memory
 
 enum Key{
 	TARGET,
+	THREAT,
 	NEMESIS,
+	FAVORITE_ITEM,
+	FRIEND,
+	HOME_POSITION,
+	LAST_KNOWN_POSITION,
 	SHORT_TERM_DESTINATION,
 	LONG_TERM_DESTINATION,
-	FAVORITE_ITEM,
-	HOME_POSITION,
-	LAST_KNOWN_POS,
-	ALLY_TARGET,
+	FOOD_SOURCE_POSITION,
 }
+
+var _ignored_entities: Array = []
 
 var _data: Array = []
 
@@ -37,6 +41,3 @@ func has(key: Memory.Key) -> bool:
 	
 func erase(key: Memory.Key) -> void:
 	_data[key] = null
-	
-
-	

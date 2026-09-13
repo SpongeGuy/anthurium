@@ -15,9 +15,9 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -2462.0381602898,
-                  "y": -1906.6448702473144,
-                  "zoom": -0.05289129603499376
+                  "x": -2255.6071476315715,
+                  "y": -1989.6322120194664,
+                  "zoom": -1.2528912960349938
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -28,14 +28,17 @@
             "id": "12afc7c931b135ff",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "for my capstone/anthurium.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -13834.014562220398,
+                  "y": 3591.238672249531,
+                  "zoom": -0.20000000000000007
+                }
               },
-              "icon": "lucide-file",
-              "title": "anthurium"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           }
         ],
@@ -117,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "for my capstone/anthurium.md",
+                "file": "for my capstone/job list 9-1-26.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -136,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "for my capstone/anthurium.md",
+                "file": "for my capstone/job list 9-1-26.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -179,7 +182,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "for my capstone/anthurium.md",
+                "file": "for my capstone/job list 9-1-26.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -209,8 +212,9 @@
   },
   "active": "12afc7c931b135ff",
   "lastOpenFiles": [
-    "for my capstone/inspiration bible.md",
+    "for my capstone/anthurium.md",
     "for my capstone/job list 9-1-26.canvas",
+    "for my capstone/inspiration bible.md",
     "for my capstone/plant anthurium design for the plant.canvas"
   ]
 }

@@ -98,7 +98,7 @@ func safe_get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 
 ## Returns the [CellData] at [param coords], including padding cells.
-## Does not bounds-check — use [method safe_get_cell] if [param coords]
+## Does not bounds-check; use [method safe_get_cell] if [param coords]
 ## might be arbitrary.
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
@@ -502,7 +502,7 @@ func reveal_from(coords: Vector2i) -> void:
 
 
 ## Marks every in-bounds cell as dirty and flushes them in a single batched
-## [signal cells_changed] — used to force a full re-render of the grid
+## [signal cells_changed]; used to force a full re-render of the grid
 ## (e.g. after generation).
 func flush_all() -> void:
 	begin_batch()

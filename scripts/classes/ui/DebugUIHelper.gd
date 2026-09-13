@@ -71,7 +71,9 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 		string += str("physv: ", entity.get_component(PhysicsComponent).physics_velocity, "\n")
 	string += str("v: ", entity.velocity, "\n")
 	if entity.has_component(IchorComponent):
-		string += str("ich: ", entity.get_component(IchorComponent).ichor, "\n")
+		var ich: IchorComponent = entity.get_component(IchorComponent)
+		var s: String = "ich: %d/%d \n" % [ich.ichor, ich.max_ichor] 
+		string += s
 	label.text = string
 	
 func display_coordinates(label: Label) -> void:

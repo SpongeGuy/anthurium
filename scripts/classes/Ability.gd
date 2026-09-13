@@ -19,7 +19,7 @@ class_name Ability
 @export var disabled: bool = false
 ## The icon displayed in the ability HUD slot.
 @export var icon: Texture2D
-## Emitted when the ability has fully resolved — for example, after an animation completes.
+## Emitted when the ability has fully resolved; for example, after an animation completes.
 ## [AbilityManager] and [BehaviorState] use this to know when the ability is done.
 signal finished
 

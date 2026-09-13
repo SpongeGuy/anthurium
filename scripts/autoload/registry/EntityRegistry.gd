@@ -16,7 +16,7 @@ extends Node
 # add mod paths here - res:// for builtin, user:// for 
 # external packs dropped in by creators
 # -------------------------------------------------------
-## Directories scanned for entity scenes. Add mod paths here — [code]res://[/code]
+## Directories scanned for entity scenes. Add mod paths here; [code]res://[/code]
 ## for built-in content, [code]user://[/code] for external packs dropped in by
 ## creators.
 const SCAN_PATHS: Array[String] = [
@@ -74,7 +74,7 @@ func instantiate(entity_type: StringName) -> Node:
 	return scene.instantiate() if scene else null
 	
 ## Clears the loaded-scene cache. Does not clear [member registry] or the
-## archetype indices — call [method scan_all] for a full rescan.
+## archetype indices; call [method scan_all] for a full rescan.
 func clear_cache() -> void:
 	_cache.clear()
 	

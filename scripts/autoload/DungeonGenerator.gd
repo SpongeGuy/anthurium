@@ -80,7 +80,7 @@ func _cellular_automata_pass(iterations: int = 4) -> void:
 		for coords in next:
 			WorldGrid.get_cell(coords).type = wall if next[coords] == CellType.TerrainType.WALL else ground
 
-# 3rd param is now a concrete CellType, not a TerrainType — null means "use ground_soil"
+# 3rd param is now a concrete CellType, not a TerrainType; null means "use ground_soil"
 ## Carves a path of [param cell_type] (defaulting to
 ## [code]&"ground_soil"[/code]) from [param from] to [param to] using a
 ## biased random walk (see [member drunk_directness]), optionally mirroring

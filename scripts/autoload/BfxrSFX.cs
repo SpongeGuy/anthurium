@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AudioStreamWAV = Godot.AudioStreamWav;
 
 /// <summary>
-/// BfxrSFX — Godot 4 C# port of the Bfxr sound effect generator.
+/// BfxrSFX; Godot 4 C# port of the Bfxr sound effect generator.
 /// Bfxr by increpare (Stephen Lavelle), based on sfxr by DrPetter (Thomas Vian).
 ///
 /// Wave types:
@@ -17,8 +17,8 @@ using AudioStreamWAV = Godot.AudioStreamWav;
 ///   • Generate() refactored into GenerateFromSnapshot() + BuildWav() to support threading.
 ///   • BfxrParamSnapshot struct snapshots all Godot Dictionary values into plain C# value
 ///     types before any background work, keeping Godot object access on the main thread.
-///   • GenerateWav()      — public synchronous generation (call from main thread).
-///   • GenerateWavAsync() — fire-and-forget: synthesis runs on a Task, result delivered
+///   • GenerateWav()     ; public synchronous generation (call from main thread).
+///   • GenerateWavAsync(); fire-and-forget: synthesis runs on a Task, result delivered
 ///     to the main thread via Callable.CallDeferred so the AudioStreamWAV is always
 ///     created and played on the main thread.
 ///

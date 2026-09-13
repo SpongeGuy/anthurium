@@ -16,7 +16,7 @@ var entity: Entity
 @export var z_offset: float = 0.0
 ## Vertical extent of this hurtbox's damage volume, from
 ## [code]entity.z + z_offset[/code] up to [code]+ height[/code]. A tall
-## height clears more of the space above it — e.g. a low melee swing vs. a
+## height clears more of the space above it; e.g. a low melee swing vs. a
 ## soaring fireball.
 @export var height: float = 2.0
 

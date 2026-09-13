@@ -22,12 +22,12 @@ enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 @export var z_offset: float = 0.0
 ## Vertical extent of this hitbox's damage volume, from
 ## [code]entity.z + z_offset[/code] up to [code]+ height[/code]. Defaults to
-## roughly a creature's body height — set higher/lower for hitboxes meant to
+## roughly a creature's body height; set higher/lower for hitboxes meant to
 ## represent a specific body part, or for projectiles that fly at their own
 ## altitude.
 @export var height: float = 2.0
 ## If true, this hitbox hits regardless of vertical overlap with the
-## hurtbox — for abilities/effects that should ignore height entirely.
+## hurtbox; for abilities/effects that should ignore height entirely.
 @export var ignore_height: bool = false
 
 signal hit_received(damage_amount: float, source: Node2D)

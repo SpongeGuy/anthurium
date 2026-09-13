@@ -90,3 +90,37 @@ static func get_entities_in_cone(space_state: PhysicsDirectSpaceState2D, origin:
 		if absf(forward.angle_to(to_entity)) <= half_angle:
 			entities.append(entity)
 	return entities
+
+
+static func get_nearest_entity_in_array(origin: Vector2, array: Array[Entity]) -> Entity:
+	var nearest: Entity = null
+	var nearest_dist_sq: float = INF
+	for e in array:
+		if not is_instance_valid(e):
+			continue
+		var dist_sq: float = origin.distance_squared_to(e.position)
+		if dist_sq < nearest_dist_sq:
+			nearest_dist_sq = dist_sq
+			nearest = e
+	return nearest
+	
+static func get_nearest_entity_in_raycast_in_array(origin: Vector2, array: Array[Entity], space_state: PhysicsDirectSpaceState2D) -> Entity:
+	var nearest: Entity = null
+	var nearest_dist_sq: float = INF
+	for e in array:
+		if not is_instance_valid(e):
+			continue
+		var dist_sq: float = origin.distance_squared_to(e.position)
+		if dist_sq >= nearest_dist_sq:
+			continue
+		if raycast_hits_terrain(space_state, origin, e.position):
+			continue
+		nearest_dist_sq = dist_sq
+		nearest = e
+	return nearest
+
+
+static func is_within_distance_of_entity(e_1: Entity, e_2: Entity, distance: float) -> bool:
+	if e_1.position.distance_squared_to(e_2.position) <= distance**2:
+		return true
+	return false

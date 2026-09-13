@@ -6,6 +6,7 @@ class_name DeathState
 @export var locomotion: LocomotionHandler
 @export var death_effects: EntityEffect = preload("res://assets/resources/effects/default_death_effect.tres")
 
+
 var burst: ParticleProfile = preload("res://assets/resources/particle_profiles/soulfire.tres")
 var pop: ParticleProfile = preload("res://assets/resources/particle_profiles/pop.tres")
 

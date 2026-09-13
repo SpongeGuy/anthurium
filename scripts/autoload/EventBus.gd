@@ -2,7 +2,7 @@
 ##
 ## Global signal hub. Decouples systems that need to react to game events
 ## (spawning, world state, camera, UI) without holding direct references to
-## each other — emit here, connect from anywhere.
+## each other; emit here, connect from anywhere.
 extends Node
 
 # initialization

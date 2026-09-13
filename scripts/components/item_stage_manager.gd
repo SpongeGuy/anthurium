@@ -4,6 +4,7 @@ class_name ItemStageManager
 @export var animator: SpriteAnimator
 @export var stage: int = 0
 @export var stages: int = 5
+@export var health_component: HealthComponent
 
 
 func _on_registered() -> void:
@@ -15,4 +16,4 @@ func increment_stage() -> void:
 	var string: String = "stage_" + str(stage)
 	animator.load_and_reset_animation(string)
 	if stage >= stages:
-		entity.queue_free()
+		health_component.die()

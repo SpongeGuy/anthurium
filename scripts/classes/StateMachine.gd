@@ -54,4 +54,6 @@ func switch(new_state: BehaviorState) -> void:
 	current_state.enter()
 	
 func switch_to_death_state() -> void:
+	if not death_state:
+		return
 	switch(death_state)

@@ -40,7 +40,7 @@ func destroy_all() -> void:
 
 
 ## Spawns [param entity_type] at [param pos] with a small random position
-## jitter (no occupancy check — see [method spawn_safely] for that).
+## jitter (no occupancy check; see [method spawn_safely] for that).
 ## Emits [signal EventBus.spawn_requested] before instantiation. Plays
 ## [member poof_sound] unless [param play_sound] is [code]false[/code].
 func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true, z: float = 0) -> Entity:

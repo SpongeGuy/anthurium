@@ -4,7 +4,7 @@
 ## top-level app state ([enum AppStatus]) and in-game pause state
 ## ([enum GameStatus]), which input source is currently driving gameplay
 ## ([enum Controller]), scene container/viewport wiring, and screen fades.
-## This is the entry point most other autoloads are wired up from — see
+## This is the entry point most other autoloads are wired up from; see
 ## [method _ready].
 extends Node
 

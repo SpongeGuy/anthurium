@@ -6,7 +6,7 @@ class_name UIHand
 ##
 ## The hand is bound to a player's [AbilityManager] via [method bind_ability_manager]
 ## (called by [UIController] whenever the player entity changes). All ability slot
-## mutations go through [AbilityManager]'s public API — the hand never writes to
+## mutations go through [AbilityManager]'s public API; the hand never writes to
 ## [code]abilities[][/code] directly.
 ##
 ## Lifecycle for a grab-and-drop:

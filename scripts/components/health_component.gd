@@ -11,12 +11,12 @@ signal taken_damage(amount: float, source: Entity)
 signal died()
 signal health_changed(value: float, max_value: float)
 
-@export_group("Invincibility")
+@export_category("Invincibility")
 @export var invincibility_length: float = 0.05
 var _invincibility_timer: float = 0.0
 @export var god_mode: bool = false
 
-@export_group("Ichor Mechanics")
+@export_category("Ichor Mechanics")
 @export var ichor: IchorComponent
 @export var ichor_starvation: bool = true
 @export var starvation_timer: float = 1.0

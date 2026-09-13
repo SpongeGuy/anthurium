@@ -40,7 +40,7 @@ func _on_part_destroyed(name: StringName) -> void:
 	part_counts[name] = maxi(0, part_counts.get(name, 0) - 1)
 	
 ## Returns the [member AccessoryArchetype.entity_id] of the best-matching
-## registered accessory archetype for the current esoterica — the one with
+## registered accessory archetype for the current esoterica; the one with
 ## the highest cosine similarity that hasn't hit its
 ## [member AccessoryArchetype.max_count] limit. Returns an empty
 ## [StringName] if none qualify.

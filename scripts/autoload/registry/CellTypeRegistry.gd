@@ -8,7 +8,7 @@
 extends Node
 # autoload
 
-## Directories scanned for cell type resources — [code]res://[/code] for
+## Directories scanned for cell type resources; [code]res://[/code] for
 ## built-in content, [code]user://[/code] for creator mods.
 const SCAN_PATHS: Array[String] = [
 	"res://assets/resources/cell_types/",
@@ -40,7 +40,7 @@ func get_cell_type(cell_type: StringName) -> CellType:
 		_cache[cell_type] = load(registry[cell_type])
 	return _cache[cell_type]
 	
-## Clears the loaded-resource cache. Does not clear [member registry] — call
+## Clears the loaded-resource cache. Does not clear [member registry]; call
 ## [method scan_all] for a full rescan.
 func clear_cache() -> void:
 	_cache.clear()

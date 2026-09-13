@@ -5,7 +5,7 @@
 ## output by severity via [method @GlobalScope.print_rich], and optionally
 ## mirrors every line to a log file on disk.
 ##
-## Call [method initialize] once at boot (before anything else logs) — see
+## Call [method initialize] once at boot (before anything else logs); see
 ## [code]AppController._ready()[/code].
 extends Node
 

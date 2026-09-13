@@ -6,8 +6,8 @@ class_name Entity
 @export var archetype: CreatureArchetype
 
 ## Physical vertical extent of this entity, from [member z] (its base/feet)
-## to [code]z + height[/code] (its top). Drives z-based collision overlap —
-## see [method SpatialUtil.z_ranges_overlap] — for both entity-vs-entity
+## to [code]z + height[/code] (its top). Drives z-based collision overlap;
+## see [method SpatialUtil.z_ranges_overlap] for both entity-vs-entity
 ## physics ([PhysicsComponent]) and [Hitbox]/[Hurtbox] damage checks.
 @export var height: float = 1.0
 ## This entity's mass. Used by [PhysicsComponent] for collision response,
@@ -45,7 +45,7 @@ signal entity_initialized
 ## Useful for identifying entity types at runtime without hardcoding class names.
 var basename: StringName
 var is_initialized: bool = false
-var age: float = 0.0
+
 
 func _ready() -> void:
 	basename = get_basename()
@@ -91,7 +91,7 @@ func add_component(to: Node, component: Component) -> void:
 	to.add_child(component)
 
 ## Returns the first registered component matching [param type], or [code]null[/code] if none exists.[br]
-## Supports base class queries — passing [LocomotionHandler] will return a [NormalLocomotionHandler]
+## Supports base class queries; passing [LocomotionHandler] will return a [NormalLocomotionHandler]
 ## if that is what is attached.
 func get_component(type: Script) -> Variant:
 	if not _components.has(type):
@@ -230,16 +230,14 @@ func _update_terrain_collision_layers() -> void:
 		collision_mask = new_mask
 		
 	
-func jump(velocity: float) -> void:
+func jump(velocity: float, do_effect: bool = true) -> void:
 	if not _is_on_ground:
 		return
 	_vz = velocity
 	_is_on_ground = false
-	if jump_effect:
+	if jump_effect and do_effect:
 		jump_effect.execute(self)
 	
-func _process(delta: float) -> void:
-	age += delta
 	
 func _physics_process(delta: float) -> void:
 	if not _is_on_ground:

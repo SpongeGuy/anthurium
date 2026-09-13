@@ -27,7 +27,7 @@ class_name VoiceProfile
 # ─────────────────────────────────────────────────────────────────────────────
 @export_group("Wave Type")
 
-## The oscillator shape. Fixed per voice — no variance field.
+## The oscillator shape. Fixed per voice; no variance field.
 ## 0=Square  1=Saw  2=Sine  3=White Noise  4=Triangle
 ## 5=Rasp    6=Tan  7=Whistle  8=Breaker  9=Bitnoise  10=FM Synth  11=Voice
 @export_enum(
@@ -234,7 +234,7 @@ func build_params() -> Dictionary:
 	return {
 		# ── Master ─────────────────────────────────────────────────────────
 		"masterVolume":      _vary(master_volume,      master_volume_variance,      0.0,  1.0),
-		"waveType":          wave_type,   # integer — no variance
+		"waveType":          wave_type,   # integer; no variance
 		# ── Envelope ───────────────────────────────────────────────────────
 		"attackTime":        _vary(attack_time,         attack_time_variance,        0.0,  1.0),
 		"sustainTime":       _vary(sustain_time,        sustain_time_variance,       0.0,  1.0),
@@ -292,7 +292,7 @@ func _vary(base_val: float, variance: float, min_val: float, max_val: float) -> 
 	return clampf(base_val + randf_range(-variance, variance), min_val, max_val)
 
 
-## Preview handler — called when the 🔊 button is pressed in the Inspector.
+## Preview handler; called when the 🔊 button is pressed in the Inspector.
 ## Creates a temporary BfxrSFX node, generates a variation synchronously,
 ## then plays it through a temporary AudioStreamPlayer parented to the editor tree.
 ## Both nodes auto-free themselves when playback ends.
@@ -305,7 +305,7 @@ func _preview_sound() -> void:
 		push_error("VoiceProfile: cannot access SceneTree for preview")
 		return
 
-	# Temporary synthesis node — we only need it for generate_wav(); it is freed
+	# Temporary synthesis node; we only need it for generate_wav(); it is freed
 	# immediately after generation so its internal player pool never runs.
 	var bfxr := BfxrSFX.new()
 	tree.root.add_child(bfxr)
@@ -338,7 +338,7 @@ func _randomize_params() -> void:
 	}
 
 	# Each entry: [min, max, default_value, resource_property_name]
-	# The default is the "centre" of the distribution — we flip a coin to decide
+	# The default is the "centre" of the distribution; we flip a coin to decide
 	# whether to sample above or below it, then scale r into that half-range.
 	var ranges := {
 		"masterVolume":    [0.0,   1.0,  0.5,  "master_volume"],
@@ -393,7 +393,7 @@ func _randomize_params() -> void:
 
 		set(prop, dv + (mx - dv) * r if above else dv - (dv - mn) * r)
 
-	# Post-pass overrides — match the C# behaviour exactly.
+	# Post-pass overrides; match the C# behaviour exactly.
 	wave_type          = randi() % 12       # 0–11 inclusive
 	if randf() < 0.5:
 		repeat_speed   = 0.0               # half the time, no repeat

@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://csh8dsgnjt8ho"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_n52bp"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_6g3fk"]
+[ext_resource type="Texture2D" uid="uid://bkulehu0m4qv0" path="res://assets/textures/characters/blimble.png" id="2_us2uy"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_54avv"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="3_ve6na"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="4_quomg"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="5_m5spg"]
+[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="6_ptsdo"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_sofh0"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="8_m5spg"]
+[ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="9_ptsdo"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="10_ptsdo"]
+[ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="20_m2h6w"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="21_bt4x6"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="22_6tbtn"]
+[ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="23_m2h6w"]
+
+[sub_resource type="Resource" id="Resource_5o62f"]
+script = ExtResource("2_6g3fk")
+felicity = 5.0
+lacuna = 1.0
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_g5pfs"]
+script = ExtResource("3_54avv")
+esoterica_profile = SubResource("Resource_5o62f")
+consumer_type = 2
+tags = Array[int]([9, 10])
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rdnpe"]
+radius = 9.0
+
+[node name="Entity" type="CharacterBody2D" unique_id=1608561587 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_n52bp")
+visual = NodePath("Sprite2D")
+archetype = SubResource("Resource_g5pfs")
+height = 0.5
+mass = 0.1
+bounciness = 0.744
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1234636130]
+position = Vector2(0, -6)
+texture = ExtResource("2_us2uy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1560037066]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_emcra")
+
+[node name="health" type="Node" parent="." unique_id=1806735999]
+
+[node name="HealthComponent" type="Node" parent="health" unique_id=1798579662 node_paths=PackedStringArray("hitbox", "ichor")]
+script = ExtResource("3_ve6na")
+max_health = 5.0
+health = 5.0
+hitbox = NodePath("../../Hitbox")
+ichor = NodePath("../IchorComponent")
+metadata/_custom_type_script = "uid://rhl072pc6k5q"
+
+[node name="DamageAnimationComponent" type="Node" parent="health" unique_id=1625361419 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("4_quomg")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
+
+[node name="IchorComponent" type="Node" parent="health" unique_id=234856246 node_paths=PackedStringArray("lifespan")]
+script = ExtResource("5_m5spg")
+lifespan = NodePath("../LifespanComponent")
+metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
+
+[node name="LifespanComponent" type="Node" parent="health" unique_id=1156483462]
+script = ExtResource("6_ptsdo")
+lifespan = 200.0
+metadata/_custom_type_script = "uid://cx8kdl1vaiqo"
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1671372834 node_paths=PackedStringArray("collision_shape", "knockback")]
+position = Vector2(0, -3)
+script = ExtResource("7_sofh0")
+collision_shape = NodePath("CollisionShape2D")
+knockback = NodePath("../KnockbackComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1813180517]
+shape = SubResource("CircleShape2D_rdnpe")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=191969310 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("8_m5spg")
+locomotion = NodePath("../NormalLocomotionHandler")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="KnockbackComponent" type="Node" parent="." unique_id=1448543125 node_paths=PackedStringArray("physics")]
+script = ExtResource("9_ptsdo")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://caol2ehx8v66d"
+
+[node name="InputComponent" type="Node" parent="." unique_id=1204885185]
+script = ExtResource("10_ptsdo")
+metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2038431465]
+path_postprocessing = 1
+debug_enabled = true
+
+[node name="NavigationHelper" type="Node" parent="." unique_id=1164991075 node_paths=PackedStringArray("navigation")]
+script = ExtResource("20_m2h6w")
+navigation = NodePath("../NavigationAgent2D")
+metadata/_custom_type_script = "uid://bcbkki6gbrkma"
+
+[node name="NormalLocomotionHandler" type="Node" parent="." unique_id=192459719 node_paths=PackedStringArray("input")]
+script = ExtResource("21_bt4x6")
+input = NodePath("../InputComponent")
+speed = 50.0
+metadata/_custom_type_script = "uid://u3rkjnmvpauy"
+
+[node name="FacingComponent" type="Node" parent="." unique_id=1168899791]
+script = ExtResource("22_6tbtn")
+metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
+
+[node name="Memory" type="Node" parent="." unique_id=1938938702]
+script = ExtResource("23_m2h6w")
+metadata/_custom_type_script = "uid://cu81acdifmvso"
