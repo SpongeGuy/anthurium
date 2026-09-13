@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_t8x8u"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="2_hrcsw"]
-[ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/piss_ball_guy/spawn_entity_then_exit.gd" id="3_figh2"]
+[ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/deprecated/piss_ball_guy/spawn_entity_then_exit.gd" id="3_figh2"]
 [ext_resource type="Resource" uid="uid://caei1gsudwqth" path="res://assets/resources/particle_profiles/portal.tres" id="4_0wmeh"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="4_5fkbc"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="4_sboo8"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="4_sboo8"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="5_0wmeh"]
 [ext_resource type="Resource" uid="uid://ciolmmgn3qpw7" path="res://assets/resources/voices/portal_warping.tres" id="5_mvuma"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="5_sboo8"]

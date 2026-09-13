@@ -1,5 +1,5 @@
 extends Component
-class_name Brain
+class_name BrainDeprecated
 
 var _lobes: Dictionary[Script, Lobe] = {}
 @export var state_machine: StateMachine

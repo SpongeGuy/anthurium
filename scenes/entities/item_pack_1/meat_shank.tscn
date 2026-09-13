@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_idsdh"]
 [ext_resource type="Texture2D" uid="uid://ctvyuyowi4cev" path="res://assets/textures/items/meat_shank.png" id="2_iy5re"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="3_ia0gt"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="4_4kbpg"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="5_xraoj"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/deprecated/simple/blank_state.gd" id="4_4kbpg"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="5_xraoj"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="6_jtya7"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="7_wlwrk"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="8_50qpg"]
@@ -100,8 +100,6 @@ script = ExtResource("1_idsdh")
 visual = NodePath("Sprite2D")
 mass = 0.3
 bounciness = 0.761
-jump_effect = null
-land_effect = null
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1899707934]

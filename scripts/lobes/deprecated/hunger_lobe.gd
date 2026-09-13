@@ -1,8 +1,8 @@
 extends Lobe
-class_name HungerLobe
+class_name HungerLobeDeprecated
 
 # ------------------------------------------------------------------------------------------
-# a component for a Brain component.
+# a component for a BrainDeprecated component.
 # holds references to other components and reacts to their signals
 # holds vital information in memory
 # when this information is changed, emit signal changed

@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="6_8e733"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="7_qh5js"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="8_6pyw3"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="9_31024"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="10_4bq61"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/deprecated/simple/blank_state.gd" id="9_31024"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="10_4bq61"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="11_8vh6r"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="12_31024"]
 

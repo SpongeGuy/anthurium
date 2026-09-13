@@ -2,7 +2,7 @@ extends Node
 class_name Lobe
 
 # ------------------------------------------------------------------------------------------
-# a component for a Brain component.
+# a component for a BrainDeprecated component.
 # holds references to other components and reacts to their signals
 # holds vital information in memory
 # when this information is changed, emit signal changed
@@ -10,7 +10,7 @@ class_name Lobe
 # ------------------------------------------------------------------------------------------
 
 
-var brain: Brain
+var brain: BrainDeprecated
 
 signal changed
 

@@ -22,9 +22,9 @@ func _ready() -> void:
 	navigation.target_reached.connect(_on_target_reached)
 
 
-func set_new_pathfinding_location_relative(origin: Vector2, radius: float) -> void:
+func set_new_pathfinding_location_relative(origin: Vector2, min_radius: float, max_radius: float) -> void:
 	var angle: float = randf() * TAU
-	var distance = randf() * radius
+	var distance = randf_range(min_radius, max_radius)
 	var target_position: Vector2 = origin + Vector2(cos(angle), sin(angle)) * distance
 	target_position = WorldGrid.get_safe_world_pos(target_position, CellType.TerrainType.GROUND)
 	navigation.set_target_position(target_position)

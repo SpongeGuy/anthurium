@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	
 	display_base_stats(title, entity)
 	
-	if entity.has_component(Brain):
+	if entity.has_component(BrainDeprecated):
 		display_entity_brain_state(l1, entity)
 	
 	if entity.has_component(HeartbeatEmitter) or entity.has_component(ArteryComponent) or entity.has_component(HeartbeatReceptor):
@@ -101,8 +101,8 @@ func display_anthurium_esoterica(label: Label, entity: Entity) -> void:
 	#label.text = string
 
 func display_entity_brain_state(label: Label, entity: Entity) -> void:
-	if entity.has_component(Brain):
-		var ebrain: Brain = entity.get_component(Brain)
+	if entity.has_component(BrainDeprecated):
+		var ebrain: BrainDeprecated = entity.get_component(BrainDeprecated)
 		var last_state: Dictionary[String, Array] = ebrain.last_state
 		var string: String = ""
 		for entry in last_state:

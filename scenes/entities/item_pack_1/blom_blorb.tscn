@@ -20,13 +20,13 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="18_f18nu"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="19_k7xkl"]
 [ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="20_thnh3"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/piss_ball_guy/death/death.gd" id="21_76qdt"]
+[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="21_76qdt"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="21_dji3k"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="22_34fkb"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="23_t8ega"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="24_k82wc"]
-[ext_resource type="Script" uid="uid://143u7xgfchhw" path="res://scripts/states/blom_bulb/growth_into_new_entity.gd" id="26_5rdin"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/simple/blank_state.gd" id="26_wdex0"]
+[ext_resource type="Script" uid="uid://143u7xgfchhw" path="res://scripts/states/deprecated/blom_bulb/growth_into_new_entity.gd" id="26_5rdin"]
+[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/deprecated/simple/blank_state.gd" id="26_wdex0"]
 [ext_resource type="Script" uid="uid://bkky2iu1meoku" path="res://scripts/components/JumpOnTimerComponent.gd" id="27_b62um"]
 [ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="27_wdex0"]
 
@@ -107,8 +107,6 @@ collision_mask = 7
 script = ExtResource("1_xgpeh")
 display_name = "Blom Blorb"
 visual = NodePath("Sprite2D")
-jump_effect = null
-land_effect = null
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=675987245]

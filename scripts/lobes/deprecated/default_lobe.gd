@@ -1,5 +1,5 @@
 extends Lobe
-class_name DefaultLobe
+class_name DefaultLobeDeprecated
 
 @export var priority: float = 0.01
 @export var state: BehaviorState

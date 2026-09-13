@@ -7,7 +7,8 @@ class_name PathfindWandererState
 @export var locomotion: LocomotionHandler
 @export var animator: SpriteAnimator
 
-@export var radius: float = 100
+@export var min_radius: float = 25
+@export var max_radius: float = 100
 
 func enter() -> void:
 	if animator:
@@ -23,7 +24,7 @@ func physics_update(delta: float) -> void:
 			# if no next nav point, then create a new navigation goal
 		if not navigation.is_navigating():
 			
-			navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, radius)
+			navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, min_radius, max_radius)
 		
 		var next_point: Vector2 = navigation.get_next_path_direction()
 		facing.change_direction(next_point)

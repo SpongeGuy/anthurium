@@ -8,7 +8,8 @@ class_name PathfindStepWandererState
 @export var exit_state: BehaviorState
 @export var sound: VoiceProfile = preload("res://assets/resources/voices/step.tres")
 
-@export var radius: float = 100
+@export var min_radius: float = 25
+@export var max_radius: float = 100
 @export var chance_to_exit_state: float = 0.05
 
 func _on_stepping() -> void:
@@ -31,7 +32,7 @@ func physics_update(delta: float) -> void:
 		# if no next nav point, then create a new navigation goal
 	if not input.player_controlled:
 		if not navigation.is_navigating():
-			navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, radius)
+			navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, min_radius, max_radius)
 		
 		var next_point: Vector2 = navigation.get_next_path_direction()
 		facing.change_direction(next_point)

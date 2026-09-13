@@ -12,8 +12,13 @@
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="8_m5spg"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="9_ptsdo"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="10_ptsdo"]
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/classes/ai/Brain.gd" id="17_cyct4"]
+[ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="18_ybvok"]
+[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="19_m6vu1"]
+[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="20_f4hbb"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="20_m2h6w"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="21_bt4x6"]
+[ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="21_m2h6w"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="22_6tbtn"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="23_m2h6w"]
 
@@ -35,6 +40,17 @@ radius = 3.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rdnpe"]
 radius = 9.0
+
+[sub_resource type="Resource" id="Resource_ybvok"]
+script = ExtResource("19_m6vu1")
+state_script = ExtResource("20_f4hbb")
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_cyct4"]
+script = ExtResource("21_m2h6w")
+state_name = &"wander"
+blueprint = SubResource("Resource_ybvok")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [node name="Entity" type="CharacterBody2D" unique_id=1608561587 node_paths=PackedStringArray("visual")]
 texture_filter = 1
@@ -128,3 +144,8 @@ metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 [node name="Memory" type="Node" parent="." unique_id=1938938702]
 script = ExtResource("23_m2h6w")
 metadata/_custom_type_script = "uid://cu81acdifmvso"
+
+[node name="Brain" type="Node" parent="." unique_id=1475374953]
+script = ExtResource("17_cyct4")
+lobes = Array[ExtResource("18_ybvok")]([SubResource("Resource_cyct4")])
+metadata/_custom_type_script = "uid://dwy74leu2y8cr"
