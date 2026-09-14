@@ -64,7 +64,7 @@ func _ready() -> void:
 	_crt_material.set_shader_parameter("tex", vp_tex)
 	_crt_material.set_shader_parameter("tex_nearest", vp_tex)
 	AppController.viewport_container.material = _crt_material
-	set_crt_shader_mode(CRT_SHADER_MODES.DOT)
+	set_crt_shader_mode(CRT_SHADER_MODES.NEAREST)
 	
 	
 ## Switches the CRT post-process shader to [param mode], configuring its

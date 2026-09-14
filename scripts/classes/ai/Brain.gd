@@ -23,7 +23,7 @@ func _physics_process(delta: float) -> void:
 var top_machine: BrainStateMachine = BrainStateMachine.new()
 
 @export var reevaluation_interval: float = 0.5
-@export var switch_priority_margin: float = 0.15 # hysteria (see below)
+@export var switch_priority_margin: float = 0.025 # hysteria (see below)
 var _reeval_timer: float = 0.0
 
 func _reevaluate_periodically(delta: float) -> void:
@@ -48,7 +48,7 @@ func _reevaluate_priorities() -> void:
 	var target: StringName = best_lobe.state_name
 	if target == top_machine.current_name:
 		return
-		
+	
 	# hysteresis: only interrupt current goal if new one clearly wins
 	# so priorities don't flap on noisy scores near a tie
 	var current_score: float = _score_of(top_machine.current_name)

@@ -15,6 +15,9 @@ func enter() -> void:
 	navigation = entity.get_component(NavigationHelper)
 	input = entity.get_component(InputComponent)
 	locomotion = entity.get_component(LocomotionHandler)
+	
+	if navigation.is_navigating():
+		navigation.stop_navigation()
 
 func exit() -> void:
 	pass
@@ -22,11 +25,11 @@ func exit() -> void:
 
 func physics_process(delta: float) -> void:
 	if not input.player_controlled:
-		_handle_ai(delta)
+		_handle_ai_movement(delta)
 	
 	locomotion.handle_locomotion(delta)
 
-func _handle_ai(delta: float) -> void:
+func _handle_ai_movement(delta: float) -> void:
 	var mwr: float = max_wander_radius * brain.get_personality_value(Brain.PERSONALITY.ENERGY)
 	if not navigation.is_navigating():
 		navigation.set_new_pathfinding_location_relative(entity.position, min_wander_radius, mwr)

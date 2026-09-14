@@ -13,5 +13,5 @@ func get_priority(entity: Entity) -> float:
 	if hunger_ratio <= hungry_threshold_ratio:
 		hunger_bonus = 0.5
 
-	return 1 - ((hunger_ratio * 0.75)) + hunger_bonus
+	return (1 - (hunger_ratio)) + hunger_bonus
 

@@ -9,6 +9,7 @@ class_name NavigationHelper
 
 signal picked_new_nav_point(target_position: Vector2i)
 signal navigation_finished
+signal navigation_cancelled
 
 var has_target: bool = false
 
@@ -21,6 +22,10 @@ var has_target: bool = false
 func _ready() -> void:
 	navigation.target_reached.connect(_on_target_reached)
 
+func stop_navigation() -> void:
+	navigation.set_target_position(entity.global_position)
+	has_target = false
+	navigation_cancelled.emit()
 
 func set_new_pathfinding_location_relative(origin: Vector2, min_radius: float, max_radius: float) -> void:
 	var angle: float = randf() * TAU

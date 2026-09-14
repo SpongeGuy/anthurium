@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 	
 	display_base_stats(title, entity)
 	
-	if entity.has_component(BrainDeprecated):
+	if entity.has_component(Brain):
 		display_entity_brain_state(l1, entity)
 	
 	if entity.has_component(HeartbeatEmitter) or entity.has_component(ArteryComponent) or entity.has_component(HeartbeatReceptor):
@@ -59,8 +59,6 @@ func _process(delta: float) -> void:
 func update_anthurium(entity: Entity) -> void:
 	display_coordinates(l2)
 	display_anthurium_esoterica(l3, entity)
-	#display_anthurium_ichor(l3)
-	#display_anthurium_active_parts(l4)
 	
 func display_base_stats(label: Label, entity: Entity) -> void:
 	var string: String = ""
@@ -79,11 +77,6 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 func display_coordinates(label: Label) -> void:
 	label.text = str(WorldGrid.world_to_tile(coords))
 	
-#func display_anthurium_active_parts(label: Label) -> void:
-	#var string = ""
-	#for entry in AnthuriumBrain.active_anthurium_names:
-		#string += str(entry, ": ", AnthuriumBrain.active_anthurium_names[entry], "\n")
-	#label.text = str(string)
 	
 func display_anthurium_esoterica(label: Label, entity: Entity) -> void:
 	var string: String = ""
@@ -94,19 +87,58 @@ func display_anthurium_esoterica(label: Label, entity: Entity) -> void:
 		string += str("bloom: %f" % bloom.value)
 	label.text = string
 
-#func display_anthurium_ichor(label: Label) -> void:
-	#var string: String = ""
-	#string += str("ichor: ", AnthuriumBrain.ichor, "\n")
-	#string += str("furor: ", AnthuriumBrain.furor, "\n")
-	#label.text = string
 
 func display_entity_brain_state(label: Label, entity: Entity) -> void:
-	if entity.has_component(BrainDeprecated):
-		var ebrain: BrainDeprecated = entity.get_component(BrainDeprecated)
-		var last_state: Dictionary[String, Array] = ebrain.last_state
-		var string: String = ""
-		for entry in last_state:
-			string += str(entry, ": ", last_state[entry][0], "\n")
-		
-		label.text = str("BRAIN_STATE:\n", ebrain.personality, "\n", string)
+	var brain: Brain = entity.get_component(Brain)
+	if not brain:
+		return
+
+	var lines: Array[String] = []
+	_append_state_path(brain.top_machine, lines, 0)
+
+	var string: String = "BRAIN_STATE:\n"
+	string += _format_personality(brain)
+	string += "\n"
+	string += "\n".join(lines)
+	string += "\n\nLOBES:\n"
+	string += _format_lobe_priorities(brain, entity)
+	label.text = string
+
+func _format_lobe_priorities(brain: Brain, entity: Entity) -> String:
+	var scored: Array[Dictionary] = []
+	for lobe in brain.lobes:
+		scored.append({"lobe": lobe, "score": lobe.get_priority(entity)})
+
+	scored.sort_custom(func(a, b): return a["score"] > b["score"])
+
+	var lines: Array[String] = []
+	for entry in scored:
+		var lobe: BrainLobe = entry["lobe"]
+		var score: float = entry["score"]
+		var marker: String = " <-- active" if lobe.state_name == brain.top_machine.current_name else ""
+		lines.append("  %s: %.3f%s" % [lobe.state_name, score, marker])
+
+	return "\n".join(lines)
+
+func _append_state_path(machine: BrainStateMachine, lines: Array[String], depth: int) -> void:
+	if machine.current_name == &"" or not machine.current_state:
+		lines.append("%s(idle)" % "  ".repeat(depth))
+		return
+
+	var indent: String = "  ".repeat(depth)
+	lines.append("%s%s" % [indent, machine.current_name])
+
+	if machine.current_state is ContainerState:
+		var container: ContainerState = machine.current_state
+		_append_state_path(container.inner_machine, lines, depth + 1)
+
+func _format_personality(brain: Brain) -> String:
+	var parts: Array[String] = []
+	for i in Brain.PERSONALITY.size():
+		var key: String = Brain.PERSONALITY.keys()[i]
+		var value: float = brain.personality[i]
+		if i == Brain.PERSONALITY.size()/2.0:
+			parts.append("\n")
+		parts.append("%s:%.2f" % [key, value])
+	return ", ".join(parts)
 	

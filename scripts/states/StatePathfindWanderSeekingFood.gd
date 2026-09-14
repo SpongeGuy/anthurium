@@ -30,6 +30,9 @@ func enter() -> void:
 	space_state = entity.get_world_2d().direct_space_state
 	
 	found_food = false
+	
+	if navigation.is_navigating():
+		navigation.stop_navigation()
 
 func exit() -> void:
 	pass

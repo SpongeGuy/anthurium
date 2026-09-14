@@ -1,7 +1,7 @@
 extends Component
 class_name InteractorComponent
 
-@export var proximity: ProximityDetector
+@export var radius: float = 16
 @export var input: InputComponent
 @export var effect: EntityEffect
 
@@ -15,18 +15,12 @@ var interactable_component: InteractableComponent
 var _nearby: Array[Entity]
 
 func _on_registered() -> void:
-	proximity.detected.connect(_on_entity_detected)
-	proximity.lost.connect(_on_entity_lost)
+	input.interact_just_pressed.connect(_on_interact_just_pressed)
 
 func _process(delta: float) -> void:
-	target = find_nearby_target()
-	print(entity, input.interact_just_pressed)
-	if input.interact_just_pressed:
-		
-		if effect:
-			effect.execute(entity)
-		if interactable_component:
-			interactable_component.interact(entity)
+	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(entity.get_world_2d().direct_space_state, entity.global_position, radius, SpatialUtil.PhysicsLayers.ITEMS)
+	target = SpatialUtil.get_nearest_entity_in_array(entity.global_position, nearby)
+
 	
 	if old_target != target:
 		# give target the shader
@@ -42,28 +36,12 @@ func _process(delta: float) -> void:
 		else:
 			interactable_component = null
 		
-		
-		
-func find_nearby_target() -> Entity:
-	if _nearby.size() <= 0:
-		return
-		
-	var closest: Entity = _nearby[0]
-	var dist: float = entity.global_position.distance_to(closest.global_position)
-	for e in _nearby.slice(1):
-		var new_dist: float = entity.global_position.distance_to(e.global_position)
-		if new_dist < dist:
-			closest = e
-			dist = new_dist
-
-	return closest
-	
-# THIS PROBABLY HAS TERRIABLE PEORFERMANCE
-func _on_entity_detected(source: Entity, target: Entity) -> void:
-	_nearby.append(target)
-	
-func _on_entity_lost(source: Entity, target: Entity) -> void:
-	_nearby.erase(target)
+func _on_interact_just_pressed() -> void:
+	if input.interact_just_pressed:
+		if effect:
+			effect.execute(entity)
+		if interactable_component:
+			interactable_component.interact(entity)
 
 
 
