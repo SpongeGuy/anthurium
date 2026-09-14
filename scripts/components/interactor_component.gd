@@ -20,7 +20,9 @@ func _on_registered() -> void:
 
 func _process(delta: float) -> void:
 	target = find_nearby_target()
+	print(entity, input.interact_just_pressed)
 	if input.interact_just_pressed:
+		
 		if effect:
 			effect.execute(entity)
 		if interactable_component:

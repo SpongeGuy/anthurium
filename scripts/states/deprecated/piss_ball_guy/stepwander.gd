@@ -26,7 +26,7 @@ func _on_stepped() -> void:
 	decide_to_move()
 
 func enter() -> void:
-	facing.change_direction(Vector2(1, 0))
+	facing.set_direction_vector(Vector2(1, 0))
 	locomotion.stepped.connect(_on_stepped)
 	locomotion.stepping.connect(_on_stepping)
 	
@@ -82,7 +82,7 @@ func randomly_change_direction() -> void:
 			if tile_pos_and_facing:
 				is_wall_in_front = tile_pos_and_facing.type.terrain == CellType.TerrainType.WALL
 		
-	facing.change_direction(dir)
+	facing.set_direction_vector(dir)
 	ok_to_turn = false
 	
 	

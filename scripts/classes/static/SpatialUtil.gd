@@ -98,7 +98,7 @@ static func get_nearest_entity_in_array(origin: Vector2, array: Array[Entity]) -
 	for e in array:
 		if not is_instance_valid(e):
 			continue
-		var dist_sq: float = origin.distance_squared_to(e.position)
+		var dist_sq: float = origin.distance_squared_to(e.global_position)
 		if dist_sq < nearest_dist_sq:
 			nearest_dist_sq = dist_sq
 			nearest = e
@@ -110,10 +110,10 @@ static func get_nearest_entity_in_raycast_in_array(origin: Vector2, array: Array
 	for e in array:
 		if not is_instance_valid(e):
 			continue
-		var dist_sq: float = origin.distance_squared_to(e.position)
+		var dist_sq: float = origin.distance_squared_to(e.global_position)
 		if dist_sq >= nearest_dist_sq:
 			continue
-		if raycast_hits_terrain(space_state, origin, e.position):
+		if raycast_hits_terrain(space_state, origin, e.global_position):
 			continue
 		nearest_dist_sq = dist_sq
 		nearest = e
@@ -121,6 +121,12 @@ static func get_nearest_entity_in_raycast_in_array(origin: Vector2, array: Array
 
 
 static func is_within_distance_of_entity(e_1: Entity, e_2: Entity, distance: float) -> bool:
-	if e_1.position.distance_squared_to(e_2.position) <= distance**2:
+	if e_1.global_position.distance_squared_to(e_2.global_position) <= distance**2:
 		return true
 	return false
+
+
+static func get_angle_between_entities(origin: Entity, target: Entity) -> float:
+	return origin.global_position.angle_to_point(target.global_position)
+
+

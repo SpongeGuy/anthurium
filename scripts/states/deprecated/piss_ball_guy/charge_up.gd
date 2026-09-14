@@ -64,4 +64,4 @@ func randomly_change_direction() -> void:
 			if tile_pos_and_facing:
 				is_wall_in_front = tile_pos_and_facing.type.terrain == CellType.TerrainType.WALL
 		
-	facing.change_direction(dir)
+	facing.set_direction_vector(dir)

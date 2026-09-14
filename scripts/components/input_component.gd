@@ -68,6 +68,7 @@ func release_modifier() -> void:
 	modifier_just_released.emit()
 
 func press_interact() -> void:
+	print("%s %s" % [randi(), entity])
 	if interact_is_held == true:
 		return
 	interact_just_pressed = true
@@ -83,3 +84,5 @@ func release_interact() -> void:
 	await get_tree().process_frame
 	interact_just_released = false
 	
+func set_move_input_direction(direction: Vector2) -> void:
+	move_input_direction = direction

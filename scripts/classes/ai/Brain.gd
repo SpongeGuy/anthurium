@@ -5,12 +5,16 @@ class_name Brain
 
 
 func _on_registered() -> void:
+	_memory_data.resize(Memory.size())
 	_randomize_personality()
 	for lobe in lobes:
 		top_machine.add_state(lobe.state_name, lobe.blueprint.instantiate(entity, self))
-		lobe._on_registered(entity)
 
 
+func _physics_process(delta: float) -> void:
+	_clear_invalid_memory_data()
+	_reevaluate_periodically(delta)
+	top_machine.physics_process(delta)
 
 # -------------------------------------------------------------------------------------
 # brain -> lobe function
@@ -22,13 +26,12 @@ var top_machine: BrainStateMachine = BrainStateMachine.new()
 @export var switch_priority_margin: float = 0.15 # hysteria (see below)
 var _reeval_timer: float = 0.0
 
-
-func _physics_process(delta: float) -> void:
+func _reevaluate_periodically(delta: float) -> void:
 	_reeval_timer -= delta
 	if _reeval_timer <= 0.0:
 		_reeval_timer = reevaluation_interval
 		_reevaluate_priorities()
-	top_machine.physics_process(delta)
+
 
 func _reevaluate_priorities() -> void:
 	var best_lobe: BrainLobe = null
@@ -82,3 +85,42 @@ func _randomize_personality() -> void:
 
 func get_personality_value(cat: PERSONALITY) -> float:
 	return personality[cat]
+
+
+# ------------------------------------------------------------------------------------------
+# memory
+# ---------------------------------------------------------------------------------------------------
+
+enum Memory{
+	TARGET,
+	THREAT,
+	NEMESIS,
+	FAVORITE_ITEM,
+	FRIEND,
+	HOME_POSITION,
+	LAST_THREAT_LOCATION,
+	LAST_FOOD_LOCATION,
+	SHORT_TERM_DESTINATION,
+	LONG_TERM_DESTINATION,
+	FOOD_SOURCE_POSITION,
+}
+
+var _ignored_entities: Array = []
+var _memory_data: Array = []
+			
+func _clear_invalid_memory_data() -> void:
+	for i in _memory_data.size():
+		if not is_instance_valid(_memory_data[i]):
+			_memory_data[i] = null
+	
+func set_memory(key: Brain.Memory, value: Variant) -> void:
+	_memory_data[key] = value
+	
+func get_memory(key: Brain.Memory) -> Variant:
+	return _memory_data.get(key)
+	
+func has_memory(key: Brain.Memory) -> bool:
+	return _memory_data[key] != null
+	
+func erase_memory(key: Brain.Memory) -> void:
+	_memory_data[key] = null

@@ -27,7 +27,7 @@ func physics_update(delta: float) -> void:
 			navigation.set_new_pathfinding_location_relative(state_machine.entity.global_position, min_radius, max_radius)
 		
 		var next_point: Vector2 = navigation.get_next_path_direction()
-		facing.change_direction(next_point)
+		facing.set_direction_vector(next_point)
 		
 		input.move_input_direction 	= (facing.get_direction())
 	var velocity: Vector2 = locomotion.handle_locomotion(delta)

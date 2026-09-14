@@ -72,7 +72,7 @@ func control_player(_delta: float) -> void:
 	input.move_input_direction = Input.get_vector("west", "east", "north", "south")
 	
 	if facing:
-		facing.change_direction(input.move_input_direction)
+		facing.set_direction_vector(input.move_input_direction)
 	
 ## Connected to the player's [HealthComponent.died]; logs the death and
 ## emits [signal player_died].

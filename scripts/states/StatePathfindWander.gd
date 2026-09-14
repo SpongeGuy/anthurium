@@ -31,7 +31,7 @@ func _handle_ai(delta: float) -> void:
 	if not navigation.is_navigating():
 		navigation.set_new_pathfinding_location_relative(entity.position, min_wander_radius, mwr)
 	
-	input.move_input_direction = navigation.get_next_path_direction()
+	input.set_move_input_direction(navigation.get_next_path_direction())
 
 
 ## return teh StringName of the state to transition to, or &"" to stay.

@@ -15,12 +15,18 @@
 [ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/classes/ai/Brain.gd" id="17_cyct4"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="18_ybvok"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="19_m6vu1"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="20_bt4x6"]
 [ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="20_f4hbb"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="20_m2h6w"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="21_bt4x6"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="21_m2h6w"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/facing_component.gd" id="22_6tbtn"]
+[ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="23_bt4x6"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="23_m2h6w"]
+[ext_resource type="Resource" uid="uid://jxj2ne0nnqgk" path="res://assets/resources/lobes/hunger_lobe.tres" id="23_yaau6"]
+[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="24_6tbtn"]
+[ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="24_w3ph0"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="25_yaau6"]
 
 [sub_resource type="Resource" id="Resource_5o62f"]
 script = ExtResource("2_6g3fk")
@@ -48,9 +54,18 @@ metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
 [sub_resource type="Resource" id="Resource_cyct4"]
 script = ExtResource("21_m2h6w")
+priority = 0.0
 state_name = &"wander"
 blueprint = SubResource("Resource_ybvok")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
+
+[sub_resource type="Resource" id="Resource_bt4x6"]
+script = ExtResource("25_yaau6")
+particle_profile = ExtResource("24_w3ph0")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
+radius = 18.027756
 
 [node name="Entity" type="CharacterBody2D" unique_id=1608561587 node_paths=PackedStringArray("visual")]
 texture_filter = 1
@@ -147,5 +162,24 @@ metadata/_custom_type_script = "uid://cu81acdifmvso"
 
 [node name="Brain" type="Node" parent="." unique_id=1475374953]
 script = ExtResource("17_cyct4")
-lobes = Array[ExtResource("18_ybvok")]([SubResource("Resource_cyct4")])
+lobes = Array[ExtResource("18_ybvok")]([SubResource("Resource_cyct4"), ExtResource("23_yaau6")])
 metadata/_custom_type_script = "uid://dwy74leu2y8cr"
+
+[node name="InteractorComponent" type="Node" parent="." unique_id=827150284 node_paths=PackedStringArray("proximity", "input")]
+script = ExtResource("23_bt4x6")
+proximity = NodePath("../ProximityDetector")
+input = NodePath("../InputComponent")
+effect = SubResource("Resource_bt4x6")
+metadata/_custom_type_script = "uid://cpjm187a6ashx"
+
+[node name="ProximityDetector" type="Node" parent="." unique_id=378445537 node_paths=PackedStringArray("area")]
+script = ExtResource("24_6tbtn")
+area = NodePath("../Proximity")
+collision_mask = 6
+metadata/_custom_type_script = "uid://jrg503l8awgj"
+
+[node name="Proximity" type="Area2D" parent="." unique_id=1978437373]
+position = Vector2(0, -3)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Proximity" unique_id=1810593524]
+shape = SubResource("CircleShape2D_gyaym")
