@@ -18,6 +18,8 @@ func enter() -> void:
 	
 	if navigation.is_navigating():
 		navigation.stop_navigation()
+		
+	play_effect(&"on_enter")
 
 func exit() -> void:
 	pass

@@ -123,6 +123,7 @@ shape = SubResource("CircleShape2D_rdnpe")
 
 [node name="PhysicsComponent" type="Node" parent="." unique_id=191969310 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("8_m5spg")
+base_friction = 600.0
 locomotion = NodePath("../NormalLocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
@@ -137,7 +138,6 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2038431465]
 path_postprocessing = 1
-debug_enabled = true
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=1164991075 node_paths=PackedStringArray("navigation")]
 script = ExtResource("20_m2h6w")
@@ -147,7 +147,7 @@ metadata/_custom_type_script = "uid://bcbkki6gbrkma"
 [node name="NormalLocomotionHandler" type="Node" parent="." unique_id=192459719 node_paths=PackedStringArray("input")]
 script = ExtResource("21_bt4x6")
 input = NodePath("../InputComponent")
-speed = 50.0
+speed = 25.0
 metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="FacingComponent" type="Node" parent="." unique_id=1168899791]

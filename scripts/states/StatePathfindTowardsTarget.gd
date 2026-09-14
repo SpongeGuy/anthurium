@@ -27,6 +27,8 @@ func enter() -> void:
 		navigation.stop_navigation()
 
 func exit() -> void:
+	if not is_instance_valid(target):
+		return
 	brain.set_memory(Brain.Memory.LAST_FOOD_LOCATION, target.global_position)
 
 func physics_process(delta: float) -> void:
@@ -37,12 +39,16 @@ func physics_process(delta: float) -> void:
 	locomotion.handle_locomotion(delta)
 	
 func _handle_ai_movement(delta: float) -> void:
+	if not is_instance_valid(target):
+		return
 	navigation.set_new_pathfinding_location_explicit(target.position)
 	input.set_move_input_direction(navigation.get_next_path_direction())
 	facing.set_direction_angle(SpatialUtil.get_angle_between_entities(entity, target))
 	
 	
 func _get_if_nearby() -> bool:
+	if not is_instance_valid(target):
+		return false
 	return SpatialUtil.is_within_distance_of_entity(entity, target, nearby_radius)
 		
 

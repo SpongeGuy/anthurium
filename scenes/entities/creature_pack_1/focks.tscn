@@ -5,9 +5,6 @@
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="5_xoj7o"]
-[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_s02rk"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="10_jr5rt"]
-[ext_resource type="Script" uid="uid://ck7p5v04np1np" path="res://scripts/states/deprecated/piss_ball_guy/navigatewander.gd" id="10_ypaju"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="12_qcr3t"]
 [ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="12_tkxpy"]
@@ -18,16 +15,21 @@
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://bt6jf1wavtm84" path="res://scripts/components/world_interface.gd" id="21_kyqc0"]
-[ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/interactable_component.gd" id="22_1cjm5"]
-[ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/proximity_detector.gd" id="22_e1qh5"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="28_3qtpx"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/ability_jump.gd" id="29_tkxpy"]
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/classes/ai/Brain.gd" id="29_ypaju"]
+[ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="30_tkxpy"]
+[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="31_vl5tg"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="32_1cjm5"]
+[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="33_4npmj"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
-[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/sprite_animator_directional.gd" id="34_ipt6n"]
+[ext_resource type="Script" uid="uid://d6cq0g5ot4oc" path="res://scripts/resources/entity_effect/EntityEffectAnimation.gd" id="33_tkxpy"]
+[ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="34_d1yhl"]
+[ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/SpriteAnimatorDirectional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/navigation_helper.gd" id="34_tkxpy"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="34_vl5tg"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
@@ -40,31 +42,49 @@ size = Vector2(9, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg4qc"]
 size = Vector2(7, 6)
 
-[sub_resource type="Resource" id="Resource_ipt6n"]
+[sub_resource type="Resource" id="Resource_tkxpy"]
 script = ExtResource("16_v7tyf")
 name = &"walk"
 frames = 2
 speed = 5.0
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_ypaju"]
-script = ExtResource("16_v7tyf")
-name = &"death"
-frames = 2
-speed = 4.0
-loop = false
+scales_with_speed = true
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jurdk"]
 size = Vector2(20, 13)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qyswd"]
-radius = 17.0
-
 [sub_resource type="Resource" id="Resource_d1yhl"]
 script = ExtResource("36_4npmj")
 particle_profile = ExtResource("35_1cjm5")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_vl5tg"]
+script = ExtResource("16_v7tyf")
+name = &"walk"
+frames = 2
+speed = 5.0
+scales_with_speed = true
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_4npmj"]
+script = ExtResource("33_tkxpy")
+animation = SubResource("Resource_vl5tg")
+is_default_animation = true
+metadata/_custom_type_script = "uid://d6cq0g5ot4oc"
+
+[sub_resource type="Resource" id="Resource_gyaym"]
+script = ExtResource("31_vl5tg")
+state_script = ExtResource("33_4npmj")
+effects = Dictionary[StringName, ExtResource("32_1cjm5")]({
+&"on_enter": SubResource("Resource_4npmj")
+})
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_emcra"]
+script = ExtResource("34_d1yhl")
+state_name = &"wander"
+blueprint = SubResource("Resource_gyaym")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual", "nodes_to_translate") groups=["creature"]]
 texture_filter = 1
@@ -95,12 +115,11 @@ script = ExtResource("4_e47js")
 ichor = 50.0
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "state_machine", "ichor")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "ichor")]
 script = ExtResource("4_jwlga")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
-state_machine = NodePath("../../StateMachine")
 ichor = NodePath("../Ichor")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
@@ -109,26 +128,6 @@ script = ExtResource("5_xoj7o")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Visual/Main")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="StateMachine" type="Node" parent="." unique_id=628928850 node_paths=PackedStringArray("initial_state", "death_state")]
-script = ExtResource("7_s02rk")
-initial_state = NodePath("PathfindWandererState")
-death_state = NodePath("DeathState")
-metadata/_custom_type_script = "uid://snopn0q86518"
-
-[node name="DeathState" type="Node" parent="StateMachine" unique_id=249506613 node_paths=PackedStringArray("locomotion")]
-script = ExtResource("10_jr5rt")
-locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
-
-[node name="PathfindWandererState" type="Node" parent="StateMachine" unique_id=358040646 node_paths=PackedStringArray("navigation", "facing", "input", "locomotion", "animator")]
-script = ExtResource("10_ypaju")
-navigation = NodePath("../../NavigationHelper")
-facing = NodePath("../../Animation/FacingComponent")
-input = NodePath("../../InputComponent")
-locomotion = NodePath("../../Movement/NormalLocomotionHandler")
-animator = NodePath("../../Animation/DirectionalSpriteAnimator")
-metadata/_custom_type_script = "uid://ck7p5v04np1np"
 
 [node name="Movement" type="Node" parent="." unique_id=1225028772]
 
@@ -168,11 +167,12 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 [node name="Animation" type="Node2D" parent="." unique_id=1057125269]
 visible = false
 
-[node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("facing", "sprite")]
+[node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("facing", "sprite", "locomotion")]
 script = ExtResource("34_ipt6n")
 facing = NodePath("../FacingComponent")
 sprite = NodePath("../../Visual/Main")
-animations = Array[ExtResource("16_v7tyf")]([SubResource("Resource_ipt6n"), SubResource("Resource_ypaju")])
+default_animation = SubResource("Resource_tkxpy")
+locomotion = NodePath("../../Movement/NormalLocomotionHandler")
 
 [node name="FacingComponent" type="Node" parent="Animation" unique_id=687960607]
 script = ExtResource("17_o1xgh")
@@ -204,21 +204,6 @@ metadata/_custom_type_script = "uid://duajgedj0nkus"
 [node name="WorldInterface" type="Node" parent="." unique_id=484845366]
 script = ExtResource("21_kyqc0")
 metadata/_custom_type_script = "uid://bt6jf1wavtm84"
-
-[node name="Proximity" type="Node2D" parent="." unique_id=1510964784]
-
-[node name="ProximityDetector" type="Node" parent="Proximity" unique_id=68784327 node_paths=PackedStringArray("area")]
-script = ExtResource("22_e1qh5")
-area = NodePath("../ProximityArea")
-whitelist = Array[Script]([ExtResource("22_1cjm5")])
-collision_mask = 4
-metadata/_custom_type_script = "uid://jrg503l8awgj"
-
-[node name="ProximityArea" type="Area2D" parent="Proximity" unique_id=980590054]
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Proximity/ProximityArea" unique_id=1060462205]
-position = Vector2(1, -4)
-shape = SubResource("CircleShape2D_qyswd")
 
 [node name="InputComponent" type="Node" parent="." unique_id=648358057]
 script = ExtResource("25_xoj7o")
@@ -266,9 +251,13 @@ physics = NodePath("../Movement/PhysicsComponent")
 hitbox = NodePath("../HitDetection/Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
-[node name="InteractorComponent" type="Node" parent="." unique_id=1383714984 node_paths=PackedStringArray("proximity", "input")]
+[node name="InteractorComponent" type="Node" parent="." unique_id=1383714984 node_paths=PackedStringArray("input")]
 script = ExtResource("34_vl5tg")
-proximity = NodePath("../Proximity/ProximityDetector")
 input = NodePath("../InputComponent")
 effect = SubResource("Resource_d1yhl")
 metadata/_custom_type_script = "uid://cpjm187a6ashx"
+
+[node name="Brain" type="Node" parent="." unique_id=1091487243]
+script = ExtResource("29_ypaju")
+lobes = Array[ExtResource("30_tkxpy")]([SubResource("Resource_emcra")])
+metadata/_custom_type_script = "uid://dwy74leu2y8cr"

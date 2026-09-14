@@ -8,3 +8,4 @@ class_name SpriteAnimation
 @export var frames: int = 1
 @export var speed: float = 1.0
 @export var loop: bool = true
+@export var scales_with_speed: bool = false

@@ -4,7 +4,8 @@ class_name HealthComponent
 @export var max_health: float
 @export var health: float
 @export var hitbox: Hitbox ## not mandatory
-@export var state_machine: StateMachine
+
+@export var death_effect: EntityEffect = preload("uid://bg2bks2clcl4r")
 
 
 signal taken_damage(amount: float, source: Entity)
@@ -67,6 +68,12 @@ func heal(amount: float, source: Entity) -> void:
 	health_changed.emit(health, max_health)
 
 func die() -> void:
+	var loco: LocomotionHandler = entity.get_component(LocomotionHandler)
+	if loco:
+		loco.disabled = true
 	dying = true
+	
+	if death_effect:
+		death_effect.execute(entity)
 	died.emit()
-	state_machine.switch_to_death_state()
+	entity.queue_free()

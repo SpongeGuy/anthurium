@@ -1,5 +1,5 @@
 extends SpriteAnimator
-class_name DirectionalSpriteAnimator
+class_name SpriteAnimatorDirectional
 
 # --------------------------------
 # animator module for entities that face in a particular direction
@@ -30,12 +30,18 @@ func _update_animation(delta: float, modifier: float = 1.0) -> void:
 		if _current_animation.loop:
 			_timer = 0.0
 		else:
+			var finished_animation: SpriteAnimation = _current_animation
 			stop()
-			animation_finished.emit()
+			animation_finished.emit(finished_animation)
+			if finished_animation != default_animation:
+				play_default_animation()
+			return
 		
 	# this checks if the current animation is a directional animation
 	# if the current animation is directional, the system will then check if
 	# the sprite needs to be flipped and then act.
+	# the animation will be considered "directional" if the animation's 
+	# coordinates are on the first vertical half of the spritesheet
 	if row <= SPRITESHEET_TYPES[spritesheet_type] / 2:
 		switch_direction()
 	

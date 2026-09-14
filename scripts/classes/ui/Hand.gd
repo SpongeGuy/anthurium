@@ -47,13 +47,7 @@ var _dir_pressed: Dictionary = {
 	Vector2i.DOWN: false
 }
 
-const STATE_ANIMS = {
-	State.DEFAULT: "default",
-	State.HOVER_OVER_ACTIVATE: "hov_activate",
-	State.HOVER_OVER_LIST: "hov_list",
-	State.HOLDING: "holding",
-	State.HOVER_OVER_GRAB: "hov_grab",
-}
+@export var animations: Dictionary[State, SpriteAnimation] = {}
 
 var current_state: State = State.DEFAULT
 
@@ -185,7 +179,7 @@ func change_state(state: State) -> void:
 
 func _on_state_changed(to: State) -> void:
 	if animator:
-		animator.load_and_reset_animation(STATE_ANIMS.get(to, "default"))
+		animator.play_animation(animations.get(to, "default"))
 	label.text = ""
 	match current_state:
 		State.DEFAULT:

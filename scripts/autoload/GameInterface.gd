@@ -44,6 +44,13 @@ func start_new_game_instance_with_player() -> void:
 	EntityManager.spawn_safely(&"blom_bulb", Vector2(300, 300), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2(250, 300), false)
 	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
 	#_make_test_land()
 	#
 
@@ -68,7 +75,7 @@ func start_new_game_instance() -> void:
 ## and snaps the camera to it.
 func _initialize_player(tile_pos: Vector2i) -> void:
 	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
-	var entity: Entity = EntityManager.spawn_as_player(&"blimble", player_spawn)
+	var entity: Entity = EntityManager.spawn_as_player(&"focks", player_spawn)
 	CameraController.change_camera_target(entity)
 	CameraController.go_instantly_to(entity.global_position)
 	

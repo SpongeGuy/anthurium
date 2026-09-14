@@ -96,9 +96,9 @@ func display_entity_brain_state(label: Label, entity: Entity) -> void:
 	var lines: Array[String] = []
 	_append_state_path(brain.top_machine, lines, 0)
 
-	var string: String = "BRAIN_STATE:\n"
+	var string: String = "PERSONALITY:\n"
 	string += _format_personality(brain)
-	string += "\n"
+	string += "\nBRAIN STATE:\n"
 	string += "\n".join(lines)
 	string += "\n\nLOBES:\n"
 	string += _format_lobe_priorities(brain, entity)
@@ -137,7 +137,7 @@ func _format_personality(brain: Brain) -> String:
 	for i in Brain.PERSONALITY.size():
 		var key: String = Brain.PERSONALITY.keys()[i]
 		var value: float = brain.personality[i]
-		if i == Brain.PERSONALITY.size()/2.0:
+		if i == 3:
 			parts.append("\n")
 		parts.append("%s:%.2f" % [key, value])
 	return ", ".join(parts)

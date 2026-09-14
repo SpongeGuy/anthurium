@@ -11,6 +11,9 @@ class_name StateCastAbilityIfEnoughIchor
 @export var ichor_component: IchorComponent
 @export var try_cooldown: float = 3.0
 
+@export var open_effect: EntityEffect
+@export var close_effect: EntityEffect
+
 var _timer: float
 var _is_open: bool = true
 var _animation_cooldown: float
@@ -31,7 +34,8 @@ func update(delta: float) -> void:
 			input_component.release_action(input)
 		if _is_open:
 			_is_open = false
-			animator.load_and_reset_animation("closed")
+			if close_effect:
+				close_effect.execute(state_machine.entity)
 	else:
 		ability_manager.disable(input)
 	
@@ -47,4 +51,5 @@ func _on_cast_successfully(slot: int) -> void:
 	if slot == input:
 		_timer = try_cooldown
 		_is_open = true
-		animator.load_and_reset_animation("open")
+		if open_effect:
+			open_effect.execute(state_machine.entity)

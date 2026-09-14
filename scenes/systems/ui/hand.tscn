@@ -2,11 +2,37 @@
 
 [ext_resource type="Script" uid="uid://dpcaawesmrb43" path="res://scripts/classes/ui/Hand.gd" id="1_cg78y"]
 [ext_resource type="Texture2D" uid="uid://pnikphk46i6r" path="res://assets/textures/ui/hand.png" id="1_hib0p"]
-[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/sprite_animator.gd" id="3_0nok7"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="3_0nok7"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="4_lc2g5"]
 [ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="5_lc2g5"]
 
+[sub_resource type="Resource" id="Resource_lc2g5"]
+script = ExtResource("4_lc2g5")
+name = &"default"
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
 [sub_resource type="Resource" id="Resource_wm76h"]
+script = ExtResource("4_lc2g5")
+frames = 2
+speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_gl24v"]
+script = ExtResource("4_lc2g5")
+row = 1
+column = 1
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_qop0p"]
+script = ExtResource("4_lc2g5")
+row = 1
+frames = 2
+speed = 3.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_7i8nk"]
 script = ExtResource("4_lc2g5")
 name = &"hov_activate"
 frames = 2
@@ -38,6 +64,12 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 [node name="Hand" type="Node2D" unique_id=1172565642]
 texture_filter = 1
 script = ExtResource("1_cg78y")
+animations = Dictionary[int, ExtResource("4_lc2g5")]({
+0: SubResource("Resource_lc2g5"),
+1: SubResource("Resource_wm76h"),
+3: SubResource("Resource_gl24v"),
+4: SubResource("Resource_qop0p")
+})
 
 [node name="Grabbed" type="Sprite2D" parent="." unique_id=554336991]
 position = Vector2(-7, -7)
@@ -50,8 +82,7 @@ vframes = 2
 [node name="SpriteAnimator" type="Node" parent="." unique_id=1910142732 node_paths=PackedStringArray("sprite")]
 script = ExtResource("3_0nok7")
 sprite = NodePath("../Sprite2D")
-starting_animation = 0
-animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_wm76h"), SubResource("Resource_jy4b1"), SubResource("Resource_4p43q"), SubResource("Resource_8rlmo")])
+animations = Array[ExtResource("4_lc2g5")]([SubResource("Resource_7i8nk"), SubResource("Resource_jy4b1"), SubResource("Resource_4p43q"), SubResource("Resource_8rlmo")])
 
 [node name="Control" type="Control" parent="." unique_id=420915547]
 layout_mode = 3

@@ -7,6 +7,8 @@ class_name AbilitySwipe
 @export var hurtbox: Hurtbox
 @export var rotator: Rotator
 
+var swipe_animation: SpriteAnimation
+
 
 var icon_texture: Texture = preload("res://assets/textures/ability_icons/claw_icon.png")
 
@@ -49,12 +51,11 @@ func initialize() -> void:
 		
 		rotator.add_child(sprite)
 		
-		var animation: SpriteAnimation = SpriteAnimation.new()
-		animation.name = &"swipe"
-		animation.frames = 4
-		animation.speed = 25
-		animation.loop = false
-		animator.animations.append(animation)
+		swipe_animation = SpriteAnimation.new()
+		swipe_animation.name = &"swipe"
+		swipe_animation.frames = 4
+		swipe_animation.speed = 25
+		swipe_animation.loop = false
 		
 		created_nodes.append(animator)
 		
@@ -84,7 +85,7 @@ func on_pressed(modifier: bool) -> void:
 	execute()
 	
 func _execute() -> void:
-	animator.load_and_reset_animation("swipe")
+	animator.play_and_reset_animation(swipe_animation)
 	AudioManager.play_voice(swipe_sound, entity)
 	locomotion.disabled = true
 	await hurtbox.activate(0.0, 0.2)
