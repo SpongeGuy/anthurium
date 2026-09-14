@@ -8,23 +8,6 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8bf816124b1d5fb6",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "for my capstone/job list 9-1-26.canvas",
-                "viewState": {
-                  "x": -2255.6071476315715,
-                  "y": -1989.6322120194664,
-                  "zoom": -1.2528912960349938
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "job list 9-1-26"
-            }
-          },
-          {
             "id": "12afc7c931b135ff",
             "type": "leaf",
             "state": {
@@ -32,13 +15,47 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -12423.412982284044,
-                  "y": 4441.27545494734,
-                  "zoom": -0.20000000000000007
+                  "x": -13551.207365893186,
+                  "y": 3051.942735571698,
+                  "zoom": -2.5999999999999996
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "Main"
+            }
+          },
+          {
+            "id": "eb1cb3d4b72989f8",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "for my capstone/job list 9-1-26.canvas",
+                "viewState": {
+                  "x": -563.2192723961042,
+                  "y": -300.9841808705496,
+                  "zoom": -0.1088616532366139
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "job list 9-1-26"
+            }
+          },
+          {
+            "id": "781656fa4f825262",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "for my capstone/job list 9-1-26.canvas",
+                "viewState": {
+                  "x": -2245.2216017978585,
+                  "y": -1578.5857368933782,
+                  "zoom": -0.9999999999999999
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "job list 9-1-26"
             }
           }
         ],
@@ -210,10 +227,12 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "12afc7c931b135ff",
+  "active": "eb1cb3d4b72989f8",
   "lastOpenFiles": [
-    "for my capstone/anthurium.md",
     "for my capstone/job list 9-1-26.canvas",
+    "Main.canvas",
+    "Online Gantt 20260914.gantt",
+    "for my capstone/anthurium.md",
     "for my capstone/inspiration bible.md",
     "for my capstone/plant anthurium design for the plant.canvas"
   ]
