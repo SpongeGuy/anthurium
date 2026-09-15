@@ -3,78 +3,8 @@
 		{"id":"9f35dfc1ac5f97d2","type":"group","x":-4080,"y":-730,"width":2660,"height":2370,"label":"not done"},
 		{"id":"379ee5ab18ee73f1","type":"group","x":280,"y":-705,"width":1520,"height":3425,"label":"done"},
 		{"id":"28faf08bea793d10","type":"group","x":-1200,"y":-705,"width":1320,"height":1785,"label":"working on"},
-		{"id":"816ee44b70b86fe4","type":"group","x":-5120,"y":-730,"width":880,"height":1580,"label":"not doing/deprecated"},
 		{"id":"fc866e1043bd6617","type":"group","x":-2200,"y":-540,"width":680,"height":550,"label":"whatever"},
-		{
-			"id":"701228c35defd60d",
-			"type":"text",
-			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
-			"styleAttributes":{},
-			"x":320,
-			"y":-665,
-			"width":500,
-			"height":540
-		},
-		{
-			"id":"e3b1c1051b07e5e1",
-			"type":"text",
-			"text":"hunger isn't really implemented yet.\n\nentities that have ichor components should slowly lose their health if they have 0% ichor.\n\n> done 09-01-2026\n\nmade these changes\n- literally just made ichor and health interface with each other because i dont wanna bother with being clever\n- ichor now decays over time and when it reaches zero, health will slowly tick down.",
-			"styleAttributes":{},
-			"x":880,
-			"y":-665,
-			"width":460,
-			"height":320
-		},
-		{
-			"id":"019b01a78a3edd79",
-			"type":"text",
-			"text":"make explosion entity that is spawned in on an explosion\\\n\n> done 09-04-2026",
-			"styleAttributes":{},
-			"x":880,
-			"y":-260,
-			"width":260,
-			"height":135
-		},
-		{
-			"id":"5337b9a1c263e641",
-			"type":"text",
-			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n> done 09-04-2026\n\n---\n\n- [x] it is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n- [x] **MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n- [x] title, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
-			"styleAttributes":{},
-			"x":320,
-			"y":-75,
-			"width":710,
-			"height":680
-		},
-		{
-			"id":"54af69f0cd6ae0a0",
-			"type":"text",
-			"text":"get z-axis working\n\n#### okay\n- [x] z-axis needs to connect to hitbox and change its layer based on z-axis value\n- [x] z-axis must connect to ability manager\n- [x] ability should have a field `affected by z-axis`\n- [x] so that abilities that have hurtboxes can change hurtbox layer based on z-axis\n- [x] physicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\n- [x] z-axis needs a reference to sprite `scale` to generate a shadow of a particular size\n- [x] shadow should decrease in size the higher up z value is\n\n- [x] jumping over terrain\n\n- [x] shadows\n- [x] jumping\n\n- [x] verify that the hitbox/hurtbox levels work by making a flying entity",
-			"styleAttributes":{},
-			"x":1110,
-			"y":-75,
-			"width":590,
-			"height":510
-		},
-		{
-			"id":"2c5d06a364b13a19",
-			"type":"text",
-			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. \n\non death food drop component!\n\n---\n- [ ] note the ichor of the creature when it died\n- [ ] specify thresholds that must be passed to spawn specific foods\n- [ ] food dropped must have the ichor value (or less, random) of the creature that dropped it\n",
-			"styleAttributes":{},
-			"x":-1160,
-			"y":-655,
-			"width":540,
-			"height":435
-		},
-		{
-			"id":"26f20e5242ee4451",
-			"type":"text",
-			"text":"# blimble\n### PASSIVE CONSUMER\nsmall bouncy white creature\nlikes to be near other blimbles\neats plants or fruit\nruns away from larger animals",
-			"styleAttributes":{},
-			"x":-535,
-			"y":-640,
-			"width":320,
-			"height":280
-		},
+		{"id":"816ee44b70b86fe4","type":"group","x":-5120,"y":-730,"width":880,"height":1580,"label":"not doing/deprecated"},
 		{
 			"id":"da46c0accba0e1f4",
 			"type":"text",
@@ -94,17 +24,6 @@
 			"y":660,
 			"width":260,
 			"height":60
-		},
-		{"id":"8ea32659915c1ad9","type":"link","url":"https://www.onlinegantt.com/#/gantt","x":-3165,"y":-1920,"width":1570,"height":1030,"color":"1"},
-		{
-			"id":"d3c2ab3e3e9e6fee",
-			"type":"text",
-			"text":"\n| Behavior Class | Description                                                           |\n| -------------- | --------------------------------------------------------------------- |\n| PASSIVE        | Does not attack other creatures OR flees when nearby other creatures. |\n| REACTIVE       | Only retaliates if provoked.                                          |\n| PREDATORY      | Actively hunts other creatures to satiate itself.                     |\n| FERAL          | Violent towards other creatures.                                      |\n| ALOOF          | Does not care about other creatures.                                  |\n\n| Consumer Type | Description                                                 |\n| ------------- | ----------------------------------------------------------- |\n| AMBIENT       | Ichor is replenished passively over time given a condition. |\n| PROXIMITY     | Ichor is replenished when nearby a specific entity.         |\n| CONSUMER      | Ichor is replenished by consuming entities                  |\n| ESOTERIC      | Ichor is replenished through unconventional means.          |\n| EXEMPT        | Does not have ichor.                                        |\n",
-			"styleAttributes":{},
-			"x":-1520,
-			"y":-1320,
-			"width":720,
-			"height":480
 		},
 		{
 			"id":"2a1027d88103d458",
@@ -127,36 +46,6 @@
 			"height":800
 		},
 		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-3650,
-			"y":-680,
-			"width":420,
-			"height":320
-		},
-		{
-			"id":"8d7d71efe5b6be14",
-			"type":"text",
-			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
-			"styleAttributes":{},
-			"x":-3180,
-			"y":-680,
-			"width":320,
-			"height":210
-		},
-		{
-			"id":"d3106f13bf6163fb",
-			"type":"text",
-			"text":"abilities that spend ichor",
-			"styleAttributes":{},
-			"x":-3150,
-			"y":-440,
-			"width":260,
-			"height":60
-		},
-		{
 			"id":"2db3659f6bf6b8ac",
 			"type":"text",
 			"text":"# spawn wave mechanics",
@@ -165,36 +54,6 @@
 			"y":-325,
 			"width":260,
 			"height":230
-		},
-		{
-			"id":"accca3edf387a0f9",
-			"type":"text",
-			"text":"get feedback, what will make this game fun?",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-610,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"03ae8b10b1086ab4",
-			"type":"text",
-			"text":"hook up aura",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-510,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"f6712c12aea01057",
-			"type":"text",
-			"text":"results/game over screen",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-420,
-			"width":260,
-			"height":60
 		},
 		{
 			"id":"44374545b9477f67",
@@ -257,32 +116,12 @@
 			"height":280
 		},
 		{
-			"id":"fd62621a6af2ee71",
-			"type":"text",
-			"text":"whole buncha terrain types with effects and have",
-			"styleAttributes":{},
-			"x":-2160,
-			"y":-490,
-			"width":260,
-			"height":60
-		},
-		{
 			"id":"d412c4856dddcf86",
 			"type":"text",
 			"text":"design tutorial area",
 			"styleAttributes":{},
 			"x":-2160,
 			"y":-210,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"c1c586db8a7789f4",
-			"type":"text",
-			"text":"ichor motes",
-			"styleAttributes":{},
-			"x":-2160,
-			"y":-390,
 			"width":260,
 			"height":60
 		},
@@ -297,6 +136,26 @@
 			"height":60
 		},
 		{
+			"id":"2c5d06a364b13a19",
+			"type":"text",
+			"text":"creatures, when killed, turn into food which can be eaten to gain some ichor.\n\nichor should have a `try_steal()` function that attempts to steal ichor but if the entity has none it fails and if the actor has max then it fails. \n\non death food drop component!\n\n---\n- [ ] note the ichor of the creature when it died\n- [ ] specify thresholds that must be passed to spawn specific foods\n- [ ] food dropped must have the ichor value (or less, random) of the creature that dropped it\n",
+			"styleAttributes":{},
+			"x":-1160,
+			"y":-655,
+			"width":540,
+			"height":435
+		},
+		{
+			"id":"26f20e5242ee4451",
+			"type":"text",
+			"text":"# blimble\n### PASSIVE CONSUMER\nsmall bouncy white creature\nlikes to be near other blimbles\neats plants or fruit\nruns away from larger animals",
+			"styleAttributes":{},
+			"x":-535,
+			"y":-640,
+			"width":320,
+			"height":280
+		},
+		{
 			"id":"5f427823f767688a",
 			"type":"text",
 			"text":"# moving makes ichor deplete faster!\n\nthis will be hooked up using the inputcomponent probably\n\nichorcomponent <- inputcomponent",
@@ -305,7 +164,148 @@
 			"y":-160,
 			"width":300,
 			"height":260
-		}
+		},
+		{
+			"id":"d3c2ab3e3e9e6fee",
+			"type":"text",
+			"text":"\n| Behavior Class | Description                                                           |\n| -------------- | --------------------------------------------------------------------- |\n| PASSIVE        | Does not attack other creatures OR flees when nearby other creatures. |\n| REACTIVE       | Only retaliates if provoked.                                          |\n| PREDATORY      | Actively hunts other creatures to satiate itself.                     |\n| FERAL          | Violent towards other creatures.                                      |\n| ALOOF          | Does not care about other creatures.                                  |\n\n| Consumer Type | Description                                                 |\n| ------------- | ----------------------------------------------------------- |\n| AMBIENT       | Ichor is replenished passively over time given a condition. |\n| PROXIMITY     | Ichor is replenished when nearby a specific entity.         |\n| CONSUMER      | Ichor is replenished by consuming entities                  |\n| ESOTERIC      | Ichor is replenished through unconventional means.          |\n| EXEMPT        | Does not have ichor.                                        |\n",
+			"styleAttributes":{},
+			"x":-1520,
+			"y":-1320,
+			"width":720,
+			"height":480
+		},
+		{
+			"id":"701228c35defd60d",
+			"type":"text",
+			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
+			"styleAttributes":{},
+			"x":320,
+			"y":-665,
+			"width":500,
+			"height":540
+		},
+		{
+			"id":"e3b1c1051b07e5e1",
+			"type":"text",
+			"text":"hunger isn't really implemented yet.\n\nentities that have ichor components should slowly lose their health if they have 0% ichor.\n\n> done 09-01-2026\n\nmade these changes\n- literally just made ichor and health interface with each other because i dont wanna bother with being clever\n- ichor now decays over time and when it reaches zero, health will slowly tick down.",
+			"styleAttributes":{},
+			"x":880,
+			"y":-665,
+			"width":460,
+			"height":320
+		},
+		{
+			"id":"019b01a78a3edd79",
+			"type":"text",
+			"text":"make explosion entity that is spawned in on an explosion\\\n\n> done 09-04-2026",
+			"styleAttributes":{},
+			"x":880,
+			"y":-260,
+			"width":260,
+			"height":135
+		},
+		{
+			"id":"5337b9a1c263e641",
+			"type":"text",
+			"text":"a main menu\n\nthe main menu should just be an already initialized game without the player\n\n(the camera should choose to focus on a randomly picked entity on the map)\n\nthere will only be an option to play again or turn on and off the shaders. (this is because this will be a demo copy)\n\n> done 09-04-2026\n\n---\n\n- [x] it is written in `AppController` `enum AppStatus { MENU, GAME, GAMEOVER }`.\n- [x] **MENU** should have the main menu open and visible with hand visible and able to select various interactableui elements.\n- [x] title, play, shader settings. (this is a demo copy so no quit button)\n\nmake this:\n- UIStage (simply registers all of its interactableUI)\n\t- InteractableUI (multiple of these, triggers an event when the hand activates it)\n\nwhere a method on `Hand` `switch_to_stage(stage: UIStage)` correctly moves the hand to the first element in the stage. this will be useful for navigating through different menu screens.\n\nessentially, activate a new game but do not spawn the player.\n\nensure that the hand always follows the element in space that it has selected.\n\n**GAME** is when the player is spawned and fully in control.",
+			"styleAttributes":{},
+			"x":320,
+			"y":-75,
+			"width":710,
+			"height":680
+		},
+		{
+			"id":"54af69f0cd6ae0a0",
+			"type":"text",
+			"text":"get z-axis working\n\n#### okay\n- [x] z-axis needs to connect to hitbox and change its layer based on z-axis value\n- [x] z-axis must connect to ability manager\n- [x] ability should have a field `affected by z-axis`\n- [x] so that abilities that have hurtboxes can change hurtbox layer based on z-axis\n- [x] physicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\n- [x] z-axis needs a reference to sprite `scale` to generate a shadow of a particular size\n- [x] shadow should decrease in size the higher up z value is\n\n- [x] jumping over terrain\n\n- [x] shadows\n- [x] jumping\n\n- [x] verify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":1110,
+			"y":-75,
+			"width":590,
+			"height":510
+		},
+		{
+			"id":"fd62621a6af2ee71",
+			"type":"text",
+			"text":"whole buncha terrain types with effects and have",
+			"styleAttributes":{},
+			"x":-2160,
+			"y":-490,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"c1c586db8a7789f4",
+			"type":"text",
+			"text":"ichor motes",
+			"styleAttributes":{},
+			"x":-2160,
+			"y":-390,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"accca3edf387a0f9",
+			"type":"text",
+			"text":"get feedback, what will make this game fun?",
+			"styleAttributes":{},
+			"x":-2660,
+			"y":-610,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"03ae8b10b1086ab4",
+			"type":"text",
+			"text":"hook up aura",
+			"styleAttributes":{},
+			"x":-2660,
+			"y":-510,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"f6712c12aea01057",
+			"type":"text",
+			"text":"results/game over screen",
+			"styleAttributes":{},
+			"x":-2660,
+			"y":-420,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"8d7d71efe5b6be14",
+			"type":"text",
+			"text":"entity that spawns a bunch of portals in an area (perhaps with delay) (configurable radius)",
+			"styleAttributes":{},
+			"x":-3180,
+			"y":-680,
+			"width":320,
+			"height":210
+		},
+		{
+			"id":"d3106f13bf6163fb",
+			"type":"text",
+			"text":"abilities that spend ichor",
+			"styleAttributes":{},
+			"x":-3150,
+			"y":-440,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"094619fdad86f0f5",
+			"type":"text",
+			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
+			"styleAttributes":{},
+			"x":-3650,
+			"y":-680,
+			"width":420,
+			"height":320
+		},
+		{"id":"8ea32659915c1ad9","type":"link","url":"https://www.onlinegantt.com/#/gantt","x":-3160,"y":-1920,"width":1570,"height":1030,"color":"1"}
 	],
 	"edges":[],
 	"metadata":{

@@ -50,6 +50,9 @@ func _process_ichor_starving(delta: float) -> void:
 		
 		if health <= 0 and not dying:
 			die()
+			
+func set_invincibility_timer(time: float) -> void:
+	_invincibility_timer = time
 
 func take_damage(amount: float, source: Entity) -> void:
 	if god_mode:

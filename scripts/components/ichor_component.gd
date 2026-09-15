@@ -64,4 +64,3 @@ func try_spend(amount: float) -> bool:
 		return false
 	subtract_ichor(amount)
 	return true
-
