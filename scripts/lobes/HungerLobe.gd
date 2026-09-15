@@ -14,4 +14,3 @@ func get_priority(entity: Entity) -> float:
 		hunger_bonus = 0.5
 
 	return (1 - (hunger_ratio)) + hunger_bonus
-

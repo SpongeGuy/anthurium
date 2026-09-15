@@ -7,7 +7,6 @@ signal interacted(source: Entity)
 var recently_interacted: Entity
 
 func interact(source: Entity) -> void:
-	Log.info("%s, %s" % [entity, source])
 	recently_interacted = source
 	interacted.emit(source)
 	if effect:

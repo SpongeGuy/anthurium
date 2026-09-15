@@ -9,57 +9,102 @@ class_name DebugUIHelper
 @export var l3: Label
 @export var l4: Label
 
+@export var selected_vbox: VBoxContainer
+@export var selected_title: Label
+@export var selected_l1: Label
+@export var selected_l2: Label
+@export var selected_l3: Label
+@export var selected_l4: Label
+
 var coords: Vector2 = Vector2.ZERO
+var selected_entity: Entity = null
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_handle_click()
+
+
+func _handle_click() -> void:
+	var world_pos: Vector2 = CameraController.get_world_mouse_position()
+	var entity: Entity = _get_entity_at(world_pos)
+	selected_entity = entity  # null if click missed -> unselects
+
+
+func _get_entity_at(world_pos: Vector2) -> Entity:
+	var space = AppController.world_2d.get_world_2d().direct_space_state
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = world_pos
+	query.collide_with_bodies = true
+	var results = space.intersect_point(query)
+
+	if results.is_empty():
+		return null
+
+	var subject: Node2D = results[0].collider
+	if subject is not Entity:
+		return null
+	return subject as Entity
+
 
 func _process(delta: float) -> void:
 	show = true
 	if not show:
-		visible = false
+		vbox.visible = false
+		selected_vbox.visible = false
 		return
-		
+
 	if not CameraController.camera:
 		return
-	
-	title.text = ""
-	l1.text = ""
-	l2.text = ""
-	l3.text = ""
-	l4.text = ""
-	
-	var screen_pos: Vector2 = get_viewport().get_mouse_position()
-	vbox.position = screen_pos + Vector2(5, 2)
+
 	coords = CameraController.get_world_mouse_position()
-	
-	
-	var space = AppController.world_2d.get_world_2d().direct_space_state
-	var query = PhysicsPointQueryParameters2D.new()
-	query.position = coords
-	query.collide_with_bodies = true
-	var results = space.intersect_point(query)
-	
-	if results.is_empty():
-		l4.text = ""
+	_update_hover_ui()
+	_update_selected_ui()
+
+
+func _update_hover_ui() -> void:
+	var screen_pos: Vector2 = get_viewport().get_mouse_position()
+	var entity: Entity = _get_entity_at(coords)
+
+	# Don't double-draw hover UI on top of the selected entity's panel.
+	if not entity or entity == selected_entity:
+		vbox.visible = false
 		return
-	
-	var subject: Node2D = results[0].collider
-	if subject is not Entity:
+
+	vbox.visible = true
+	vbox.position = screen_pos + Vector2(5, 2)
+	_populate_panel(title, l1, l2, l3, l4, entity, coords)
+
+
+func _update_selected_ui() -> void:
+	if not is_instance_valid(selected_entity):
+		selected_entity = null
+		selected_vbox.visible = false # here
 		return
-	
-	var entity: Entity = subject as Entity
-	
-	display_base_stats(title, entity)
-	
+
+	selected_vbox.visible = true
+	var screen_pos: Vector2 = get_viewport().get_canvas_transform() * selected_entity.global_position
+	selected_vbox.position = screen_pos + Vector2(5, 2)
+	_populate_panel(selected_title, selected_l1, selected_l2, selected_l3, selected_l4, selected_entity, selected_entity.global_position)
+
+
+func _populate_panel(title_label: Label, la: Label, lb: Label, lc: Label, ld: Label, entity: Entity, world_pos: Vector2) -> void:
+	title_label.text = ""
+	la.text = ""
+	lb.text = ""
+	lc.text = ""
+	ld.text = ""
+
+	display_base_stats(title_label, entity)
+
 	if entity.has_component(Brain):
-		display_entity_brain_state(l1, entity)
-	
+		display_entity_brain_state(la, entity)
+
 	if entity.has_component(HeartbeatEmitter) or entity.has_component(ArteryComponent) or entity.has_component(HeartbeatReceptor):
-		update_anthurium(entity)
-	
-	
-func update_anthurium(entity: Entity) -> void:
-	display_coordinates(l2)
-	display_anthurium_esoterica(l3, entity)
-	
+		display_coordinates(lb, world_pos)
+		display_anthurium_esoterica(lc, entity)
+
+
 func display_base_stats(label: Label, entity: Entity) -> void:
 	var string: String = ""
 	string += str(entity.get_basename(), "\n")
@@ -70,18 +115,19 @@ func display_base_stats(label: Label, entity: Entity) -> void:
 	string += str("v: ", entity.velocity, "\n")
 	if entity.has_component(IchorComponent):
 		var ich: IchorComponent = entity.get_component(IchorComponent)
-		var s: String = "ich: %d/%d \n" % [ich.ichor, ich.max_ichor] 
+		var s: String = "ich: %d/%d \n" % [ich.ichor, ich.max_ichor]
 		string += s
 	label.text = string
-	
-func display_coordinates(label: Label) -> void:
-	label.text = str(WorldGrid.world_to_tile(coords))
-	
-	
+
+
+func display_coordinates(label: Label, world_pos: Vector2) -> void:
+	label.text = str(WorldGrid.world_to_tile(world_pos))
+
+
 func display_anthurium_esoterica(label: Label, entity: Entity) -> void:
 	var string: String = ""
 	string += str(AnthuriumInterface.esoterica.get_string(), "\n")
-	
+
 	var bloom: BloomPotentialComponent = entity.get_component(BloomPotentialComponent)
 	if bloom:
 		string += str("bloom: %f" % bloom.value)
@@ -104,6 +150,7 @@ func display_entity_brain_state(label: Label, entity: Entity) -> void:
 	string += _format_lobe_priorities(brain, entity)
 	label.text = string
 
+
 func _format_lobe_priorities(brain: Brain, entity: Entity) -> String:
 	var scored: Array[Dictionary] = []
 	for lobe in brain.lobes:
@@ -120,6 +167,7 @@ func _format_lobe_priorities(brain: Brain, entity: Entity) -> String:
 
 	return "\n".join(lines)
 
+
 func _append_state_path(machine: BrainStateMachine, lines: Array[String], depth: int) -> void:
 	if machine.current_name == &"" or not machine.current_state:
 		lines.append("%s(idle)" % "  ".repeat(depth))
@@ -132,6 +180,7 @@ func _append_state_path(machine: BrainStateMachine, lines: Array[String], depth:
 		var container: ContainerState = machine.current_state
 		_append_state_path(container.inner_machine, lines, depth + 1)
 
+
 func _format_personality(brain: Brain) -> String:
 	var parts: Array[String] = []
 	for i in Brain.PERSONALITY.size():
@@ -141,4 +190,3 @@ func _format_personality(brain: Brain) -> String:
 			parts.append("\n")
 		parts.append("%s:%.2f" % [key, value])
 	return ", ".join(parts)
-	

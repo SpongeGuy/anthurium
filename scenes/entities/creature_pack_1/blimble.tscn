@@ -24,8 +24,12 @@
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/interactor_component.gd" id="23_bt4x6"]
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="23_m2h6w"]
 [ext_resource type="Resource" uid="uid://jxj2ne0nnqgk" path="res://assets/resources/lobes/hunger_lobe.tres" id="23_yaau6"]
+[ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="24_i2sl0"]
+[ext_resource type="Script" uid="uid://c6tkayh62s4tf" path="res://scripts/states/StateWatchThreat.gd" id="24_xd38x"]
+[ext_resource type="Script" uid="uid://bphc4eebn1pka" path="res://scripts/states/StateFleeFromThreat.gd" id="25_54mgb"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="25_i2sl0"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="25_yaau6"]
+[ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="26_haym0"]
 [ext_resource type="Script" uid="uid://cvunw8u3r5f0x" path="res://scripts/components/DropFoodOnDeathComponent.gd" id="27_yaau6"]
 
 [sub_resource type="Resource" id="Resource_5o62f"]
@@ -58,6 +62,31 @@ priority = 0.1
 state_name = &"wander"
 blueprint = SubResource("Resource_ybvok")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
+
+[sub_resource type="Resource" id="Resource_he4kk"]
+script = ExtResource("19_m6vu1")
+state_script = ExtResource("24_xd38x")
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_54mgb"]
+script = ExtResource("19_m6vu1")
+state_script = ExtResource("25_54mgb")
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_xd38x"]
+script = ExtResource("19_m6vu1")
+state_script = ExtResource("26_haym0")
+is_container = true
+entry_child = &"watch"
+child_names = Array[StringName]([&"watch", &"flee"])
+child_states = Array[ExtResource("19_m6vu1")]([SubResource("Resource_he4kk"), SubResource("Resource_54mgb")])
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_yaau6"]
+script = ExtResource("24_i2sl0")
+state_name = &"threat"
+blueprint = SubResource("Resource_xd38x")
+metadata/_custom_type_script = "uid://b3nsolua7qeea"
 
 [sub_resource type="Resource" id="Resource_bt4x6"]
 script = ExtResource("25_yaau6")
@@ -139,6 +168,7 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2038431465]
 path_postprocessing = 1
+debug_enabled = true
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=1164991075 node_paths=PackedStringArray("navigation")]
 script = ExtResource("20_m2h6w")
@@ -153,6 +183,7 @@ metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="FacingComponent" type="Node" parent="." unique_id=1168899791]
 script = ExtResource("22_6tbtn")
+debug_draw_facing = true
 metadata/_custom_type_script = "uid://bolv5v2qg2xl0"
 
 [node name="Memory" type="Node" parent="." unique_id=1938938702]
@@ -161,7 +192,7 @@ metadata/_custom_type_script = "uid://cu81acdifmvso"
 
 [node name="Brain" type="Node" parent="." unique_id=1475374953]
 script = ExtResource("17_cyct4")
-lobes = Array[ExtResource("18_ybvok")]([SubResource("Resource_cyct4"), ExtResource("23_yaau6")])
+lobes = Array[ExtResource("18_ybvok")]([SubResource("Resource_cyct4"), ExtResource("23_yaau6"), SubResource("Resource_yaau6")])
 metadata/_custom_type_script = "uid://dwy74leu2y8cr"
 
 [node name="InteractorComponent" type="Node" parent="." unique_id=827150284 node_paths=PackedStringArray("input")]

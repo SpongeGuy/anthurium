@@ -60,4 +60,3 @@ func get_transition() -> StringName:
 	if is_nearby:
 		return &"interact"
 	return &""
-

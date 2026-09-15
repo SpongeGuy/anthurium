@@ -30,7 +30,6 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 ## The internal execution logic. Override this in subclasses to define what the ability does.
 ## Only called by [method execute] after cooldown and disabled checks pass.
 func _execute() -> void:
-	Log.info(str(entity))
 	if effect:
 		effect.execute(entity)
 	

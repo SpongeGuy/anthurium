@@ -27,7 +27,7 @@ func stop_navigation() -> void:
 	has_target = false
 	navigation_cancelled.emit()
 
-func set_new_pathfinding_location_relative(origin: Vector2, min_radius: float, max_radius: float) -> void:
+func set_new_pathfinding_location_relative(origin: Vector2, min_radius: float, max_radius: float) -> Vector2:
 	var angle: float = randf() * TAU
 	var distance = randf_range(min_radius, max_radius)
 	var target_position: Vector2 = origin + Vector2(cos(angle), sin(angle)) * distance
@@ -35,8 +35,9 @@ func set_new_pathfinding_location_relative(origin: Vector2, min_radius: float, m
 	navigation.set_target_position(target_position)
 	picked_new_nav_point.emit(target_position)
 	has_target = true
+	return target_position
 	
-func set_new_pathfinding_location_relative_explicit_angle(origin: Vector2, min_radius: float, max_radius: float, angle: float, angle_variance: float) -> void:
+func set_new_pathfinding_location_relative_explicit_angle(origin: Vector2, min_radius: float, max_radius: float, angle: float, angle_variance: float) -> Vector2:
 	var offset_angle: float = randf_range(-angle_variance, angle_variance)
 	var final_angle: float = wrapf(angle + offset_angle, 0.0, TAU)
 	var distance: float = randf_range(min_radius, max_radius)
@@ -45,6 +46,7 @@ func set_new_pathfinding_location_relative_explicit_angle(origin: Vector2, min_r
 	navigation.set_target_position(target_position)
 	picked_new_nav_point.emit(target_position)
 	has_target = true
+	return target_position
 
 func set_new_pathfinding_location_explicit(position: Vector2, safe: bool = true) -> void:
 	if safe:

@@ -14,13 +14,15 @@ func enter() -> void:
 	
 	if navigation.is_navigating():
 		navigation.stop_navigation()
+		
+	if not input.player_controlled:
+		_handle_ai_movement()
 
 func exit() -> void:
 	pass
 
 func physics_process(delta: float) -> void:
-	if not input.player_controlled:
-		_handle_ai_movement()
+	
 		
 	locomotion.handle_locomotion(delta)
 	
@@ -31,4 +33,3 @@ func _handle_ai_movement() -> void:
 ## called every tick by the owning StateMachine after physics_process
 func get_transition() -> StringName:
 	return &""
-

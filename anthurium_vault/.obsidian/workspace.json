@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -13551.207365893186,
-                  "y": 3051.942735571698,
-                  "zoom": -2.5999999999999996
+                  "x": -9903.858009865051,
+                  "y": 3332.9210834216487,
+                  "zoom": 0.40000000000000036
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -32,8 +32,8 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -2955.7732573001754,
-                  "y": -167.69789809811763,
+                  "x": -1713.3029515662656,
+                  "y": -113.58519143581348,
                   "zoom": -0.1088616532366139
                 }
               },
@@ -58,8 +58,7 @@
               "title": "job list 9-1-26"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -227,7 +226,7 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "eb1cb3d4b72989f8",
+  "active": "12afc7c931b135ff",
   "lastOpenFiles": [
     "for my capstone/job list 9-1-26.canvas",
     "Main.canvas",

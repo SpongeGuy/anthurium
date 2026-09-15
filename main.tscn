@@ -72,7 +72,7 @@ layer = 100
 process_mode = 3
 layer = 5
 
-[node name="DebugHelper" type="Node2D" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4")]
+[node name="DebugHelper" type="Node2D" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "selected_vbox", "selected_title", "selected_l1", "selected_l2", "selected_l3", "selected_l4")]
 script = ExtResource("10_ycdy4")
 show = true
 vbox = NodePath("../UI_Debug/VBoxContainer")
@@ -81,6 +81,12 @@ l1 = NodePath("../UI_Debug/VBoxContainer/Label")
 l2 = NodePath("../UI_Debug/VBoxContainer/Label2")
 l3 = NodePath("../UI_Debug/VBoxContainer/Label3")
 l4 = NodePath("../UI_Debug/VBoxContainer/Label4")
+selected_vbox = NodePath("../UI_Debug2/VBoxContainer")
+selected_title = NodePath("../UI_Debug2/VBoxContainer/title")
+selected_l1 = NodePath("../UI_Debug2/VBoxContainer/Label")
+selected_l2 = NodePath("../UI_Debug2/VBoxContainer/Label2")
+selected_l3 = NodePath("../UI_Debug2/VBoxContainer/Label3")
+selected_l4 = NodePath("../UI_Debug2/VBoxContainer/Label4")
 
 [node name="UI_Debug" type="Control" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=436922413]
 modulate = Color(1, 1, 1, 0.7764706)
@@ -115,6 +121,42 @@ material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 
 [node name="Label4" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=311188411]
+material = SubResource("ShaderMaterial_dg77c")
+layout_mode = 2
+
+[node name="UI_Debug2" type="Control" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1557470030]
+modulate = Color(1, 1, 1, 0.7764706)
+material = SubResource("ShaderMaterial_yaehf")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("10_w48qg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2" unique_id=1335475122]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="title" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=1989361115]
+material = SubResource("ShaderMaterial_dg77c")
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=22280153]
+material = SubResource("ShaderMaterial_dg77c")
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=1197501733]
+material = SubResource("ShaderMaterial_dg77c")
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=324311140]
+material = SubResource("ShaderMaterial_dg77c")
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=2137113817]
 material = SubResource("ShaderMaterial_dg77c")
 layout_mode = 2
 

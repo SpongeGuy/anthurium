@@ -24,8 +24,6 @@
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_xa547"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/manual_state_switcher.gd" id="23_l5amt"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="24_k5xxe"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="25_g5faw"]
-[ext_resource type="Script" uid="uid://b7fumud38ekr4" path="res://scripts/components/hide_in_invisible_cells.gd" id="26_1w6la"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="29_3s7qd"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_bld4x"]
 [ext_resource type="Script" uid="uid://cdl7wwoaxcqra" path="res://scripts/classes/BrainDeprecated.gd" id="32_bld4x"]
@@ -230,12 +228,11 @@ metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
 
 [node name="Healthstuff" type="Node" parent="Bullshit" unique_id=1267957055]
 
-[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox", "state_machine")]
+[node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("18_fvtcv")
 max_health = 5.0
 health = 5.0
 hitbox = NodePath("../../../Hitbox")
-state_machine = NodePath("../../../Behavior/StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="ManualStateSwitcher" type="Node" parent="Bullshit/Healthstuff" unique_id=444902231 node_paths=PackedStringArray("state_machine", "state")]
@@ -249,18 +246,6 @@ script = ExtResource("24_k5xxe")
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../../Rotator/Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
-[node name="Visibility" type="Node" parent="Bullshit" unique_id=1089586207]
-
-[node name="VisibilityComponent" type="Node" parent="Bullshit/Visibility" unique_id=1485227511 node_paths=PackedStringArray("nodes")]
-script = ExtResource("25_g5faw")
-nodes = [NodePath("../../../Rotator/Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="Bullshit/Visibility" unique_id=1667577986 node_paths=PackedStringArray("visibility")]
-script = ExtResource("26_1w6la")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
 
 [node name="SpawnAlterTerrain" type="Node" parent="Bullshit" unique_id=81417712]
 script = ExtResource("31_bld4x")

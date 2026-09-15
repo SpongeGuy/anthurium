@@ -119,14 +119,19 @@ static func get_nearest_entity_in_raycast_in_array(origin: Vector2, array: Array
 		nearest = e
 	return nearest
 
+static func get_distance_between_entities(e_1: Entity, e_2: Entity) -> float:
+	return e_1.global_position.distance_to(e_2.global_position)
 
 static func is_within_distance_of_entity(e_1: Entity, e_2: Entity, distance: float) -> bool:
-	if e_1.global_position.distance_squared_to(e_2.global_position) <= distance**2:
-		return true
-	return false
+	return e_1.global_position.distance_squared_to(e_2.global_position) <= distance**2
 
 
 static func get_angle_between_entities(origin: Entity, target: Entity) -> float:
 	return origin.global_position.angle_to_point(target.global_position)
+	
+static func get_angle_between_positions(origin: Vector2, target: Vector2) -> float:
+	return origin.angle_to_point(target)
 
 
+static func opposite_angle(angle: float) -> float:
+	return wrapf(angle + PI, 0.0, TAU)

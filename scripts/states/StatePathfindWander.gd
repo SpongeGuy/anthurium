@@ -4,6 +4,7 @@ class_name StatePathfindWander
 var navigation: NavigationHelper
 var input: InputComponent
 var locomotion: LocomotionHandler
+var facing: FacingComponent
 
 var min_wander_radius: float = 25
 var max_wander_radius: float = 100
@@ -15,6 +16,7 @@ func enter() -> void:
 	navigation = entity.get_component(NavigationHelper)
 	input = entity.get_component(InputComponent)
 	locomotion = entity.get_component(LocomotionHandler)
+	facing = entity.get_component(FacingComponent)
 	
 	if navigation.is_navigating():
 		navigation.stop_navigation()
@@ -34,7 +36,9 @@ func physics_process(delta: float) -> void:
 func _handle_ai_movement(delta: float) -> void:
 	var mwr: float = max_wander_radius * brain.get_personality_value(Brain.PERSONALITY.ENERGY)
 	if not navigation.is_navigating():
-		navigation.set_new_pathfinding_location_relative(entity.position, min_wander_radius, mwr)
+		
+		var target_location: Vector2 = navigation.set_new_pathfinding_location_relative(entity.global_position, min_wander_radius, mwr)
+		facing.set_direction_angle(SpatialUtil.get_angle_between_positions(entity.global_position, target_location))
 	
 	input.set_move_input_direction(navigation.get_next_path_direction())
 
@@ -43,4 +47,3 @@ func _handle_ai_movement(delta: float) -> void:
 ## called every tick by the owning StateMachine after physics_process
 func get_transition() -> StringName:
 	return &""
-

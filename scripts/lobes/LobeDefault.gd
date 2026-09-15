@@ -5,4 +5,3 @@ class_name LobeDefault
 
 func get_priority(entity: Entity) -> float:
 	return priority
-
