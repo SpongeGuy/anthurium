@@ -34,6 +34,8 @@ func _find_nearest_threat(entity: Entity) -> Entity:
 		# don't count nonliving entities
 		if not e.has_component(Brain):
 			continue
+		if not SpatialUtil.has_los_of(entity, e):
+			continue
 		candidates.append(e)
 	
 	if candidates.is_empty():

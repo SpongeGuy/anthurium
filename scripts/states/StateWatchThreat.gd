@@ -7,7 +7,7 @@ var locomotion: LocomotionHandler
 var facing: FacingComponent
 
 var target: Entity
-var radius_to_switch: float = 32
+var radius_to_switch: float = 64
 
 var dist_from_target: float
 

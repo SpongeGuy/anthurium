@@ -65,6 +65,9 @@ static func get_safe_location_relative(position: Vector2, min_distance: float, m
 	pos = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.WALL)
 	return pos
 
+static func has_los_of(e1: Entity, e2: Entity) -> bool:
+	var space_state: PhysicsDirectSpaceState2D = e1.get_world_2d().direct_space_state
+	return not raycast_hits_terrain(space_state, e1.global_position, e2.global_position)
 
 static func raycast_hits_terrain(space_state: PhysicsDirectSpaceState2D, origin: Vector2, target: Vector2) -> bool:
 	var query: PhysicsRayQueryParameters2D = PhysicsRayQueryParameters2D.create(origin, target)

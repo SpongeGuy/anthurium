@@ -168,7 +168,6 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2038431465]
 path_postprocessing = 1
-debug_enabled = true
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=1164991075 node_paths=PackedStringArray("navigation")]
 script = ExtResource("20_m2h6w")

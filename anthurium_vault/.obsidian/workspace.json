@@ -32,33 +32,17 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -1713.3029515662656,
-                  "y": -113.58519143581348,
+                  "x": -971.3795644694922,
+                  "y": -418.7658870003298,
                   "zoom": -0.1088616532366139
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "job list 9-1-26"
             }
-          },
-          {
-            "id": "781656fa4f825262",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "for my capstone/job list 9-1-26.canvas",
-                "viewState": {
-                  "x": -2245.2216017978585,
-                  "y": -1578.5857368933782,
-                  "zoom": -0.9999999999999999
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "job list 9-1-26"
-            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -226,10 +210,10 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "12afc7c931b135ff",
+  "active": "eb1cb3d4b72989f8",
   "lastOpenFiles": [
-    "for my capstone/job list 9-1-26.canvas",
     "Main.canvas",
+    "for my capstone/job list 9-1-26.canvas",
     "Online Gantt 20260914.gantt",
     "for my capstone/anthurium.md",
     "for my capstone/inspiration bible.md",
