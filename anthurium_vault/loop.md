@@ -1,3 +1,6 @@
+---
+kanban_order: W0I
+---
 # Game Loop
 ### Micro-loop
 The player must constantly monitor their **Ichor**, which is a resource much like saturation/hunger that slowly drains over time. If an entity has 0 ichor, they will slowly starve until death.

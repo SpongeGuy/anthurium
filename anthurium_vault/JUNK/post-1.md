@@ -2,8 +2,9 @@
 title: big shit 1
 date: 2024-04-14
 tags:
-    - gamedev
-    - css
+  - gamedev
+  - css
+kanban_order: V7
 ---
 
 big shitting 1????

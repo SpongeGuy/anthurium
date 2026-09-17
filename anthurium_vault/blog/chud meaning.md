@@ -4,6 +4,7 @@ date: 2026-04-23
 tags:
   - meme
   - yapping
+kanban_order: W0E
 ---
 so memes are interesting because if you don't keep up with them they lose all their meaning. especially because a lot of memes online compound onto each other almost like a snowball of inside jokes on the internet between users.
 

@@ -1,3 +1,6 @@
+---
+kanban_order: W0Z
+---
 #Eo/Atlas
 A hidden island in the ocean [[Seanor Ikhor]].
 

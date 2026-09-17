@@ -1,3 +1,6 @@
+---
+kanban_order: V5
+---
 # Anthurium — Game Loop Implementation Checklist
 
 Cross-referenced against `Game loop.md` and the current codebase.

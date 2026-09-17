@@ -11,6 +11,9 @@ class_name PhysicsComponent
 @export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
 
+@export var knockback_minimum_force: float = 0.0
+@export var knockback_scale: float = 1.0
+
 ## Maximum speed (px/s) at which overlapping entities are nudged apart.
 const OVERLAP_SEPARATION_SPEED: float = 1500.0
 ## Minimum penetration depth (px) ebfore the separation nudge activates.
@@ -59,6 +62,12 @@ func apply_impulse(direction: Vector2, magnitude: float) -> void:
 func apply_force(direction: Vector2, magnitude: float) -> void:
 	_accumulated_force += direction.normalized() * magnitude
 	
+func apply_knockback(source_position: Vector2, force: float) -> void:
+	var scaled_force: float = force * knockback_scale
+	if scaled_force < knockback_minimum_force:
+		return
+	var direction: Vector2 = (entity.global_position - source_position).normalized()
+	apply_impulse(direction, scaled_force)
 
 func _apply_forces(delta: float) -> void:
 	physics_velocity += (_accumulated_force / entity.mass) * delta

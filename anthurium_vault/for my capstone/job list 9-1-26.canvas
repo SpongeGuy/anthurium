@@ -2,69 +2,10 @@
 	"nodes":[
 		{"id":"9f35dfc1ac5f97d2","type":"group","x":-4080,"y":-730,"width":2660,"height":2370,"label":"not done"},
 		{"id":"379ee5ab18ee73f1","type":"group","x":280,"y":-705,"width":1520,"height":3425,"label":"done"},
+		{"id":"816ee44b70b86fe4","type":"group","x":-7000,"y":-730,"width":2760,"height":1850,"label":"not doing/deprecated"},
 		{"id":"28faf08bea793d10","type":"group","x":-1200,"y":-705,"width":1320,"height":1785,"label":"working on"},
-		{"id":"816ee44b70b86fe4","type":"group","x":-5120,"y":-730,"width":880,"height":1580,"label":"not doing/deprecated"},
+		{"id":"b3a9278b3872ea40","type":"group","x":-760,"y":-620,"width":800,"height":1400,"label":"dudes"},
 		{"id":"fc866e1043bd6617","type":"group","x":-2200,"y":-540,"width":680,"height":550,"label":"whatever"},
-		{
-			"id":"26f20e5242ee4451",
-			"type":"text",
-			"text":"# blimble\n### PASSIVE CONSUMER\nsmall bouncy white creature\nlikes to be near other blimbles\neats plants or fruit\nruns away from larger animals",
-			"styleAttributes":{},
-			"x":-1140,
-			"y":-640,
-			"width":320,
-			"height":280
-		},
-		{
-			"id":"5f427823f767688a",
-			"type":"text",
-			"text":"# moving makes ichor deplete faster!\n\nthis will be hooked up using the inputcomponent probably\n\nichorcomponent <- inputcomponent",
-			"styleAttributes":{},
-			"x":-1120,
-			"y":-320,
-			"width":300,
-			"height":260
-		},
-		{
-			"id":"d3c2ab3e3e9e6fee",
-			"type":"text",
-			"text":"\n| Behavior Class | Description                                                           |\n| -------------- | --------------------------------------------------------------------- |\n| PASSIVE        | Does not attack other creatures OR flees when nearby other creatures. |\n| REACTIVE       | Only retaliates if provoked.                                          |\n| PREDATORY      | Actively hunts other creatures to satiate itself.                     |\n| FERAL          | Violent towards other creatures.                                      |\n| ALOOF          | Does not care about other creatures.                                  |\n\n| Consumer Type | Description                                                 |\n| ------------- | ----------------------------------------------------------- |\n| AMBIENT       | Ichor is replenished passively over time given a condition. |\n| PROXIMITY     | Ichor is replenished when nearby a specific entity.         |\n| CONSUMER      | Ichor is replenished by consuming entities                  |\n| ESOTERIC      | Ichor is replenished through unconventional means.          |\n| EXEMPT        | Does not have ichor.                                        |\n",
-			"styleAttributes":{},
-			"x":-1520,
-			"y":-1320,
-			"width":720,
-			"height":480
-		},
-		{
-			"id":"4ed35d4136228e77",
-			"type":"text",
-			"text":"# skipper\n### PREDATORY CONSUMER\njumpy bug\ncan only move by jumping\nharms/eats anything it lands on",
-			"styleAttributes":{},
-			"x":-3210,
-			"y":220,
-			"width":340,
-			"height":280
-		},
-		{
-			"id":"094619fdad86f0f5",
-			"type":"text",
-			"text":"some entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
-			"styleAttributes":{},
-			"x":-3650,
-			"y":-680,
-			"width":420,
-			"height":320
-		},
-		{
-			"id":"6f8380beab67c98b",
-			"type":"text",
-			"text":"ANTHURIUM should use a mix of SNES-sounding instruments and techniques with more modern sounding instruments.\n\nnew title screen track\n\tvaried, interesting (there will be periods of time that this track will be playing nonstop for minutes)\n\tmotif?\n    \ntwo main tracks for gameplay\n\ttracks should be split into layers (DRUMS, BASS, CHORDS, MELODY, PAD, LEAD, VOCALS)???\n\tat the beginning of the game, there are 2 layers playing.\n\tas the anthurium grows in size (esoterica in magnitude), additional layers will increase in volume.\n\t\nbloom song!\n\tcrazy stuff is happening here, so the song should sound chaotic but not tuneless\n\n(undecided if i even want) game over song (30 seconds, then the title screen track will begin playing again)\n\tthe player has just died, possibly after hours of playing.\n\nundecided on sound profile for ANTHURIUM!\n\n\ntribal percussion\nbitcrush\nearthbound soundfont\nreally close reverb/delay\nfretless bass",
-			"styleAttributes":{},
-			"x":-3960,
-			"y":40,
-			"width":620,
-			"height":800
-		},
 		{
 			"id":"2a1027d88103d458",
 			"type":"text",
@@ -76,14 +17,14 @@
 			"height":210
 		},
 		{
-			"id":"fd62621a6af2ee71",
+			"id":"5f427823f767688a",
 			"type":"text",
-			"text":"whole buncha terrain types with effects and have",
+			"text":"# moving makes ichor deplete faster!\n\nthis will be hooked up using the inputcomponent probably\n\nichorcomponent <- inputcomponent",
 			"styleAttributes":{},
-			"x":-2160,
-			"y":-490,
-			"width":260,
-			"height":60
+			"x":-5060,
+			"y":-35,
+			"width":300,
+			"height":260
 		},
 		{
 			"id":"c1c586db8a7789f4",
@@ -96,62 +37,23 @@
 			"height":60
 		},
 		{
-			"id":"03ae8b10b1086ab4",
-			"type":"text",
-			"text":"hook up aura",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-510,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"f6712c12aea01057",
-			"type":"text",
-			"text":"results/game over screen",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-420,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"d3106f13bf6163fb",
-			"type":"text",
-			"text":"abilities that spend ichor",
-			"styleAttributes":{},
-			"x":-3150,
-			"y":-440,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"2db3659f6bf6b8ac",
-			"type":"text",
-			"text":"# spawn wave mechanics",
-			"styleAttributes":{},
-			"x":-3165,
-			"y":-325,
-			"width":260,
-			"height":230
-		},
-		{
-			"id":"44374545b9477f67",
-			"type":"text",
-			"text":"make a bloom event (the bug swarm)",
-			"styleAttributes":{},
-			"x":-2660,
-			"y":-310,
-			"width":260,
-			"height":60
-		},
-		{
 			"id":"21ddca2e09e20557",
 			"type":"text",
 			"text":"focks push ability",
 			"styleAttributes":{},
 			"x":-2160,
 			"y":-310,
+			"width":260,
+			"height":60
+		},
+		{"id":"8ea32659915c1ad9","type":"link","url":"https://www.onlinegantt.com/#/gantt","x":-3160,"y":-1920,"width":1570,"height":1030,"color":"1"},
+		{
+			"id":"fd62621a6af2ee71",
+			"type":"text",
+			"text":"whole buncha terrain types with effects and have",
+			"styleAttributes":{},
+			"x":-2160,
+			"y":-490,
 			"width":260,
 			"height":60
 		},
@@ -166,33 +68,22 @@
 			"height":60
 		},
 		{
-			"id":"85818d0aeeb77618",
+			"id":"d3c2ab3e3e9e6fee",
 			"type":"text",
-			"text":"\n| cost | enemy behavior                                                      | ability                                       |\n| ---- | ------------------------------------------------------------------- | --------------------------------------------- |\n| 50   | attacks nearby creatures                                            | simple swipe                                  |\n|      | shoots projectiles in an axis                                       | shoot a projectile towards movement direction |\n|      | picks a target, shoots explosive fireball, teleports                | shoot a fireball                              |\n|      | if attacked, sets a timer to detonation                             |                                               |\n|      | swallows creatures. if killed, expels out all swallowed creatures   |                                               |\n|      | wanders around quickly                                              |                                               |\n|      | worm that divides when cut in half                                  |                                               |\n|      | chooses a home, wanders around and steals food to bring to its home |                                               |\n|      | hops great distances and pounds the ground dealing damage           |                                               |\n|      | charges through terrain and flattens walls                          |                                               |\n|      | builds walls                                                        |                                               |\n|      | plants 3 explosive barrels                                          |                                               |\n|      | undergoes mitosis when hit                                          |                                               |\n|      | moves through walls and spits fireballs                             |                                               |\n|      | creates smaller versions of itself to charge at creatures           |                                               |\n",
+			"text":"\n| Behavior Class | Description                                                           |\n| -------------- | --------------------------------------------------------------------- |\n| PASSIVE        | Does not attack other creatures OR flees when nearby other creatures. |\n| REACTIVE       | Only retaliates if provoked.                                          |\n| PREDATORY      | Actively hunts other creatures to satiate itself.                     |\n| FERAL          | Violent towards other creatures.                                      |\n| ALOOF          | Does not care about other creatures.                                  |\n\n| Consumer Type | Description                                                 |\n| ------------- | ----------------------------------------------------------- |\n| AMBIENT       | Ichor is replenished passively over time given a condition. |\n| PROXIMITY     | Ichor is replenished when nearby a specific entity.         |\n| CONSUMER      | Ichor is replenished by consuming entities                  |\n| ESOTERIC      | Ichor is replenished through unconventional means.          |\n| EXEMPT        | Does not have ichor.                                        |\n",
 			"styleAttributes":{},
-			"x":-180,
-			"y":-1700,
-			"width":1180,
-			"height":560
-		},
-		{"id":"8ea32659915c1ad9","type":"link","url":"https://www.onlinegantt.com/#/gantt","x":-3160,"y":-1920,"width":1570,"height":1030,"color":"1"},
-		{
-			"id":"701228c35defd60d",
-			"type":"text",
-			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
-			"styleAttributes":{},
-			"x":320,
-			"y":-665,
-			"width":500,
-			"height":540
+			"x":-1520,
+			"y":-1320,
+			"width":720,
+			"height":480
 		},
 		{
-			"id":"accca3edf387a0f9",
+			"id":"d3106f13bf6163fb",
 			"type":"text",
-			"text":"get feedback, what will make this game fun?",
+			"text":"abilities that spend ichor",
 			"styleAttributes":{},
-			"x":-2660,
-			"y":-610,
+			"x":-3150,
+			"y":-440,
 			"width":260,
 			"height":60
 		},
@@ -207,54 +98,24 @@
 			"height":210
 		},
 		{
-			"id":"1136a2cb1267d65c",
+			"id":"094619fdad86f0f5",
 			"type":"text",
-			"text":"bloom events\n- bug swarm\n- plant invasion\n- terrain becomes cracked and fractured\n- farm animals are spawned",
+			"text":"---\n\n---\n\n\nsome entities that have these mechanics:\n\n- search for and eat food\n- search for prey and kill\n- drill through terrain\n- make babies\n- throw destructive fireball\n- create new terrain\n- change the floor",
 			"styleAttributes":{},
-			"x":-2560,
-			"y":-210,
-			"width":260,
+			"x":-4000,
+			"y":-675,
+			"width":420,
 			"height":320
 		},
 		{
-			"id":"e3bd053392cdbad4",
+			"id":"701228c35defd60d",
 			"type":"text",
-			"text":"# klicklack\n## REACTIVE EXEMPT\nwanders around until it's been damaged, then starts a timer to a self-detonation",
+			"text":"actual competent entityspawner mechanic:\nentities won't be spawned using their name directly, instead entities will use the entitytag system to define an esoterica archetype for the entity!\n\n> done 09-01-2026\n\nso we made these changes\n- made the registries!\n\t- `EntityRegistry` got fitted with new code that indexes all registered enemies and organizes them into categories based on their `CreatureArchetype`.\n\t- `AccessoryArchetypeRegistry` which registers all `AccessoryArchetypes`, needed for the Anthurium to pick which accessory to grow based on its current `Esoterica` value.\n- `SpawnTable` resource defines weights for each category in `CreatureArchetype` and utilizes the `EntityRegistry` to pick an entity id (`StringName`) based on a weighted intersection of all the categories.\n\t- `SpawnTableSpawnerComponent` holds a `SpawnTable` and calls its function.\n- `spawn_portal(pos: Vector2, spawn_table: SpawnTable)` is now a method in `EntityManager`",
 			"styleAttributes":{},
-			"x":-2430,
-			"y":220,
-			"width":320,
-			"height":280
-		},
-		{
-			"id":"95a4359586168b6a",
-			"type":"text",
-			"text":"# hardhat\n### REACTIVE ESOTERIC\nbeetle creature\nwanders around and investigates passive creatures\ngains ichor by building walls",
-			"styleAttributes":{},
-			"x":-2070,
-			"y":220,
-			"width":340,
-			"height":280
-		},
-		{
-			"id":"cc84e9c609042956",
-			"type":"text",
-			"text":"# borg\n### PREDATORY CONSUMER\nangry mammal with tusks\nattacks using a charge ability, which destroys terrain\nattacks animals with similar mass\nhunts animals with lesser mass",
-			"styleAttributes":{},
-			"x":-2830,
-			"y":220,
-			"width":360,
-			"height":280
-		},
-		{
-			"id":"da46c0accba0e1f4",
-			"type":"text",
-			"text":"# blom bulb\n### PASSIVE AMBIENT\nflowering plant\nshort lifespan (1 min)\ngrows an edible fruit over time\nthe fruit will create another bulb if left on the ground for some time\n\n> done 09/13/26",
-			"styleAttributes":{},
-			"x":1140,
-			"y":520,
-			"width":300,
-			"height":280
+			"x":320,
+			"y":-665,
+			"width":500,
+			"height":540
 		},
 		{
 			"id":"5337b9a1c263e641",
@@ -297,16 +158,6 @@
 			"height":135
 		},
 		{
-			"id":"54af69f0cd6ae0a0",
-			"type":"text",
-			"text":"get z-axis working\n\n#### okay\n- [x] z-axis needs to connect to hitbox and change its layer based on z-axis value\n- [x] z-axis must connect to ability manager\n- [x] ability should have a field `affected by z-axis`\n- [x] so that abilities that have hurtboxes can change hurtbox layer based on z-axis\n- [x] physicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\n- [x] z-axis needs a reference to sprite `scale` to generate a shadow of a particular size\n- [x] shadow should decrease in size the higher up z value is\n\n- [x] jumping over terrain\n\n- [x] shadows\n- [x] jumping\n\n- [x] verify that the hitbox/hurtbox levels work by making a flying entity",
-			"styleAttributes":{},
-			"x":1110,
-			"y":-75,
-			"width":590,
-			"height":510
-		},
-		{
 			"id":"22ff6807b5d45222",
 			"type":"text",
 			"text":"GET THE DAMN INTERACTOR WORKING",
@@ -317,12 +168,132 @@
 			"height":60
 		},
 		{
+			"id":"da46c0accba0e1f4",
+			"type":"text",
+			"text":"# blom bulb\n### PASSIVE AMBIENT\nflowering plant\nshort lifespan (1 min)\ngrows an edible fruit over time\nthe fruit will create another bulb if left on the ground for some time\n\n> done 09/13/26",
+			"styleAttributes":{},
+			"x":1140,
+			"y":520,
+			"width":300,
+			"height":280
+		},
+		{
+			"id":"54af69f0cd6ae0a0",
+			"type":"text",
+			"text":"get z-axis working\n\n#### okay\n- [x] z-axis needs to connect to hitbox and change its layer based on z-axis value\n- [x] z-axis must connect to ability manager\n- [x] ability should have a field `affected by z-axis`\n- [x] so that abilities that have hurtboxes can change hurtbox layer based on z-axis\n- [x] physicscomponent needs to connect to z-axis; collisions should not happen between entities that are 5 z units apart (?)\n\n- [x] z-axis needs a reference to sprite `scale` to generate a shadow of a particular size\n- [x] shadow should decrease in size the higher up z value is\n\n- [x] jumping over terrain\n\n- [x] shadows\n- [x] jumping\n\n- [x] verify that the hitbox/hurtbox levels work by making a flying entity",
+			"styleAttributes":{},
+			"x":1110,
+			"y":-75,
+			"width":590,
+			"height":510
+		},
+		{
+			"id":"cc84e9c609042956",
+			"type":"text",
+			"text":"# borg\n### PREDATORY CONSUMER\nangry mammal with tusks\nattacks using a charge ability, which destroys terrain\nattacks animals with similar mass\nhunts animals with lesser mass",
+			"styleAttributes":{},
+			"x":-5970,
+			"y":-280,
+			"width":360,
+			"height":280
+		},
+		{
+			"id":"6f8380beab67c98b",
+			"type":"text",
+			"text":"ANTHURIUM should use a mix of SNES-sounding instruments and techniques with more modern sounding instruments.\n\nnew title screen track\n\tvaried, interesting (there will be periods of time that this track will be playing nonstop for minutes)\n\tmotif?\n    \ntwo main tracks for gameplay\n\ttracks should be split into layers (DRUMS, BASS, CHORDS, MELODY, PAD, LEAD, VOCALS)???\n\tat the beginning of the game, there are 2 layers playing.\n\tas the anthurium grows in size (esoterica in magnitude), additional layers will increase in volume.\n\t\nbloom song!\n\tcrazy stuff is happening here, so the song should sound chaotic but not tuneless\n\n(undecided if i even want) game over song (30 seconds, then the title screen track will begin playing again)\n\tthe player has just died, possibly after hours of playing.\n\nundecided on sound profile for ANTHURIUM!\n\n\ntribal percussion\nbitcrush\nearthbound soundfont\nreally close reverb/delay\nfretless bass",
+			"styleAttributes":{},
+			"x":-4020,
+			"y":640,
+			"width":620,
+			"height":800
+		},
+		{
+			"id":"2db3659f6bf6b8ac",
+			"type":"text",
+			"text":"# spawn wave mechanics\n- [ ] define waves of creatures to spawn in a level.\n- [ ] the player must kill most of the creatures (25%) to spawn the next wave.\n- [ ] creatures are given a point value in a dictionary and then the wave manager will greedily spawn in entities at random from the dictionary until points are exhausted or no entities can be afforded.\n- [ ] creatures are spawned in random locations all over the map\n- [ ] creatures are not spawned altogether instantly, but at random intervals within a single time span\n",
+			"styleAttributes":{},
+			"x":-1140,
+			"y":-660,
+			"width":320,
+			"height":420
+		},
+		{
+			"id":"accca3edf387a0f9",
+			"type":"text",
+			"text":"get feedback, what will make this game fun?",
+			"styleAttributes":{},
+			"x":-3180,
+			"y":-330,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"03ae8b10b1086ab4",
+			"type":"text",
+			"text":"hook up aura",
+			"styleAttributes":{},
+			"x":-3180,
+			"y":-230,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"f6712c12aea01057",
+			"type":"text",
+			"text":"results/game over screen",
+			"styleAttributes":{},
+			"x":-3180,
+			"y":-140,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"44374545b9477f67",
+			"type":"text",
+			"text":"make a bloom event (the bug swarm)",
+			"styleAttributes":{},
+			"x":-3180,
+			"y":-30,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"1136a2cb1267d65c",
+			"type":"text",
+			"text":"bloom events\n- bug swarm\n- plant invasion\n- terrain becomes cracked and fractured\n- farm animals are spawned",
+			"styleAttributes":{},
+			"x":-3080,
+			"y":70,
+			"width":260,
+			"height":320
+		},
+		{
+			"id":"85818d0aeeb77618",
+			"type":"text",
+			"text":"\n| cost | enemy behavior                                                      | ability                                       |\n| ---- | ------------------------------------------------------------------- | --------------------------------------------- |\n| 50   | attacks nearby creatures                                            | simple swipe                                  |\n|      | shoots projectiles in an axis                                       | shoot a projectile towards movement direction |\n|      | picks a target, shoots explosive fireball, teleports                | shoot a fireball                              |\n|      | if attacked, sets a timer to detonation                             |                                               |\n|      | swallows creatures. if killed, expels out all swallowed creatures   |                                               |\n|      | wanders around quickly                                              |                                               |\n|      | worm that divides when cut in half                                  |                                               |\n|      | chooses a home, wanders around and steals food to bring to its home |                                               |\n|      | hops great distances and pounds the ground dealing damage           |                                               |\n|      | charges through terrain and flattens walls                          |                                               |\n|      | builds walls                                                        |                                               |\n|      | plants 3 explosive barrels                                          |                                               |\n|      | undergoes mitosis when hit                                          |                                               |\n|      | moves through walls and spits fireballs                             |                                               |\n|      | creates smaller versions of itself to charge at creatures           |                                               |\n",
+			"styleAttributes":{},
+			"x":-1520,
+			"y":-1920,
+			"width":1180,
+			"height":560
+		},
+		{
+			"id":"ebb5cb4880db2686",
+			"type":"text",
+			"text":"simpler gameplay loop:\n\n1. enter board (level)\n2. win by surviving multiple waves\n\t1. kill all creatures in a wave\n\t2. maintain ichor/survive\n3. beat the final wave/boss fight\n4. gain new abilities/powers or upgrade\n5. new random board is generated",
+			"styleAttributes":{},
+			"x":-240,
+			"y":-1320,
+			"width":380,
+			"height":380
+		},
+		{
 			"id":"cddc2fe219132dc6",
 			"type":"text",
 			"text":"# fun\nkeep the player challenged, not bored, not too hard\njuicy feedback\nplayer choice",
 			"styleAttributes":{},
-			"x":1240,
-			"y":-1820,
+			"x":600,
+			"y":-1320,
 			"width":440,
 			"height":480
 		},
@@ -331,25 +302,130 @@
 			"type":"text",
 			"text":"what i absolutely need within 2 weeks:\n- wave-based spawner\n\t- can detect how many enemies it has spawned versus how many are alive\n\t- when creatures_alive_count reaches a bottom threshold, summon a new wave\n\t- spawn creatures based on a point system?\n\t- how are creatures spawned? creatures need to be assigned point values i think\n\t- assign number of waves and point value upon board creation\n- assign creatures a point value?\n- three basic fun creatures\n- more gui and animation for changing level\n- fit abilities with possible upgrades\n\t- merge abilities?\n\t- base power increase\n- generate different size of levels",
 			"styleAttributes":{},
-			"x":2140,
-			"y":-1820,
+			"x":-760,
+			"y":-1320,
 			"width":460,
 			"height":520
 		},
 		{
-			"id":"ebb5cb4880db2686",
+			"id":"fbb090e984717ecd",
 			"type":"text",
-			"text":"simpler gameplay loop:\n\n1. enter board (level)\n2. win by surviving multiple waves\n\t1. kill all creatures in a wave\n\t2. maintain ichor/survive\n3. beat the final wave/boss fight\n4. gain new abilities/powers or upgrade\n5. new random board is generated",
+			"text":"# player goal\n1. kill all creatures to advance to the next level\n2. survive (do not run out of ichor or you will starve)\n3. continue on as far as possible",
 			"styleAttributes":{},
-			"x":1720,
-			"y":-1820,
-			"width":380,
-			"height":380
+			"x":-1140,
+			"y":-200,
+			"width":260,
+			"height":200
+		},
+		{
+			"id":"9b3ce986d0a48177",
+			"type":"text",
+			"text":"# generate new level\nWAVER must communicate with the game interface to generate new levels when all waves are complete (and all creatures are killed).",
+			"styleAttributes":{},
+			"x":-1140,
+			"y":40,
+			"width":260,
+			"height":200
+		},
+		{
+			"id":"382db8e266803f80",
+			"type":"text",
+			"text":"# gnawlfy\n### FERAL CONSUMER\n\npicks a spot to move to and guards it\nchases creatures that come too close\nattacks nearby creatures",
+			"styleAttributes":{},
+			"x":-720,
+			"y":-580,
+			"width":320,
+			"height":260
+		},
+		{
+			"id":"b06344d3c34dc290",
+			"type":"text",
+			"text":"# blargle\n### ALOOF CONSUMER\n\nshoots projectiles in four cardinal directions when something is in front of it\nwanders around",
+			"styleAttributes":{},
+			"x":-350,
+			"y":-580,
+			"width":300,
+			"height":280
+		},
+		{
+			"id":"a783d4d2cc97bcd8",
+			"type":"text",
+			"text":"# maw\n### REACTIVE CONSUMER\n\nwanders around and attacks creatures that are directly in front of it",
+			"styleAttributes":{},
+			"x":-720,
+			"y":-280,
+			"width":300,
+			"height":280
+		},
+		{
+			"id":"dcfd6fdca5b6eff1",
+			"type":"text",
+			"text":"# splitmaw\n# REACTIVE CONSUMER\n\nthe maw but when it is hit it splits into two versions of itself",
+			"styleAttributes":{},
+			"x":-350,
+			"y":-245,
+			"width":300,
+			"height":240
+		},
+		{
+			"id":"6293c7665c274d66",
+			"type":"text",
+			"text":"# skippa\n### PREDATORY CONSUMER\njumpy bug\ncan only move by jumping\nharms/eats anything it lands on",
+			"styleAttributes":{},
+			"x":-350,
+			"y":60,
+			"width":340,
+			"height":280
+		},
+		{
+			"id":"a249a2384311de8d",
+			"type":"text",
+			"text":"# hardhat\n### REACTIVE ESOTERIC\nbeetle creature\nwanders around and investigates passive creatures\ngains ichor by building walls",
+			"styleAttributes":{},
+			"x":-720,
+			"y":435,
+			"width":340,
+			"height":280
+		},
+		{
+			"id":"a33f774ae4ecef5d",
+			"type":"text",
+			"text":"# bombo\n## REACTIVE EXEMPT\nwanders around until it's been damaged, then starts a timer to a self-detonation",
+			"styleAttributes":{},
+			"x":-340,
+			"y":435,
+			"width":320,
+			"height":280
+		},
+		{
+			"id":"26f20e5242ee4451",
+			"type":"text",
+			"text":"# blimble\n### PASSIVE CONSUMER\nsmall bouncy white creature\nlikes to be near other blimbles\neats plants or fruit\nruns away from larger animals",
+			"styleAttributes":{},
+			"x":970,
+			"y":858,
+			"width":320,
+			"height":280
+		},
+		{
+			"id":"38a84b9247ac3f7f",
+			"type":"text",
+			"text":"# porcule\n# PREDATORY CONSUMER\nwanders around until it sees a target\ncharges continuously in the direction it saw the target, destroying tiles it rams into",
+			"styleAttributes":{},
+			"x":-710,
+			"y":60,
+			"width":300,
+			"height":280
 		}
 	],
 	"edges":[],
 	"metadata":{
 		"version":"1.0-1.0",
-		"frontmatter":{}
+		"frontmatter":{"kanban_order":"W1f"}
+	},
+	"drawInCanvas":{
+		"version":2,
+		"strokes":[],
+		"colorHistory":[]
 	}
 }

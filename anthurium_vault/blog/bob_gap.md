@@ -1,5 +1,6 @@
 ---
 title: bob gap
+kanban_order: W0C
 ---
 
 - there we go

@@ -1,3 +1,6 @@
+---
+kanban_order: W0X
+---
 Wind's Lament (Grey Wizard's Journal)
 Ropeshroom
 Wroughtwood Coin

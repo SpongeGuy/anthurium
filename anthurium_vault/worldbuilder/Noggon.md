@@ -1,3 +1,6 @@
+---
+kanban_order: W0k
+---
 #Sapients/Noggon
 Honorable rabbit ninja villagers who hunt sea creatures.
 

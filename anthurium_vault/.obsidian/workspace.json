@@ -29,9 +29,54 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": 2424.3271452318363,
-                  "y": -1417.3149735501268,
-                  "zoom": 0.07382018715908778
+                  "x": -179.39136077466748,
+                  "y": 25.482644497737795,
+                  "zoom": -0.5999999999999999
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "job list 9-1-26"
+            }
+          },
+          {
+            "id": "ba92e09675b44bc7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "anthurium.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "anthurium"
+            }
+          },
+          {
+            "id": "a8149b427b435108",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "worldbuilder/Timeline.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Timeline"
+            }
+          },
+          {
+            "id": "1ad3479136ccc51d",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "for my capstone/job list 9-1-26.canvas",
+                "viewState": {
+                  "x": -3684.8327971379176,
+                  "y": -236.57554192285576,
+                  "zoom": -0.02617981284091242
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -189,7 +234,7 @@
             }
           },
           {
-            "id": "1536de9f5c606d96",
+            "id": "a8e479ef150f579f",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -199,11 +244,11 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
+    "width": 534.5,
     "collapsed": true
   },
   "left-ribbon": {
@@ -215,35 +260,39 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "system3-relay:Relay": false,
-      "operon:Create New Operon Task": false,
-      "operon:Operon Filter View": false,
-      "operon:Task Finder": false,
-      "operon:Operon Calendar": false,
-      "operon:Operon Kanban": false,
-      "operon:Operon Table": false,
-      "operon:Open Pinned Tasks": false
+      "system3-relay:Relay": false
     }
   },
   "active": "181dfbdcfab63d9d",
   "lastOpenFiles": [
+    "anthurium.md",
+    "anthurium.canvas",
+    "Main.canvas",
+    "for my capstone/job list 9-1-26.canvas",
+    "anthurium.canvas.before-empty.bak",
+    "Untitled.base",
+    "worldbuilder/The Unfathomed.md",
+    "worldbuilder/Timeline.md",
+    "for my capstone/anthurium_tasks/wave man.md",
+    "merm.md",
+    "for my capstone/anthurium_tasks",
+    "Untitled",
+    "Markwhen/Markwhen 9-17-2026 02.02.16.mw",
+    "Markwhen/Markwhen 9-17-2026 02.03.58.mw",
+    "Markwhen/Markwhen 9-17-2026 02.02.23.mw",
+    "Markwhen",
+    "Projects/anthurium/_tasks/give-creatures-point-value.md",
+    "Projects/anthurium/_tasks/wave-manager.md",
+    "Projects/anthurium/anthurium.md",
+    "Projects/anthurium/_tasks",
+    "Projects/anthurium",
     "Creatures.md",
     "loop.md",
-    "Main.canvas",
     "Pasted image 20260830012729.png",
     "Untitled.canvas",
-    "Untitled.base",
-    "Untitled.md",
     "Operon/Demo Workspace/Operon Basics Project.md",
-    "for my capstone/job list 9-1-26.canvas",
     "Operon/Demo Workspace/Set Up Your Obsidian Vault with Operon.md",
     "Operon/Demo Workspace/Operon Command Palette.md",
-    "Operon/Demo Workspace",
-    "Operon/Tasks",
-    "Operon/Tables/Default table.table",
-    "Operon/Tables",
-    "Operon",
-    "Online Gantt 20260914.gantt",
     "for my capstone/anthurium.md",
     "for my capstone/inspiration bible.md",
     "for my capstone/plant anthurium design for the plant.canvas"

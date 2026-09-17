@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "2c17cfe3-24dd-4103-8cac-b03d626dcf3b",
+      "x": 768,
+      "y": 864,
+      "width": 180,
+      "height": 200,
+      "type": "text",
+      "text": "created",
+      "color": "#78350F",
+      "vn": {
+        "id": "2c17cfe3-24dd-4103-8cac-b03d626dcf3b",
+        "kind": "sticky",
+        "z": 1,
+        "text": "created",
+        "color": "#78350F"
+      }
+    }
+  ],
+  "edges": [],
+  "vn": {
+    "version": 1,
+    "layout": "freeform",
+    "viewport": {
+      "zoom": 0.620921323059155,
+      "x": 265.25046724329565,
+      "y": -90.53445890199373
+    }
+  }
+}

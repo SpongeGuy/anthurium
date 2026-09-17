@@ -1,3 +1,6 @@
+---
+kanban_order: V0
+---
 Beings from beyond [[The Veil|the veil]] of [[Meatspace]]. All of them were concieved from the chaotic voidrealm of outer space. All of them possess qualities which are unexplainable by common physics.
 
 There are some who have rejected the linear flow of time that the ancient space wizards created. These beings move around only in spatial dimensions and appear either at every point in time or none at all. These beings, the *Untethered*, are incredibly dangerous.

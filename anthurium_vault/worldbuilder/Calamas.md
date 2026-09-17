@@ -1,3 +1,6 @@
+---
+kanban_order: W0b
+---
 #Eo #Aether #Aether/Calamas
 Calamas Jinn-Aetu is the Great [[Aether]] Shard which supplies the planet Eo with most of its magical energy. It is embedded multidimensionally inside the planet and causes magical anomalies (one of which being the allowance of fleshy lifeforms on the planet).
 

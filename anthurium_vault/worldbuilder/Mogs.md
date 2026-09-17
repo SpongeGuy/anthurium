@@ -1,3 +1,6 @@
+---
+kanban_order: W0j
+---
 #Sapients/Mogs #Eo/Rhwnych #Aether
 Beings made sentient by magical crystals found in the aether-rich mudlands of [[Rhwnych]].
 

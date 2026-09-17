@@ -10,13 +10,13 @@
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="9_gyahl"]
 [ext_resource type="Script" uid="uid://d6cq0g5ot4oc" path="res://scripts/resources/entity_effect/EntityEffectAnimation.gd" id="9_mkwxs"]
 [ext_resource type="Script" uid="uid://cuobnqrp7yfvf" path="res://scripts/states/deprecated/simple/cast_ability_if_enough_ichor.gd" id="9_ppatb"]
-[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="9_qicmm"]
-[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/ability_manager.gd" id="10_ppatb"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="9_qicmm"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="10_ppatb"]
 [ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="11_vvi4s"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="13_h8iho"]
-[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/input_component.gd" id="13_vvi4s"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="13_vvi4s"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="14_c1yd2"]
-[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="14_vvi4s"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="14_vvi4s"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="15_526jv"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="15_huaam"]
 [ext_resource type="Resource" uid="uid://dqeaes70nnefx" path="res://assets/resources/voices/alien.tres" id="15_mkwxs"]
@@ -38,26 +38,6 @@ metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y8n2y"]
 radius = 4.0
-
-[sub_resource type="Resource" id="Resource_emcra"]
-script = ExtResource("6_qwd8k")
-name = &"closed"
-loop = false
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_gyaym"]
-script = ExtResource("6_qwd8k")
-name = &"open"
-column = 1
-loop = false
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_stjce"]
-script = ExtResource("6_qwd8k")
-name = &"biting"
-frames = 2
-speed = 0.5
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="Resource" id="Resource_qop0p"]
 script = ExtResource("6_qwd8k")
@@ -124,7 +104,6 @@ shape = SubResource("CircleShape2D_y8n2y")
 [node name="SpriteAnimator" type="Node" parent="." unique_id=1639254581 node_paths=PackedStringArray("sprite")]
 script = ExtResource("5_wqmpv")
 sprite = NodePath("../Sprite2D")
-animations = Array[ExtResource("6_qwd8k")]([SubResource("Resource_emcra"), SubResource("Resource_gyaym"), SubResource("Resource_stjce")])
 metadata/_custom_type_script = "uid://carvudot6oer3"
 
 [node name="StateMachine" type="Node" parent="." unique_id=452831301 node_paths=PackedStringArray("initial_state", "death_state")]

@@ -1,3 +1,6 @@
+---
+kanban_order: W0F
+---
 ```
 there is a list of people that i dont fw
 ts pmo 

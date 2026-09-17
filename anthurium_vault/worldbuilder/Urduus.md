@@ -1,3 +1,6 @@
+---
+kanban_order: W0v
+---
  #Sapients/Urduus #Beardo
 One of the first races on Eo, created directly by the great deity [[Beardo]]. They are the counterpart to the [[Aemuus]]. 
 

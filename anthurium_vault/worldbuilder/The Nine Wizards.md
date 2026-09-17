@@ -1,3 +1,6 @@
+---
+kanban_order: W0r
+---
 #Eo/Mirinthia #Aether/Calamas
 On the dawn of the third day of the year [[Timeline#^b4f5b3|A1200]], nine wizards emerged one by one at an ancient temple at the heart of [[Mirinthia]]. They combined their power to crack the shell of [[Calamas]], the Great Aether Shard which had plummeted from outer space into [[Meatspace]], embedding inside Eo.
 

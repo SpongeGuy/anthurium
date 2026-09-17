@@ -1,3 +1,6 @@
+---
+kanban_order: W0i
+---
 #Meatspace
 Meatspace is essentially the Universe; all which will be and all that matters (made of meat) resides within Meatspace. The invisible and omnipresent fabric which Meatspace is composed of enables particles to align in a way which allows life to exist.
 

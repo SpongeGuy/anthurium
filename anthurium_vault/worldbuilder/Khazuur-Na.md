@@ -1,3 +1,6 @@
+---
+kanban_order: W0h
+---
 ```
 this continent is generally arid and hot. a vast majority of the continent is a desert. 
 the desert (the western portion of the continent) is home to humanoid feathered lizards with a deep magical and ritualistic culture. they are the original inhabitants of this continent and other humanoid beings in this region are probably descendants. they have historic crimson ruins all over the desert basin including a vast, haunted crimson fortress. now, they only have three villages. they have a great trade route from the desert basin all the way from the great desert basin all the way to the fertile region of the continent. they breed and ride gigantic foxlike creatures to traverse the desert quickly. 

@@ -1,3 +1,6 @@
+---
+kanban_order: W0m
+---
 Pamanteans are short and gangly lizard folk, like feathery kobolds.
 They are native to the region of Po Sevecea, a vast arid landscape with vast arrays of canyons and chasms.
 

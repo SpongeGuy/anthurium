@@ -1,3 +1,6 @@
+---
+kanban_order: W1c
+---
 # final design of game loop
 
 Play as Pip, a little animal with many tricks up his sleeve. Befriend, defeat, and interact with the many beasts found in Dreamland to survive. Traverse as far as you can throughout Dreamland and discover the mystery of the Anthurium, a ravenous, godlike plant entity which transmutes matter into more of itself.

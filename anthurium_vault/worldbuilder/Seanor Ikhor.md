@@ -1,3 +1,6 @@
+---
+kanban_order: W0p
+---
 #Eo/Seanor
 The great sea of the planet Eo.
 This sea shares borders with all three continents.

@@ -1,3 +1,6 @@
+---
+kanban_order: W0U
+---
 #Sapients/Aemuus 
 One of the original races created directly by [[Beardo]]. They are the counterpart to the [[Urduus]].
 

@@ -1,3 +1,6 @@
+---
+kanban_order: W0V
+---
 #Aether
 A strange interdimensional ethereal substance present from the beginning of time. It is never permanent in reality, existing between dimensions. So it is never completely realized within the world. It is ancient and fundamental, but transient and unstable.
 Aether takes on a whole bunch of different forms, but if an object seems magical, chances are it uses aether in some way.

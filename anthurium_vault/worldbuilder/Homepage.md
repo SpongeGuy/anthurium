@@ -1,3 +1,6 @@
+---
+kanban_order: W0g
+---
 # Lorebook
 [[Meatspace]] and the [[Timeline|overarching plot]].
 

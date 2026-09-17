@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="6_tt88j"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="7_ip3k0"]
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="7_kb83x"]
-[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/health_component.gd" id="8_f3e47"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="8_f3e47"]
 [ext_resource type="Script" uid="uid://k4ssad524jt" path="res://scripts/states/deprecated/anthurium/AnthuriumStateBeatHeart.gd" id="8_thl81"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="9_kbcs1"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="9_thl81"]
@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://b1c40ojt8vlw0" path="res://scripts/components/anthurium/EsotericaResponseComponent.gd" id="21_81ejs"]
 [ext_resource type="Script" uid="uid://bsbmt7ago3hpx" path="res://scripts/resources/anthurium/StimulusMapping.gd" id="22_p7hfk"]
 [ext_resource type="Script" uid="uid://c2nmi2cda4spm" path="res://scripts/resources/anthurium/behavior_stimulus_response/DamagedStimulus.gd" id="23_p7hfk"]
-[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/ichor_component.gd" id="24_xignd"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="24_xignd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 

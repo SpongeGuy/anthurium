@@ -1,3 +1,6 @@
+---
+kanban_order: W0W
+---
 Red, feathered, humanoid lizardlike creatures with incredibly dextrous hands and long claws. Their feathers are often very colorful; their color determines a citizen's profession.
 
 Their capital is located in the Great Desert Basin [[Shanne]].

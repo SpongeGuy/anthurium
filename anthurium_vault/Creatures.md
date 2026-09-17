@@ -1,3 +1,6 @@
+---
+kanban_order: V0
+---
 g# Creature ideas
 
 | Behavior Class | Description                                                           |

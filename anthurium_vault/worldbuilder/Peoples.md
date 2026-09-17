@@ -1,3 +1,6 @@
+---
+kanban_order: W0n
+---
 Relevant Races and Folks Circa A3000, the Phantom Ages
 
 #Eo/Shanne #Sapients/Alizarin

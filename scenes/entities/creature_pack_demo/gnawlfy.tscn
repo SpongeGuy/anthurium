@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://dxso3u5hkgefv"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_ue6cv"]
+[ext_resource type="Texture2D" uid="uid://bhn2otohxrv4d" path="res://assets/textures/characters/bestguys/imp.png" id="2_r8xof"]
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="3_w7gtv"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="4_f8ynm"]
+[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/movement/locomotion_handler.gd" id="5_anuso"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="6_woca6"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="7_px2hn"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="8_617nb"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="8_anuso"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="9_ugqom"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="10_j24rx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ajtoq"]
+radius = 3.0
+
+[node name="Entity" type="CharacterBody2D" unique_id=635328393]
+texture_filter = 1
+script = ExtResource("1_ue6cv")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1607698714]
+position = Vector2(0, -8)
+texture = ExtResource("2_r8xof")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1204692500]
+shape = SubResource("CircleShape2D_ajtoq")
+
+[node name="Brain" type="Node" parent="." unique_id=2071958259]
+script = ExtResource("3_w7gtv")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=1591540703 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("4_f8ynm")
+locomotion = NodePath("../LocomotionHandler")
+
+[node name="LocomotionHandler" type="Node" parent="." unique_id=408173451 node_paths=PackedStringArray("input")]
+script = ExtResource("5_anuso")
+input = NodePath("../InputComponent")
+
+[node name="AbilityManager" type="Node" parent="." unique_id=891131687 node_paths=PackedStringArray("ichor_component", "input")]
+script = ExtResource("6_woca6")
+ichor_component = NodePath("../health/IchorComponent")
+input = NodePath("../InputComponent")
+
+[node name="InputComponent" type="Node" parent="." unique_id=1732678743]
+script = ExtResource("8_anuso")
+
+[node name="FacingComponent" type="Node" parent="." unique_id=1595000036]
+script = ExtResource("8_617nb")
+
+[node name="health" type="Node" parent="." unique_id=1602517939]
+
+[node name="HealthComponent" type="Node" parent="health" unique_id=17956915]
+script = ExtResource("9_ugqom")
+
+[node name="DamageAnimationComponent" type="Node" parent="health" unique_id=1030675082]
+script = ExtResource("10_j24rx")
+
+[node name="IchorComponent" type="Node" parent="health" unique_id=1751000837]
+script = ExtResource("7_px2hn")

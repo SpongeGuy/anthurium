@@ -1,3 +1,6 @@
+---
+kanban_order: W0d
+---
 A winged organic stone being who lives on the spires of the [[Spire Sea]], south of [[Emer]]. Winged stones like Carmine create clones of themselves by embedding their bodies into rock faces. This process takes over a decade as the stone has to leave every so often to consume things for energy; this process is very energy intensive! However, in optimal conditions, the process will produce hundreds of winged pebbles which will grow larger and mature over a hundred years.
 
 Winged stone younglings (pebbles) are ravenous and eat whatever they can until they are satiated.

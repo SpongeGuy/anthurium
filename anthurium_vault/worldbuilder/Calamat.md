@@ -1,3 +1,6 @@
+---
+kanban_order: W0c
+---
 The most
 
 An ever-changing dreamscape present on Eo thanks to [[Calamas]], the Great Aether Shard.

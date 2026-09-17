@@ -1,3 +1,6 @@
+---
+kanban_order: W0e
+---
 #Eo/Emer
 Lush forests and marshlands encased in valleys with broken shards of volcanic rock and enormous igneous stones.
 The coastline is mostly cliffside, composed of peninsulas one after another.
