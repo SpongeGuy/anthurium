@@ -72,6 +72,11 @@ func init_grid(w: int, h: int) -> void:
 	_grid.resize((w+(padding * 2))* (h+ (padding * 2))) # padding for out of bounds checking
 	_stride = width + (padding * 2)
 	
+	_visible_cells.clear()
+	_dirty_cells.clear()
+	_smelly_cells.clear()
+	_batching = false
+	
 	# initialize entire grid including padding as out of bounds
 	for i in _grid.size():
 		_grid[i] = CellData.new()
@@ -102,6 +107,9 @@ func safe_get_cell(coords: Vector2i) -> CellData:
 ## might be arbitrary.
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
+	
+func get_center() -> Vector2i:
+	return Vector2i(floor(width / 2), floor(height / 2))
 
 ## Replaces the cell at [param coords] with [param cell] wholesale. Marks
 ## the new cell invisible if it falls outside currently visible tiles,
@@ -110,7 +118,7 @@ func get_cell(coords: Vector2i) -> CellData:
 ## batching).
 func set_cell(coords: Vector2i, cell: CellData) -> void:
 	if _visible_cells.is_empty():
-		reveal_from_camera()
+		CameraController.reveal_from_camera()
 	if not _visible_cells.has(coords):
 		cell.invisible = true
 	var old_cell: CellData = get_cell(coords)
@@ -120,7 +128,7 @@ func set_cell(coords: Vector2i, cell: CellData) -> void:
 	_grid[_idx(coords)] = cell # replace with new celldata
 	
 	if old_cell.type.terrain != cell.terrain and CameraController.target_position and _visible_cells.has(coords):
-		reveal_from_camera()
+		CameraController.reveal_from_camera()
 	
 	if cell.type.terrain == CellType.TerrainType.GROUND:
 		cell.skin = 1
@@ -153,7 +161,7 @@ func set_cell_type(coords: Vector2i, type_name: StringName) -> void:
 	cell.max_health = cell_type.max_health
 	cell.health = cell_type.max_health
 	if old_terrain != cell_type.terrain and CameraController.target_position and _visible_cells.has(coords):
-		reveal_from_camera()
+		CameraController.reveal_from_camera()
 	if _batching:
 		_dirty_cells[coords] = cell
 	else:
@@ -375,13 +383,7 @@ func set_circle_type(center: Vector2i, radius: int, type_name: StringName, fille
 # util visibility
 # -------------------------------------
 
-## Reveals fog-of-war outward from wherever [CameraController] is currently
-## targeting, awaiting [signal EventBus.camera_target_changed] first if no
-## target is set yet.
-func reveal_from_camera() -> void:
-	if not CameraController.target_position:
-		await EventBus.camera_target_changed
-	reveal_from(world_to_tile(CameraController.target_position))
+
 	
 	
 ## Hides every tile on the map (used when resetting fog-of-war, e.g. on a

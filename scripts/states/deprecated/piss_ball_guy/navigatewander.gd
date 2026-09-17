@@ -39,4 +39,3 @@ func physics_update(delta: float) -> void:
 	
 func exit() -> void:
 	pass
-

@@ -120,6 +120,11 @@ func remove_stage(name: String) -> void:
 	active_ui_scenes[name].queue_free()
 	active_ui_scenes.erase(name)
 	
+func clear_stages() -> void:
+	for i in active_ui_scenes:
+		active_ui_scenes[i].queue_free()
+	active_ui_scenes.clear()
+	
 	
 	
 ## Locates [member hud], [member screen], and [member hand] under

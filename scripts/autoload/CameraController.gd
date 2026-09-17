@@ -29,7 +29,7 @@ var target_position: Vector2
 ## [br][constant FROZEN]: camera does not move.
 ## [br][constant CONTROLLED]: camera moves via direct input, see
 ## [method directly_control].
-enum Behavior{ TRACKING_PLAYER, TRACKING_RANDOM, FROZEN, CONTROLLED }
+enum Behavior{ TRACKING_PLAYER, TRACKING_RANDOM, FROZEN, CONTROLLED, CENTERED }
 
 
 ## Emitted when a new random target is acquired (currently unused/reserved).
@@ -58,8 +58,7 @@ func _process(delta: float) -> void:
 		return
 	relative_mouse_coords = get_viewport().get_mouse_position()
 	relative_mouse_coords = (relative_mouse_coords /3 + camera.position - Vector2(320, 180))
-	if target:
-		target_position = target.global_position
+	
 	
 	debug_handlers()
 
@@ -70,25 +69,36 @@ func _physics_process(delta: float) -> void:
 		return
 	_handle_camera_behavior(delta)
 	_handle_screen_shake(delta)
-	_fix_if_standing_on_invisible(delta)
+	_periodically_reveal_target(delta)
 	
 	
 ## Periodically checks whether [member target] is standing on a tile marked
 ## invisible in [WorldGrid] and, if so, forces a reveal from that tile. If
 ## there is no target, keeps revealing from the camera instead.
-func _fix_if_standing_on_invisible(delta: float) -> void:
-	if not target:
-		WorldGrid.reveal_from_camera()
-		return
+func _periodically_reveal_target(delta: float) -> void:
 	_visibility_timer += delta
 	if _visibility_timer >= visibility_check_interval:
 		_visibility_timer = 0
-		var tile_pos: Vector2i = WorldGrid.world_to_tile(target.global_position)
-		var occupying_cell: CellData = WorldGrid.get_cell(tile_pos)
-		if not occupying_cell:
-			return
-		if occupying_cell.invisible:
-			WorldGrid.reveal_from(tile_pos)
+		reveal_target()
+			
+func reveal_target() -> void:
+	if not target:
+		reveal_from_camera()
+		return
+	var tile_pos: Vector2i = WorldGrid.world_to_tile(target.global_position)
+	var occupying_cell: CellData = WorldGrid.get_cell(tile_pos)
+	if not occupying_cell:
+		return
+	if occupying_cell.invisible:
+		WorldGrid.reveal_from(tile_pos)
+
+## Reveals fog-of-war outward from wherever [CameraController] is currently
+## targeting, awaiting [signal EventBus.camera_target_changed] first if no
+## target is set yet.
+func reveal_from_camera() -> void:
+	if not target_position:
+		await EventBus.camera_target_changed
+	WorldGrid.reveal_from(WorldGrid.world_to_tile(target_position))
 			
 ## Moves [member target_position] directly from raw movement input. Used
 ## when [member behavior] is [constant Behavior.CONTROLLED].
@@ -113,6 +123,8 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 			delay_tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
 		Behavior.CONTROLLED:
 			target = null
+		Behavior.CENTERED:
+			target_position = WorldGrid.tile_to_world(WorldGrid.get_center())
 			
 ## Clears the current target and resets tracking state (used when tearing
 ## down/reinitializing a scene).
@@ -134,7 +146,7 @@ func register_camera(c: Camera2D) -> void:
 ## Sets [member target] to [param new_target], snaps [member target_position]
 ## to it, and re-reveals [WorldGrid] fog-of-war from the new target's tile.
 ## Emits [signal EventBus.camera_target_changed].
-func change_camera_target(new_target: Node2D) -> void:
+func set_camera_target(new_target: Node2D) -> void:
 	if not new_target:
 		return
 	target = new_target
@@ -238,16 +250,27 @@ func debug_handlers() -> void:
 func _handle_camera_behavior(delta: float) -> void:
 	match behavior:
 		Behavior.TRACKING_PLAYER:
-			if target_position:
-				go_to(target_position, delta)
+			if not target:
+				return
+			target_position = target.global_position
+			go_to(target_position, delta)
 		Behavior.TRACKING_RANDOM:
 			_tracking_random_timer -= delta
 			if _tracking_random_timer <= 0.0:
 				var random_entity: Entity = EntityManager.active_entities.pick_random()
-				change_camera_target(random_entity)
+				set_camera_target(random_entity)
 				_tracking_random_timer = tracking_random_patience + randf_range(-2, 2)
-			if target_position:
-				go_to(target_position, delta)
+			if not target:
+				return
+			target_position = target.global_position
+			go_to(target_position, delta)
+		Behavior.CENTERED:
+			if not target_position:
+				return
+			go_to(target_position, delta)
+				
+#func _reveal_target(delta: float) -> void:
+	
 				
 ## Decays [member trauma] and applies a random offset to [member camera]
 ## scaled by [code]trauma * trauma[/code].

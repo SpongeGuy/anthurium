@@ -11,30 +11,27 @@
             "id": "12afc7c931b135ff",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Main.canvas",
-                "viewState": {
-                  "x": -9903.858009865051,
-                  "y": 3332.9210834216487,
-                  "zoom": 0.40000000000000036
-                }
+                "file": "Creatures.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "icon": "lucide-file",
+              "title": "Creatures"
             }
           },
           {
-            "id": "eb1cb3d4b72989f8",
+            "id": "181dfbdcfab63d9d",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -971.3795644694922,
-                  "y": -418.7658870003298,
-                  "zoom": -0.1088616532366139
+                  "x": 2424.3271452318363,
+                  "y": -1417.3149735501268,
+                  "zoom": 0.07382018715908778
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -190,8 +187,19 @@
               "icon": "lucide-list",
               "title": "Outline"
             }
+          },
+          {
+            "id": "1536de9f5c606d96",
+            "type": "leaf",
+            "state": {
+              "type": "system3-sync-status",
+              "state": {},
+              "icon": "satellite",
+              "title": "Sync status"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -207,13 +215,34 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "system3-relay:Relay": false
+      "system3-relay:Relay": false,
+      "operon:Create New Operon Task": false,
+      "operon:Operon Filter View": false,
+      "operon:Task Finder": false,
+      "operon:Operon Calendar": false,
+      "operon:Operon Kanban": false,
+      "operon:Operon Table": false,
+      "operon:Open Pinned Tasks": false
     }
   },
-  "active": "eb1cb3d4b72989f8",
+  "active": "181dfbdcfab63d9d",
   "lastOpenFiles": [
+    "Creatures.md",
+    "loop.md",
     "Main.canvas",
+    "Pasted image 20260830012729.png",
+    "Untitled.canvas",
+    "Untitled.base",
+    "Untitled.md",
+    "Operon/Demo Workspace/Operon Basics Project.md",
     "for my capstone/job list 9-1-26.canvas",
+    "Operon/Demo Workspace/Set Up Your Obsidian Vault with Operon.md",
+    "Operon/Demo Workspace/Operon Command Palette.md",
+    "Operon/Demo Workspace",
+    "Operon/Tasks",
+    "Operon/Tables/Default table.table",
+    "Operon/Tables",
+    "Operon",
     "Online Gantt 20260914.gantt",
     "for my capstone/anthurium.md",
     "for my capstone/inspiration bible.md",

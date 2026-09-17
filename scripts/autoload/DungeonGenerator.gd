@@ -12,18 +12,21 @@ extends Node
 ## versus a random direction, in [code][0, 1][/code] (1.0 = always step
 ## toward the target).
 var drunk_directness: float = 0.75
-## Connected cave regions smaller than this many tiles are filled back in as
+## Connected cave regions smaller than this ratio * map area are filled back in as
 ## wall during [method _cull_and_connect_caves].
-var min_cave_size: int = 15
-## Connected cave regions larger than this many tiles are treated as "hidden
+var min_cave_ratio: float = 0.015
+## Connected cave regions larger than this ratio * map area are treated as "hidden
 ## rooms" and excluded from the main, tunnel-connected cave network.
-var hidden_room_max_size: int = 300
+var hidden_room_max_ratio: float = 0.2
 
 ## RNG used for all generation randomness; seeded per-call in [method generate].
 var _rng := RandomNumberGenerator.new()
 ## Reserved for future room-placement logic; currently unused by the cave
 ## generation path.
 var _rooms: Array[Rect2i] = []
+
+var min_cave_size: int = 15
+var hidden_room_max_size: int = 300
 
 
 ## Runs the full generation pipeline against the current [WorldGrid]: seeds
@@ -39,6 +42,10 @@ func generate(sed: int = -1) -> void:
 		_rng.randomize()
 	
 	_rooms.clear()
+	
+	var total_tiles: int = WorldGrid.width * WorldGrid.height
+	min_cave_size = maxi(6, roundi(total_tiles * min_cave_ratio))
+	hidden_room_max_size = roundi(total_tiles * hidden_room_max_ratio)
 
 	_fill_walls()
 	_cellular_automata_pass()
@@ -186,6 +193,12 @@ func _cull_and_connect_caves() -> void:
 				WorldGrid.get_cell(coords).type = wall
 		elif component.size() > hidden_room_max_size:
 			main_caves.append(component)
+			
+	if main_caves.is_empty() and not components.is_empty():
+		for component in components:
+			if component.size() >= min_cave_size:
+				main_caves.append(component)
+				break
 
 	for i in range(main_caves.size() - 1):
 		_drunk_walk(_component_center(main_caves[i]), _component_center(main_caves[i + 1]))

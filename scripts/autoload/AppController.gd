@@ -207,11 +207,13 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			change_active_controller(Controller.HAND)
 			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
+			UiController.clear_stages()
 			MusicController.stop()
 			await _fade(1, 0.6)
 			_fade(1, 0.2)
 			_initialize_world()
 			GameInterface.start_new_game_instance_with_player()
+			
 			
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
@@ -219,6 +221,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
 			UiController.remove_stage("title")
+			
 			UiController.hud.set_state(UIHUD.State.BAR)
 			_fade(0, 0.5)
 		AppStatus.GAMEOVER:
@@ -293,7 +296,7 @@ func _link_player_death() -> void:
 ## Connected (one-shot) to [signal PlayerManager.player_died]; transitions
 ## the app to [constant AppStatus.GAMEOVER].
 func _on_player_death(_e: Entity) -> void:
-	change_app_state(AppStatus.GAMEOVER)
+	change_app_state(AppStatus.MENU)
 	
 ## Awaits [signal UiController.ui_ready] if [UiController] hasn't finished
 ## retrieving its references yet; otherwise returns immediately.

@@ -40,7 +40,45 @@ var game_instance_active: bool = false
 ## [code](16, 16)[/code].
 func start_new_game_instance_with_player() -> void:
 	start_new_game_instance()
-	_initialize_player(Vector2i(16, 16))
+	_initialize_player(Vector2i(5, 5))
+	
+	#_make_test_land()
+	#_spawn_losers()
+
+## Resets and generates a new world: emits
+## [signal EventBus.starting_new_game], marks the instance active,
+## initializes [WorldGrid] and runs [DungeonGenerator], and spawns the
+## initial set of non-player entities.
+func start_new_game_instance() -> void:
+	EventBus.starting_new_game.emit()
+	game_instance_active = true
+	WorldGrid.init_grid(16, 16)
+	DungeonGenerator.generate()
+	
+	Waver.configure(_build_board_config())
+	Waver.wave_complete.connect(_on_wave_complete)
+	Waver.start_next_wave()
+	
+func start_new_demo_instance() -> void:
+	start_new_game_instance()
+	
+	#_spawn_losers()
+	
+
+func _on_wave_complete(wave_index: int) -> void:
+	Waver.start_next_wave()
+	
+func _build_board_config() -> WaveBoardConfig:
+	var cfg: WaveBoardConfig = WaveBoardConfig.new()
+	cfg.max_waves = randi_range(3, 6)
+	return cfg
+	
+
+# --------------------------------------
+# internal initialization procedure
+# --------------------------------------
+	
+func _spawn_losers() -> void:
 	EntityManager.spawn_safely(&"blom_bulb", Vector2(300, 300), false)
 	EntityManager.spawn_safely(&"meat_shank", Vector2(250, 300), false)
 	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
@@ -51,32 +89,13 @@ func start_new_game_instance_with_player() -> void:
 	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
 	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
 	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	#_make_test_land()
-	#
-
-## Resets and generates a new world: emits
-## [signal EventBus.starting_new_game], marks the instance active,
-## initializes [WorldGrid] and runs [DungeonGenerator], and spawns the
-## initial set of non-player entities.
-func start_new_game_instance() -> void:
-	EventBus.starting_new_game.emit()
-	game_instance_active = true
-	WorldGrid.init_grid(64, 64)
-	DungeonGenerator.generate()
-	
-	#_initialize_debug_spawns()
-
-# --------------------------------------
-# internal initialization procedure
-# --------------------------------------
-	
 	
 ## Spawns a [code]&"focks"[/code] entity as the player at [param tile_pos]
 ## and snaps the camera to it.
 func _initialize_player(tile_pos: Vector2i) -> void:
 	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
 	var entity: Entity = EntityManager.spawn_as_player(&"focks", player_spawn)
-	CameraController.change_camera_target(entity)
+	CameraController.set_camera_target(entity)
 	CameraController.go_instantly_to(entity.global_position)
 	
 	await get_tree().process_frame
@@ -95,9 +114,10 @@ func _make_test_land() -> void:
 func _initialize_anthurium(tile_pos: Vector2i) -> void:
 	EntityManager.spawn_on_tile(&"test_tree", tile_pos)
 	
-## Debug helper that seeds the world with a variety of test entities at
-## fixed and randomized positions. Not currently called from
-## [method start_new_game_instance].
+	
+
+	
+
 func _initialize_debug_spawns() -> void:
 	EntityManager.spawn_safely(&"bimpy", Vector2i(100, 150), false)
 	
