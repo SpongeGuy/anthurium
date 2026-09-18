@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="5_m5spg"]
 [ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="6_ptsdo"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_sofh0"]
-[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="8_m5spg"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="8_m5spg"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="10_ptsdo"]
 [ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="17_cyct4"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="18_ybvok"]
@@ -29,7 +29,7 @@
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="25_yaau6"]
 [ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="26_haym0"]
 [ext_resource type="Script" uid="uid://cvunw8u3r5f0x" path="res://scripts/components/DropFoodOnDeathComponent.gd" id="27_yaau6"]
-[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/movement/locomotion_handler.gd" id="30_54mgb"]
+[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/LocomotionHandler.gd" id="30_54mgb"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="31_haym0"]
 
 [sub_resource type="Resource" id="Resource_5o62f"]

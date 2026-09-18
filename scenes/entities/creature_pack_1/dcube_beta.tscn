@@ -19,8 +19,8 @@
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="23_tbd16"]
 [ext_resource type="Texture2D" uid="uid://cnw3rsu876npn" path="res://assets/textures/ui/icon-gold.png" id="24_rdhn5"]
 [ext_resource type="Script" uid="uid://cini61n7sdso5" path="res://scripts/abilities/dcube_rush.gd" id="27_es84r"]
-[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="28_ivk2u"]
-[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="28_jvygq"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="28_ivk2u"]
+[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/deprecated/normal_locomotion_handler.gd" id="28_jvygq"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="29_ivk2u"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="31_0u0l4"]
 

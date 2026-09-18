@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_xgpeh"]
 [ext_resource type="Texture2D" uid="uid://dgqvfw8yqesrv" path="res://assets/textures/items/blue_fruit.png" id="2_0k6yj"]
-[ext_resource type="Script" uid="uid://4neiv211rec6" path="res://scripts/components/item_stage_manager.gd" id="3_5rdin"]
+[ext_resource type="Script" uid="uid://4neiv211rec6" path="res://scripts/components/ItemStageManager.gd" id="3_5rdin"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="4_wdex0"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="5_b62um"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="6_thnh3"]
@@ -20,7 +20,7 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="18_f18nu"]
 [ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="20_thnh3"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="21_dji3k"]
-[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="22_34fkb"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="22_34fkb"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="24_k82wc"]
 [ext_resource type="Script" uid="uid://143u7xgfchhw" path="res://scripts/states/deprecated/blom_bulb/growth_into_new_entity.gd" id="26_5rdin"]
 [ext_resource type="Script" uid="uid://bkky2iu1meoku" path="res://scripts/components/JumpOnTimerComponent.gd" id="27_b62um"]
@@ -169,11 +169,10 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 script = ExtResource("22_34fkb")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=1579658102 node_paths=PackedStringArray("collision_shape", "knockback")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=1579658102 node_paths=PackedStringArray("collision_shape")]
 position = Vector2(0, -7)
 script = ExtResource("24_k82wc")
 collision_shape = NodePath("CollisionShape2D")
-knockback = NodePath("")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=182445790]

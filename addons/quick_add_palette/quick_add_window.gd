@@ -109,7 +109,16 @@ const ENTRIES: Array[Dictionary] = [
 	{
 		"path": "uid://dqvhy2uty2seb",
 		"name": "Cosmetic Glow"
-	}
+	},
+	{"divider": "Miscellaneous"},
+	{
+		"path": "uid://4neiv211rec6",
+		"name": "Item Stage Manager",
+	},
+	{
+		"path": "uid://d0066k548lth5",
+		"name": "Baby Creator Helper",
+	},
 ]
 
 ## Set by plugin.gd right after instantiation — needed to read the editor
