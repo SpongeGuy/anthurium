@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bs06n3lj8bn1s"]
+
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="1_xhspr"]
+
+[node name="Hitbox" type="Area2D" unique_id=530098828 node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("1_xhspr")
+collision_shape = NodePath("CollisionShape2D")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=89117285]

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://dqo7ynomdlqrv"]
+
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="1_8bo64"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="2_3rpxl"]
+[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/movement/locomotion_handler.gd" id="3_xyyyu"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="4_7bkjl"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="5_v7hv6"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="6_nknaj"]
+
+[node name="Node" type="Node" unique_id=543663287]
+
+[node name="Brain" type="Node" parent="." unique_id=619245698]
+script = ExtResource("1_8bo64")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=908570387]
+script = ExtResource("2_3rpxl")
+
+[node name="LocomotionHandler" type="Node" parent="." unique_id=2002083260]
+script = ExtResource("3_xyyyu")
+
+[node name="FacingComponent" type="Node" parent="." unique_id=672545623]
+script = ExtResource("4_7bkjl")
+
+[node name="AbilityManager" type="Node" parent="." unique_id=163530709]
+script = ExtResource("5_v7hv6")
+
+[node name="InputComponent" type="Node" parent="." unique_id=1369484501]
+script = ExtResource("6_nknaj")

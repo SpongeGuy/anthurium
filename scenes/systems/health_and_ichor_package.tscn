@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://britq7hc1nr0f"]
+
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="1_ghwga"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="2_6wv43"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="3_qomb4"]
+[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="4_g0378"]
+
+[node name="Node" type="Node" unique_id=435903770]
+
+[node name="HealthComponent" type="Node" parent="." unique_id=879424821]
+script = ExtResource("1_ghwga")
+
+[node name="IchorComponent" type="Node" parent="." unique_id=1251577121]
+script = ExtResource("2_6wv43")
+
+[node name="DamageAnimationComponent" type="Node" parent="." unique_id=873897815]
+script = ExtResource("3_qomb4")
+
+[node name="LifespanComponent" type="Node" parent="." unique_id=243345640]
+script = ExtResource("4_g0378")

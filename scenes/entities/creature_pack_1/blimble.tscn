@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bkulehu0m4qv0" path="res://assets/textures/characters/blimble.png" id="2_us2uy"]
 [ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_54avv"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="3_ve6na"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="4_quomg"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="4_quomg"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="5_m5spg"]
 [ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="6_ptsdo"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_sofh0"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="20_bt4x6"]
 [ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="20_f4hbb"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="20_m2h6w"]
-[ext_resource type="Script" uid="uid://u3rkjnmvpauy" path="res://scripts/components/movement/normal_locomotion_handler.gd" id="21_bt4x6"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="21_m2h6w"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="22_6tbtn"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="23_bt4x6"]
@@ -30,6 +29,8 @@
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="25_yaau6"]
 [ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="26_haym0"]
 [ext_resource type="Script" uid="uid://cvunw8u3r5f0x" path="res://scripts/components/DropFoodOnDeathComponent.gd" id="27_yaau6"]
+[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/movement/locomotion_handler.gd" id="30_54mgb"]
+[ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="31_haym0"]
 
 [sub_resource type="Resource" id="Resource_5o62f"]
 script = ExtResource("2_6g3fk")
@@ -92,6 +93,10 @@ script = ExtResource("25_yaau6")
 particle_profile = ExtResource("25_i2sl0")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
+[sub_resource type="Resource" id="Resource_ypaju"]
+script = ExtResource("31_haym0")
+metadata/_custom_type_script = "uid://c4d730vfuwdfd"
+
 [node name="Blimble" type="CharacterBody2D" unique_id=1608561587 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 collision_layer = 2
@@ -140,11 +145,10 @@ script = ExtResource("6_ptsdo")
 lifespan = 200.0
 metadata/_custom_type_script = "uid://cx8kdl1vaiqo"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=1671372834 node_paths=PackedStringArray("collision_shape", "knockback")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=1671372834 node_paths=PackedStringArray("collision_shape")]
 position = Vector2(0, -3)
 script = ExtResource("7_sofh0")
 collision_shape = NodePath("CollisionShape2D")
-knockback = NodePath("")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1813180517]
@@ -153,7 +157,7 @@ shape = SubResource("CircleShape2D_rdnpe")
 [node name="PhysicsComponent" type="Node" parent="." unique_id=191969310 node_paths=PackedStringArray("locomotion")]
 script = ExtResource("8_m5spg")
 base_friction = 600.0
-locomotion = NodePath("../NormalLocomotionHandler")
+locomotion = NodePath("../LocomotionHandler")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1204885185]
@@ -167,12 +171,6 @@ path_postprocessing = 1
 script = ExtResource("20_m2h6w")
 navigation = NodePath("../NavigationAgent2D")
 metadata/_custom_type_script = "uid://bcbkki6gbrkma"
-
-[node name="NormalLocomotionHandler" type="Node" parent="." unique_id=192459719 node_paths=PackedStringArray("input")]
-script = ExtResource("21_bt4x6")
-input = NodePath("../InputComponent")
-speed = 25.0
-metadata/_custom_type_script = "uid://u3rkjnmvpauy"
 
 [node name="FacingComponent" type="Node" parent="." unique_id=1168899791]
 script = ExtResource("22_6tbtn")
@@ -199,3 +197,9 @@ script = ExtResource("27_yaau6")
 health = NodePath("../health/HealthComponent")
 ichor = NodePath("../health/IchorComponent")
 metadata/_custom_type_script = "uid://cvunw8u3r5f0x"
+
+[node name="LocomotionHandler" type="Node" parent="." unique_id=658103593 node_paths=PackedStringArray("input")]
+script = ExtResource("30_54mgb")
+input = NodePath("../InputComponent")
+speed = 35.0
+profile = SubResource("Resource_ypaju")

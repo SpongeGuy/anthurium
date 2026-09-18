@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://bg2bks2clcl4r" path="res://assets/resources/effects/default_death_effect.tres" id="13_6fsyk"]
 [ext_resource type="Script" uid="uid://pk4ddbhgpjrr" path="res://scripts/resources/entity_effect/EntityEffectSpawnEntity.gd" id="14_cwlqp"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="15_sr8b0"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="16_8irq0"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="16_8irq0"]
 [ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/visibility_component.gd" id="17_ix60f"]
 [ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="18_tmgpo"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="19_ufee0"]

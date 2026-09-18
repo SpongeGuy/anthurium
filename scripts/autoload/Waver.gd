@@ -1,6 +1,8 @@
 extends Node
 # AUTOLOAD AS WaveManager
 
+const SPAWN_TRIES: int = 100
+
 var max_waves: int
 var current_wave: int = -1
 
@@ -31,7 +33,13 @@ func start_next_wave() -> void:
 	current_wave += 1
 	_spawn_wave(current_wave)
 
-
+func get_spawn_position() -> Vector2i:
+	for i in range(SPAWN_TRIES):
+		var pos = Vector2i(randi_range(0, WorldGrid.width - 1), randi_range(0, WorldGrid.height - 1))
+		if WorldGrid.get_cell(pos).type.terrain == CellType.TerrainType.GROUND:
+			return pos
+	Log.warn("Could not find safe position, spawning at world center!")
+	return WorldGrid.get_center()
 
 func _spawn_wave(wave_index: int) -> void:
 	_alive_entities.clear()
@@ -41,8 +49,10 @@ func _spawn_wave(wave_index: int) -> void:
 	var spawn_list: Array[StringName] = _config.build_spawn_list(budget)
 
 	for entity_name in spawn_list:
+		#randomize()
 		var pos: Vector2 = _config.get_spawn_position()
-		var entity: Entity = EntityManager.spawn_safely(entity_name, pos)
+		#pos = Vector2i(randi_range(0, WorldGrid.width), randi_range(0, WorldGrid.height))
+		var entity: Entity = EntityManager.spawn_safely(entity_name, WorldGrid.tile_to_world(pos))
 		if entity:
 			_track_entity(entity)
 

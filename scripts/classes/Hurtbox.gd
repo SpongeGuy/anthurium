@@ -36,6 +36,9 @@ func _enter_tree() -> void:
 		set_active(true)
 	else:
 		set_active(false)
+		
+	var new_collider: CollisionShape2D = CollisionShape2D.new()
+	add_child(new_collider)
 
 func _ready() -> void:
 	name = "Hurtbox"

@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://k4ssad524jt" path="res://scripts/states/deprecated/anthurium/AnthuriumStateBeatHeart.gd" id="8_thl81"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="9_kbcs1"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="9_thl81"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="10_f3e47"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="10_f3e47"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="10_yhkju"]
 [ext_resource type="Resource" uid="uid://saohn2kqqqjs" path="res://assets/resources/voices/heartbeat.tres" id="11_ip3k0"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="12_t2y4i"]

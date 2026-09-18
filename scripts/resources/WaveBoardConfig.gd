@@ -5,7 +5,6 @@ class_name WaveBoardConfig
 @export var base_point_budget: int = 10
 @export var point_budget_growth: float = 1.3 # budget compounds per wave
 
-const SPAWN_TRIES: int = 100
 
 @export var creature_point_values: Dictionary[StringName, int] = {
 	"blimble": 1,
@@ -32,10 +31,12 @@ func build_spawn_list(budget: int) -> Array[StringName]:
 		remaining -= creature_point_values[choice]
 	return list
 	
+const SPAWN_TRIES: int = 100
 func get_spawn_position() -> Vector2i:
+	randomize()
 	for i in range(SPAWN_TRIES):
 		var pos = Vector2i(randi_range(0, WorldGrid.width - 1), randi_range(0, WorldGrid.height - 1))
-		if WorldGrid.get_cell(pos).type.terrain != CellType.TerrainType.GROUND:
+		if WorldGrid.get_cell(pos).type.terrain == CellType.TerrainType.GROUND:
 			return pos
 	Log.warn("Could not find safe position, spawning at world center!")
 	return WorldGrid.get_center()

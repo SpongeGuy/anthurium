@@ -8,7 +8,6 @@ class_name PhysicsComponent
 @export_range(0, 1) var restitution: float = 0.4
 @export var min_bounce_speed: float = 40.0
 @export var max_speed: float = 1000.0
-@export var world_interface: WorldInterface
 @export var locomotion: LocomotionHandler
 
 @export var knockback_minimum_force: float = 0.0
@@ -79,8 +78,7 @@ func _apply_friction(delta: float) -> void:
 	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, deceleration * delta)
 	
 func _handle_cell_terrain(_delta: float) -> void:
-	if not world_interface:
-		return
+	pass
 		
 		
 func _update_z_collision_exceptions() -> void:

@@ -46,6 +46,12 @@ signal entity_initialized
 var basename: StringName
 var is_initialized: bool = false
 
+## used in resolving attribution chains when trying to determine the causality of events
+## if an entity is spawning a projectile or explosion, set owned_by to that entity
+## it is up to your discretion if you want to set an owner to living entities, this could cause some unintended behavior
+## or it could be funy haha :)))))
+var owned_by: Entity = null
+
 
 func _ready() -> void:
 	basename = get_basename()
@@ -284,21 +290,10 @@ func set_z_value(value: float) -> void:
 
 @export_category("Hiding")
 @export var hide_in_invisible_cells: bool = true
-@export var nodes: Array[Node2D]
 
 func set_visibility(to: bool) -> void:
 	visible = to
 	visibility_changed.emit(to)
-	
-	if to == true:
-		for node in nodes:
-			node.visible = true
-	else:
-		for node in nodes:
-			node.visible = false
-
-func register_visibility_node(node: Node2D) -> void:
-	nodes.append(node)
 
 
 

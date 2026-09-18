@@ -15,7 +15,7 @@
 [ext_resource type="Script" uid="uid://cqfik1k3sk2jr" path="res://scripts/resources/entity_effect/EntityEffectScreenShake.gd" id="13_vqm7m"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="14_vwlqu"]
 [ext_resource type="Resource" uid="uid://7h5cwokaxdwi" path="res://assets/resources/voices/chomp.tres" id="15_yti1s"]
-[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="16_f4744"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="16_f4744"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="17_cp65d"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="18_f18nu"]
 [ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="20_thnh3"]

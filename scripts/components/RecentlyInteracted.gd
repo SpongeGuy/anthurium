@@ -74,13 +74,12 @@ static func _follow_owner_chain(e: Entity) -> Entity:
 			break
 		visited.append(current)
 		
-		var owned_by: OwnedBy = current.get_component(OwnedBy) as OwnedBy
-		if owned_by and owned_by.owner_entity and owned_by.owner_entity != current:
-			current = owned_by.owner_entity
+		if current.owned_by:
+			current = current.owned_by
 		else:
 			break
 			
 	# only return a root entity, one with no OwnedBy or an expired/null owner
 	# a root entity is a "real" actor, not a projectile or effect
-	var has_owner: bool = current.has_component(OwnedBy)
+	var has_owner: bool = current.owned_by != null
 	return current if not has_owner else null

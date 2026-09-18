@@ -55,6 +55,7 @@ func start_new_game_instance() -> void:
 	WorldGrid.init_grid(16, 16)
 	DungeonGenerator.generate()
 	
+	_make_test_land()
 	Waver.configure(_build_board_config())
 	Waver.wave_complete.connect(_on_wave_complete)
 	Waver.start_next_wave()
@@ -105,9 +106,9 @@ func _initialize_player(tile_pos: Vector2i) -> void:
 ## References an outdated [WorldGrid] API ([code]set_rectangle[/code]) and is
 ## not currently wired up to run.
 func _make_test_land() -> void:
-	var cell: CellData = CellData.new()
-	cell.terrain = CellType.TerrainType.GROUND
-	WorldGrid.set_rectangle(Vector2i(0, 0), Vector2i(64, 64), cell)
+	for x in range(WorldGrid.width):
+		for y in range(WorldGrid.height):
+			WorldGrid.set_cell_type(Vector2i(x, y), "ground_soil")
 	
 ## Spawns a [code]&"test_tree"[/code] entity on [param tile_pos]. Reserved
 ## for anthurium-specific world setup.

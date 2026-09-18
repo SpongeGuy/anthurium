@@ -4,7 +4,7 @@ class_name PathfindStepWandererState
 @export var navigation: NavigationHelper
 @export var facing: FacingComponent
 @export var input: InputComponent
-@export var locomotion: StepLocomotionHandler
+@export var locomotion: LocomotionHandler
 @export var exit_state: BehaviorState
 @export var sound: VoiceProfile = preload("res://assets/resources/voices/step.tres")
 

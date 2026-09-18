@@ -2,7 +2,7 @@ extends Component
 class_name LocomotionHandler
 
 @export var input: InputComponent
-@export var speed: float = 500.0
+@export var speed: float = 75.0
 @export var profile: LocomotionProfile
 @export var disabled: bool = false
 

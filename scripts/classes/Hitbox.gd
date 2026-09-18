@@ -4,7 +4,7 @@ class_name Hitbox
 var entity: Entity
 @export var collision_shape: CollisionShape2D
 @export var friends: FriendComponent
-@export var knockback: KnockbackComponent
+@export var physics: PhysicsComponent
 @export var damage_response: Dictionary[Hurtbox.DamageType, DamageResponses] = {
 	Hurtbox.DamageType.GENERIC: DamageResponses.DAMAGE,
 	Hurtbox.DamageType.PROJECTILE: DamageResponses.DAMAGE,
@@ -32,7 +32,10 @@ enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 
 signal hit_received(damage_amount: float, source: Node2D)
 
-
+func _enter_tree() -> void:
+	var new_collider: CollisionShape2D = CollisionShape2D.new()
+	add_child(new_collider)
+	
 
 func _ready() -> void:
 	name = "Hitbox"
@@ -66,7 +69,7 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 		return
 	if not _hits_by_height(hurtbox):
 		return
-	if knockback:
-		knockback.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
+	if physics:
+		physics.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
 	hit_received.emit(hurtbox.damage, hurtbox.entity)
 	EventBus.behavior_stimulus_event.emit(GameEvent.Stimulus.DAMAGE_TAKEN, {"damage": hurtbox.damage, "target": entity})

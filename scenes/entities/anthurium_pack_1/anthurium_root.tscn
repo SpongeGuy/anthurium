@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="12_o0w1n"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="13_c0j0q"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="14_wivth"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="15_hsm17"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="15_hsm17"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="16_b88gh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]

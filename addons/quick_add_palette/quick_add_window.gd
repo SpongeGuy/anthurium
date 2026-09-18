@@ -9,19 +9,30 @@ extends Window
 ## blank. Section breaks below are placeholders — group/label them however
 ## makes sense to you.
 const ENTRIES: Array[Dictionary] = [
+	{"divider": "Packages"},
+	{
+		"path": "uid://britq7hc1nr0f",
+		"name": "Health Package",
+		"description": "has health, ichor, damage animation, and lifespan"
+	},
+	{
+		"path": "uid://dqo7ynomdlqrv",
+		"name": "Behavior Package",
+		"description": "has brain, physics, locomotion, facing, ability manager, and input",
+	},
 	{"divider": "Stats"},
 	{
-		"path": "res://scripts/components/health_component.gd",
+		"path": "uid://rhl072pc6k5q",
 		"name": "Health Component",
 		"description": "Tracks HP, handles damage and death.",
 	},
 	{
-		"path": "res://scripts/components/ichor_component.gd",
+		"path": "uid://cfrmrclnx8ldt",
 		"name": "Ichor Component",
 		"description": "Tracks an entity's ichor pool, including senescence-driven capacity decay.",
 	},
 	{
-		"path": "res://scripts/components/damage_animation_component.gd",
+		"path": "uid://bfeyy2elbrj4b",
 		"name": "Damage Animation Component",
 		"description": "Plays a flash/knockback animation when the entity's Hurtbox is hit.",
 	},
@@ -30,13 +41,16 @@ const ENTRIES: Array[Dictionary] = [
 		"name": "Lifespan Component",
 		"description": "Tracks entity age against a lifespan and emits `expired` when it runs out.",
 	},
+	{
+		"class": "CollisionShape2D"
+	},
 	{"divider": "Combat"},
 	{
-		"path": "uid://dk6vro3btpxyj",
+		"path": "uid://bs06n3lj8bn1s",
 		"name": "Hitbox",
 	},
 	{
-		"path": "uid://d4dkusgurvri8",
+		"path": "uid://dbcds6snlgl8h",
 		"name": "Hurtbox",
 	},
 	{"divider": "Movement & Behavior"},
@@ -57,6 +71,9 @@ const ENTRIES: Array[Dictionary] = [
 		"name": "Facing Component",
 	},
 	{
+		"class": "NavigationAgent2D",
+	},
+	{
 		"path": "uid://bcbkki6gbrkma",
 		"name": "Navigation Helper",
 	},
@@ -68,6 +85,7 @@ const ENTRIES: Array[Dictionary] = [
 		"path": "uid://dmr1e3ur3lqop",
 		"name": "Input Component",
 	},
+	{"divider": "Interaction"},
 	{
 		"path": "uid://cpjm187a6ashx",
 		"name": "Interactor",
@@ -76,7 +94,14 @@ const ENTRIES: Array[Dictionary] = [
 		"path": "uid://dfj8s4mm1ck6t",
 		"name": "Interactable",
 	},
-	{"divider": "Cosmetic Junk"},
+	{
+		"path": "uid://dqikotd5sv8r6",
+		"name": "Interaction Chain Component"
+	},
+	{"divider": "Display"},
+	{
+		"class": "Sprite2D"
+	},
 	{
 		"path": "uid://bkky2iu1meoku",
 		"name": "Jump On Timer",
@@ -183,7 +208,7 @@ func _populate_filtered(filter: String) -> void:
 			current_header = entry["divider"]
 			current_entries = []
 			continue
-		var display_name: String = entry.get("name", entry["path"].get_file().get_basename())
+		var display_name: String = entry.get("name", _default_display_name(entry))   # CHANGED
 		if filter_lower != "" and not display_name.to_lower().contains(filter_lower):
 			continue
 		current_entries.append(entry)
@@ -212,11 +237,11 @@ func _add_header(text: String) -> void:
 
 func _add_section_list(entries: Array[Dictionary]) -> void:
 	var list: ItemList = ItemList.new()
-	list.auto_height = true   # sizes itself to exactly its own row count
+	list.auto_height = true
 	list.add_theme_font_size_override("font_size", 13)
 	for entry in entries:
-		var display_name: String = entry.get("name", entry["path"].get_file().get_basename())
-		list.add_item(display_name, _get_icon(entry["path"]))
+		var display_name: String = entry.get("name", _default_display_name(entry))
+		list.add_item(display_name, _get_icon(entry))
 
 	var index: int = _item_lists.size()
 	list.item_selected.connect(_on_item_selected.bind(index))
@@ -225,6 +250,13 @@ func _add_section_list(entries: Array[Dictionary]) -> void:
 	_rows_container.add_child(list)
 	_item_lists.append(list)
 	_section_entries.append(entries)
+	
+func _default_display_name(entry: Dictionary) -> String:
+	if entry.has("class"):
+		return entry["class"]
+	return _resolve_path(entry["path"]).get_file().get_basename()
+	
+
 
 ## Only one selection across all sections at a time — clicking a row in one
 ## ItemList clears selection in every other one, so the description panel
@@ -236,9 +268,10 @@ func _on_item_selected(row: int, list_index: int) -> void:
 	_show_description(_section_entries[list_index][row])
 
 func _show_description(entry: Dictionary) -> void:
-	var display_name: String = entry.get("name", entry["path"].get_file().get_basename())
+	var display_name: String = entry.get("name", _default_display_name(entry))
 	var description: String = entry.get("description", "")
-	_description_label.text = "[b]%s[/b]\n%s\n[i]%s[/i]" % [display_name, description, entry["path"]]
+	var footer: String = entry.get("class", entry.get("path", ""))
+	_description_label.text = "[b]%s[/b]\n%s\n[i]%s[/i]" % [display_name, description, footer]
 
 func _on_item_activated(row: int, list_index: int) -> void:
 	_activate_entry(_section_entries[list_index][row])
@@ -256,43 +289,80 @@ func _get_bold_font() -> FontVariation:
 ## .tscn reads its root node's type straight off SceneState, .gd reads the
 ## script's base engine type. Falls back to the generic Node icon if the
 ## editor theme has nothing registered for that type.
-func _get_icon(path: String) -> Texture2D:
+func _get_icon(entry: Dictionary) -> Texture2D:
 	var class_str: String = "Node"
-	if path.ends_with(".tscn"):
-		var packed: PackedScene = load(path)
-		if packed:
-			class_str = packed.get_state().get_node_type(0)
-	elif path.ends_with(".gd"):
-		var script: Script = load(path)
-		if script:
-			class_str = script.get_instance_base_type()
+
+	if entry.has("class"):
+		class_str = entry["class"]
+	else:
+		var path: String = entry["path"]
+		var resolved_path: String = _resolve_path(path)
+		if resolved_path.ends_with(".tscn"):
+			var packed: PackedScene = load(path)
+			if packed:
+				class_str = packed.get_state().get_node_type(0)
+		elif resolved_path.ends_with(".gd"):
+			var script: Script = load(path)
+			if script:
+				class_str = script.get_instance_base_type()
 
 	if theme and theme.has_icon(class_str, "EditorIcons"):
 		return theme.get_icon(class_str, "EditorIcons")
 	return editor_interface.get_base_control().get_theme_icon("Node", "EditorIcons")
+
+## Resolves a uid:// string to its real res:// path; passes any other
+## path string through unchanged.
+static func _resolve_path(path: String) -> String:
+	if not path.begins_with("uid://"):
+		return path
+	var resolved: String = ResourceUID.get_id_path(ResourceUID.text_to_id(path))
+	if resolved == "":
+		push_warning("Quick Add: could not resolve UID '%s'" % path)
+	return resolved
 
 ## Double-click handler. Deliberately does NOT hide the window, and
 ## deliberately does NOT select the newly added node — either would make
 ## rapid-fire adds nest under whatever was just added instead of always
 ## landing on the scene root.
 func _activate_entry(entry: Dictionary) -> void:
-	var path: String = entry["path"]
 	var root: Node = editor_interface.get_edited_scene_root()
 	if not root:
 		push_warning("Quick Add: no scene open to add to.")
 		return
 
 	var instance: Node
-	if path.ends_with(".tscn"):
-		instance = load(path).instantiate()
-	else:
-		instance = Node.new()
-		instance.set_script(load(path))
+	var default_name: String
 
-	instance.name = entry.get("name", path.get_file().get_basename()).replace(" ", "")
+	if entry.has("class"):
+		var class_name_str: String = entry["class"]
+		if not ClassDB.class_exists(class_name_str) or not ClassDB.can_instantiate(class_name_str):
+			push_warning("Quick Add: '%s' is not an instantiable engine class." % class_name_str)
+			return
+		instance = ClassDB.instantiate(class_name_str)
+		default_name = class_name_str
+	else:
+		var path: String = entry["path"]
+		var resolved_path: String = _resolve_path(path)
+		if resolved_path.ends_with(".tscn"):
+			instance = load(path).instantiate()
+			default_name = resolved_path.get_file().get_basename()
+		else:
+			var script: Script = load(path)
+			if not script:
+				push_warning("Quick Add: failed to load script at '%s'" % path)
+				return
+			var base_type: String = script.get_instance_base_type()
+			instance = ClassDB.instantiate(base_type)
+			instance.set_script(script)
+			default_name = resolved_path.get_file().get_basename()
+
+	instance.name = entry.get("name", default_name).replace(" ", "")
 
 	root.add_child(instance)
 	_claim_ownership(instance, root)
+
+	if entry.has("path") and _resolve_path(entry["path"]).ends_with(".tscn"):
+		root.set_editable_instance(instance, true)
 
 ## Newly added nodes (and, for .tscn, their whole subtree) need their
 ## owner set to the scene root or they look fine until you save and

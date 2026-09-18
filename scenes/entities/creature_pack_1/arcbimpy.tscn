@@ -25,13 +25,13 @@
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="19_im73k"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="21_nqb72"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/obstruction_detector.gd" id="22_ohxw4"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/damage_animation_component.gd" id="24_inx30"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="24_inx30"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="29_dd80p"]
 [ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="30_5h3r2"]
 [ext_resource type="Script" uid="uid://dyqp5rr3xkiq8" path="res://scripts/components/spawn_alter_terrain.gd" id="31_y1fiq"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/movement/physics_component.gd" id="36_ryjnm"]
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="37_ys8ef"]
-[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="38_ys8ef"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="38_ys8ef"]
 
 [sub_resource type="Resource" id="Resource_qct2f"]
 script = ExtResource("2_qct2f")

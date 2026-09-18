@@ -13,7 +13,7 @@
 [ext_resource type="Script" uid="uid://caol2ehx8v66d" path="res://scripts/components/knockback_component.gd" id="12_iy5re"]
 [ext_resource type="Script" uid="uid://cqfik1k3sk2jr" path="res://scripts/resources/entity_effect/EntityEffectScreenShake.gd" id="12_wmiwl"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="13_8mqv7"]
-[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/recently_interacted.gd" id="14_4kbpg"]
+[ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="14_4kbpg"]
 [ext_resource type="Resource" uid="uid://7h5cwokaxdwi" path="res://assets/resources/voices/chomp.tres" id="14_ob0sk"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="15_4ump7"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="24_e13nj"]
@@ -113,11 +113,10 @@ hframes = 5
 script = ExtResource("9_v2rrg")
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=184775827 node_paths=PackedStringArray("collision_shape", "knockback")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=184775827 node_paths=PackedStringArray("collision_shape")]
 position = Vector2(0, -7)
 script = ExtResource("11_67mhi")
 collision_shape = NodePath("CollisionShape2D")
-knockback = NodePath("../KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2003599846]
