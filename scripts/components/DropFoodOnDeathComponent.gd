@@ -7,7 +7,7 @@ class_name DropFoodOnDeathComponent
 
 
 func _on_registered() -> void:
-	health.died.connect(_on_death)
+	entity.died.connect(_on_death)
 
 
 func _on_death() -> void:

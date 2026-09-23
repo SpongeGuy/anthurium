@@ -1,31 +1,80 @@
 [gd_scene format=3 uid="uid://dxnoh1l8q3kd4"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_bie1m"]
+[ext_resource type="Script" uid="uid://c2e7fr2r4fhvv" path="res://scripts/resources/anthurium/Esoterica.gd" id="2_m5w7m"]
 [ext_resource type="Texture2D" uid="uid://eejufdkyrh8q" path="res://assets/textures/characters/bestguys/maw.png" id="2_y5v5o"]
 [ext_resource type="PackedScene" uid="uid://britq7hc1nr0f" path="res://scenes/systems/health_and_ichor_package.tscn" id="3_m5w7m"]
-[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="4_thpu1"]
-[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="5_wyfbx"]
-[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="6_c7nay"]
-[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="7_6xx87"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="3_thpu1"]
+[ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="7_c0eoy"]
+[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="8_47chc"]
 [ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="8_b3nxo"]
-[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="9_e6o8x"]
-[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="10_6cxo5"]
-[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/LocomotionHandler.gd" id="11_s1fo4"]
-[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="12_aq8kb"]
-[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="13_c3ekd"]
-[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="14_5afec"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="9_a0npe"]
+[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="10_bie1m"]
+[ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="11_y5v5o"]
+[ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="12_47chc"]
+[ext_resource type="Script" uid="uid://dcy4gus5e807s" path="res://scripts/states/StateStopAndAttack.gd" id="12_a0npe"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="15_d7j76"]
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="16_wrme7"]
+[ext_resource type="Script" uid="uid://ysc88eihci7p" path="res://scripts/abilities/AbilitySimpleMelee.gd" id="17_m5w7m"]
+[ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="18_b3nxo"]
+[ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="21_6xx87"]
+[ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="22_b3nxo"]
+
+[sub_resource type="Resource" id="Resource_bie1m"]
+script = ExtResource("2_m5w7m")
+lacuna = 5.0
+metadata/_custom_type_script = "uid://c2e7fr2r4fhvv"
+
+[sub_resource type="Resource" id="Resource_a0npe"]
+script = ExtResource("3_thpu1")
+esoterica_profile = SubResource("Resource_bie1m")
+behavior_class = 1
+consumer_type = 2
+tags = Array[int]([35])
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 radius = 4.1231055
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_stjce"]
-size = Vector2(11, 12)
+[sub_resource type="Resource" id="Resource_yseax"]
+script = ExtResource("8_47chc")
+state_script = ExtResource("10_bie1m")
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
-[node name="Entity" type="CharacterBody2D" unique_id=606427597]
+[sub_resource type="Resource" id="Resource_rg16d"]
+script = ExtResource("11_y5v5o")
+priority = 0.1
+state_name = &"wander"
+blueprint = SubResource("Resource_yseax")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
+
+[sub_resource type="Resource" id="Resource_47chc"]
+script = ExtResource("8_47chc")
+state_script = ExtResource("12_a0npe")
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_ajtoq"]
+script = ExtResource("12_47chc")
+radius = 28.0
+detection_type = 1
+state_name = &"attack"
+blueprint = SubResource("Resource_47chc")
+metadata/_custom_type_script = "uid://b3nsolua7qeea"
+
+[sub_resource type="Resource" id="Resource_lkpdy"]
+script = ExtResource("18_b3nxo")
+metadata/_custom_type_script = "uid://c4d730vfuwdfd"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_euory"]
+size = Vector2(8, 12)
+
+[node name="Maw" type="CharacterBody2D" unique_id=606427597 node_paths=PackedStringArray("visual")]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_bie1m")
+display_name = "Maw"
+visual = NodePath("Sprite2D")
+archetype = SubResource("Resource_a0npe")
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909012095]
@@ -35,58 +84,53 @@ shape = SubResource("CircleShape2D_emcra")
 position = Vector2(0, -8)
 texture = ExtResource("2_y5v5o")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1556267616]
+path_postprocessing = 1
+
+[node name="NavigationHelper" type="Node" parent="." unique_id=687185780 node_paths=PackedStringArray("navigation")]
+script = ExtResource("21_6xx87")
+navigation = NodePath("../NavigationAgent2D")
+
+[node name="Interactor" type="Node" parent="." unique_id=1608384935 node_paths=PackedStringArray("input")]
+script = ExtResource("22_b3nxo")
+input = NodePath("../BehaviorPackage/InputComponent")
+
 [node name="HealthPackage" parent="." unique_id=435903770 instance=ExtResource("3_m5w7m")]
 
-[node name="HealthComponent" type="Node" parent="HealthPackage" unique_id=879424821 node_paths=PackedStringArray("hitbox", "ichor")]
-script = ExtResource("4_thpu1")
+[node name="HealthComponent" parent="HealthPackage" index="0" unique_id=879424821 node_paths=PackedStringArray("hitbox")]
 hitbox = NodePath("../../Hitbox")
-ichor = NodePath("../IchorComponent")
 
-[node name="IchorComponent" type="Node" parent="HealthPackage" unique_id=1251577121 node_paths=PackedStringArray("lifespan")]
-script = ExtResource("5_wyfbx")
-lifespan = NodePath("../LifespanComponent")
-
-[node name="DamageAnimationComponent" type="Node" parent="HealthPackage" unique_id=873897815 node_paths=PackedStringArray("health_component", "sprite")]
-script = ExtResource("6_c7nay")
+[node name="DamageAnimationComponent" parent="HealthPackage" index="2" unique_id=873897815 node_paths=PackedStringArray("health_component", "sprite")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 
-[node name="LifespanComponent" type="Node" parent="HealthPackage" unique_id=243345640]
-script = ExtResource("7_6xx87")
-
 [node name="BehaviorPackage" parent="." unique_id=543663287 instance=ExtResource("8_b3nxo")]
 
-[node name="Brain" type="Node" parent="BehaviorPackage" unique_id=619245698]
-script = ExtResource("9_e6o8x")
+[node name="Brain" parent="BehaviorPackage" index="0" unique_id=619245698]
+lobes = Array[ExtResource("7_c0eoy")]([SubResource("Resource_rg16d"), SubResource("Resource_ajtoq")])
 
-[node name="PhysicsComponent" type="Node" parent="BehaviorPackage" unique_id=908570387 node_paths=PackedStringArray("locomotion")]
-script = ExtResource("10_6cxo5")
+[node name="PhysicsComponent" parent="BehaviorPackage" index="1" unique_id=908570387 node_paths=PackedStringArray("locomotion")]
 locomotion = NodePath("../LocomotionHandler")
 
-[node name="LocomotionHandler" type="Node" parent="BehaviorPackage" unique_id=2002083260 node_paths=PackedStringArray("input")]
-script = ExtResource("11_s1fo4")
+[node name="LocomotionHandler" parent="BehaviorPackage" index="2" unique_id=2002083260 node_paths=PackedStringArray("input")]
 input = NodePath("../InputComponent")
+speed = 35.0
+profile = SubResource("Resource_lkpdy")
 
-[node name="FacingComponent" type="Node" parent="BehaviorPackage" unique_id=672545623]
-script = ExtResource("12_aq8kb")
-
-[node name="AbilityManager" type="Node" parent="BehaviorPackage" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
-script = ExtResource("13_c3ekd")
+[node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
 
-[node name="InputComponent" type="Node" parent="BehaviorPackage" unique_id=1369484501]
-script = ExtResource("14_5afec")
+[node name="AbilitySimpleMelee" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=1368156628]
+script = ExtResource("17_m5w7m")
+metadata/_custom_type_script = "uid://ysc88eihci7p"
 
-[node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("collision_shape", "physics") instance=ExtResource("15_d7j76")]
-script = ExtResource("16_wrme7")
-collision_shape = NodePath("CollisionShape2D")
+[node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("physics") instance=ExtResource("15_d7j76")]
 physics = NodePath("../BehaviorPackage/PhysicsComponent")
-metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=89117285]
-position = Vector2(0.5, -8)
-shape = SubResource("RectangleShape2D_stjce")
+[node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_euory")
 
 [editable path="HealthPackage"]
 [editable path="BehaviorPackage"]

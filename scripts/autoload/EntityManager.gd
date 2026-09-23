@@ -13,7 +13,12 @@ extends Node
 ## a spawn position sideways to find an unoccupied spot.
 const MAX_SPAWN_NUDGE_ATTEMPTS: int = 16
 ## Distance, in pixels, each nudge attempt moves the candidate spawn position.
-const SPAWN_NUDGE_DISTANCE: float = 12.0
+const SPAWN_NUDGE_DISTANCE: float = 16.0
+
+## tiles to search for an unoccupied ground tile before accepting overlap on the nearest one
+const FREE_SEARCH_RADIUS: int = 3
+## min distance (px) from other entities for a spawn to count as unoccupied
+const SPAWN_CLEARANCE: float = 12
 
 
 # -----------------------------------------------------------------------------------
@@ -57,33 +62,6 @@ func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true, z: fl
 		AudioManager.play_voice(poof_sound, entity)
 	return entity
 	
-## Spawns a [code]&"portal"[/code] entity near [param pos], configured with
-## [param spawn_table] (duplicated so each portal has its own copy). Finds a
-## safe ground position near [param pos] and nudges away from any occupied
-## spot before placing it.
-func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
-	var portal: Entity = _instantiate_entity(&"portal")
-	var spawner: SpawnTableSpawnerComponent = portal.get_component(SpawnTableSpawnerComponent)
-	spawner.spawn_table = spawn_table.duplicate()
-	
-	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.GROUND)
-	if spawn_pos == Vector2.INF:
-		Log.warn("No safe spawn found near %s, using raw pos" % pos)
-		spawn_pos = pos
-	
-	var attempts: int = 0
-	while _is_position_occupied(spawn_pos) and attempts < MAX_SPAWN_NUDGE_ATTEMPTS:
-		var angle: float = randf() * TAU
-		spawn_pos += Vector2.from_angle(angle) * SPAWN_NUDGE_DISTANCE
-		attempts += 1
-		
-	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
-		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
-	
-	portal.global_position = spawn_pos
-	_add(portal)
-	return portal
-
 ## Spawns [param entity_type] near [param pos], finding a safe ground
 ## position and nudging away from any occupied spot before placing it. Plays
 ## [member poof_sound] unless [param play_sound] is [code]false[/code]. This
@@ -91,30 +69,65 @@ func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
 ## impassable terrain or overlap another entity.
 func spawn_safely(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
 	EventBus.spawn_requested.emit(entity_type, pos)
+	var spawn_pos: Vector2 = _find_spawn_pos(pos)
+	if spawn_pos == Vector2.INF:
+		Log.error("No ground tile available to spawn %s" % entity_type)
+		return null
 	var entity: Entity = _instantiate_entity(entity_type)
 	if not entity:
 		return null
-	var spawn_pos: Vector2 = WorldGrid.get_safe_world_pos(pos, CellType.TerrainType.GROUND)
-	if spawn_pos == Vector2.INF:
-		Log.warn("No safe spawn found near %s, using raw pos" % pos)
-		spawn_pos = pos
-	
-	
-	var attempts: int = 0
-	while _is_position_occupied(spawn_pos) and attempts < MAX_SPAWN_NUDGE_ATTEMPTS:
-		var angle: float = randf() * TAU
-		spawn_pos += Vector2.from_angle(angle) * SPAWN_NUDGE_DISTANCE
-		attempts += 1
-		
-	if attempts >= MAX_SPAWN_NUDGE_ATTEMPTS:
-		Log.warn("Could not find unoccupied spawn near %s after %d attempts" % [pos, attempts])
-	
-	
 	entity.global_position = spawn_pos
 	_add(entity)
 	if play_sound:
 		AudioManager.play_voice(poof_sound, entity)
 	return entity
+	
+## Spawns a [code]&"portal"[/code] entity near [param pos], configured with
+## [param spawn_table] (duplicated so each portal has its own copy). Finds a
+## safe ground position near [param pos] and nudges away from any occupied
+## spot before placing it.
+func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
+	var spawn_pos: Vector2 = _find_spawn_pos(pos)
+	if spawn_pos == Vector2.INF:
+		Log.error("No ground tile available to spawn portal")
+		return null
+	var portal: Entity = _instantiate_entity(&"portal")
+	if not portal:
+		return null
+	var spawner: SpawnTableSpawnerComponent = portal.get_component(SpawnTableSpawnerComponent)
+	spawner.spawn_table = spawn_table.duplicate()	
+	portal.global_position = spawn_pos
+	_add(portal)
+	return portal
+	
+func _find_spawn_pos(desired: Vector2) -> Vector2:
+	var origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))
+	var max_r: int = maxi(WorldGrid.width, WorldGrid.height)
+	var fallback: Vector2 = Vector2.INF # nearest ground tile, even if occupied
+	for r in range(max_r + 1):
+		if r > FREE_SEARCH_RADIUS and fallback != Vector2.INF:
+			break
+		for dx in range(-r, r+1):
+			for dy in range(-r, r+1):
+				if maxi(absi(dx), absi(dy)) != r: # ring only
+					continue
+				var tile: Vector2i = origin + Vector2i(dx, dy)
+				if not _is_ground_tile(tile):
+					continue
+				var world: Vector2 = WorldGrid.tile_to_world(tile)
+				if fallback == Vector2.INF:
+					fallback = world
+				if not _is_position_occupied(world):
+					return world
+	return fallback
+	
+func _is_ground_tile(tile: Vector2i) -> bool:
+	if tile.x < 0 or tile.y < 0 or tile.x >= WorldGrid.width or tile.y >= WorldGrid.height:
+		return false
+	var cell: CellData = WorldGrid.get_cell(tile)
+	return cell != null and cell.type.terrain == CellType.TerrainType.GROUND
+
+
 	
 ## Convenience wrapper around [method spawn_safely] that takes a tile
 ## coordinate instead of a world position.
@@ -135,14 +148,19 @@ func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 ## Returns whether any physics body occupies [param pos] (used to avoid
 ## spawning entities on top of each other).
 func _is_position_occupied(pos: Vector2) -> bool:
-	var space_state: PhysicsDirectSpaceState2D = _entity_container.get_world_2d().direct_space_state
+	# entities spawned earlier this frame aren't in the physics space yet
+	for e: Entity in active_entities:
+		if is_instance_valid(e) and e.global_position.distance_to(pos) < SPAWN_CLEARANCE:
+			return true
+	# other physics bodies
+	if _entity_container == null:
+		return false
 	var query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
 	query.position = pos
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
-	query.collision_mask |= 8
-	var result: Array[Dictionary] = space_state.intersect_point(query)
-	return not result.is_empty()
+	query.collision_mask = 0
+	return not _entity_container.get_world_2d().direct_space_state.intersect_point(query, 1).is_empty()
 	
 # -----------------------------------------------------------------------------------
 # internal
@@ -185,7 +203,7 @@ func _add(e: Entity, z: float = 0) -> void:
 	if WorldGrid.is_world_pos_visible(e.global_position):
 		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
 	
-	Log.debug("Spawned new %s at %s" % [e, e.global_position])
+	#Log.debug("Spawned new %s at %s" % [e, e.global_position])
 
 ## Connected to each entity's [signal Node.tree_exiting]; removes [param e]
 ## from [member active_entities] and emits [signal EventBus.entity_destroyed].

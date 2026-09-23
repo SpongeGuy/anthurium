@@ -7,8 +7,7 @@
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="3_ve6na"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="4_quomg"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="5_m5spg"]
-[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="6_ptsdo"]
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="7_sofh0"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="7_sofh0"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="8_m5spg"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="10_ptsdo"]
 [ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="17_cyct4"]
@@ -121,8 +120,6 @@ shape = SubResource("CircleShape2D_emcra")
 
 [node name="HealthComponent" type="Node" parent="health" unique_id=1798579662 node_paths=PackedStringArray("hitbox", "ichor")]
 script = ExtResource("3_ve6na")
-max_health = 5.0
-health = 5.0
 hitbox = NodePath("../../Hitbox")
 ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
@@ -133,22 +130,17 @@ health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="IchorComponent" type="Node" parent="health" unique_id=234856246 node_paths=PackedStringArray("lifespan")]
+[node name="IchorComponent" type="Node" parent="health" unique_id=234856246]
 script = ExtResource("5_m5spg")
 max_ichor = 20.0
 ichor = 20.0
-lifespan = NodePath("../LifespanComponent")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="LifespanComponent" type="Node" parent="health" unique_id=1156483462]
-script = ExtResource("6_ptsdo")
-lifespan = 200.0
-metadata/_custom_type_script = "uid://cx8kdl1vaiqo"
-
-[node name="Hitbox" type="Area2D" parent="." unique_id=1671372834 node_paths=PackedStringArray("collision_shape")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=1671372834 node_paths=PackedStringArray("collision_shape", "physics")]
 position = Vector2(0, -3)
 script = ExtResource("7_sofh0")
 collision_shape = NodePath("CollisionShape2D")
+physics = NodePath("../PhysicsComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1813180517]

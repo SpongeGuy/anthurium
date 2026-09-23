@@ -45,6 +45,14 @@ var display_name: String = "AbilityName"
 ## Populate this in [method initialize] so [method clean_up] can free them when the ability is removed.
 var created_nodes: Array[Node] = []
 
+## call this when adding nodes to the tree that this ability in particular uses and calls when executing.
+## nodes added this way are correctly cleaned up when the ability is destroyed.
+func create_new_system(scene: PackedScene) -> Node:
+	var new: Node = scene.instantiate()
+	created_nodes.append(new)
+	entity.add_child(new)
+	return new
+
 ## Frees all runtime-created nodes and clears entity and manager references.
 ## Called automatically when the ability is removed or transferred.
 func clean_up() -> void:

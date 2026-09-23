@@ -21,6 +21,7 @@ var has_target: bool = false
 
 func _ready() -> void:
 	navigation.target_reached.connect(_on_target_reached)
+	navigation.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED
 
 func stop_navigation() -> void:
 	navigation.set_target_position(entity.global_position)

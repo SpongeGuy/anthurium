@@ -6,10 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://uviqwdo0634f" path="res://assets/textures/characters/blom_bulb-sheet.png" id="4_xuvll"]
 [ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="5_wqmpv"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="6_qwd8k"]
-[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="7_217re"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="9_gyahl"]
 [ext_resource type="Script" uid="uid://d6cq0g5ot4oc" path="res://scripts/resources/entity_effect/EntityEffectAnimation.gd" id="9_mkwxs"]
-[ext_resource type="Script" uid="uid://cuobnqrp7yfvf" path="res://scripts/states/deprecated/simple/cast_ability_if_enough_ichor.gd" id="9_ppatb"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="9_qicmm"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="10_ppatb"]
 [ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="11_vvi4s"]
@@ -17,12 +14,17 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="13_vvi4s"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="14_c1yd2"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="14_vvi4s"]
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="15_526jv"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="15_526jv"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="15_huaam"]
 [ext_resource type="Resource" uid="uid://dqeaes70nnefx" path="res://assets/resources/voices/alien.tres" id="15_mkwxs"]
 [ext_resource type="Resource" uid="uid://dakoocqbwwomg" path="res://assets/resources/voices/plant_grow.tres" id="16_h0flj"]
 [ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="17_6w5ym"]
-[ext_resource type="Script" uid="uid://cx8kdl1vaiqo" path="res://scripts/components/LifespanComponent.gd" id="22_c1yd2"]
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="23_5ec7a"]
+[ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_6w5ym"]
+[ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="24_x5ibe"]
+[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="25_7jhgd"]
+[ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="26_nbn7m"]
+[ext_resource type="Script" uid="uid://bvq3h1gfyw5af" path="res://scripts/states/StateStopAndCastAbility.gd" id="26_x5ibe"]
 
 [sub_resource type="Resource" id="Resource_suep0"]
 script = ExtResource("2_suep0")
@@ -39,28 +41,10 @@ metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 [sub_resource type="CircleShape2D" id="CircleShape2D_y8n2y"]
 radius = 4.0
 
-[sub_resource type="Resource" id="Resource_qop0p"]
+[sub_resource type="Resource" id="Resource_5ec7a"]
 script = ExtResource("6_qwd8k")
-name = &"open"
-column = 1
-loop = false
+name = &"closed"
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_lc2g5"]
-script = ExtResource("9_mkwxs")
-animation = SubResource("Resource_qop0p")
-metadata/_custom_type_script = "uid://d6cq0g5ot4oc"
-
-[sub_resource type="Resource" id="Resource_gl24v"]
-script = ExtResource("6_qwd8k")
-name = &"close"
-loop = false
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_wm76h"]
-script = ExtResource("9_mkwxs")
-animation = SubResource("Resource_gl24v")
-metadata/_custom_type_script = "uid://d6cq0g5ot4oc"
 
 [sub_resource type="Resource" id="Resource_few4t"]
 script = ExtResource("14_c1yd2")
@@ -80,6 +64,43 @@ metadata/_custom_type_script = "uid://qy3at433r6s0"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 radius = 9.0
+
+[sub_resource type="Resource" id="Resource_6w5ym"]
+script = ExtResource("6_qwd8k")
+name = &"open"
+column = 1
+speed = 5.0
+loop = false
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[sub_resource type="Resource" id="Resource_h0flj"]
+script = ExtResource("9_mkwxs")
+animation = SubResource("Resource_6w5ym")
+metadata/_custom_type_script = "uid://d6cq0g5ot4oc"
+
+[sub_resource type="Resource" id="Resource_hximi"]
+script = ExtResource("23_6w5ym")
+metadata/_custom_type_script = "uid://q8oievajpib8"
+
+[sub_resource type="Resource" id="Resource_mkwxs"]
+script = ExtResource("17_6w5ym")
+parallel = true
+effects = Array[ExtResource("13_h8iho")]([SubResource("Resource_h0flj"), SubResource("Resource_hximi")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
+
+[sub_resource type="Resource" id="Resource_x5ibe"]
+script = ExtResource("25_7jhgd")
+state_script = ExtResource("26_x5ibe")
+effects = Dictionary[StringName, ExtResource("13_h8iho")]({
+&"cast_ability": SubResource("Resource_mkwxs")
+})
+metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+
+[sub_resource type="Resource" id="Resource_c1yd2"]
+script = ExtResource("26_nbn7m")
+state_name = &"produce"
+blueprint = SubResource("Resource_x5ibe")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [node name="Entity" type="CharacterBody2D" unique_id=987241771 node_paths=PackedStringArray("visual")]
 collision_layer = 2
@@ -104,27 +125,8 @@ shape = SubResource("CircleShape2D_y8n2y")
 [node name="SpriteAnimator" type="Node" parent="." unique_id=1639254581 node_paths=PackedStringArray("sprite")]
 script = ExtResource("5_wqmpv")
 sprite = NodePath("../Sprite2D")
+default_animation = SubResource("Resource_5ec7a")
 metadata/_custom_type_script = "uid://carvudot6oer3"
-
-[node name="StateMachine" type="Node" parent="." unique_id=452831301 node_paths=PackedStringArray("initial_state", "death_state")]
-script = ExtResource("7_217re")
-initial_state = NodePath("StateCastAbilityIfEnoughIchor")
-death_state = NodePath("DeathState")
-metadata/_custom_type_script = "uid://snopn0q86518"
-
-[node name="StateCastAbilityIfEnoughIchor" type="Node" parent="StateMachine" unique_id=842083362 node_paths=PackedStringArray("input_component", "ability_manager", "animator", "ichor_component")]
-script = ExtResource("9_ppatb")
-input_component = NodePath("../../InputComponent")
-ability_manager = NodePath("../../AbilityManager")
-animator = NodePath("../../SpriteAnimator")
-ichor_component = NodePath("../../health/IchorComponent")
-open_effect = SubResource("Resource_lc2g5")
-close_effect = SubResource("Resource_wm76h")
-metadata/_custom_type_script = "uid://cuobnqrp7yfvf"
-
-[node name="DeathState" type="Node" parent="StateMachine" unique_id=570139932]
-script = ExtResource("9_gyahl")
-metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
 
 [node name="AbilityManager" type="Node" parent="." unique_id=1998840827 node_paths=PackedStringArray("ichor_component", "input")]
 script = ExtResource("10_ppatb")
@@ -148,8 +150,6 @@ metadata/_custom_type_script = "uid://dmr1e3ur3lqop"
 
 [node name="HealthComponent" type="Node" parent="health" unique_id=527008711 node_paths=PackedStringArray("hitbox", "ichor")]
 script = ExtResource("14_vvi4s")
-max_health = 5.0
-health = 5.0
 hitbox = NodePath("../../Hitbox")
 ichor = NodePath("../IchorComponent")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
@@ -160,17 +160,11 @@ health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="IchorComponent" type="Node" parent="health" unique_id=2119751128 node_paths=PackedStringArray("lifespan")]
+[node name="IchorComponent" type="Node" parent="health" unique_id=2119751128]
 script = ExtResource("9_qicmm")
 ichor = 29.0
 reduction_per_second = -3.0
-lifespan = NodePath("../LifespanComponent")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
-
-[node name="LifespanComponent" type="Node" parent="health" unique_id=515928257]
-script = ExtResource("22_c1yd2")
-lifespan = 30.0
-metadata/_custom_type_script = "uid://cx8kdl1vaiqo"
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1142437226 node_paths=PackedStringArray("collision_shape")]
 position = Vector2(0, -3)
@@ -180,3 +174,7 @@ metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1535408448]
 shape = SubResource("CircleShape2D_emcra")
+
+[node name="Brain" type="Node" parent="." unique_id=1427268963]
+script = ExtResource("23_5ec7a")
+lobes = Array[ExtResource("24_x5ibe")]([SubResource("Resource_c1yd2")])

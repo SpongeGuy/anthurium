@@ -41,7 +41,8 @@ UiController="*uid://pmgi17orx2e7"
 GameInterface="*uid://d4myfbotj4m52"
 AnthuriumInterface="*uid://bqqf3kkn3ad37"
 MusicController="*uid://s3f234v7vm1e"
-Waver="*uid://xxmimb4gpi12"
+SpawnManager="*uid://xxmimb4gpi12"
+RunRng="*uid://dtogeyftd4ovl"
 
 [display]
 

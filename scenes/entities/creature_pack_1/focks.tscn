@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_7d0cd"]
 [ext_resource type="Texture2D" uid="uid://b0spj6h1gkhif" path="res://assets/textures/characters/focks.png" id="2_e1qh5"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="2_tkxpy"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="4_e47js"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="4_jwlga"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="5_xoj7o"]
 [ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/LocomotionHandler.gd" id="7_ypaju"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="8_tkxpy"]
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="12_mutx0"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="12_qcr3t"]
 [ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
@@ -34,6 +35,12 @@
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="35_1cjm5"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="36_4npmj"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="36_vl5tg"]
+
+[sub_resource type="Resource" id="Resource_m5w7m"]
+script = ExtResource("2_tkxpy")
+behavior_class = 2
+consumer_type = 2
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2pk5b"]
 size = Vector2(9, 8)
@@ -97,6 +104,7 @@ motion_mode = 1
 script = ExtResource("1_7d0cd")
 display_name = "jacob"
 visual = NodePath("Visual/Main")
+archetype = SubResource("Resource_m5w7m")
 nodes_to_translate = [NodePath("HitDetection/Hitbox")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
@@ -120,8 +128,6 @@ metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "ichor")]
 script = ExtResource("4_jwlga")
-max_health = 5.0
-health = 5.0
 hitbox = NodePath("../../HitDetection/Hitbox")
 ichor = NodePath("../Ichor")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
@@ -143,6 +149,7 @@ metadata/_custom_type_script = "uid://bm176fnqfiea6"
 [node name="LocomotionHandler" type="Node" parent="Movement" unique_id=2123880979 node_paths=PackedStringArray("input")]
 script = ExtResource("7_ypaju")
 input = NodePath("../../InputComponent")
+speed = 50.0
 profile = SubResource("Resource_1cjm5")
 metadata/_custom_type_script = "uid://bmipqa5sa8rwt"
 

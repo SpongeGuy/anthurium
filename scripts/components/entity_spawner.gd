@@ -11,8 +11,7 @@ var _spawned: bool = false
 func spawn_at(position: Vector2) -> void:
 	_spawned = false
 	for i in range(entities_to_spawn.size()):
-		if randf() < spawn_chance[i]:
-			randomize()
+		if GameInterface.random.randf() < spawn_chance[i]:
 			EntityManager.spawn(entities_to_spawn[i], position)
 			_spawned = true
 			

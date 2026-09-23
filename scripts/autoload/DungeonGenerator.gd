@@ -19,8 +19,7 @@ var min_cave_ratio: float = 0.015
 ## rooms" and excluded from the main, tunnel-connected cave network.
 var hidden_room_max_ratio: float = 0.2
 
-## RNG used for all generation randomness; seeded per-call in [method generate].
-var _rng := RandomNumberGenerator.new()
+
 ## Reserved for future room-placement logic; currently unused by the cave
 ## generation path.
 var _rooms: Array[Rect2i] = []
@@ -35,12 +34,7 @@ var hidden_room_max_size: int = 300
 ## caves, stamps a solid border, and flushes the result to [WorldGrid] for
 ## rendering. Emits [signal EventBus.terrain_generated_successfully] when
 ## done.
-func generate(sed: int = -1) -> void:
-	if sed >= 0:
-		_rng.seed = sed
-	else:
-		_rng.randomize()
-	
+func generate(rng: RandomNumberGenerator) -> void:
 	_rooms.clear()
 	
 	var total_tiles: int = WorldGrid.width * WorldGrid.height
@@ -48,8 +42,8 @@ func generate(sed: int = -1) -> void:
 	hidden_room_max_size = roundi(total_tiles * hidden_room_max_ratio)
 
 	_fill_walls()
-	_cellular_automata_pass()
-	_cull_and_connect_caves()
+	_cellular_automata_pass(rng)
+	_cull_and_connect_caves(rng)
 	_enforce_border()
 	WorldGrid.flush_all()
 	EventBus.terrain_generated_successfully.emit()
@@ -66,13 +60,13 @@ func _fill_walls() -> void:
 ## Randomly seeds the grid as ~60% wall / 40% ground, then runs [param iterations]
 ## passes of a 4-8 cellular automata rule (a tile becomes wall if 5+ of its
 ## 8 neighbors are wall) to smooth the noise into organic-looking caves.
-func _cellular_automata_pass(iterations: int = 4) -> void:
+func _cellular_automata_pass(rng: RandomNumberGenerator, iterations: int = 4) -> void:
 	var wall: CellType = CellTypeRegistry.get_cell_type(&"wall_stone")
 	var ground: CellType = CellTypeRegistry.get_cell_type(&"ground_soil")
 
 	for y in WorldGrid.height:
 		for x in WorldGrid.width:
-			WorldGrid.get_cell(Vector2i(x, y)).type = wall if _rng.randf() < 0.6 else ground
+			WorldGrid.get_cell(Vector2i(x, y)).type = wall if rng.randf() < 0.6 else ground
 
 	for _i in iterations:
 		var next: Dictionary[Vector2i, CellType.TerrainType] = {}
@@ -97,6 +91,7 @@ func _cellular_automata_pass(iterations: int = 4) -> void:
 func _drunk_walk(
 	from: Vector2i,
 	to: Vector2i,
+	rng: RandomNumberGenerator,
 	cell_type: CellType = null,
 	mirror_x: bool = false,
 	mirror_y: bool = false,
@@ -111,12 +106,12 @@ func _drunk_walk(
 		if pos == to:
 			break
 		var dir: Vector2i
-		if _rng.randf() < drunk_directness:
+		if rng.randf() < drunk_directness:
 			var diff = to - pos
 			dir = Vector2i(sign(diff.x), 0) if abs(diff.x) >= abs(diff.y) \
 				  else Vector2i(0, sign(diff.y))
 		else:
-			dir = _random_cardinal_dir()
+			dir = _random_cardinal_dir(rng)
 		pos = (pos + dir).clamp(Vector2i(1, 1), Vector2i(WorldGrid.width - 2, WorldGrid.height - 2))
 
 ## Sets the tile at [param pos] to [param cell_type], plus its mirrored
@@ -181,7 +176,7 @@ func _component_center(component: Array) -> Vector2i:
 ## [member hidden_room_max_size]) sorted biggest-first, and connects each
 ## consecutive pair of main caves with a [method _drunk_walk] tunnel between
 ## their centers.
-func _cull_and_connect_caves() -> void:
+func _cull_and_connect_caves(rng: RandomNumberGenerator) -> void:
 	var wall: CellType = CellTypeRegistry.get_cell_type(&"wall_stone")
 	var components = _find_connected_components()
 	components.sort_custom(func(a, b): return a.size() > b.size())
@@ -201,7 +196,7 @@ func _cull_and_connect_caves() -> void:
 				break
 
 	for i in range(main_caves.size() - 1):
-		_drunk_walk(_component_center(main_caves[i]), _component_center(main_caves[i + 1]))
+		_drunk_walk(_component_center(main_caves[i]), _component_center(main_caves[i + 1]), rng)
 
 ## Stamps a solid stone-wall border around the full extent of the grid.
 func _enforce_border() -> void:
@@ -227,6 +222,6 @@ func _overlaps_any_room(candidate: Rect2i, padding: int = 0) -> bool:
 	return false
 
 ## Returns a random cardinal direction as a [Vector2i] unit step.
-func _random_cardinal_dir() -> Vector2i:
+func _random_cardinal_dir(rng: RandomNumberGenerator) -> Vector2i:
 	var dirs = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
-	return dirs[_rng.randi() % dirs.size()]
+	return dirs[rng.randi() % dirs.size()]

@@ -16,6 +16,8 @@ class_name BrainStateBlueprint
 
 
 func instantiate(entity: Entity, brain: Brain) -> BrainState:
+	if not state_script:
+		Log.error("State script not defined for entity type '%s'!" % entity.basename, true)
 	var state: BrainState = state_script.new(entity, brain)
 	state.effects = effects.duplicate()
 	if is_container and state is ContainerState:

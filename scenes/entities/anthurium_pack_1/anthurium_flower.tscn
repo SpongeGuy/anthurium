@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://dftw2gd37h5b5" path="res://scripts/components/anthurium/HeartbeatReceptor.gd" id="3_1evqo"]
 [ext_resource type="Script" uid="uid://cxu85t50kno5x" path="res://scripts/components/anthurium/BloomPotentialComponent.gd" id="4_tiu7f"]
 [ext_resource type="Script" uid="uid://dx4y3y4q3fynx" path="res://scripts/components/anthurium/BloomThresholdComponent.gd" id="5_1evqo"]
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="6_8e733"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="6_8e733"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="7_qh5js"]
 [ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="8_6pyw3"]
 [ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/states/deprecated/simple/blank_state.gd" id="9_31024"]

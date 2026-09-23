@@ -13,12 +13,16 @@ class_name DamageAnimationComponent
 const FLASH_SHADER_PATH = "res://assets/resources/shaders/hit_flash.gdshader"
 var _flash_material: ShaderMaterial
 
+var base_sprite_position: Vector2
+
 var flash_tween: Tween
 var shake_tween: Tween
 
 func _ready() -> void:
 	if health_component:
 		health_component.taken_damage.connect(_on_damaged)
+		
+	base_sprite_position = sprite.position
 	
 		
 func _on_damaged(amount: float, source: Node2D) -> void:
@@ -41,11 +45,11 @@ func _play_hit_shake(direction: Vector2) -> void:
 	shake_tween.tween_method(
 		func(t: float):
 			var decay: float = 1.0 - t
-			var offset: Vector2 = direction * amplitude * decay * sin(t * duration * frequency * TAU)
+			var offset: Vector2 = direction * amplitude * decay * sin(t * duration * frequency * TAU) + base_sprite_position
 			sprite.position = offset,
 		0.0, 1.0, duration
 	)
-	shake_tween.tween_callback(func(): sprite.position = Vector2.ZERO)
+	shake_tween.tween_callback(func(): sprite.position = base_sprite_position)
 
 func _play_hit_flash() -> void:
 	if not sprite: return

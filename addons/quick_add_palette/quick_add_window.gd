@@ -13,7 +13,7 @@ const ENTRIES: Array[Dictionary] = [
 	{
 		"path": "uid://britq7hc1nr0f",
 		"name": "Health Package",
-		"description": "has health, ichor, damage animation, and lifespan"
+		"description": "has health, ichor, damage animation"
 	},
 	{
 		"path": "uid://dqo7ynomdlqrv",
@@ -35,11 +35,6 @@ const ENTRIES: Array[Dictionary] = [
 		"path": "uid://bfeyy2elbrj4b",
 		"name": "Damage Animation Component",
 		"description": "Plays a flash/knockback animation when the entity's Hurtbox is hit.",
-	},
-	{
-		"path": "uid://cx8kdl1vaiqo",
-		"name": "Lifespan Component",
-		"description": "Tracks entity age against a lifespan and emits `expired` when it runs out.",
 	},
 	{
 		"class": "CollisionShape2D"
@@ -378,5 +373,7 @@ func _activate_entry(entry: Dictionary) -> void:
 ## reload the scene, then silently vanish.
 func _claim_ownership(node: Node, root: Node) -> void:
 	node.owner = root
+	if node.scene_file_path != "":
+		return
 	for child in node.get_children():
 		_claim_ownership(child, root)

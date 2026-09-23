@@ -26,6 +26,8 @@ func set_stage(value: int) -> void:
 	animator.play_and_reset_animation(animations[stage])
 	
 func set_correct_stage(current_value: float, max_value: float) -> void:
+	if max_value == 0:
+		set_stage(0)
 	var ratio: float = current_value / max_value
 	var correct_stage: int = floor(stages * ratio)
 	set_stage(correct_stage)

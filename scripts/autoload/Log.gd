@@ -51,8 +51,10 @@ func warn(message: String) -> void:
 	
 ## Logs [param message] at [constant LogType.ERROR]. Also raises an editor
 ## error via [method @GlobalScope.push_error].
-func error(message: String) -> void:
+func error(message: String, critital: bool = false) -> void:
 	_log(LogType.ERROR, message)
+	if critital:
+		assert(false, message)
 	
 ## Formats and emits a single log line if [param type] meets
 ## [member min_level], colorizing by severity and writing to

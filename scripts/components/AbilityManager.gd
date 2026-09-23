@@ -110,8 +110,10 @@ func swap_slots(slot_a: int, slot_b: int) -> void:
 		return
 	abilities[slot_a] = b
 	abilities[slot_b] = a
-	abilities[slot_a].slot = slot_a
-	abilities[slot_b].slot = slot_b
+	if abilities.get(slot_a):
+		abilities[slot_a].slot = slot_a
+	if abilities.get(slot_b):
+		abilities[slot_b].slot = slot_b
 	_emit_slot_changed(slot_a, b)
 	_emit_slot_changed(slot_b, a)
 	

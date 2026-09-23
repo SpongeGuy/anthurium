@@ -43,9 +43,7 @@ func set_player(entity: Entity) -> void:
 	facing = player.get_component(FacingComponent)
 	player_set.emit(player)
 	
-	var health: HealthComponent = player.get_component(HealthComponent)
-	if health:
-		health.died.connect(_on_player_death)
+	player.died.connect(_on_player_death)
 	
 ## Polls the action/modifier/interact inputs and movement axis each frame
 ## and forwards them to the current player's [InputComponent] and
@@ -74,7 +72,7 @@ func control_player(_delta: float) -> void:
 	if facing:
 		facing.set_direction_vector(input.move_input_direction)
 	
-## Connected to the player's [HealthComponent.died]; logs the death and
+## Connected to the player's Entity.died; logs the death and
 ## emits [signal player_died].
 func _on_player_death() -> void:
 	Log.debug("Player %s died." % player)

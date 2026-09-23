@@ -8,7 +8,6 @@ class_name LobeMakeBaby
 
 func get_priority(entity: Entity) -> float:
 	var ichor: IchorComponent = entity.get_component(IchorComponent)
-	var lifespan: LifespanComponent = entity.get_component(LifespanComponent)
 	var baby_maker: CreateBabyComponent = entity.get_component(CreateBabyComponent)
 	
 	var lifespan_bonus: float = 0.0

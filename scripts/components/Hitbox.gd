@@ -44,6 +44,11 @@ func _ready() -> void:
 	collision_layer |= 1 << 6
 	area_entered.connect(_on_hurtbox_contact)
 	entity = Entity.find_entity(self)
+	
+	if not physics:
+		physics = entity.get_component(PhysicsComponent)
+	if not friends:
+		friends = entity.get_component(FriendComponent)
 
 ## Returns whether this hitbox's damage volume vertically overlaps
 ## [param hurtbox]'s, using each side's owning entity's live [member Entity.z]

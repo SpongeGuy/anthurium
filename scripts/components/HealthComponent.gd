@@ -1,15 +1,14 @@
 extends Component
 class_name HealthComponent
 
-@export var max_health: float
-@export var health: float
+@export var max_health: float = 5
+@export var health: float = 5
 @export var hitbox: Hitbox ## not mandatory
 
 @export var death_effect: EntityEffect = preload("uid://bg2bks2clcl4r")
 
 
 signal taken_damage(amount: float, source: Entity)
-signal died()
 signal health_changed(value: float, max_value: float)
 
 @export_category("Invincibility")
@@ -78,5 +77,5 @@ func die() -> void:
 	
 	if death_effect:
 		death_effect.execute(entity)
-	died.emit()
+	entity.died.emit()
 	entity.queue_free()

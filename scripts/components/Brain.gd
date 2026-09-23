@@ -6,7 +6,7 @@ class_name Brain
 
 func _on_registered() -> void:
 	_memory_data.resize(Memory.size())
-	_randomize_personality()
+	_randomize_personality(RunRng.get_stream(&"personality"))
 	for lobe in lobes:
 		top_machine.add_state(lobe.state_name, lobe.blueprint.instantiate(entity, self))
 
@@ -78,10 +78,9 @@ var personality: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
 enum PERSONALITY{AGGRESSION, BRAVERY, DOMINANCE, ENERGY, NERVOUS, SYMPATHY}
 
-func _randomize_personality() -> void:
-	randomize()
+func _randomize_personality(rng: RandomNumberGenerator) -> void:
 	for i in personality.size():
-		personality[i] = snapped(randf(), 0.001)
+		personality[i] = snapped(rng.randf(), 0.001)
 
 func get_personality_value(cat: PERSONALITY) -> float:
 	return personality[cat]

@@ -11,39 +11,78 @@ extends Node
 # utilizes all system nodes
 # -----------------------------------------------------------
 
-## Gameplay tileset, currently unused directly in this script's reachable
-## code but loaded for use elsewhere.
-var tile_set: TileSet = load("uid://ofx275c8vgy4")
-## Visual/decorative tileset, currently unused directly in this script's
-## reachable code but loaded for use elsewhere.
-var visual_tile_set: TileSet = load("uid://b43hq6wx88hsl")
-
-
-## Current run's Opal score.
-var opal_score: int = 0
-## Current run's Aura score.
-var aura_score: int = 0
-## Every anthurium core entity currently tracked this run.
-var anthurium_cores: Array[Entity]
-## Reference to the active world node, currently unused beyond its
-## declaration.
-var world: Node2D
-
 ## Whether a game instance is currently active (set by
 ## [method start_new_game_instance]).
 var game_instance_active: bool = false
 
+var main_creatures_pool: SpawnManager.SpawnPool
+var plants_pool: SpawnManager.SpawnPool
 
+var level: int = 0
 
-## Starts a fresh game instance (see [method start_new_game_instance]) and
-## additionally spawns and hands control to a player entity at tile
-## [code](16, 16)[/code].
-func start_new_game_instance_with_player() -> void:
+const NORMAL_WAVES: WaveSet = preload('uid://dvioo24e0vs44')
+const PLANT_WAVES: WaveSet = preload("uid://c3yueget5go6v")
+
+func _ready() -> void:
+	SpawnManager.wave_complete.connect(_on_wave_complete)
+	SpawnManager.all_waves_complete.connect(_on_all_waves_complete)
+
+func reset(new_seed: int) -> void:
+	game_instance_active = false
+	level = 0
+	RunRng.start_run(new_seed)
+
+func start_new_run(new_seed: int) -> void:
+	reset(new_seed)
+	start_next_level()
+
+func start_daily_run() -> void:
+	start_new_run(daily_seed())
+
+func daily_seed() -> int:
+	var d: Dictionary = Time.get_date_dict_from_system(true) # UTC: same day for everyone
+	return d.year * 10000 + d.month * 100 + d.day # e.g. 20260921
+
+func start_next_level() -> void:
+	SpawnManager.clear_pools()
+	level += 1
+	RunRng.start_level(level)
 	start_new_game_instance()
-	_initialize_player(Vector2i(5, 5))
-	
-	#_make_test_land()
-	#_spawn_losers()
+	_initialize_player(WorldGrid.get_random_ground_tile(RunRng.get_stream(&"player_spawn")))
+
+	var main_waves: Array[SpawnWave] = _waves_for_level(level)
+	if main_waves.is_empty():
+		# empty pool -> instant all_waves_complete -> start_next_level -> infinite recursion
+		push_error("Main pool has no waves for level %d" % level)
+		return
+	main_creatures_pool = SpawnManager.create_new_pool(main_waves, level, RunRng.derive_seed(&"pool_main"))
+	plants_pool = SpawnManager.create_new_pool(PLANT_WAVES.waves, level, RunRng.derive_seed(&"pool_plants"))
+	SpawnManager.start_next_wave(main_creatures_pool)
+	SpawnManager.start_next_wave(plants_pool)
+
+func _waves_for_level(lvl: int) -> Array[SpawnWave]:
+	var waves: Array[SpawnWave] = []
+	waves.assign(NORMAL_WAVES.waves)
+	return waves
+
+func _on_wave_complete(pool: SpawnManager.SpawnPool, _wave_index: int) -> void:
+	await get_tree().create_timer(2.0).timeout
+	if pool in SpawnManager.active_pools:
+		SpawnManager.start_next_wave(pool)
+		
+func _on_all_waves_complete(pool: SpawnManager.SpawnPool) -> void:
+	if not pool == main_creatures_pool:
+		return
+	start_next_level()
+
+func _initialize_player(tile_pos: Vector2i) -> void: # dropped the no-op await
+	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
+	var entity: Entity = EntityManager.spawn_as_player(&"focks", player_spawn)
+	CameraController.set_camera_target(entity)
+	CameraController.go_instantly_to(entity.global_position)
+
+
+
 
 ## Resets and generates a new world: emits
 ## [signal EventBus.starting_new_game], marks the instance active,
@@ -53,26 +92,21 @@ func start_new_game_instance() -> void:
 	EventBus.starting_new_game.emit()
 	game_instance_active = true
 	WorldGrid.init_grid(16, 16)
-	DungeonGenerator.generate()
-	
 	_make_test_land()
-	Waver.configure(_build_board_config())
-	Waver.wave_complete.connect(_on_wave_complete)
-	Waver.start_next_wave()
+	#DungeonGenerator.generate(RunRng.get_stream(&"terrain_generation"))
+	
+	
 	
 func start_new_demo_instance() -> void:
 	start_new_game_instance()
-	
-	#_spawn_losers()
+	_spawn_losers()
 	
 
-func _on_wave_complete(wave_index: int) -> void:
-	Waver.start_next_wave()
+
+
 	
-func _build_board_config() -> WaveBoardConfig:
-	var cfg: WaveBoardConfig = WaveBoardConfig.new()
-	cfg.max_waves = randi_range(3, 6)
-	return cfg
+	
+
 	
 
 # --------------------------------------
@@ -80,26 +114,25 @@ func _build_board_config() -> WaveBoardConfig:
 # --------------------------------------
 	
 func _spawn_losers() -> void:
-	EntityManager.spawn_safely(&"blom_bulb", Vector2(300, 300), false)
-	EntityManager.spawn_safely(&"meat_shank", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
-	
-## Spawns a [code]&"focks"[/code] entity as the player at [param tile_pos]
-## and snaps the camera to it.
-func _initialize_player(tile_pos: Vector2i) -> void:
-	var player_spawn: Vector2 = WorldGrid.tile_to_world(tile_pos)
-	var entity: Entity = EntityManager.spawn_as_player(&"focks", player_spawn)
-	CameraController.set_camera_target(entity)
-	CameraController.go_instantly_to(entity.global_position)
-	
-	await get_tree().process_frame
+	#EntityManager.spawn_safely(&"blom_bulb", Vector2(300, 300), false)
+	#EntityManager.spawn_safely(&"meat_shank", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	#EntityManager.spawn_safely(&"blimble", Vector2(250, 300), false)
+	EntityManager.spawn_safely(&"maw", Vector2(50, 50))
+	EntityManager.spawn_safely(&"splitmaw", Vector2(50, 50))
+	EntityManager.spawn_safely(&"blargle", Vector2(50, 50))
+	EntityManager.spawn_safely(&"gnawlfy", Vector2(50, 50))
+	EntityManager.spawn_safely(&"klicklack", Vector2(50, 50))
+	EntityManager.spawn_safely(&"porcule", Vector2(50, 50))
+	EntityManager.spawn_safely(&"hardhat", Vector2(50, 50))
+	EntityManager.spawn_safely(&"skippa", Vector2(50, 50))
+
 	
 	
 ## Test helper for flooding a rectangular region with ground terrain.

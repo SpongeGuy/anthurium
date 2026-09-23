@@ -41,6 +41,9 @@ var _components: Dictionary[Script, Array] = {}
 ## Emitted after all components have been registered and the entity is ready.
 signal entity_initialized
 
+## Emitted when the entity's health reaches zero.
+signal died
+
 ## The filename of the scene this entity was instantiated from, without extension.
 ## Useful for identifying entity types at runtime without hardcoding class names.
 var basename: StringName
@@ -135,6 +138,24 @@ static func find_entity(node: Node) -> Entity:
 func get_visual() -> CanvasItem:
 	return visual
 
+# ------------------------------------------
+# age
+# ----------------------------------------
+@export_category("Lifespan")
+@export var ages: bool = true
+@export var age: float = 0.0
+@export var lifespan: float = -1
+
+signal expired
+
+func _process(delta: float) -> void:
+	if ages:
+		_accumulate_age(delta)
+
+func _accumulate_age(delta: float) -> void:
+	age += delta
+	if age >= lifespan:
+		expired.emit()
 
 
 # ---------------------------------------------------
@@ -189,6 +210,8 @@ func _initialize_z_drive() -> void:
 	if render_shadow:
 		shadow = s.instantiate()
 		self.add_child(shadow)
+		if not visual:
+			Log.error("No visual node set on entity type '%s'" % basename, true)
 		shadow_base_size = (visual.texture.get_width() / visual.hframes)
 		shadow.set_shadow_size(shadow_base_size)
 		shadow.set_shadow_alpha(0.65)
@@ -318,3 +341,6 @@ func resolve_visibility(cell: CellData) -> void:
 	
 	if not cell.invisible and visible == false:
 		set_visibility(true)
+
+
+

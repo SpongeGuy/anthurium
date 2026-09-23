@@ -110,6 +110,23 @@ func get_cell(coords: Vector2i) -> CellData:
 	
 func get_center() -> Vector2i:
 	return Vector2i(floor(width / 2), floor(height / 2))
+	
+func get_random_coords_of_type(terrain_type: CellType.TerrainType, rng: RandomNumberGenerator) -> Vector2i:
+	var matches: Array[Vector2i] = []
+	for x in width:
+		for y in height:
+			var pos: Vector2i = Vector2i(x, y)
+			if get_cell(pos).type.terrain == terrain_type:
+				matches.append(pos)
+	if matches.is_empty():
+		return get_center()
+	return matches[rng.randi_range(0, matches.size() - 1)]
+
+	
+func get_random_ground_tile(rng: RandomNumberGenerator) -> Vector2i:
+	return get_random_coords_of_type(CellType.TerrainType.GROUND, rng)
+
+	
 
 ## Replaces the cell at [param coords] with [param cell] wholesale. Marks
 ## the new cell invisible if it falls outside currently visible tiles,

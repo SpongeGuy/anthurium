@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="WaveSet" format=3 uid="uid://cem2qd3vmjd3o"]
+
+[ext_resource type="Script" uid="uid://dwivcyqx204eg" path="res://scripts/resources/SpawnWaveSet.gd" id="1_hmvci"]
+[ext_resource type="Script" uid="uid://iykaf5mwac81" path="res://scripts/resources/SpawnWave.gd" id="2_at2ef"]
+[ext_resource type="Script" uid="uid://dr2l6sckxjbi" path="res://scripts/resources/SpawnEntry.gd" id="3_at2ef"]
+
+[sub_resource type="Resource" id="Resource_q1d75"]
+script = ExtResource("3_at2ef")
+entity_id = &"maw"
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_l0jou"]
+script = ExtResource("3_at2ef")
+entity_id = &"splitmaw"
+cost = 2
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_876ed"]
+script = ExtResource("2_at2ef")
+entries = Array[ExtResource("3_at2ef")]([SubResource("Resource_q1d75"), SubResource("Resource_l0jou"), null, null, null, null])
+metadata/_custom_type_script = "uid://iykaf5mwac81"
+
+[resource]
+script = ExtResource("1_hmvci")
+waves = Array[ExtResource("2_at2ef")]([SubResource("Resource_876ed")])
+metadata/_custom_type_script = "uid://dwivcyqx204eg"

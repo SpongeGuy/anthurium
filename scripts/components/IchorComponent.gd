@@ -5,6 +5,7 @@ class_name IchorComponent
 @export var ichor: float = 100.0
 @export var reduction_per_second: float = 0.1
 @export var max_reduction_per_second: float = 0.05
+@export var organic_offset_strength: float = 0.3
 @export_category("Diffusion")
 @export var diffusion_rate: float = 0.3
 @export var reserved_ichor: float = 0.0
@@ -18,22 +19,27 @@ class_name IchorComponent
 @export_range(0, 1) var senescence_floor: float = 0.0
 
 var base_max_ichor: float
-@export var lifespan: LifespanComponent
+
+var _ichor_noise: FastNoiseLite = FastNoiseLite.new()
 
 signal ichor_changed(value: float, max_value: float)
 
 func _on_registered() -> void:
 	base_max_ichor = max_ichor
+	_ichor_noise.seed = RunRng.derive_seed(&"entity")
+	_ichor_noise.frequency = 0.5
 
 
 func _process(delta: float) -> void:
-	if lifespan:
-		var age_fraction: float = clampf(lifespan.age / lifespan.lifespan, 0.0, 1.0)
+	if entity.ages:
+		var age_fraction: float = clampf(entity.age / entity.lifespan, 0.0, 1.0)
 		var vitality: float = senescence_curve.sample(age_fraction) if senescence_curve else (1.0 - age_fraction)
 		max_ichor = base_max_ichor * lerpf(senescence_floor, 1.0, vitality)
 		if ichor > max_ichor:
 			set_ichor(ichor)
-	subtract_ichor(reduction_per_second * delta)
+	var wobble: float = _ichor_noise.get_noise_1d(AppController.time)
+	var offset: float = wobble * reduction_per_second * organic_offset_strength
+	subtract_ichor((reduction_per_second + offset) * (delta))
 	
 	
 func reset_stats(value: float, max_value: float) -> void:

@@ -29,9 +29,9 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -377.8614569842983,
-                  "y": -139.59996345063084,
-                  "zoom": -0.5999999999999999
+                  "x": -358.7031146562824,
+                  "y": 2.79040598610635,
+                  "zoom": -0.19999999999999984
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -42,14 +42,17 @@
             "id": "ba92e09675b44bc7",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "anthurium.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -8993.992267213749,
+                  "y": 6263.005840368211,
+                  "zoom": -1.2000000000000006
+                }
               },
-              "icon": "lucide-file",
-              "title": "anthurium"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           },
           {
@@ -234,7 +237,7 @@
             }
           },
           {
-            "id": "5ff1d80e340a485f",
+            "id": "052a42e2ac1ed7c1",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -265,10 +268,13 @@
   },
   "active": "181dfbdcfab63d9d",
   "lastOpenFiles": [
-    "anthurium.md",
-    "anthurium.canvas",
     "Main.canvas",
+    "worldbuilder/Map.canvas",
+    "mappa.png",
+    "anthurium.md",
+    "Creatures.md",
     "for my capstone/job list 9-1-26.canvas",
+    "anthurium.canvas",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",
     "worldbuilder/The Unfathomed.md",
@@ -286,7 +292,6 @@
     "Projects/anthurium/anthurium.md",
     "Projects/anthurium/_tasks",
     "Projects/anthurium",
-    "Creatures.md",
     "loop.md",
     "Pasted image 20260830012729.png",
     "Untitled.canvas",

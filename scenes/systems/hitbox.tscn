@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bs06n3lj8bn1s"]
 
-[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/classes/Hitbox.gd" id="1_xhspr"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="1_xhspr"]
 
 [node name="Hitbox" type="Area2D" unique_id=530098828 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("1_xhspr")

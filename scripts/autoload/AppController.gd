@@ -103,7 +103,7 @@ func _run_boot_sequence() -> void:
 	UiController.screen.set_message("")
 	for i in range(logo_scenes.size()):
 		await _show_logo(logo_scenes[i], logo_voices[i], 2.5, 0.7, 0.4)
-	await _fade(1.0, 0.6)
+	#await _fade(1.0, 0.6)
 	UiController.screen.set_bg_visible(false)
 	
 	
@@ -200,7 +200,8 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 				GameInterface.start_new_game_instance()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
 			await _wait_for_ui()
-			_fade(0, 1.6)
+			UiController.clear_stages()
+			#_fade(0, 1.6)
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
 			MusicController.play(true)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
@@ -209,10 +210,10 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 		AppStatus.GAME:
 			UiController.clear_stages()
 			MusicController.stop()
-			await _fade(1, 0.6)
-			_fade(1, 0.2)
+			#await _fade(1, 0.6)
+			#_fade(1, 0.2)
 			_initialize_world()
-			GameInterface.start_new_game_instance_with_player()
+			GameInterface.start_new_run(randi())
 			
 			
 			_link_player_death()
@@ -220,10 +221,9 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
-			UiController.remove_stage("title")
 			
 			UiController.hud.set_state(UIHUD.State.BAR)
-			_fade(0, 0.5)
+			#_fade(0, 0.5)
 		AppStatus.GAMEOVER:
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
@@ -296,7 +296,7 @@ func _link_player_death() -> void:
 ## Connected (one-shot) to [signal PlayerManager.player_died]; transitions
 ## the app to [constant AppStatus.GAMEOVER].
 func _on_player_death(_e: Entity) -> void:
-	change_app_state(AppStatus.MENU)
+	change_app_state(AppStatus.GAMEOVER)
 	
 ## Awaits [signal UiController.ui_ready] if [UiController] hasn't finished
 ## retrieving its references yet; otherwise returns immediately.

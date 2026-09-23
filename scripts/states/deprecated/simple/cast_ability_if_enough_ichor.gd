@@ -17,9 +17,12 @@ class_name StateCastAbilityIfEnoughIchor
 var _timer: float
 var _is_open: bool = true
 var _animation_cooldown: float
+
+var rng: RandomNumberGenerator
 ## called once when the state machine does its initial switch to this state
 func enter() -> void:
-	_timer = try_cooldown
+	rng = RunRng.get_stream(&"entity")
+	_timer = try_cooldown + rng.randf_range(-2, 2)
 	ability_manager.ability_cast_successfully.connect(_on_cast_successfully)
 	ability_manager.disable(input)
 	
@@ -49,7 +52,7 @@ func exit() -> void:
 
 func _on_cast_successfully(slot: int) -> void:
 	if slot == input:
-		_timer = try_cooldown
+		_timer = try_cooldown + rng.randf_range(-2, 2)
 		_is_open = true
 		if open_effect:
 			open_effect.execute(state_machine.entity)

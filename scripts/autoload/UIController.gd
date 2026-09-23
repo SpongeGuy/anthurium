@@ -24,8 +24,8 @@ var ui_canvas_layer: CanvasLayer
 ## Named [PackedScene]s that can be instantiated as [UIStage]s via
 ## [method add_stage].
 var ui_scenes: Dictionary[String, PackedScene] = {
-	"title": load("uid://d1bn1no2fwcee"),
-	"floating_square_cutout": load("uid://dd0xlhuktb0p2")
+	"title": preload("uid://d1bn1no2fwcee"),
+	"floating_square_cutout": preload("uid://dd0xlhuktb0p2")
 }
 ## Currently instantiated stages, keyed by the name they were added under.
 var active_ui_scenes: Dictionary[String, UIStage] = {}
@@ -107,6 +107,7 @@ func set_crt_shader_mode(mode: CRT_SHADER_MODES) -> void:
 ## [member ui_scenes], adds it to [member ui_canvas_layer], and tracks it in
 ## [member active_ui_scenes].
 func add_stage(name: String) -> UIStage:
+	Log.debug("Adding stage %s" % name)
 	var new_stage: UIStage = ui_scenes[name].instantiate() as UIStage
 	active_ui_scenes[name] = new_stage
 	ui_canvas_layer.add_child(new_stage)
