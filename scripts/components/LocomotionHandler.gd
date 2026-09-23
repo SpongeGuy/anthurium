@@ -2,12 +2,16 @@ extends Component
 class_name LocomotionHandler
 
 @export var input: InputComponent
+@export var max_speed: float = 100.0
 @export var speed: float = 40.0
 @export var profile: LocomotionProfile
 @export var disabled: bool = false
 
 var velocity: Vector2 = Vector2.ZERO
 var override: bool = false
+
+func set_speed(value: float) -> void:
+	speed = clamp(value, 0.0, max_speed)
 
 var last_velocity: Vector2 = Vector2.ZERO
 

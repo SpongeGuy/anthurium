@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_05e51")
 terrain = 3
-tileset_id = -1
+tileset_id = 3
 tile_mode = 1
 max_health = 0.0
 metadata/_custom_type_script = "uid://qoy5j717o0ok"

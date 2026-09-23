@@ -1,5 +1,5 @@
 extends BrainState
-class_name StateStopAndCastAbilitys
+class_name StateStopAndCastAbility
 
 var ichor: IchorComponent
 var input: InputComponent

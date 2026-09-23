@@ -34,3 +34,6 @@ func _reseed_all() -> void:
 		
 	# safety net: stragglers using the global RNG become at least run-dependent
 	seed(derive_seed(&"global_fallback"))
+
+
+
