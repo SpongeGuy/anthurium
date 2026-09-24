@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource("1_05e51")
 terrain = 3
-tileset_id = 3
+tileset_id = -1
 tile_mode = 1
-max_health = 0.0
+max_health = 99999999.0
+destroyed_type = &"out_of_bounds"
 metadata/_custom_type_script = "uid://qoy5j717o0ok"

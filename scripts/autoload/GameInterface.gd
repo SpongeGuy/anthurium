@@ -20,6 +20,7 @@ var plants_pool: SpawnManager.SpawnPool
 
 var level: int = 0
 
+const ENDLESS_WAVES: WaveSet = preload("uid://cem2qd3vmjd3o")
 const NORMAL_WAVES: WaveSet = preload('uid://dvioo24e0vs44')
 const PLANT_WAVES: WaveSet = preload("uid://c3yueget5go6v")
 
@@ -62,7 +63,7 @@ func start_next_level() -> void:
 
 func _waves_for_level(lvl: int) -> Array[SpawnWave]:
 	var waves: Array[SpawnWave] = []
-	waves.assign(NORMAL_WAVES.waves)
+	waves.assign(ENDLESS_WAVES.waves)
 	return waves
 
 func _on_wave_complete(pool: SpawnManager.SpawnPool, _wave_index: int) -> void:
@@ -93,6 +94,7 @@ func start_new_game_instance() -> void:
 	game_instance_active = true
 	WorldGrid.init_grid(16, 16)
 	_make_test_land()
+	DungeonGenerator._enforce_border()
 	#DungeonGenerator.generate(RunRng.get_stream(&"terrain_generation"))
 	
 	

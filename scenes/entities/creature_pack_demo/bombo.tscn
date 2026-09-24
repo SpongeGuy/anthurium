@@ -8,14 +8,12 @@
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="6_jtcli"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="7_4vcgw"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="8_lfti0"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="9_qer62"]
+[ext_resource type="Script" uid="uid://dqla77e71xqib" path="res://scripts/states/StatePathfindWanderUntilHurt.gd" id="9_qer62"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="10_5jy1q"]
 [ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="11_5jy1q"]
-[ext_resource type="Script" uid="uid://ce6kg3u4n4cim" path="res://scripts/states/StatePathfindWanderThenSwitch.gd" id="11_o38mt"]
-[ext_resource type="Script" uid="uid://datd48f5gcdv" path="res://scripts/lobes/LobeIsHurt.gd" id="11_r6k1o"]
+[ext_resource type="Script" uid="uid://cr00blwj3vmgx" path="res://scripts/states/StatePathfindWanderOccasionallyEffect.gd" id="11_o38mt"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="11_vf10k"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="12_0md4n"]
-[ext_resource type="Script" uid="uid://bvq3h1gfyw5af" path="res://scripts/states/StateStopAndCastAbility.gd" id="12_4vcgw"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="12_4xrl1"]
 [ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="12_jtcli"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="12_vf10k"]
@@ -34,68 +32,55 @@ metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 radius = 4.1231055
 
-[sub_resource type="Resource" id="Resource_yj275"]
+[sub_resource type="Resource" id="Resource_35noe"]
 script = ExtResource("7_4vcgw")
 state_script = ExtResource("9_qer62")
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
-[sub_resource type="Resource" id="Resource_fda74"]
-script = ExtResource("10_5jy1q")
-priority = 0.1
-state_name = &"wander"
-blueprint = SubResource("Resource_yj275")
-metadata/_custom_type_script = "uid://jjlkhibelmw5"
+[sub_resource type="Resource" id="Resource_5vwnp"]
+script = ExtResource("16_vf10k")
+metadata/_custom_type_script = "uid://q8oievajpib8"
 
-[sub_resource type="Resource" id="Resource_lfti0"]
+[sub_resource type="Resource" id="Resource_jtcli"]
 script = ExtResource("12_vf10k")
 particle_profile = ExtResource("11_5jy1q")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
-[sub_resource type="Resource" id="Resource_5jy1q"]
+[sub_resource type="Resource" id="Resource_4vcgw"]
 script = ExtResource("13_4xrl1")
 speed = 80.0
 metadata/_custom_type_script = "uid://3rahci53su3r"
 
-[sub_resource type="Resource" id="Resource_4vcgw"]
+[sub_resource type="Resource" id="Resource_o38mt"]
 script = ExtResource("14_35noe")
 parallel = true
-effects = Array[ExtResource("8_lfti0")]([SubResource("Resource_lfti0"), SubResource("Resource_5jy1q")])
+effects = Array[ExtResource("8_lfti0")]([SubResource("Resource_jtcli"), SubResource("Resource_4vcgw")])
 metadata/_custom_type_script = "uid://qy3at433r6s0"
 
-[sub_resource type="Resource" id="Resource_o38mt"]
+[sub_resource type="Resource" id="Resource_uwg5e"]
 script = ExtResource("7_4vcgw")
 state_script = ExtResource("11_o38mt")
 effects = Dictionary[StringName, ExtResource("8_lfti0")]({
-&"on_enter": SubResource("Resource_4vcgw")
+&"on_enter": SubResource("Resource_o38mt"),
+&"on_timer": SubResource("Resource_5vwnp")
 })
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_vf10k"]
-script = ExtResource("16_vf10k")
-metadata/_custom_type_script = "uid://q8oievajpib8"
 
 [sub_resource type="Resource" id="Resource_4xrl1"]
 script = ExtResource("7_4vcgw")
-state_script = ExtResource("12_4vcgw")
-effects = Dictionary[StringName, ExtResource("8_lfti0")]({
-&"cast_ability": SubResource("Resource_vf10k")
-})
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_5vwnp"]
-script = ExtResource("7_4vcgw")
 state_script = ExtResource("12_jtcli")
 is_container = true
-entry_child = &"run"
-child_names = Array[StringName]([&"run", &"switch"])
-child_states = Array[ExtResource("7_4vcgw")]([SubResource("Resource_o38mt"), SubResource("Resource_4xrl1")])
+entry_child = &"wander"
+child_names = Array[StringName]([&"wander", &"triggered"])
+child_states = Array[ExtResource("7_4vcgw")]([SubResource("Resource_35noe"), SubResource("Resource_uwg5e")])
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
-[sub_resource type="Resource" id="Resource_35noe"]
-script = ExtResource("11_r6k1o")
-state_name = &"hurt"
-blueprint = SubResource("Resource_5vwnp")
-metadata/_custom_type_script = "uid://datd48f5gcdv"
+[sub_resource type="Resource" id="Resource_vf10k"]
+script = ExtResource("10_5jy1q")
+priority = 0.1
+state_name = &"wander"
+blueprint = SubResource("Resource_4xrl1")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [sub_resource type="Resource" id="Resource_fc06j"]
 script = ExtResource("11_vf10k")
@@ -134,7 +119,7 @@ sprite = NodePath("../../Sprite2D")
 [node name="BehaviorPackage" parent="." unique_id=543663287 instance=ExtResource("5_o38mt")]
 
 [node name="Brain" parent="BehaviorPackage" index="0" unique_id=619245698]
-lobes = Array[ExtResource("6_jtcli")]([SubResource("Resource_fda74"), SubResource("Resource_35noe")])
+lobes = Array[ExtResource("6_jtcli")]([SubResource("Resource_vf10k")])
 
 [node name="PhysicsComponent" parent="BehaviorPackage" index="1" unique_id=908570387 node_paths=PackedStringArray("locomotion")]
 locomotion = NodePath("../LocomotionHandler")

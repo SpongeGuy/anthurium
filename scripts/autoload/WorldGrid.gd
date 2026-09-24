@@ -147,11 +147,11 @@ func set_cell(coords: Vector2i, cell: CellData) -> void:
 	if old_cell.type.terrain != cell.terrain and CameraController.target_position and _visible_cells.has(coords):
 		CameraController.reveal_from_camera()
 	
-	if cell.type.terrain == CellType.TerrainType.GROUND:
-		cell.skin = 1
-	else:
-		cell.skin = 0
-		cell.using_random_texture = true
+	#if cell.type.terrain == CellType.TerrainType.GROUND:
+		#cell.skin = 1
+	#else:
+		#cell.skin = 0
+		#cell.using_random_texture = true
 	
 	if _batching:
 		_dirty_cells[coords] = cell

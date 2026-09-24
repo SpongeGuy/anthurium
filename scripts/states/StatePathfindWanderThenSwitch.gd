@@ -11,6 +11,7 @@ var max_wander_radius: float = 100
 
 var _timer: float = 0.0
 var timer_length: float = 3.0
+var timer_base_length: float = 3.0
 
 var rng: RandomNumberGenerator
 
@@ -32,7 +33,7 @@ func enter() -> void:
 	if navigation.is_navigating():
 		navigation.stop_navigation()
 		
-	timer_length = RandomUtil.randomize_float_with_personality(rng, timer_length, 0.5, 1 - brain.get_personality_value(Brain.PERSONALITY.AGGRESSION), 2.0)
+	timer_length = RandomUtil.randomize_float_with_personality(rng, timer_base_length, 0.5, 1 - brain.get_personality_value(Brain.PERSONALITY.AGGRESSION), 2.0)
 	_timer = timer_length
 	play_effect(&"on_enter")
 
@@ -48,7 +49,7 @@ func physics_process(delta: float) -> void:
 	
 	_timer -= delta
 	if _timer <= 0.0:
-		_timer = RandomUtil.randomize_float_with_personality(rng, timer_length, 0.5, 1 - brain.get_personality_value(Brain.PERSONALITY.AGGRESSION), 2.0)
+		_timer = RandomUtil.randomize_float_with_personality(rng, timer_base_length, 0.5, 1 - brain.get_personality_value(Brain.PERSONALITY.AGGRESSION), 2.0)
 		switching = true
 
 func _handle_ai_movement(delta: float) -> void:

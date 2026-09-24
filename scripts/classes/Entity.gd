@@ -341,6 +341,3 @@ func resolve_visibility(cell: CellData) -> void:
 	
 	if not cell.invisible and visible == false:
 		set_visibility(true)
-
-
-

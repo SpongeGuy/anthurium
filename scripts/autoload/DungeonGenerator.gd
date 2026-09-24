@@ -209,7 +209,7 @@ func _enforce_border() -> void:
 
 ## Sets the tile at [param coords] to stone wall.
 func _make_wall(coords: Vector2i) -> void:
-	WorldGrid.set_cell_type(coords, &"wall_stone")
+	WorldGrid.set_cell_type(coords, &"indestructible_wall")
 
 ## Returns whether [param candidate] (grown by [param padding]) overlaps any
 ## room in [member _rooms]. Reserved for future room-based generation;

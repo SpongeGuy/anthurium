@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CellType" format=3 uid="uid://cbvjh8fi8o44b"]
+
+[ext_resource type="Script" uid="uid://qoy5j717o0ok" path="res://scripts/resources/cell/CellType.gd" id="1_oqdlj"]
+
+[resource]
+script = ExtResource("1_oqdlj")
+terrain = 1
+tileset_id = 3
+tile_mode = 1
+max_health = 9999999.0
+height = 999.0
+destroyed_type = &"indestructible_wall"
+metadata/_custom_type_script = "uid://qoy5j717o0ok"
