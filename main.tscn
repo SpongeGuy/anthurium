@@ -97,6 +97,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("10_w48qg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug" unique_id=912685774]
@@ -133,6 +134,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("10_w48qg")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2" unique_id=1335475122]
@@ -168,10 +170,12 @@ offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="UI_HUD" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=2080876964 instance=ExtResource("12_w48qg")]
 offset_top = 360.0
 offset_bottom = 559.9999
+mouse_filter = 1
 
 [node name="UI_Hand" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
 z_index = 10

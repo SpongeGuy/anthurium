@@ -10,5 +10,5 @@ static func randomize_float(rng: RandomNumberGenerator, value: float, offset: fl
 	return value + rng.randf_range(-offset, offset)
 	
 static func randomize_float_with_personality(rng: RandomNumberGenerator, value: float, offset: float, p_value: float, p_multiplier: float = 1.0) -> float:
-	var markiplier: float = p_value * p_multiplier
+	var markiplier: float = max(p_value * p_multiplier, 0.05)
 	return (value + rng.randf_range(-offset, offset)) * markiplier

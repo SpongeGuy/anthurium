@@ -244,6 +244,9 @@ func _apply_z_offset() -> void:
 	_last_broadcast_z = z
 	z_updated.emit(z)
 	
+func is_on_ground() -> bool:
+	return z <= 0
+	
 func _update_terrain_collision_layers() -> void:
 	if not collide_with_terrain:
 		collision_mask &= ~(SpatialUtil.PhysicsLayers.TERRAIN | SpatialUtil.PhysicsLayers.TERRAIN_LOW)

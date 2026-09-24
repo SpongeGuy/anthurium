@@ -37,10 +37,6 @@ script = ExtResource("7_4vcgw")
 state_script = ExtResource("9_qer62")
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
-[sub_resource type="Resource" id="Resource_5vwnp"]
-script = ExtResource("16_vf10k")
-metadata/_custom_type_script = "uid://q8oievajpib8"
-
 [sub_resource type="Resource" id="Resource_jtcli"]
 script = ExtResource("12_vf10k")
 particle_profile = ExtResource("11_5jy1q")
@@ -56,6 +52,10 @@ script = ExtResource("14_35noe")
 parallel = true
 effects = Array[ExtResource("8_lfti0")]([SubResource("Resource_jtcli"), SubResource("Resource_4vcgw")])
 metadata/_custom_type_script = "uid://qy3at433r6s0"
+
+[sub_resource type="Resource" id="Resource_5vwnp"]
+script = ExtResource("16_vf10k")
+metadata/_custom_type_script = "uid://q8oievajpib8"
 
 [sub_resource type="Resource" id="Resource_uwg5e"]
 script = ExtResource("7_4vcgw")

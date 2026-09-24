@@ -15,9 +15,45 @@ entity_id = &"splitmaw"
 cost = 2
 metadata/_custom_type_script = "uid://dr2l6sckxjbi"
 
+[sub_resource type="Resource" id="Resource_o46h6"]
+script = ExtResource("3_at2ef")
+entity_id = &"blargle"
+weight = 0.5
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_85msr"]
+script = ExtResource("3_at2ef")
+entity_id = &"gnawlfy"
+cost = 3
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_p8i6v"]
+script = ExtResource("3_at2ef")
+entity_id = &"bombo"
+cost = 2
+weight = 0.4
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_ym6hq"]
+script = ExtResource("3_at2ef")
+entity_id = &"hardhat"
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_p5hf7"]
+script = ExtResource("3_at2ef")
+entity_id = &"porcule"
+cost = 3
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
+[sub_resource type="Resource" id="Resource_x1186"]
+script = ExtResource("3_at2ef")
+entity_id = &"skippa"
+metadata/_custom_type_script = "uid://dr2l6sckxjbi"
+
 [sub_resource type="Resource" id="Resource_876ed"]
 script = ExtResource("2_at2ef")
-entries = Array[ExtResource("3_at2ef")]([SubResource("Resource_q1d75"), SubResource("Resource_l0jou"), null, null, null, null])
+entries = Array[ExtResource("3_at2ef")]([SubResource("Resource_q1d75"), SubResource("Resource_l0jou"), SubResource("Resource_o46h6"), SubResource("Resource_85msr"), SubResource("Resource_p8i6v"), SubResource("Resource_ym6hq"), SubResource("Resource_p5hf7"), SubResource("Resource_x1186")])
+loop = true
 metadata/_custom_type_script = "uid://iykaf5mwac81"
 
 [resource]

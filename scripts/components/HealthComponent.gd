@@ -12,7 +12,7 @@ signal taken_damage(amount: float, source: Entity)
 signal health_changed(value: float, max_value: float)
 
 @export_category("Invincibility")
-@export var invincibility_length: float = 0.05
+@export var invincibility_length: float = 0.1
 var _invincibility_timer: float = 0.0
 @export var god_mode: bool = false
 

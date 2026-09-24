@@ -21,6 +21,7 @@ func enter() -> void:
 	if navigation.is_navigating():
 		navigation.stop_navigation()
 		
+		
 	play_effect(&"on_enter")
 
 func exit() -> void:
@@ -47,3 +48,4 @@ func _handle_ai_movement(delta: float) -> void:
 ## called every tick by the owning StateMachine after physics_process
 func get_transition() -> StringName:
 	return &""
+

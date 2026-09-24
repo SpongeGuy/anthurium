@@ -3,24 +3,24 @@ class_name AbilitySimpleMelee
 
 var simple_melee_scene: PackedScene = load("uid://vdp42k0mrf4n")
 
+@export var radius: float = 8.0
 @export var damage: float = 1.0
+@export var offset: float = 10.0
 
-var rotator: Node2D
 var hurtbox: Hurtbox
 var facing: FacingComponent
 
 func initialize() -> void:
-	rotator = create_new_system(simple_melee_scene)
-	hurtbox = rotator.find_child("Hurtbox")
-	if not hurtbox:
-		Log.error("fuck", true)
-		
-	hurtbox.damage = damage
+	hurtbox = Hurtbox.new(damage)
+	hurtbox.create_circular_collision_shape(radius, offset)
+	
+	entity.add_child(hurtbox)
+	register_new_system(hurtbox)
 	
 	facing = entity.get_component(FacingComponent)
 
 func _physics_process(delta: float) -> void:
-	rotator.rotation = facing.get_direction_angle()
+	hurtbox.set_rotation(facing.get_direction_angle())
 	
 ## actually execute the ability
 ## this is where custom logic for the ability will go

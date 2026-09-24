@@ -46,8 +46,19 @@ func _ready() -> void:
 	collision_layer |= 7
 	collision_mask |= 6
 	entity = Entity.find_entity(self)
+	
+## creates and adds a collision shape to the hurtbox.
+## useful when programmatically creating new hurtboxes, like in [Ability].
+func create_circular_collision_shape(r: float, offset: float = 0.0) -> void:
+	var collision: CollisionShape2D = CollisionShape2D.new()
+	collision.shape = CircleShape2D.new()
+	collision.shape.radius = r
+	collision.position.x = offset
+	add_child(collision)
+	collision_shape = collision
 
-
+func _init(hurtbox_damage: float) -> void:
+	damage = hurtbox_damage
 		
 func set_active(value: bool) -> void:
 	collision_shape.disabled = !value

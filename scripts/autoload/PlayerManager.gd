@@ -31,7 +31,6 @@ signal player_died(entity: Entity)
 ## any) to [method _on_player_death]. Emits [signal player_set].
 func set_player(entity: Entity) -> void:
 	if player:
-		player.get_component(StateMachine).enable()
 		input.player_controlled = false
 		player = null
 		input = null

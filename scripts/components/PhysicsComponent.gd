@@ -15,7 +15,7 @@ class_name PhysicsComponent
 
 ## Maximum speed (px/s) at which overlapping entities are nudged apart.
 const OVERLAP_SEPARATION_SPEED: float = 1500.0
-## Minimum penetration depth (px) ebfore the separation nudge activates.
+## Minimum penetration depth (px) before the separation nudge activates.
 const OVERLAP_DEPTH_THRESHOLD: float = 1.0
 
 var physics_velocity: Vector2 = Vector2.ZERO
@@ -32,24 +32,28 @@ func _physics_process(delta: float) -> void:
 	if disabled:
 		return
 	physics_update(delta)
-	
+
 func physics_update(delta: float) -> void:
 	_update_z_collision_exceptions()
 	_apply_forces(delta)
-	_apply_friction(delta)
-	_handle_cell_terrain(delta)
-	
-		
+
+	# raw locomotion output before any terrain effect
 	var locomotion_velocity: Vector2 = locomotion.velocity if locomotion else Vector2.ZERO
+
+	if entity.is_on_ground():
+		_apply_friction(delta)
+		# friction_coefficient now acts as traction: low-traction terrain
+		# (ice, etc.) scales down movement speed, not just momentum decay.
+		locomotion_velocity *= friction_coefficient
+		_handle_cell_terrain(delta)
+
 	var pre_slide_velocity: Vector2 = physics_velocity
 	var pre_slide_full: Vector2 = physics_velocity + locomotion_velocity
-		
+
 	entity.velocity = pre_slide_full
 	entity.move_and_slide()
 	physics_velocity = entity.velocity - locomotion_velocity
-	
-	
-	
+
 	_handle_collisions(pre_slide_velocity, pre_slide_full)
 
 func clear_velocity() -> void:
@@ -60,7 +64,7 @@ func apply_impulse(direction: Vector2, magnitude: float) -> void:
 
 func apply_force(direction: Vector2, magnitude: float) -> void:
 	_accumulated_force += direction.normalized() * magnitude
-	
+
 func apply_knockback(source_position: Vector2, force: float) -> void:
 	var scaled_force: float = force * knockback_scale
 	if scaled_force < knockback_minimum_force:
@@ -72,15 +76,14 @@ func _apply_forces(delta: float) -> void:
 	physics_velocity += (_accumulated_force / entity.mass) * delta
 	_accumulated_force = Vector2.ZERO
 	physics_velocity = physics_velocity.limit_length(max_speed)
-	
+
 func _apply_friction(delta: float) -> void:
 	var deceleration: float = base_friction * friction_coefficient * (1.0 / entity.mass)
 	physics_velocity = physics_velocity.move_toward(Vector2.ZERO, deceleration * delta)
-	
+
 func _handle_cell_terrain(_delta: float) -> void:
 	pass
-		
-		
+
 func _update_z_collision_exceptions() -> void:
 	if not entity.is_initialized:
 		return
@@ -89,7 +92,7 @@ func _update_z_collision_exceptions() -> void:
 	var space_state: PhysicsDirectSpaceState2D = entity.get_world_2d().direct_space_state
 	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, 16, SpatialUtil.PhysicsLayers.CREATURES)
 	var still_relevant: Dictionary[Entity, bool] = {}
-	
+
 	for other in nearby:
 		if other == entity or not is_instance_valid(other):
 			continue
@@ -102,14 +105,14 @@ func _update_z_collision_exceptions() -> void:
 		elif _z_excepted.has(other):
 			entity.remove_collision_exception_with(other)
 			other.remove_collision_exception_with(entity)
-	
+
 	# clean up anything that fell out of range or got freed
 	for other in _z_excepted.keys():
 		if not still_relevant.has(other):
 			if is_instance_valid(other):
 				entity.remove_collision_exception_with(other)
 				other.remove_collision_exception_with(entity)
-				
+
 	_z_excepted = still_relevant
 
 func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
@@ -117,20 +120,18 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 		var col: KinematicCollision2D = entity.get_slide_collision(i)
 		var normal: Vector2 = col.get_normal()
 		var collider: Object = col.get_collider()
-		
-		
-		
+
 		if collider is StaticBody2D or collider is TileMapLayer:
 			# moving platform support: inherit velocity only from physical surfaces
 			var relative_velocity: Vector2 = col.get_collider_velocity() - physics_velocity
 			var push: float = relative_velocity.dot(normal)
 			if push > 0:
 				physics_velocity += normal * push
-			
+
 			if pre_velocity.length() > min_bounce_speed and pre_velocity.dot(normal) < 0.0:
 				physics_velocity = pre_velocity.bounce(normal) * restitution
 				wall_collision.emit(col.get_collider())
-		 
+
 		elif collider is Entity:
 			# different vertical spans (e.g. a flying entity passing over a
 			# burrowing one) don't push or shove each other. note: this only
@@ -139,38 +140,56 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 			# one-frame graze can still occur. see SpatialUtil.z_ranges_overlap.
 			if not SpatialUtil.z_ranges_overlap(entity.z, entity.height, collider.z, collider.height):
 				continue
-			
+
 			var other_physics: PhysicsComponent = collider.get_component(PhysicsComponent)
 			var into_normal: float = pre_full.dot(normal)
-			
+
 			if other_physics:
 				if into_normal < 0.0:
 					var m1: float = entity.mass
 					var m2: float = collider.mass
 					var is_dominant: bool = m1 > m2 or (m1 == m2 and entity.get_instance_id() < collider.get_instance_id())
-					
+
 					if is_dominant:
 						var total: float = m1 + m2
-						# project both velocities onto the A->B axis
+						# project both velocities onto the A->B axis. use each
+						# side's FULL velocity (physics + locomotion) so an
+						# entity actively walking into another contributes its
+						# real momentum instead of being treated as stationary.
+						var other_locomotion_velocity: Vector2 = other_physics.locomotion.velocity if other_physics.locomotion else Vector2.ZERO
+						var other_full: Vector2 = other_physics.physics_velocity + other_locomotion_velocity
+
 						var axis: Vector2 = -normal
 						var v_a: float = -into_normal
-						var v_b: float = other_physics.physics_velocity.dot(axis)
-						
+						var v_b: float = other_full.dot(axis)
+
 						# generalized restitution formula (e=1: elastic, e=0: inelastic)
 						var e: float = (restitution + other_physics.restitution) * 0.5
 						var new_va: float = (m1 * v_a + m2 * v_b + m2 * e * (v_b - v_a)) / total
 						var new_vb: float = (m1 * v_a + m2 * v_b + m1 * e * (v_a - v_b)) / total
-						
+
 						physics_velocity += axis * (new_va - v_a)
 						other_physics.physics_velocity += axis * (new_vb - v_b)
-						
+
+						# NOTE: this whole branch only runs on the entity whose
+						# own move_and_slide() generated a slide collision this
+						# frame. A near-stationary heavy body being bumped by a
+						# light one may never register its own collision, so
+						# is_dominant == false on the light side means NOTHING
+						# resolves the hit. Fixing this needs symmetric overlap
+						# detection independent of move_and_slide, not a change
+						# here.
 			else:
 				if into_normal < 0.0:
 					physics_velocity -= normal * into_normal
-				
-			# gentle positional separation for deep overlaps (e.g. spawned on top)
+
+			# gentle positional separation for deep overlaps (e.g. spawned on
+			# top). push directly away from the other entity along the
+			# collision normal, scaled by delta and depth so it resolves
+			# smoothly instead of jittering as an unscaled random walk.
 			var depth: float = col.get_depth()
 			if depth > OVERLAP_DEPTH_THRESHOLD:
-				entity.global_position += Vector2.from_angle(randf() * TAU)
-					
+				var separation_delta: float = get_physics_process_delta_time()
+				entity.global_position += normal * min(depth, OVERLAP_SEPARATION_SPEED * separation_delta)
+
 			entity_collision.emit(col.get_collider())

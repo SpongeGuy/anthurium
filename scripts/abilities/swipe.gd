@@ -69,12 +69,11 @@ func initialize() -> void:
 		var collision_shape: CollisionShape2D = CollisionShape2D.new()
 		collision_shape.shape = shape
 		collision_shape.position = Vector2(13, 0)
-		hurtbox = Hurtbox.new()
-		hurtbox.damage = 0.7
+		hurtbox = Hurtbox.new(0.7)
 		hurtbox.collision_shape = collision_shape
 		hurtbox.add_child(collision_shape)
 		
-		created_nodes.append(hurtbox)
+		register_new_system(hurtbox)
 		
 		rotator.add_child(hurtbox)
 		

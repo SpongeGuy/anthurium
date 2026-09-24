@@ -8,3 +8,6 @@ class_name NormalLocomotionProfile
 ## velocity = direction * speed!
 func move(handler: LocomotionHandler, delta: float) -> Vector2:
 	return handler.speed * handler.input.move_input_direction
+
+func handle_step(handler: LocomotionHandler) -> void:
+	pass

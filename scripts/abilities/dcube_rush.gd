@@ -24,17 +24,17 @@ func initialize() -> void:
 	#if not obstruction:
 		#obstruction = entity.get_component(ObstructionDetector)
 	if not hurtbox:
-		hurtbox = Hurtbox.new()
+		hurtbox = Hurtbox.new(50)
 		var shape = RectangleShape2D.new()
 		shape.size = Vector2(18, 18)
 		var collider = CollisionShape2D.new()
 		collider.shape = shape
 		hurtbox.add_child(collider)
 		hurtbox.collision_shape = collider
-		hurtbox.damage = 50
-		
-		created_nodes.append(hurtbox)
 		entity.add_child(hurtbox)
+		
+		register_new_system(hurtbox)
+		
 		hurtbox.set_active(false)
 	if not physics:
 		physics = entity.get_component(PhysicsComponent)

@@ -19,19 +19,22 @@ class_name DebugUIHelper
 var coords: Vector2 = Vector2.ZERO
 var selected_entity: Entity = null
 
-
-func _unhandled_input(event: InputEvent) -> void:
+# change this to _unhandled_input at some point
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		_handle_click()
 
 
 func _handle_click() -> void:
 	var world_pos: Vector2 = CameraController.get_world_mouse_position()
+	print("world_pos")
 	var entity: Entity = _get_entity_at(world_pos)
 	selected_entity = entity  # null if click missed -> unselects
 
 
 func _get_entity_at(world_pos: Vector2) -> Entity:
+	if not AppController.world_2d:
+		return
 	var space = AppController.world_2d.get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
 	query.position = world_pos

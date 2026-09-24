@@ -35,7 +35,7 @@ metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
 [sub_resource type="Resource" id="Resource_rg16d"]
 script = ExtResource("13_sh40x")
-priority = 0.1
+priority = 0.3
 state_name = &"wander"
 blueprint = SubResource("Resource_yseax")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"

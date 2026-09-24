@@ -13,6 +13,8 @@ signal navigation_cancelled
 
 var has_target: bool = false
 
+var disabled: bool = false
+
 # --------------------------------------------------------------------------------------------
 # has_target = false + is_navigation_finished() = true  → idle, no order given
 # has_target = true  + is_navigation_finished() = false → actively navigating

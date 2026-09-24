@@ -7,3 +7,6 @@ extends _BASE_
 ## velocity = direction * speed!
 func move(handler: LocomotionHandler, delta: float) -> Vector2:
 	return Vector2.ZERO
+
+func handle_step(handler: LocomotionHandler) -> void:
+	pass

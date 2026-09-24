@@ -1,16 +1,12 @@
 [gd_scene format=3 uid="uid://vdp42k0mrf4n"]
 
 [ext_resource type="PackedScene" uid="uid://dbcds6snlgl8h" path="res://scenes/systems/hurtbox.tscn" id="1_nk18b"]
-[ext_resource type="Script" uid="uid://d4dkusgurvri8" path="res://scripts/components/Hurtbox.gd" id="2_tgkng"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
 
 [node name="SimpleMelee" type="Node2D" unique_id=1903558067]
 
-[node name="Hurtbox" parent="." unique_id=504261229 node_paths=PackedStringArray("collision_shape") instance=ExtResource("1_nk18b")]
-script = ExtResource("2_tgkng")
-collision_shape = NodePath("CollisionShape2D")
-metadata/_custom_type_script = "uid://d4dkusgurvri8"
+[node name="Hurtbox" parent="." unique_id=504261229 instance=ExtResource("1_nk18b")]
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0" unique_id=45213650]
 position = Vector2(10, 0)
