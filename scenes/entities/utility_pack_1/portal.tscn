@@ -1,53 +1,8 @@
 [gd_scene format=3 uid="uid://cf071yvpf2dmf"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_t8x8u"]
-[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="2_hrcsw"]
-[ext_resource type="Script" uid="uid://dgje0wb2g3ax" path="res://scripts/states/deprecated/piss_ball_guy/spawn_entity_then_exit.gd" id="3_figh2"]
-[ext_resource type="Resource" uid="uid://caei1gsudwqth" path="res://assets/resources/particle_profiles/portal.tres" id="4_0wmeh"]
-[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="4_5fkbc"]
-[ext_resource type="Script" uid="uid://b8tiyc5hi81ap" path="res://scripts/states/deprecated/piss_ball_guy/death/death.gd" id="4_sboo8"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/deprecated/visibility_component.gd" id="5_0wmeh"]
-[ext_resource type="Resource" uid="uid://ciolmmgn3qpw7" path="res://assets/resources/voices/portal_warping.tres" id="5_mvuma"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="5_sboo8"]
-[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="6_r8iop"]
-[ext_resource type="Resource" uid="uid://brb2w6tq5mp30" path="res://assets/resources/particle_profiles/soulfire_occasional.tres" id="9_f0qsi"]
-[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="10_qtuw3"]
-[ext_resource type="Script" path="res://scripts/components/hide_in_invisible_cells.gd" id="14_f0qsi"]
-[ext_resource type="Script" uid="uid://bk27kx5eq67v5" path="res://scripts/components/SpawnTableSpawnerComponent.gd" id="14_qtuw3"]
-[ext_resource type="Script" uid="uid://d351dt548vu2i" path="res://scripts/resources/SpawnTable.gd" id="15_4eukd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
-
-[sub_resource type="Resource" id="Resource_nalmt"]
-script = ExtResource("4_5fkbc")
-voice = ExtResource("5_mvuma")
-metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
-
-[sub_resource type="Resource" id="Resource_4eukd"]
-script = ExtResource("5_sboo8")
-particle_profile = ExtResource("4_0wmeh")
-metadata/_custom_type_script = "uid://dqgelxi8t408e"
-
-[sub_resource type="Resource" id="Resource_mw54q"]
-script = ExtResource("5_sboo8")
-particle_profile = ExtResource("9_f0qsi")
-metadata/_custom_type_script = "uid://dqgelxi8t408e"
-
-[sub_resource type="Resource" id="Resource_kjw3f"]
-script = ExtResource("10_qtuw3")
-parallel = true
-effects = Array[ExtResource("6_r8iop")]([SubResource("Resource_4eukd"), SubResource("Resource_mw54q")])
-metadata/_custom_type_script = "uid://qy3at433r6s0"
-
-[sub_resource type="Resource" id="Resource_emcra"]
-script = ExtResource("15_4eukd")
-rarity_weights = Dictionary[int, float]({
-0: 1.0,
-1: 1.0,
-2: 1.0,
-3: 1.0
-})
-metadata/_custom_type_script = "uid://d351dt548vu2i"
 
 [node name="Entity" type="CharacterBody2D" unique_id=1658321148]
 collision_layer = 0
@@ -57,37 +12,3 @@ metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=12144814]
 shape = SubResource("CircleShape2D_t8x8u")
-
-[node name="StateMachine" type="Node" parent="." unique_id=514457864 node_paths=PackedStringArray("initial_state", "death_state")]
-script = ExtResource("2_hrcsw")
-initial_state = NodePath("SpawnEntityThenExitState")
-death_state = NodePath("DeathState")
-metadata/_custom_type_script = "uid://snopn0q86518"
-
-[node name="SpawnEntityThenExitState" type="Node" parent="StateMachine" unique_id=1367540373 node_paths=PackedStringArray("spawner", "exit_state")]
-script = ExtResource("3_figh2")
-spawner = NodePath("../../SpawnTableSpawnerComponent")
-time_to_spawn = 5.0
-exit_state = NodePath("../DeathState")
-enter_effect = SubResource("Resource_nalmt")
-update_effect = SubResource("Resource_kjw3f")
-metadata/_custom_type_script = "uid://dgje0wb2g3ax"
-
-[node name="DeathState" type="Node" parent="StateMachine" unique_id=750454608]
-script = ExtResource("4_sboo8")
-death_effects = null
-metadata/_custom_type_script = "uid://b8tiyc5hi81ap"
-
-[node name="VisibilityComponent" type="Node" parent="." unique_id=1000712436]
-script = ExtResource("5_0wmeh")
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=274467398 node_paths=PackedStringArray("visibility")]
-script = ExtResource("14_f0qsi")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
-
-[node name="SpawnTableSpawnerComponent" type="Node" parent="." unique_id=1295110291]
-script = ExtResource("14_qtuw3")
-spawn_table = SubResource("Resource_emcra")
-metadata/_custom_type_script = "uid://bk27kx5eq67v5"

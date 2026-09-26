@@ -12,8 +12,7 @@ class_name AbilityShardSpawner
 @export var ability_manager: AbilityManager
 @export var sound: VoiceProfile = preload("res://assets/resources/voices/drop_item.tres")
 
-func _on_registered() -> void:
-	pass
+
 
 ## Rolls each occupied slot and spawns a shard for every successful roll.
 ## Applies a small random scatter so shards don't stack exactly on top of one another.

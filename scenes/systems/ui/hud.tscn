@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability_icons/frame.png" id="3_dp7nh"]
 [ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
 [ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ability_icons/not_icon.png" id="4_dp7nh"]
-[ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="5_5p38b"]
+[ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/resources/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
 [ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scripts/classes/ui/toss_zone.gd" id="11_4p43q"]
@@ -23,7 +23,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "inactive_opal_score", "active_opal_score", "inactive_aura_score", "active_aura_score", "ability_hud_elements", "starting_element")]
+[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "score_1_label", "score_2_label", "time_label", "ability_hud_elements", "starting_element")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -39,10 +39,9 @@ toss_zone_slot = NodePath("TossStage/TossZone")
 bg_color = NodePath("ColorRect")
 player_health_bar = NodePath("Bar/Columns/C2/Control/PlayerHealth")
 player_saturation_bar = NodePath("Bar/Columns/C2/Control3/PlayerSaturation")
-inactive_opal_score = NodePath("Bar/Columns/C3/HBoxContainer/Score/InactivePoints")
-active_opal_score = NodePath("Bar/Columns/C3/HBoxContainer/Score/ActivePoints")
-inactive_aura_score = NodePath("Bar/Columns/C3/HBoxContainer2/Nutri/InactivePoints")
-active_aura_score = NodePath("Bar/Columns/C3/HBoxContainer2/Nutri/ActivePoints")
+score_1_label = NodePath("Bar/Columns/C3/HBoxContainer/Score/RichTextLabel")
+score_2_label = NodePath("Bar/Columns/C3/HBoxContainer2/Nutri/RichTextLabel")
+time_label = NodePath("Bar/Columns/C3/HBoxContainer/HBoxContainer2/Time")
 ability_hud_elements = [NodePath("Bar/Columns/C1/ItemStage/Items/Control"), NodePath("Bar/Columns/C1/ItemStage/Items/Control2"), NodePath("Bar/Columns/C1/ItemStage/Items/Control3"), NodePath("Bar/Columns/C1/ItemStage/Items/Control4")]
 starting_element = NodePath("Bar/Columns/C1/ItemStage/Items/Control")
 metadata/_custom_type_script = "uid://dagk4uclh6cc1"
@@ -343,15 +342,14 @@ size_flags_horizontal = 4
 texture = ExtResource("5_u330w")
 offset = Vector2(4, 4)
 
-[node name="InactivePoints" type="Label" parent="Bar/Columns/C3/HBoxContainer/Score" unique_id=280850528]
+[node name="RichTextLabel" type="RichTextLabel" parent="Bar/Columns/C3/HBoxContainer/Score" unique_id=603283116]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-text = "0000"
+size_flags_horizontal = 3
+theme = ExtResource("1_hv3iq")
+text = "00000000"
+fit_content = true
+autowrap_mode = 0
 horizontal_alignment = 2
-
-[node name="ActivePoints" type="Label" parent="Bar/Columns/C3/HBoxContainer/Score" unique_id=861439025]
-layout_mode = 2
-text = "1423"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Bar/Columns/C3" unique_id=830835402]
 layout_mode = 2
@@ -379,16 +377,14 @@ size_flags_horizontal = 4
 texture = ExtResource("6_n78go")
 offset = Vector2(4, 4)
 
-[node name="InactivePoints" type="Label" parent="Bar/Columns/C3/HBoxContainer2/Nutri" unique_id=754319481]
+[node name="RichTextLabel" type="RichTextLabel" parent="Bar/Columns/C3/HBoxContainer2/Nutri" unique_id=1487497205]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5211406, 0.5211406, 0.5211405, 1)
-text = "000000"
+size_flags_horizontal = 3
+theme = ExtResource("1_hv3iq")
+text = "00000000"
+fit_content = true
+autowrap_mode = 0
 horizontal_alignment = 2
-
-[node name="ActivePoints" type="Label" parent="Bar/Columns/C3/HBoxContainer2/Nutri" unique_id=2048473504]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.35725388, 0.8743722, 0.16496441, 1)
-text = "00"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Bar/Columns/C3" unique_id=1513827826]
 layout_mode = 2

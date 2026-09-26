@@ -6,6 +6,7 @@ class_name HealthComponent
 @export var hitbox: Hitbox ## not mandatory
 
 @export var death_effect: EntityEffect = preload("uid://bg2bks2clcl4r")
+var show_points_on_death_effect: EntityEffect = preload("uid://troqen01nx1q")
 
 
 signal taken_damage(amount: float, source: Entity)
@@ -48,7 +49,7 @@ func _process_ichor_starving(delta: float) -> void:
 		_starvation_timer = 0.0
 		
 		if health <= 0 and not dying:
-			die()
+			die(null)
 			
 func set_invincibility_timer(time: float) -> void:
 	_invincibility_timer = time
@@ -64,18 +65,22 @@ func take_damage(amount: float, source: Entity) -> void:
 	health_changed.emit(health, max_health)
 		
 	if health <= 0 and not dying:
-		die()
+		die(source)
 		
 func heal(amount: float, source: Entity) -> void:
 	health_changed.emit(health, max_health)
 
-func die() -> void:
+func die(source: Entity) -> void:
 	var loco: LocomotionHandler = entity.get_component(LocomotionHandler)
 	if loco:
 		loco.disabled = true
 	dying = true
-	
 	if death_effect:
 		death_effect.execute(entity)
+	if source and source == PlayerManager.player and show_points_on_death_effect:
+		show_points_on_death_effect.execute(entity)
+	if source:
+		entity.transfer_points(source)
+	
 	entity.died.emit()
 	entity.queue_free()

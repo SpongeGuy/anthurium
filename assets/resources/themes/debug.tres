@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bef2u5uhlydku"]
 
-[ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/textures/fonts/04B_03__.TTF" id="1_yxe8n"]
+[ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/resources/fonts/04B_03__.TTF" id="1_yxe8n"]
 
 [resource]
 Label/constants/line_spacing = 0

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bjkjyiln1net3"
-path="res://.godot/imported/Typecast-Italic.ttf-b2e357d382cb0a9945ed0e721868ea47.fontdata"
+uid="uid://b6nb2xu2uomf6"
+path="res://.godot/imported/numeral.ttf-b5839be1857a8767fe1140feb7f253a8.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Typecast-Italic.ttf"
-dest_files=["res://.godot/imported/Typecast-Italic.ttf-b2e357d382cb0a9945ed0e721868ea47.fontdata"]
+source_file="res://assets/resources/fonts/numeral.ttf"
+dest_files=["res://.godot/imported/numeral.ttf-b5839be1857a8767fe1140feb7f253a8.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

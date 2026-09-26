@@ -100,6 +100,25 @@ func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
 	_add(portal)
 	return portal
 	
+## Spawns a [code]&"portal"[/code] entity near [param pos], configured with
+## [param spawn_table] (duplicated so each portal has its own copy). Finds a
+## safe ground position near [param pos] and nudges away from any occupied
+## spot before placing it.
+func spawn_entity_portal(pos: Vector2, entity_name: StringName) -> Entity:
+	var spawn_pos: Vector2 = _find_spawn_pos(pos)
+	if spawn_pos == Vector2.INF:
+		Log.error("No ground tile available to spawn portal")
+		return null
+	var portal: Entity = _instantiate_entity(&"portal")
+	if not portal:
+		return null
+	var spawner: SimpleSpawner = SimpleSpawner.new(entity_name)
+	portal.add_component(portal, spawner)
+	var entity: Entity = await spawner.get_entity()
+	portal.global_position = spawn_pos
+	_add(portal)
+	return entity
+	
 func _find_spawn_pos(desired: Vector2) -> Vector2:
 	var origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))
 	var max_r: int = maxi(WorldGrid.width, WorldGrid.height)
@@ -141,6 +160,8 @@ func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity:
 func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
 	# this will need customized later to ensure that any creature can be spawned as a player
 	var entity: Entity = spawn_safely(entity_type, pos)
+	if not entity:
+		Log.error("This entity '%s' does not exist or was not registered!" % entity_type, true)
 	entity.ready.connect(PlayerManager.set_player.bind(entity), CONNECT_ONE_SHOT)
 	
 	return entity

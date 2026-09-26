@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bwq37iwv1q6pm"
-path="res://.godot/imported/Thesead-8O1gn.ttf-704b70fa1f55512bed5e50bf2e842d20.fontdata"
+uid="uid://0t5dqx5brfir"
+path="res://.godot/imported/Microserif.ttf-a14187a8eae69d19971837bbaef6d757.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Thesead-8O1gn.ttf"
-dest_files=["res://.godot/imported/Thesead-8O1gn.ttf-704b70fa1f55512bed5e50bf2e842d20.fontdata"]
+source_file="res://assets/resources/fonts/Microserif.ttf"
+dest_files=["res://.godot/imported/Microserif.ttf-a14187a8eae69d19971837bbaef6d757.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=3
+hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

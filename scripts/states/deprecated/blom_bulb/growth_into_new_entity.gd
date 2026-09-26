@@ -35,4 +35,4 @@ func grow() -> void:
 	await e.entity_initialized
 	if growth_effect:
 		growth_effect.execute(e)
-	health_component.die()
+	health_component.die(null)

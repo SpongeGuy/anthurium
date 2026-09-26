@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://do16hssocjyyy"
-path="res://.godot/imported/8-bit-fortress.ttf-7dc23bee2c355cd845950e982b5c421c.fontdata"
+uid="uid://iwpkl7x7k5dr"
+path="res://.godot/imported/Picopixel.ttf-2475551365bfa8c74b96c0ca6533867c.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/8-bit-fortress.ttf"
-dest_files=["res://.godot/imported/8-bit-fortress.ttf-7dc23bee2c355cd845950e982b5c421c.fontdata"]
+source_file="res://assets/resources/fonts/Picopixel.ttf"
+dest_files=["res://.godot/imported/Picopixel.ttf-2475551365bfa8c74b96c0ca6533867c.fontdata"]
 
 [params]
 

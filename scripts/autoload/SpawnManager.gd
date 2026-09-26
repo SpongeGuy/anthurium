@@ -54,7 +54,7 @@ func spawn_wave(pool: SpawnPool, wave_index: int) -> void:
 	pool.wave_active = true
 
 	if wave.completion_condition == SpawnWave.CompletionCondition.BOSS:
-		pool.boss = _spawn_tracked(pool, wave.boss_id)
+		pool.boss = await _spawn_tracked(pool, wave.boss_id)
 
 	for id in build_spawn_list(wave, get_point_budget(pool, wave), pool.level, pool.rng):
 		_spawn_tracked(pool, id)
@@ -68,7 +68,8 @@ func spawn_wave(pool: SpawnPool, wave_index: int) -> void:
 
 func _spawn_tracked(pool: SpawnPool, id: StringName) -> Entity:
 	var tile: Vector2i = get_random_spawn_position(pool.rng)
-	var entity: Entity = EntityManager.spawn_safely(id, WorldGrid.tile_to_world(tile))
+	var entity: Entity = await EntityManager.spawn_entity_portal(WorldGrid.tile_to_world(tile), id)
+	#var entity: Entity = EntityManager.spawn_safely(id, WorldGrid.tile_to_world(tile))
 	if entity == null:
 		Log.warn("Failed to spawn %s" % id)
 		return null
@@ -90,13 +91,9 @@ func _on_tracked_entity_died(pool: SpawnPool, entity: Entity) -> void:
 
 	match pool.wave.completion_condition:
 		SpawnWave.CompletionCondition.REMAINING:
-			print(float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave)
-			print(pool.completion_ratio)
 			if float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave <= pool.completion_ratio:
 				_complete_wave(pool)
 		SpawnWave.CompletionCondition.REMAINING_OR_TIME:
-			print(float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave)
-			print(pool.completion_ratio)
 			if float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave <= pool.completion_ratio:
 				_complete_wave(pool)
 		SpawnWave.CompletionCondition.BOSS:

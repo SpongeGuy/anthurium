@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://d27kv3icsy0om"
-path="res://.godot/imported/CozetteCrossedSevenVectorBold.ttf-628134cd271f4490423e427d7e1aa297.fontdata"
+uid="uid://bsgdj4sc83vdh"
+path="res://.godot/imported/HalfEighties.ttf-f3fd47f70809ff641f196c60612f8dbb.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/CozetteCrossedSevenVectorBold.ttf"
-dest_files=["res://.godot/imported/CozetteCrossedSevenVectorBold.ttf-628134cd271f4490423e427d7e1aa297.fontdata"]
+source_file="res://assets/resources/fonts/HalfEighties.ttf"
+dest_files=["res://.godot/imported/HalfEighties.ttf-f3fd47f70809ff641f196c60612f8dbb.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=3
+hinting=1
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

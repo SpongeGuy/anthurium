@@ -44,10 +44,16 @@ signal entity_initialized
 ## Emitted when the entity's health reaches zero.
 signal died
 
+## Emitted when then entity's point value changes.
+signal points_changed
+
+signal entity_spawned
+
 ## The filename of the scene this entity was instantiated from, without extension.
 ## Useful for identifying entity types at runtime without hardcoding class names.
 var basename: StringName
 var is_initialized: bool = false
+var is_spawned: bool = false
 
 ## used in resolving attribution chains when trying to determine the causality of events
 ## if an entity is spawning a projectile or explosion, set owned_by to that entity
@@ -57,15 +63,11 @@ var owned_by: Entity = null
 
 
 func _ready() -> void:
-	basename = get_basename()
-	_register_components(self)
+	if not is_initialized: # covers entities placed in scene directly, not spawned using EntityManager
+		initialize()
 	
-	
-	is_initialized = true
-	entity_initialized.emit()
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
-	basename = get_basename()
 	
 	_initialize_z_drive()
 	
@@ -73,6 +75,17 @@ func _ready() -> void:
 	WorldGrid.cell_revealed.connect(_on_cell_revealed)
 	WorldGrid.cells_visibled.connect(_on_cells_visibled)
 	resolve_visibility(WorldGrid.safe_get_cell(WorldGrid.world_to_tile(global_position)))
+	
+	points = base_point_value
+	is_spawned = true
+	
+func initialize() -> void:
+	if is_initialized:
+		return
+	basename = get_basename()
+	_register_components(self)
+	is_initialized = true
+	entity_initialized.emit()
 	
 
 func _register_components(node: Node) -> void:
@@ -92,6 +105,16 @@ func _register_component(component: Component) -> void:
 	component.entity = self
 	component._on_registered()
 	component.registered.emit()
+	
+	if is_initialized:
+		component._on_entity_initialized()
+	else:
+		entity_initialized.connect(component._on_entity_initialized, CONNECT_ONE_SHOT)
+	
+	if is_spawned:
+		component._on_entity_spawned()
+	else:
+		entity_spawned.connect(component._on_entity_spawned, CONNECT_ONE_SHOT)
 
 ## Registers [param component] to this entity and adds it as a child of [param to].
 ## Use this when creating components at runtime, e.g. inside [method Ability.initialize].
@@ -137,10 +160,11 @@ static func find_entity(node: Node) -> Entity:
 
 func get_visual() -> CanvasItem:
 	return visual
+		
 
-# ------------------------------------------
+# ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # age
-# ----------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 @export_category("Lifespan")
 @export var ages: bool = true
 @export var age: float = 0.0
@@ -157,10 +181,57 @@ func _accumulate_age(delta: float) -> void:
 	if age >= lifespan:
 		expired.emit()
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# points
+# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@export_category("Points")
+@export var base_point_value: float = 100.0
+var points: float = 100
 
-# ---------------------------------------------------
+func transfer_points(to: Entity) -> void:
+	to.points += points
+	to.points_changed.emit()
+	points = 0
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# visibility
+# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@export_category("Hiding")
+@export var hide_in_invisible_cells: bool = true
+
+func set_visibility(to: bool) -> void:
+	visible = to
+	visibility_changed.emit(to)
+
+
+
+func _on_cell_hidden(coords: Vector2i) -> void:
+	resolve_visibility(get_current_cell())
+	
+func _on_cell_revealed(coords: Vector2i) -> void:
+	resolve_visibility(get_current_cell())
+	
+func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
+	resolve_visibility(get_current_cell())
+
+func get_current_cell() -> CellData:
+	return WorldGrid.safe_get_cell(WorldGrid.world_to_tile(position))
+
+
+func resolve_visibility(cell: CellData) -> void:
+	if not cell:
+		return
+	if cell.invisible and visible == true:
+		set_visibility(false)
+	
+	if not cell.invisible and visible == false:
+		set_visibility(true)
+
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # z drive
-# ----------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 @export_category("ZDrive")
 var s: PackedScene = preload("uid://cimer7u58jm6v")
@@ -303,44 +374,3 @@ func set_z_value(value: float) -> void:
 	_apply_z_offset()
 
 
-# -------------------------------------------------------
-# visibility
-# -----------------------------------------------------------
-
-
-
-# ---------------------------------------------
-# changes visibility of all sprites in the array
-# ---------------------------------------------
-
-
-@export_category("Hiding")
-@export var hide_in_invisible_cells: bool = true
-
-func set_visibility(to: bool) -> void:
-	visible = to
-	visibility_changed.emit(to)
-
-
-
-func _on_cell_hidden(coords: Vector2i) -> void:
-	resolve_visibility(get_current_cell())
-	
-func _on_cell_revealed(coords: Vector2i) -> void:
-	resolve_visibility(get_current_cell())
-	
-func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
-	resolve_visibility(get_current_cell())
-
-func get_current_cell() -> CellData:
-	return WorldGrid.safe_get_cell(WorldGrid.world_to_tile(position))
-
-
-func resolve_visibility(cell: CellData) -> void:
-	if not cell:
-		return
-	if cell.invisible and visible == true:
-		set_visibility(false)
-	
-	if not cell.invisible and visible == false:
-		set_visibility(true)

@@ -27,7 +27,6 @@ func _input(event: InputEvent) -> void:
 
 func _handle_click() -> void:
 	var world_pos: Vector2 = CameraController.get_world_mouse_position()
-	print("world_pos")
 	var entity: Entity = _get_entity_at(world_pos)
 	selected_entity = entity  # null if click missed -> unselects
 

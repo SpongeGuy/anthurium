@@ -8,3 +8,9 @@ signal registered
 
 func _on_registered() -> void:
 	pass
+
+func _on_entity_initialized() -> void:
+	pass
+
+func _on_entity_spawned() -> void:
+	pass

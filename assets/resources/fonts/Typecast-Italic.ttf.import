@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://0t5dqx5brfir"
-path="res://.godot/imported/Microserif.ttf-9dbf200087960b809443c07b02a424c4.fontdata"
+uid="uid://bjkjyiln1net3"
+path="res://.godot/imported/Typecast-Italic.ttf-a9b64de23f1e193d982273b8ec279be8.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Microserif.ttf"
-dest_files=["res://.godot/imported/Microserif.ttf-9dbf200087960b809443c07b02a424c4.fontdata"]
+source_file="res://assets/resources/fonts/Typecast-Italic.ttf"
+dest_files=["res://.godot/imported/Typecast-Italic.ttf-a9b64de23f1e193d982273b8ec279be8.fontdata"]
 
 [params]
 

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://mujvlgvkfhuh"]
+
+[ext_resource type="FontFile" uid="uid://b6nb2xu2uomf6" path="res://assets/resources/fonts/numeral.ttf" id="1_mr25n"]
+
+[resource]
+default_font = ExtResource("1_mr25n")
+Label/constants/outline_size = 3

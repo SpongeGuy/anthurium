@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://b3vawnrs7eiow"
-path="res://.godot/imported/Typecast.ttf-43fab0e2cc89c295d883f9aa2c3edee3.fontdata"
+uid="uid://d27kv3icsy0om"
+path="res://.godot/imported/CozetteCrossedSevenVectorBold.ttf-8e105201dac297618fe815eaeca0e4e2.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Typecast.ttf"
-dest_files=["res://.godot/imported/Typecast.ttf-43fab0e2cc89c295d883f9aa2c3edee3.fontdata"]
+source_file="res://assets/resources/fonts/CozetteCrossedSevenVectorBold.ttf"
+dest_files=["res://.godot/imported/CozetteCrossedSevenVectorBold.ttf-8e105201dac297618fe815eaeca0e4e2.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

@@ -29,9 +29,9 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -358.7031146562824,
-                  "y": 2.79040598610635,
-                  "zoom": -0.19999999999999984
+                  "x": -293.2273084214514,
+                  "y": -106.33593773861196,
+                  "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -46,9 +46,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -8993.992267213749,
-                  "y": 6263.005840368211,
-                  "zoom": -1.2000000000000006
+                  "x": -1820.8339692118573,
+                  "y": 7529.558609799845,
+                  "zoom": -0.40000000000000013
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -87,7 +87,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -237,7 +237,7 @@
             }
           },
           {
-            "id": "052a42e2ac1ed7c1",
+            "id": "9e932537734671ec",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -266,14 +266,14 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "181dfbdcfab63d9d",
+  "active": "ba92e09675b44bc7",
   "lastOpenFiles": [
+    "for my capstone/job list 9-1-26.canvas",
     "Main.canvas",
     "worldbuilder/Map.canvas",
     "mappa.png",
     "anthurium.md",
     "Creatures.md",
-    "for my capstone/job list 9-1-26.canvas",
     "anthurium.canvas",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",

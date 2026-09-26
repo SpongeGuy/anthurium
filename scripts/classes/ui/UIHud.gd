@@ -14,18 +14,18 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var player_health_bar: ProgressBar
 @export var player_saturation_bar: ProgressBar
 
-@export var inactive_opal_score: Label
-@export var active_opal_score: Label
-@export var inactive_aura_score: Label
-@export var active_aura_score: Label
+@export var score_1_label: RichTextLabel
+@export var score_2_label: RichTextLabel
+
+@export var time_label: Label
 
 @export var ability_hud_elements: Array[AbilityHudElement]
 var ability_missing_texture: Texture2D = load("uid://ghuabptc2k60")
 
-var _opal_score: float = 0.0
-var _aura_score: float = 0.0
-var _target_opal: float = 0.0
-var _target_aura: float = 0.0
+var _score_1: float = 0.0
+var _score_2: float = 0.0
+var _target_score_1: float = 0.0
+var _target_score_2: float = 0.0
 
 const _SCORE_DIGITS := 8
 
@@ -44,8 +44,24 @@ var _tween: Tween
 
 var _screen_size: Vector2
 
+var score_inactive_color: Color = Color(0.47, 0.47, 0.47, 1.0)
+
 var _voice_inv_open: VoiceProfile = preload("uid://b778tjvr2o26a")
 var _voice_inv_close: VoiceProfile = preload("uid://dy7px8dso8tvd")
+
+
+
+
+
+
+
+func _process(delta: float) -> void:
+	_update_score_values(delta)
+	_update_time()
+
+
+
+
 
 
 
@@ -110,31 +126,44 @@ func update_ability_icon(slot: int, texture: Texture2D) -> void:
 			ability_hud_elements[slot].type = UIHand.State.HOVER_OVER_GRAB
 
 		
-
-		
+func set_score_1(value: float) -> void:
+	_target_score_1 = value
 	
-func set_opal_score(value: float) -> void:
-	_target_opal = value
-	
-func set_aura_score(value: float) -> void:
-	_target_aura = value
+func set_score_2(value: float) -> void:
+	_target_score_2 = value
 
 
 # --------------------------
 # score animation
 # ---------------------------
 
-func _process(delta: float) -> void:
-	_opal_score = lerp(_opal_score, _target_opal, delta)
-	_write_score(_opal_score, active_opal_score, inactive_opal_score)
+func _update_score_values(delta: float) -> void:
+	_score_1 = lerp(_score_1, _target_score_1, 1.0 - exp(-8.0 * delta))
+	if abs(_score_1 - _target_score_1) < 0.5:
+		_score_1 = _target_score_1
+	_write_score(_score_1, score_1_label)
 
-	var aura_factor := (_target_aura - _aura_score) + 250.0
-	_aura_score = move_toward(_aura_score, _target_aura, delta * aura_factor)
-	_write_score(_aura_score, active_aura_score, inactive_aura_score)
-
-func _write_score(value: float, active: Label, inactive: Label) -> void:
-	var text := str(int(value))
-	active.text = text
-	inactive.text = "0".repeat(max(0, _SCORE_DIGITS - text.length()))
+	var factor_2: float = abs(_target_score_2 - _score_2) + 250.0
+	_score_2 = move_toward(_score_2, _target_score_2, delta * factor_2)
+	_write_score(_score_2, score_2_label)
 
 
+
+func _write_score(value: float, label: RichTextLabel) -> void:
+	var text: String = "%0*d" % [_SCORE_DIGITS, int(value)]
+	var split: int = _SCORE_DIGITS - str(int(value)).length()
+	
+	label.clear()
+	label.push_color(score_inactive_color)
+	label.add_text(text.substr(0, split))
+	label.pop()
+	label.add_text(text.substr(split))
+
+
+# -----------------------------
+# time
+# -----------------------------
+
+func _update_time() -> void:
+	var total_seconds: int = int(GameInterface.time)
+	time_label.text = "%02d:%02d" % [total_seconds / 60, total_seconds % 60]

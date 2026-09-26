@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bnfnnxpb5a004"
-path="res://.godot/imported/04B_03__.TTF-de500742f50875712d7f22062e17de28.fontdata"
+uid="uid://drh1xbuwo76r1"
+path="res://.godot/imported/CozetteVector.ttf-d23380751224fb49e19eb94ecd049c34.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/04B_03__.TTF"
-dest_files=["res://.godot/imported/04B_03__.TTF-de500742f50875712d7f22062e17de28.fontdata"]
+source_file="res://assets/resources/fonts/CozetteVector.ttf"
+dest_files=["res://.godot/imported/CozetteVector.ttf-d23380751224fb49e19eb94ecd049c34.fontdata"]
 
 [params]
 
@@ -22,7 +22,7 @@ msdf_size=48
 allow_system_fallback=true
 force_autohinter=false
 modulate_color_glyphs=false
-hinting=1
+hinting=3
 subpixel_positioning=4
 keep_rounding_remainders=true
 oversampling=0.0

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bsgdj4sc83vdh"
-path="res://.godot/imported/HalfEighties.ttf-330b3197bfa7c68e89040188cb72bc51.fontdata"
+uid="uid://bnfnnxpb5a004"
+path="res://.godot/imported/04B_03__.TTF-69c7ad839b73dff36289efecd1df8e0e.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/HalfEighties.ttf"
-dest_files=["res://.godot/imported/HalfEighties.ttf-330b3197bfa7c68e89040188cb72bc51.fontdata"]
+source_file="res://assets/resources/fonts/04B_03__.TTF"
+dest_files=["res://.godot/imported/04B_03__.TTF-69c7ad839b73dff36289efecd1df8e0e.fontdata"]
 
 [params]
 

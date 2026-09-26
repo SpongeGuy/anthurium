@@ -69,6 +69,7 @@ script = ExtResource("1_w8fg7")
 display_name = "Maw"
 visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_6w5ym")
+base_point_value = 25.0
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909012095]

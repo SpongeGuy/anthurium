@@ -17,6 +17,9 @@ var screen: UIScreen
 ## The cursor/interaction "hand" UI, found via [method retrieve_references].
 var hand: UIHand
 
+## reference to the player, necessary for binding and unbinding functions to signals
+var player: Entity
+
 ## The [CanvasLayer] all [UIStage]s are parented under. Set externally by
 ## [code]AppController._retrieve_references()[/code].
 var ui_canvas_layer: CanvasLayer
@@ -174,6 +177,7 @@ func _on_player_set(entity: Entity) -> void:
 ## [AbilityManager] signals to their HUD-update handlers, and immediately
 ## refreshes the ability icons for any abilities already present.
 func _bind_player(entity: Entity) -> void:
+	player = entity
 	_health_component = entity.get_component(HealthComponent)
 	if _health_component:
 		_health_component.health_changed.connect(_on_health_changed)
@@ -188,6 +192,8 @@ func _bind_player(entity: Entity) -> void:
 		_ability_manager.ability_unregistered.connect(_on_ability_unregistered)
 		# Populate HUD immediately for any abilities already in the manager.
 		_refresh_ability_icons()
+	
+	player.points_changed.connect(_on_points_changed)
 		
 	Log.info("Bound new player %s to HUD." % entity)
 	
@@ -205,6 +211,10 @@ func _unbind_player() -> void:
 		_ability_manager.ability_registered.disconnect(_on_ability_registered)
 		_ability_manager.ability_unregistered.disconnect(_on_ability_unregistered)
 		_ability_manager = null
+	if player:
+		player.points_changed.disconnect(_on_points_changed)
+		
+		player = null
 
 ## Pushes the current manager state to the HUD on first bind or player swap.
 func _refresh_ability_icons() -> void:
@@ -216,6 +226,10 @@ func _refresh_ability_icons() -> void:
 			hud.update_ability_icon(i, ability.icon)
 		else:
 			hud.update_ability_icon(i, null)
+			
+
+func _on_points_changed() -> void:
+	hud.set_score_1(player.points)
 
  
 ## Connected to [signal AbilityManager.ability_registered]; updates the HUD

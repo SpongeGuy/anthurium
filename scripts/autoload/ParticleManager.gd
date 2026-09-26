@@ -38,6 +38,17 @@ func _spawn_emitter(
 	flip_v: bool
 ) -> GPUParticles2D:
 	var emitter := GPUParticles2D.new()
+	# GPUParticles2D defaults to emitting = true the moment it's created, so
+	# without this, the node starts a (default, non-one-shot) emission cycle
+	# as soon as it enters the tree below -- before one_shot/amount/lifetime
+	# are configured. Setting emitting = true again at the bottom of this
+	# function is then a no-op (it's already true), so the false->true edge
+	# Godot uses to start a clean one-shot cycle never happens, and
+	# `finished` never reliably fires -- which is why these emitters were
+	# piling up unfreed. Force it false here so the later assignment is a
+	# real transition.
+	emitter.emitting = false
+
 	EntityManager._entity_container.add_child(emitter)
 	emitter.global_position = world_pos
 
@@ -63,7 +74,7 @@ func _spawn_emitter(
 
 	emitter.emitting = true
 	emitter.finished.connect(emitter.queue_free)
-	
+
 	return emitter
 
 
@@ -101,3 +112,18 @@ func _apply_animation(emitter: GPUParticles2D, mat: ParticleProcessMaterial, dra
 
 	# Particle lifetime = animation duration; dying = animation finishing
 	emitter.lifetime = float(anim.frames) / anim.speed
+
+
+func spawn_number(value: float, world_pos: Vector2, font_theme: Theme) -> void:
+	var label := Label.new()
+	label.text = str(int(value))
+	label.theme = font_theme
+	EntityManager._entity_container.add_child(label)
+	label.global_position = world_pos
+	label.z_index = 5
+	var end_position: Vector2 = SpatialUtil.random_position(label.global_position, 10, 40)
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(label, "global_position", end_position, 1).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+	tween.chain().tween_callback(label.queue_free).set_delay(randf_range(0, 2))

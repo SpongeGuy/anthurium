@@ -9,20 +9,20 @@ class_name ItemStageManager
 @export var animations: Array[SpriteAnimation]
 
 
-func _on_registered() -> void:
-	pass # replace with function body
 
 
 func increment_stage() -> void:
 	stage += 1
 	if stage >= stages:
-		health_component.die()
-	animator.play_and_reset_animation(animations[stage])
+		health_component.die(null)
+	if stage < animations.size():
+		animator.play_and_reset_animation(animations[stage])
 	
 func set_stage(value: int) -> void:
 	stage = value
 	if stage >= stages:
-		health_component.die()
+		var interact: InteractableComponent = entity.get_component(InteractableComponent)
+		health_component.die(interact.recently_interacted)
 	animator.play_and_reset_animation(animations[stage])
 	
 func set_correct_stage(current_value: float, max_value: float) -> void:

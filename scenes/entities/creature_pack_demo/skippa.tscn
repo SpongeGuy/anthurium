@@ -112,9 +112,6 @@ brain = NodePath("../Brain")
 profile = SubResource("Resource_6alht")
 move_timer = 3.0
 
-[node name="FacingComponent" parent="BehaviorPackage" index="3" unique_id=672545623]
-debug_draw_facing = true
-
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")

@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://bm2hef8ebwxl0"
-path="res://.godot/imported/Typecast-Bold.ttf-0a09d58162215cbaad203b748a2d3c16.fontdata"
+uid="uid://do16hssocjyyy"
+path="res://.godot/imported/8-bit-fortress.ttf-2ab6343ea841f5915bdf5dc7db6c0abc.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Typecast-Bold.ttf"
-dest_files=["res://.godot/imported/Typecast-Bold.ttf-0a09d58162215cbaad203b748a2d3c16.fontdata"]
+source_file="res://assets/resources/fonts/8-bit-fortress.ttf"
+dest_files=["res://.godot/imported/8-bit-fortress.ttf-2ab6343ea841f5915bdf5dc7db6c0abc.fontdata"]
 
 [params]
 

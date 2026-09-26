@@ -20,6 +20,8 @@ var plants_pool: SpawnManager.SpawnPool
 
 var level: int = 0
 
+var time: float = 0.0
+
 const ENDLESS_WAVES: WaveSet = preload("uid://cem2qd3vmjd3o")
 const NORMAL_WAVES: WaveSet = preload('uid://dvioo24e0vs44')
 const PLANT_WAVES: WaveSet = preload("uid://c3yueget5go6v")
@@ -27,6 +29,9 @@ const PLANT_WAVES: WaveSet = preload("uid://c3yueget5go6v")
 func _ready() -> void:
 	SpawnManager.wave_complete.connect(_on_wave_complete)
 	SpawnManager.all_waves_complete.connect(_on_all_waves_complete)
+	
+func _process(delta: float) -> void:
+	time += delta
 
 func reset(new_seed: int) -> void:
 	game_instance_active = false
@@ -34,6 +39,7 @@ func reset(new_seed: int) -> void:
 	RunRng.start_run(new_seed)
 
 func start_new_run(new_seed: int) -> void:
+	time = 0.0
 	reset(new_seed)
 	start_next_level()
 

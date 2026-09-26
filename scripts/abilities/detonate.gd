@@ -13,7 +13,7 @@ func initialize() -> void:
 
 func on_pressed(modifier: bool) -> void:
 	var explosion: Entity = EntityManager.spawn(&"explosion", entity.position)
-	var hurtbox: Hurtbox = explosion.find_child("Hurtbox", true, false)
+	var hurtbox: Hurtbox = explosion.get_child(0)
 	hurtbox.scale = Vector2(blast_radius * 16, blast_radius * 16)
 	hurtbox.damage = damage
 	WorldGrid.damage_circle(WorldGrid.world_to_tile(entity.global_position), blast_radius, damage)

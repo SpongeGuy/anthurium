@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="EntityEffectShowPointValue" format=3 uid="uid://troqen01nx1q"]
+
+[ext_resource type="Script" uid="uid://b586lvs8oinmv" path="res://scripts/resources/entity_effect/EntityEffectShowPointValue.gd" id="1_woup1"]
+
+[resource]
+script = ExtResource("1_woup1")
+metadata/_custom_type_script = "uid://b586lvs8oinmv"

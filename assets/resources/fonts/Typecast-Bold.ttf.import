@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://iwpkl7x7k5dr"
-path="res://.godot/imported/Picopixel.ttf-4d52c15a4a0dda8c33ca3d7309dd9da6.fontdata"
+uid="uid://bm2hef8ebwxl0"
+path="res://.godot/imported/Typecast-Bold.ttf-600faebf72bad82cc1b4c7edc3f3a323.fontdata"
 
 [deps]
 
-source_file="res://assets/textures/fonts/Picopixel.ttf"
-dest_files=["res://.godot/imported/Picopixel.ttf-4d52c15a4a0dda8c33ca3d7309dd9da6.fontdata"]
+source_file="res://assets/resources/fonts/Typecast-Bold.ttf"
+dest_files=["res://.godot/imported/Typecast-Bold.ttf-600faebf72bad82cc1b4c7edc3f3a323.fontdata"]
 
 [params]
 

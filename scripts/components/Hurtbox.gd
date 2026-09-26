@@ -57,7 +57,7 @@ func create_circular_collision_shape(r: float, offset: float = 0.0) -> void:
 	add_child(collision)
 	collision_shape = collision
 
-func _init(hurtbox_damage: float) -> void:
+func _init(hurtbox_damage: float = 1.0) -> void:
 	damage = hurtbox_damage
 		
 func set_active(value: bool) -> void:

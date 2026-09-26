@@ -6,6 +6,7 @@ var simple_melee_scene: PackedScene = load("uid://vdp42k0mrf4n")
 @export var radius: float = 8.0
 @export var damage: float = 1.0
 @export var offset: float = 10.0
+@export var activation_effect: EntityEffect
 
 var hurtbox: Hurtbox
 var facing: FacingComponent
@@ -29,6 +30,8 @@ func _execute() -> void:
 
 func on_pressed(modifier: bool) -> void:
 	execute()
+	if activation_effect:
+		activation_effect.execute(entity)
 	
 func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
 	pass
