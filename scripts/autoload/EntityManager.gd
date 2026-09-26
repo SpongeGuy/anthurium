@@ -77,9 +77,9 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool =
 func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: bool = false, safely: bool = true) -> void:
 	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, as_player, safely)
 
-func simple_spawn(entity_type: StringName, position: Vector2) -> Entity:
+func simple_spawn(entity_type: StringName, position: Vector2, as_player: bool = false, safely: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
-	spawn_entity(entity, position, 0)
+	spawn_entity(entity, position, 0, as_player, safely)
 	return entity
 
 func _on_entity_left_tree(e: Entity) -> void:

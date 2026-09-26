@@ -196,6 +196,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			_run_boot_sequence()
 		AppStatus.MENU:
 			_initialize_world()
+			GameInterface.background_mode = true
 			if not (GameInterface.run_active and !forcing):
 				GameInterface.start_new_run(randi_range(0, 9), randi())
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
@@ -208,6 +209,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			change_active_controller(Controller.HAND)
 			UiController.hand.switch_stages(UiController.add_stage("title"))
 		AppStatus.GAME:
+			GameInterface.background_mode = false
 			UiController.clear_stages()
 			MusicController.stop()
 			#await _fade(1, 0.6)
@@ -225,6 +227,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			UiController.hud.set_state(UIHUD.State.BAR)
 			#_fade(0, 0.5)
 		AppStatus.GAMEOVER:
+			GameInterface.background_mode = true
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.NONE)

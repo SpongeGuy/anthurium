@@ -12,7 +12,7 @@ func initialize() -> void:
 		
 
 func on_pressed(modifier: bool) -> void:
-	var explosion: Entity = EntityManager.spawn(&"explosion", entity.position)
+	var explosion: Entity = EntityManager.simple_spawn(&"explosion", entity.position)
 	var hurtbox: Hurtbox = explosion.get_child(0)
 	hurtbox.scale = Vector2(blast_radius * 16, blast_radius * 16)
 	hurtbox.damage = damage

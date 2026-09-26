@@ -24,6 +24,8 @@ var current_level: int = 0
 var time: float = 0.0
 var run_active: bool = false
 
+var background_mode: bool = true
+
 func _process(delta: float) -> void:
 	for runner: WaveRunner in wave_runners.values():
 		runner.process(delta)
@@ -65,6 +67,9 @@ func start_level(value: int) -> void:
 	var level_def: LevelDefinition = levels[current_level]
 	for pool_id: StringName in level_def.pool_sequences:
 		_activate_wave_runner(pool_id, level_def.pool_sequences[pool_id], pool_id == MAIN_POOL)
+	
+	if not background_mode:
+		EntityManager.simple_spawn("focks", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")), true)
 
 func _activate_wave_runner(pool_id: StringName, sequence: WaveSequence, drives_level: bool) -> void:
 	var runner: WaveRunner = WaveRunner.new(sequence, "level_%d_%s" % [current_level, pool_id])

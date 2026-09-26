@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EntityEffectSequence" format=3 uid="uid://v1fecg743jpx"]
+
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="1_mlg3u"]
+[ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="2_65118"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="2_pqxyj"]
+[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="3_7nau7"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="4_7mj72"]
+[ext_resource type="Resource" uid="uid://dgiuplfa2wr8m" path="res://assets/resources/voices/poof.tres" id="5_5kaw2"]
+
+[sub_resource type="Resource" id="Resource_owwk6"]
+script = ExtResource("3_7nau7")
+particle_profile = ExtResource("2_65118")
+metadata/_custom_type_script = "uid://dqgelxi8t408e"
+
+[sub_resource type="Resource" id="Resource_0yyux"]
+script = ExtResource("4_7mj72")
+voice = ExtResource("5_5kaw2")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[resource]
+script = ExtResource("2_pqxyj")
+parallel = true
+effects = Array[ExtResource("1_mlg3u")]([SubResource("Resource_owwk6"), SubResource("Resource_0yyux")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"

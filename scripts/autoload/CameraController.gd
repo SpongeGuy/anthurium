@@ -122,9 +122,11 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 			delay_tween.tween_property(self, "_delay_timer", delay, delay)
 			delay_tween.tween_callback((func(b: Behavior): behavior = b).bind(b))
 		Behavior.CONTROLLED:
-			target = null
+			set_camera_target(null)
 		Behavior.CENTERED:
 			target_position = WorldGrid.tile_to_world(WorldGrid.get_center())
+		Behavior.TRACKING_PLAYER:
+			set_camera_target(PlayerManager.player)
 			
 ## Clears the current target and resets tracking state (used when tearing
 ## down/reinitializing a scene).
