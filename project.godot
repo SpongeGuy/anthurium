@@ -80,7 +80,8 @@ folder_colors={
 "res://scripts/lobes/": "teal",
 "res://scripts/resources/": "blue",
 "res://scripts/states/": "purple",
-"res://scripts/ui/": "pink"
+"res://scripts/ui/": "pink",
+"res://scripts/wave/": "blue"
 }
 
 [global_group]

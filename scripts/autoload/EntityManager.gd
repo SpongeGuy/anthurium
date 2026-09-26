@@ -1,125 +1,92 @@
-## Autoload: EntityManager
-##
-## Spawns and tracks every live [Entity] in the world. Wraps
-## [EntityRegistry].instantiate() with placement logic (safe/unoccupied
-## spawn positions, spawn-jitter, portal spawn tables), keeps
-## [member active_entities] up to date, and fires the associated spawn
-## effects/sounds.
 extends Node
-# audoload singleton!!!
+# EntityManager autoload
 
-
-## Max number of times [method spawn_safely]/[method spawn_portal] will nudge
-## a spawn position sideways to find an unoccupied spot.
-const MAX_SPAWN_NUDGE_ATTEMPTS: int = 16
-## Distance, in pixels, each nudge attempt moves the candidate spawn position.
-const SPAWN_NUDGE_DISTANCE: float = 16.0
-
-## tiles to search for an unoccupied ground tile before accepting overlap on the nearest one
 const FREE_SEARCH_RADIUS: int = 3
-## min distance (px) from other entities for a spawn to count as unoccupied
 const SPAWN_CLEARANCE: float = 12
 
-
-# -----------------------------------------------------------------------------------
-# manager
-# -----------------------------------------------------------------------------------
-
-## The [Node2D] new entities are parented under. Set by
-## [method register_ysort_entity_container].
 var _entity_container: Node2D
-## Particle effect burst on every successful spawn (see [method _add]).
-var pop_effect: ParticleProfile = load("uid://dmgf5tlac12go")
-## Sound played on spawn when requested (see [method spawn]/[method spawn_safely]).
-var poof_sound: VoiceProfile = load("uid://dgiuplfa2wr8m")
-
-## Every currently live entity.
 var active_entities: Array[Entity] = []
 
-## Frees every active entity (iterated in reverse so removal from
-## [member active_entities] during [signal Node.tree_exiting] doesn't skip
-## entries).
-func destroy_all() -> void:
+func register_ysort_entity_container(ysort: Node2D) -> void:
+	_entity_container = ysort
+	Log.info("Registered %s as new entity container." % ysort)
+
+
+
+
+
+
+
+
+# ---------------------------------------------------------------------------------------------------
+# main functions
+# ---------------------------------------------------------------------------------------------------
+
+func destroy_all_entities() -> void:
 	for i in range(active_entities.size() - 1, -1, -1):
 		active_entities[i].queue_free()
 
+func create_entity(entity_type: StringName) -> Entity:
+	if entity_type == "":
+		Log.error("Given blank entity_type, aborting entity instantiation.")
+		return null
+	var instance = EntityRegistry.instantiate(entity_type)
+	if not instance:
+		Log.error("Failed to instantiate '%s'" % entity_type)
+		return null
+	if not instance is Entity:
+		Log.error("EntityManager: '%s' is not an Entity" % entity_type)
+		instance.queue_free()
+		return null
+	instance.initialize()
+	return instance
 
-## Spawns [param entity_type] at [param pos] with a small random position
-## jitter (no occupancy check; see [method spawn_safely] for that).
-## Emits [signal EventBus.spawn_requested] before instantiation. Plays
-## [member poof_sound] unless [param play_sound] is [code]false[/code].
-func spawn(entity_type: StringName, pos: Vector2, play_sound: bool = true, z: float = 0) -> Entity:
-	EventBus.spawn_requested.emit(entity_type, pos)
-	var entity: Entity = _instantiate_entity(entity_type)
-	if not entity:
-		return null
-	var random_offset: Vector2 = Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
-	entity.global_position = pos + random_offset
-	entity.set_z_value(z)
-	_add(entity)
-	
-	if play_sound:
-		AudioManager.play_voice(poof_sound, entity)
-	return entity
-	
-## Spawns [param entity_type] near [param pos], finding a safe ground
-## position and nudging away from any occupied spot before placing it. Plays
-## [member poof_sound] unless [param play_sound] is [code]false[/code]. This
-## is the preferred spawn method for anything that shouldn't land on
-## impassable terrain or overlap another entity.
-func spawn_safely(entity_type: StringName, pos: Vector2, play_sound: bool = true) -> Entity:
-	EventBus.spawn_requested.emit(entity_type, pos)
-	var spawn_pos: Vector2 = _find_spawn_pos(pos)
-	if spawn_pos == Vector2.INF:
-		Log.error("No ground tile available to spawn %s" % entity_type)
-		return null
-	var entity: Entity = _instantiate_entity(entity_type)
-	if not entity:
-		return null
-	entity.global_position = spawn_pos
-	_add(entity)
-	if play_sound:
-		AudioManager.play_voice(poof_sound, entity)
-	return entity
-	
-## Spawns a [code]&"portal"[/code] entity near [param pos], configured with
-## [param spawn_table] (duplicated so each portal has its own copy). Finds a
-## safe ground position near [param pos] and nudges away from any occupied
-## spot before placing it.
-func spawn_portal(pos: Vector2, spawn_table: SpawnTable) -> Entity:
-	var spawn_pos: Vector2 = _find_spawn_pos(pos)
-	if spawn_pos == Vector2.INF:
-		Log.error("No ground tile available to spawn portal")
-		return null
-	var portal: Entity = _instantiate_entity(&"portal")
-	if not portal:
-		return null
-	var spawner: SpawnTableSpawnerComponent = portal.get_component(SpawnTableSpawnerComponent)
-	spawner.spawn_table = spawn_table.duplicate()	
-	portal.global_position = spawn_pos
-	_add(portal)
+## packages an entity
+func package_entity_into_portal(entity: Entity) -> Entity:
+	var portal: Entity = create_entity(&"portal")
+	if not portal.is_initialized:
+		await portal.entity_initialized
+	var p_component: PortalComponent = portal.get_component(PortalComponent)
+	p_component.add_entity(entity)
 	return portal
-	
-## Spawns a [code]&"portal"[/code] entity near [param pos], configured with
-## [param spawn_table] (duplicated so each portal has its own copy). Finds a
-## safe ground position near [param pos] and nudges away from any occupied
-## spot before placing it.
-func spawn_entity_portal(pos: Vector2, entity_name: StringName) -> Entity:
-	var spawn_pos: Vector2 = _find_spawn_pos(pos)
+
+func attach_key_to_entity(entity: Entity) -> Entity:
+	return null
+
+## takes in an Entity and adds it to the world at a given position and z.
+## offsets entity very slightly to prevent infinite collisions with other entities.
+## set safely to false to prevent checking for a valid ground location.
+func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool = false, safely: bool = true) -> void:
+	if not entity.is_initialized:
+		entity.initialize()
+	var spawn_pos: Vector2 = get_safe_spawn_position(position) if safely else position
 	if spawn_pos == Vector2.INF:
-		Log.error("No ground tile available to spawn portal")
-		return null
-	var portal: Entity = _instantiate_entity(&"portal")
-	if not portal:
-		return null
-	var spawner: SimpleSpawner = SimpleSpawner.new(entity_name)
-	portal.add_component(portal, spawner)
-	var entity: Entity = await spawner.get_entity()
-	portal.global_position = spawn_pos
-	_add(portal)
-	return entity
-	
-func _find_spawn_pos(desired: Vector2) -> Vector2:
+		Log.error("No ground tile found for spawn near %s" % position)
+		return
+	entity.global_position = spawn_pos + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
+	entity.set_z_value(z)
+	active_entities.append(entity)
+	if as_player:
+		PlayerManager.set_player(entity)
+	entity.tree_exiting.connect(_on_entity_left_tree.bind(entity), CONNECT_ONE_SHOT)
+	_entity_container.add_child.call_deferred(entity)
+	entity.is_spawned = true
+	entity.entity_spawned.emit.call_deferred()
+	EventBus.entity_spawned.emit.call_deferred(entity)
+
+func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: bool = false, safely: bool = true) -> void:
+	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, as_player, safely)
+
+func _on_entity_left_tree(e: Entity) -> void:
+	active_entities.erase(e)
+	EventBus.entity_destroyed.emit(e)
+
+
+# ---------------------------------------------------------------------------------------------------
+# utility
+# ---------------------------------------------------------------------------------------------------
+
+func get_safe_spawn_position(desired: Vector2) -> Vector2:
 	var origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))
 	var max_r: int = maxi(WorldGrid.width, WorldGrid.height)
 	var fallback: Vector2 = Vector2.INF # nearest ground tile, even if occupied
@@ -136,98 +103,31 @@ func _find_spawn_pos(desired: Vector2) -> Vector2:
 				var world: Vector2 = WorldGrid.tile_to_world(tile)
 				if fallback == Vector2.INF:
 					fallback = world
-				if not _is_position_occupied(world):
+				if not is_position_occupied(world):
 					return world
 	return fallback
-	
+
 func _is_ground_tile(tile: Vector2i) -> bool:
 	if tile.x < 0 or tile.y < 0 or tile.x >= WorldGrid.width or tile.y >= WorldGrid.height:
 		return false
 	var cell: CellData = WorldGrid.get_cell(tile)
 	return cell != null and cell.type.terrain == CellType.TerrainType.GROUND
+	
 
-
-	
-## Convenience wrapper around [method spawn_safely] that takes a tile
-## coordinate instead of a world position.
-func spawn_on_tile(entity_type: StringName, tile_pos: Vector2i) -> Entity:
-	var pos: Vector2 = WorldGrid.tile_to_world(tile_pos)
-	var entity: Entity = spawn_safely(entity_type, pos)
-	return entity
-	
-## Spawns [param entity_type] via [method spawn_safely] and hands control of
-## it to [PlayerManager] as soon as it's ready.
-func spawn_as_player(entity_type: StringName, pos: Vector2) -> Entity:
-	# this will need customized later to ensure that any creature can be spawned as a player
-	var entity: Entity = spawn_safely(entity_type, pos)
-	if not entity:
-		Log.error("This entity '%s' does not exist or was not registered!" % entity_type, true)
-	entity.ready.connect(PlayerManager.set_player.bind(entity), CONNECT_ONE_SHOT)
-	
-	return entity
-	
-## Returns whether any physics body occupies [param pos] (used to avoid
-## spawning entities on top of each other).
-func _is_position_occupied(pos: Vector2) -> bool:
+func is_position_occupied(position: Vector2) -> bool:
 	# entities spawned earlier this frame aren't in the physics space yet
 	for e: Entity in active_entities:
-		if is_instance_valid(e) and e.global_position.distance_to(pos) < SPAWN_CLEARANCE:
+		if is_instance_valid(e) and e.global_position.distance_to(position) < SPAWN_CLEARANCE:
 			return true
 	# other physics bodies
 	if _entity_container == null:
 		return false
 	var query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()
-	query.position = pos
+	query.position = position
 	query.collide_with_bodies = true
 	query.collide_with_areas = false
-	query.collision_mask = 0
+	query.collision_mask = SpatialUtil.PhysicsLayers.CREATURES
 	return not _entity_container.get_world_2d().direct_space_state.intersect_point(query, 1).is_empty()
-	
-# -----------------------------------------------------------------------------------
-# internal
-# -----------------------------------------------------------------------------------
 
-## Sets [param ysort] as the parent all spawned entities are added under.
-## Must be called once per world/scene before any entity is spawned.
-func register_ysort_entity_container(ysort: Node2D) -> void:
-	_entity_container = ysort
-	Log.info("Registered %s as new entity container." % ysort)
 
-## Loads and instantiates [param entity_type] via [EntityRegistry], validating
-## that the type is non-blank, actually exists, and is an [Entity] (freeing
-## and rejecting the instance otherwise). Returns [code]null[/code] on any
-## failure, with an error logged.
-func _instantiate_entity(entity_type: StringName) -> Entity:
-	if entity_type == "":
-		Log.error("Given blank entity_type, aborting entity instantiation.")
-		return null
-		
-	var instance = EntityRegistry.instantiate(entity_type)
-	if not instance:
-		Log.error("Failed to instantiate '%s'" % entity_type)
-		return null
-	if not instance is Entity:
-		Log.error("EntityManager: '%s' is not an Entity" % entity_type)
-		instance.queue_free()
-		return null
-	return instance
 
-## Registers [param e] as active, parents it under [member _entity_container]
-## (deferred), wires cleanup on [signal Node.tree_exiting], emits
-## [signal EventBus.entity_spawned], and bursts [member pop_effect] if the
-## spawn point is currently visible.
-func _add(e: Entity, z: float = 0) -> void:
-	active_entities.append(e)
-	e.tree_exiting.connect(_on_tree_exiting.bind(e), CONNECT_ONE_SHOT)
-	_entity_container.add_child.call_deferred(e)
-	EventBus.entity_spawned.emit.call_deferred(e)
-	if WorldGrid.is_world_pos_visible(e.global_position):
-		ParticleManager.burst.call_deferred(pop_effect, e.global_position)
-	
-	#Log.debug("Spawned new %s at %s" % [e, e.global_position])
-
-## Connected to each entity's [signal Node.tree_exiting]; removes [param e]
-## from [member active_entities] and emits [signal EventBus.entity_destroyed].
-func _on_tree_exiting(e: Entity) -> void:
-	active_entities.erase(e)
-	EventBus.entity_destroyed.emit()

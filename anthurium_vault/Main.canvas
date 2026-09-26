@@ -2,7 +2,9 @@
 	"nodes":[
 		{"id":"ebfe4da0b2c5b36e","type":"group","x":-14880,"y":-6080,"width":10930,"height":8301,"color":"6","label":"steps toward an actually playable game???"},
 		{"id":"4e9f41e6b75bb5c8","type":"group","x":-8160,"y":5720,"width":10080,"height":4600,"label":"SpawnManager PART 1"},
-		{"id":"e35a99910cfdd819","type":"group","x":-4160,"y":5920,"width":5360,"height":2880,"color":"4","label":"waver PART 2"},
+		{"id":"e35a99910cfdd819","type":"group","x":-4160,"y":5920,"width":5360,"height":3520,"color":"4","label":"waver PART 2"},
+		{"id":"06b288d1df7d0807","type":"group","x":-6560,"y":7040,"width":2190,"height":2400,"label":"WAVER PART 1"},
+		{"id":"7390fee60d128837","type":"group","ratio":1.7777777777777777,"x":-7760,"y":3800,"width":2631,"height":1480,"label":"redesigning these dudes"},
 		{"id":"a8e7257bcb3b477b","type":"group","x":-14250,"y":-11506,"width":9080,"height":4640,"color":"4","label":"PLANT TIME?"},
 		{"id":"a82b1623c6fc2b90","type":"group","x":-18400,"y":-23699,"width":4960,"height":3758,"label":"REALLY OLD INTENT RESOLVER (OLD AF)"},
 		{"id":"9db4e17aca0b22eb","type":"group","x":-10250,"y":-14880,"width":5520,"height":2774,"label":"BRAINSTORMING "},
@@ -22,10 +24,8 @@
 		{"id":"6907802407264478","type":"group","x":-10800,"y":5680,"width":1760,"height":3120,"label":"WAVER"},
 		{"id":"e61b6aca170d593a","type":"group","x":-21351,"y":-21820,"width":2951,"height":1805,"label":"we're GONNA DO STATE MACHINES ACTUALLY"},
 		{"id":"5707a9cef268ee72","type":"group","x":-7200,"y":-21465,"width":3203,"height":1650,"label":"(OLD) BRAINSTORMING THE FIRST PACK OF CREATURES (OLD)"},
-		{"id":"06b288d1df7d0807","type":"group","x":-6560,"y":7040,"width":2190,"height":2400,"label":"WAVER PART 1"},
 		{"id":"acefc4f7916b526a","type":"group","x":-11520,"y":-5940,"width":2730,"height":1560,"label":"BRAINSTORMING THE ANTHURIUM"},
 		{"id":"b12172d1303e424f","type":"group","x":-19870,"y":-9836,"width":1880,"height":2200,"label":"MAKING CHANGES TO TIE LOOSE ENDS BEFORE WRITING DOCUMENTATION"},
-		{"id":"7390fee60d128837","type":"group","ratio":1.7777777777777777,"x":-7760,"y":3800,"width":2631,"height":1480,"label":"redesigning these dudes"},
 		{"id":"709b6d73205f00d6","type":"group","x":-13000,"y":-23000,"width":2080,"height":1840,"label":"(old) GAME CONCEPT"},
 		{"id":"fbe135894e8b1d95","type":"group","x":-17350,"y":-8996,"width":2320,"height":1440,"color":"1","label":"UI HUD MENU"},
 		{"id":"8d1194adb0721c7f","type":"group","x":-16720,"y":-2540,"width":1480,"height":2080,"label":"TODO LIST"},
@@ -1615,76 +1615,6 @@
 			"height":420
 		},
 		{"id":"9693bd89d773047f","type":"link","url":"https://zladx.github.io/posts/special-effects-in-zelda-links-awakening","x":-6560,"y":3843,"width":400,"height":400},
-		{
-			"id":"56f2e5fdc8f31e08",
-			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name PortalComponent\n\n@export var autostart: bool = true\n@export var timer_length: float = 3.0\nvar _timer: float = 0.0\nvar entities_to_spawn: Array[Entity] = []\nvar activated: bool = false\n\nvar portal_particles: ParticleProfile = preload(\"uid://caei1gsudwqth\")\nvar portal_sound: VoiceProfile = preload(\"uid://ciolmmgn3qpw7\")\n\nfunc _on_registered() -> void:\n\t_timer = RandomUtil.randomize_float(RunRng.get_stream(&\"portal\"), timer_length, 1)\n\t\n\nfunc _on_entity_spawned() -> void:\n\tAudioManager.play_voice(portal_sound, entity.global_position)\n\tif autostart:\n\t\tactivated = true\n\nfunc _process(delta: float) -> void:\n\tif not activated:\n\t\treturn\n\t_elapse_timer(delta)\n\tParticleManager.burst(portal_particles, entity.global_position)\n\nfunc _elapse_timer(delta: float) -> void:\n\t_timer -= delta\n\tif _timer <= 0.0:\n\t\tactivate_portal()\n\nfunc add_entity(entity: Entity) -> void:\n\tentities_to_spawn.append(entity)\n\nfunc activate_portal() -> void:\n\tfor e in entities_to_spawn:\n\t\tEntityManager.spawn_entity(e, entity.global_position, entity.z)\n\tentity.queue_free()\n```",
-			"styleAttributes":{},
-			"x":-6876,
-			"y":5800,
-			"width":1140,
-			"height":880
-		},
-		{
-			"id":"2746395eecc1ceb1",
-			"type":"text",
-			"text":"design a spawninterface\n\nwave types\n{TIME, REMAINING, TIME_OR_REMAINING, BOSS}\n\nTIME waves move on",
-			"styleAttributes":{},
-			"x":-6410,
-			"y":7130,
-			"width":520,
-			"height":300
-		},
-		{
-			"id":"63058cdb26db8084",
-			"type":"text",
-			"text":"```\nAUTOLOAD SPAWNMANAGER\n\nvar current_wave: wave\n\nsignal all_waves_complete(pool: Pool)\n\nstart_wave(wave: Wave) -> void:\n\tcurrent_wave = wave\n\tbegin_spawning(wave)\n\tawait wave.all_entities_spawned\n\tregister_wave_completion_condition(wave)\n\nregister_wave(wave: Wave) -> void:\n\tconnect wave completion condition to _on_wave_complete()\n\n_on_wave_complete(wave: Wave) -> void:\n\tdisconnect that wave from _on_wave_complete()\n\tif wave.loop:\n\t\tstart_wave(wave)\n\t\treturn\n\tif wave is last in pool:\n\t\tall_waves_complete.emit(pool)\n\t\treturn\n\tpool.wave_value += 1\n\tif next wave completion condition is REMAINING or TIMEORREMAINING:\n\t\tnext_wave.tracked_entities = wave.tracked_entities\n\tstart_wave(next wave)\n\t\n\t\n\t\n\t\n```",
-			"styleAttributes":{},
-			"x":-5850,
-			"y":7130,
-			"width":620,
-			"height":780
-		},
-		{
-			"id":"aea27dd42e70a1d9",
-			"type":"text",
-			"text":"game concept:\n1. the player spawns into a level (collection of tiles)\n2. creatures are spawned in waves over time\n3. the player must survive until they find the entity that spawned with a key\n4. player must steal the key\n5. player escapes through door\n6. next level begins\n\nbut there are different modes\n- traditional (standard gamemode)\n- arena (large level, endless waves)\n- something else?\n\nthe goals\n- properly begin a new level when a wave completes\n- allow for endless waves (no level completion/progress)\n- properly scale difficulty by allowing harder and harder creatures to spawn as the wave value grows\n- allow to spawn special events\n\t- ex: multiple entities per portal\n\t- ex: spawn entities at custom z level\n\t- ex: spawn entities afflicted with some effect\n\t- ex: only one type of creature\n- allow the seamless addition of more completion types over development\n- programmatically create new waves as a level is finished",
-			"styleAttributes":{},
-			"x":-6500,
-			"y":7510,
-			"width":460,
-			"height":800
-		},
-		{
-			"id":"80f2cdb2b6eca011",
-			"type":"text",
-			"text":"```\nCLASS Level\n\nlevel: int\n\nstart_new_level(level: int)\n```",
-			"styleAttributes":{},
-			"x":-5850,
-			"y":8000,
-			"width":420,
-			"height":280
-		},
-		{
-			"id":"87ddca03514f594d",
-			"type":"text",
-			"text":"```\nCLASS Wave\n\nvar completion_condition\nvar entities_to_spawn: Array[Entity]\nvar random_delay_strength: float = 1.0\n\n```",
-			"styleAttributes":{},
-			"x":-6320,
-			"y":8420,
-			"width":560,
-			"height":420
-		},
-		{
-			"id":"d2ff73e323b45c1f",
-			"type":"text",
-			"text":"```\nCompletionConditionTime\n\nsignal wave_complete\nvar _timer: float\n@export var timer_length: float = 30.0\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionRemaining\n\nsignal wave_complete\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n```\n\n```\nCompletionConditionTimeOrRemaining\n\nsignal wave_complete\n\nvar _timer: float\n@export var timer_length: float = 30.0\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionBoss\n\nsignal wave_complete\n\nvar tracked_entity: Entity\n\nset tracked_entity(e: Entity) -> void:\n\ttracked_entity = e\n\nconnect tracked_entity.died to emit wave_complete\n```",
-			"styleAttributes":{},
-			"x":-5120,
-			"y":7100,
-			"width":520,
-			"height":1620
-		},
 		{"id":"ed338791e057ac17","type":"file","file":"assets/Pasted image 20260716153149.png","x":-6960,"y":4100,"width":400,"height":286},
 		{
 			"id":"9a3ad9cf982bf785",
@@ -1825,6 +1755,76 @@
 			"y":6020,
 			"width":900,
 			"height":1170
+		},
+		{
+			"id":"d2ff73e323b45c1f",
+			"type":"text",
+			"text":"```\nCompletionConditionTime\n\nsignal wave_complete\nvar _timer: float\n@export var timer_length: float = 30.0\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionRemaining\n\nsignal wave_complete\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n```\n\n```\nCompletionConditionTimeOrRemaining\n\nsignal wave_complete\n\nvar _timer: float\n@export var timer_length: float = 30.0\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionBoss\n\nsignal wave_complete\n\nvar tracked_entity: Entity\n\nset tracked_entity(e: Entity) -> void:\n\ttracked_entity = e\n\nconnect tracked_entity.died to emit wave_complete\n```",
+			"styleAttributes":{},
+			"x":-5120,
+			"y":7100,
+			"width":520,
+			"height":1620
+		},
+		{
+			"id":"63058cdb26db8084",
+			"type":"text",
+			"text":"```\nAUTOLOAD SPAWNMANAGER\n\nvar current_wave: wave\n\nsignal all_waves_complete(pool: Pool)\n\nstart_wave(wave: Wave) -> void:\n\tcurrent_wave = wave\n\tbegin_spawning(wave)\n\tawait wave.all_entities_spawned\n\tregister_wave_completion_condition(wave)\n\nregister_wave(wave: Wave) -> void:\n\tconnect wave completion condition to _on_wave_complete()\n\n_on_wave_complete(wave: Wave) -> void:\n\tdisconnect that wave from _on_wave_complete()\n\tif wave.loop:\n\t\tstart_wave(wave)\n\t\treturn\n\tif wave is last in pool:\n\t\tall_waves_complete.emit(pool)\n\t\treturn\n\tpool.wave_value += 1\n\tif next wave completion condition is REMAINING or TIMEORREMAINING:\n\t\tnext_wave.tracked_entities = wave.tracked_entities\n\tstart_wave(next wave)\n\t\n\t\n\t\n\t\n```",
+			"styleAttributes":{},
+			"x":-5850,
+			"y":7130,
+			"width":620,
+			"height":780
+		},
+		{
+			"id":"80f2cdb2b6eca011",
+			"type":"text",
+			"text":"```\nCLASS Level\n\nlevel: int\n\nstart_new_level(level: int)\n```",
+			"styleAttributes":{},
+			"x":-5850,
+			"y":8000,
+			"width":420,
+			"height":280
+		},
+		{
+			"id":"56f2e5fdc8f31e08",
+			"type":"text",
+			"text":"```gdscript\nextends Component\nclass_name PortalComponent\n\n@export var autostart: bool = true\n@export var timer_length: float = 3.0\nvar _timer: float = 0.0\nvar entities_to_spawn: Array[Entity] = []\nvar activated: bool = false\n\nvar portal_particles: ParticleProfile = preload(\"uid://caei1gsudwqth\")\nvar portal_sound: VoiceProfile = preload(\"uid://ciolmmgn3qpw7\")\n\nfunc _on_registered() -> void:\n\t_timer = RandomUtil.randomize_float(RunRng.get_stream(&\"portal\"), timer_length, 1)\n\t\n\nfunc _on_entity_spawned() -> void:\n\tAudioManager.play_voice(portal_sound, entity.global_position)\n\tif autostart:\n\t\tactivated = true\n\nfunc _process(delta: float) -> void:\n\tif not activated:\n\t\treturn\n\t_elapse_timer(delta)\n\tParticleManager.burst(portal_particles, entity.global_position)\n\nfunc _elapse_timer(delta: float) -> void:\n\t_timer -= delta\n\tif _timer <= 0.0:\n\t\tactivate_portal()\n\nfunc add_entity(entity: Entity) -> void:\n\tentities_to_spawn.append(entity)\n\nfunc activate_portal() -> void:\n\tfor e in entities_to_spawn:\n\t\tEntityManager.spawn_entity(e, entity.global_position, entity.z)\n\tentity.queue_free()\n```",
+			"styleAttributes":{},
+			"x":-6876,
+			"y":5800,
+			"width":1140,
+			"height":880
+		},
+		{
+			"id":"87ddca03514f594d",
+			"type":"text",
+			"text":"```\nCLASS Wave\n\nvar completion_condition\nvar entities_to_spawn: Array[Entity]\nvar random_delay_strength: float = 1.0\n\n```",
+			"styleAttributes":{},
+			"x":-6320,
+			"y":8420,
+			"width":560,
+			"height":420
+		},
+		{
+			"id":"2746395eecc1ceb1",
+			"type":"text",
+			"text":"design a spawninterface\n\nwave types\n{TIME, REMAINING, TIME_OR_REMAINING, BOSS}\n\nTIME waves move on",
+			"styleAttributes":{},
+			"x":-6410,
+			"y":7130,
+			"width":520,
+			"height":300
+		},
+		{
+			"id":"aea27dd42e70a1d9",
+			"type":"text",
+			"text":"game concept:\n1. the player spawns into a level (collection of tiles)\n2. creatures are spawned in waves over time\n3. the player must survive until they find the entity that spawned with a key\n4. player must steal the key\n5. player escapes through door\n6. next level begins\n\nbut there are different modes\n- traditional (standard gamemode)\n- arena (large level, endless waves)\n- something else?\n\nthe goals\n- properly begin a new level when a wave completes\n- allow for endless waves (no level completion/progress)\n- properly scale difficulty by allowing harder and harder creatures to spawn as the wave value grows\n- allow to spawn special events\n\t- ex: multiple entities per portal\n\t- ex: spawn entities at custom z level\n\t- ex: spawn entities afflicted with some effect\n\t- ex: only one type of creature\n- allow the seamless addition of more completion types over development\n- programmatically create new waves as a level is finished",
+			"styleAttributes":{},
+			"x":-6500,
+			"y":7510,
+			"width":460,
+			"height":800
 		}
 	],
 	"edges":[
