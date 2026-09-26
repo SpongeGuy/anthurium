@@ -123,8 +123,10 @@ func get_random_coords_of_type(terrain_type: CellType.TerrainType, rng: RandomNu
 	return matches[rng.randi_range(0, matches.size() - 1)]
 
 	
-func get_random_ground_tile(rng: RandomNumberGenerator) -> Vector2i:
-	return get_random_coords_of_type(CellType.TerrainType.GROUND, rng)
+func random_spawn_tile(rng: RandomNumberGenerator) -> Vector2i:
+	var pos: Vector2i = get_random_coords_of_type(CellType.TerrainType.GROUND, rng)
+	print(pos)
+	return pos
 
 	
 

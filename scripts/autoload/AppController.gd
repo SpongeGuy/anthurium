@@ -132,7 +132,7 @@ func _initialize_world() -> void:
 	CameraController.register_camera(camera_2d)
 	
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
-	EntityManager.destroy_all()
+	EntityManager.destroy_all_entities()
 	
 ## Sets [member active_controller] to [param controller], additionally
 ## switching [CameraController] into player-tracking mode when
@@ -196,8 +196,8 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			_run_boot_sequence()
 		AppStatus.MENU:
 			_initialize_world()
-			if not (GameInterface.game_instance_active and !forcing):
-				GameInterface.start_new_game_instance()
+			if not (GameInterface.run_active and !forcing):
+				GameInterface.start_new_run(randi_range(0, 9), randi())
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
 			await _wait_for_ui()
 			UiController.clear_stages()
@@ -213,7 +213,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			#await _fade(1, 0.6)
 			#_fade(1, 0.2)
 			_initialize_world()
-			GameInterface.start_new_run(randi())
+			GameInterface.start_new_run(randi_range(0, 9), randi())
 			
 			
 			_link_player_death()

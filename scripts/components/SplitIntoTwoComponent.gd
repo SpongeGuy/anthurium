@@ -47,7 +47,7 @@ func _on_hit_received(damage: float, source: Entity) -> void:
 
 	
 func _spawn_clone(basename: StringName, pos: Vector2, hp: float, max_hp: float, ich: float, max_ich: float) -> void:
-	var clone: Entity = EntityManager.spawn(basename, pos)
+	var clone: Entity = EntityManager.simple_spawn(basename, pos)
 	if not clone.is_initialized:
 		await clone.entity_initialized
 		

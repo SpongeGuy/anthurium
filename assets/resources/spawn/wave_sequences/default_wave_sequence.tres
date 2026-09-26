@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="WaveSequence" format=3 uid="uid://omfk37r5014h"]
+
+[ext_resource type="Script" uid="uid://by27gvavoxq4q" path="res://scripts/wave/completion_strategy/CompletionFactory.gd" id="1_orres"]
+[ext_resource type="Script" uid="uid://bjck2pfbbf6rk" path="res://scripts/wave/WaveSequence.gd" id="1_qvlpr"]
+[ext_resource type="Script" uid="uid://d2a52fpf8hi5h" path="res://scripts/wave/WaveGenerator.gd" id="1_smqsu"]
+[ext_resource type="Script" uid="uid://b3qn56embl7ab" path="res://scripts/wave/EntityPool.gd" id="2_7m0yv"]
+[ext_resource type="Script" uid="uid://3w8om5oexrvt" path="res://scripts/wave/completion_strategy/TimeCompletionFactory.gd" id="2_fie1e"]
+[ext_resource type="Script" uid="uid://b8573ggm2eaoh" path="res://scripts/wave/WaveDefinition.gd" id="2_naq2y"]
+[ext_resource type="Script" uid="uid://cxh36j76vvs2l" path="res://scripts/wave/EntityPoolEntry.gd" id="3_5tenk"]
+[ext_resource type="Script" uid="uid://dcpjv6wm6x24i" path="res://scripts/wave/completion_strategy/RemainingRatioCompletionFactory.gd" id="3_jjboo"]
+[ext_resource type="Script" uid="uid://c4ruv6hfsapap" path="res://scripts/wave/completion_strategy/CompositeAnyFactory.gd" id="4_3imac"]
+
+[sub_resource type="Resource" id="Resource_7m0yv"]
+script = ExtResource("2_fie1e")
+metadata/_custom_type_script = "uid://3w8om5oexrvt"
+
+[sub_resource type="Resource" id="Resource_5tenk"]
+script = ExtResource("3_jjboo")
+metadata/_custom_type_script = "uid://dcpjv6wm6x24i"
+
+[sub_resource type="Resource" id="Resource_smqsu"]
+script = ExtResource("4_3imac")
+factories = Array[ExtResource("1_orres")]([SubResource("Resource_7m0yv"), SubResource("Resource_5tenk")])
+metadata/_custom_type_script = "uid://c4ruv6hfsapap"
+
+[sub_resource type="Resource" id="Resource_4pijf"]
+script = ExtResource("3_5tenk")
+entity_type = &"maw"
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_1cgks"]
+script = ExtResource("3_5tenk")
+entity_type = &"splitmaw"
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_8d7bp"]
+script = ExtResource("2_7m0yv")
+entries = Array[ExtResource("3_5tenk")]([SubResource("Resource_4pijf"), SubResource("Resource_1cgks")])
+metadata/_custom_type_script = "uid://b3qn56embl7ab"
+
+[sub_resource type="Resource" id="Resource_dxhit"]
+script = ExtResource("1_smqsu")
+tiered_entity_pools = Array[ExtResource("2_7m0yv")]([SubResource("Resource_8d7bp")])
+base_budget = 10.0
+base_completion_factory = SubResource("Resource_smqsu")
+metadata/_custom_type_script = "uid://d2a52fpf8hi5h"
+
+[resource]
+script = ExtResource("1_qvlpr")
+generator = SubResource("Resource_dxhit")
+endless = true
+metadata/_custom_type_script = "uid://bjck2pfbbf6rk"

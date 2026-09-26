@@ -51,7 +51,7 @@ func _spawn_one() -> void:
 	var portal: Entity = EntityManager.create_entity(&"portal")
 	if portal == null:
 		return
-	EntityManager.spawn_entity(portal, WorldGrid.random_spawn_tile(), request.z)
+	EntityManager.spawn_entity_at_tile(portal, WorldGrid.random_spawn_tile(RunRng.get_stream(&"dungeon")), request.z)
 	
 	var p_component: PortalComponent = portal.get_component(PortalComponent)
 	if p_component == null:

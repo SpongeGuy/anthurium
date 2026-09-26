@@ -59,7 +59,7 @@ func attach_key_to_entity(entity: Entity) -> Entity:
 func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool = false, safely: bool = true) -> void:
 	if not entity.is_initialized:
 		entity.initialize()
-	var spawn_pos: Vector2 = get_safe_spawn_position(position) if safely else position
+	var spawn_pos: Vector2 = get_safe_spawn_position(position, false) if safely else position
 	if spawn_pos == Vector2.INF:
 		Log.error("No ground tile found for spawn near %s" % position)
 		return
@@ -77,6 +77,11 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool =
 func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: bool = false, safely: bool = true) -> void:
 	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, as_player, safely)
 
+func simple_spawn(entity_type: StringName, position: Vector2) -> Entity:
+	var entity: Entity = create_entity(entity_type)
+	spawn_entity(entity, position, 0)
+	return entity
+
 func _on_entity_left_tree(e: Entity) -> void:
 	active_entities.erase(e)
 	EventBus.entity_destroyed.emit(e)
@@ -86,7 +91,7 @@ func _on_entity_left_tree(e: Entity) -> void:
 # utility
 # ---------------------------------------------------------------------------------------------------
 
-func get_safe_spawn_position(desired: Vector2) -> Vector2:
+func get_safe_spawn_position(desired: Vector2, check_if_occupied: bool = true) -> Vector2:
 	var origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))
 	var max_r: int = maxi(WorldGrid.width, WorldGrid.height)
 	var fallback: Vector2 = Vector2.INF # nearest ground tile, even if occupied
@@ -103,7 +108,7 @@ func get_safe_spawn_position(desired: Vector2) -> Vector2:
 				var world: Vector2 = WorldGrid.tile_to_world(tile)
 				if fallback == Vector2.INF:
 					fallback = world
-				if not is_position_occupied(world):
+				if not is_position_occupied(world) and check_if_occupied:
 					return world
 	return fallback
 

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cf071yvpf2dmf"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_t8x8u"]
+[ext_resource type="Script" uid="uid://crehl8dm7xb3p" path="res://scripts/components/PortalComponent.gd" id="2_vpim1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_t8x8u"]
 
@@ -8,7 +9,16 @@
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_t8x8u")
+display_name = "Portal"
+ages = false
+base_point_value = 0.0
+render_shadow = false
+collide_with_terrain = false
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=12144814]
 shape = SubResource("CircleShape2D_t8x8u")
+
+[node name="PortalComponent" type="Node" parent="." unique_id=1463032443]
+script = ExtResource("2_vpim1")
+metadata/_custom_type_script = "uid://crehl8dm7xb3p"
