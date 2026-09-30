@@ -201,7 +201,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 				GameInterface.start_new_run(randi_range(0, 9), randi())
 			
 			await _wait_for_ui()
-			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, true)
+			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
 			UiController.clear_stages()
 			_fade(0, 1.6)
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
@@ -219,7 +219,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			
 			
 			_link_player_death()
-			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, true)
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, 0.0, true)
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()

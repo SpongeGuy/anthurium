@@ -98,11 +98,11 @@ func reveal_target() -> void:
 ## targeting, awaiting [signal EventBus.camera_target_changed] first if no
 ## target is set yet.
 func reveal_from_camera() -> void:
-	if not target_position:
-		await EventBus.camera_target_changed
-	if target_position / 16 < Vector2(0,0) or target_position / 16 > Vector2(WorldGrid.width, WorldGrid.height):
+	var tile: Vector2i = WorldGrid.world_to_tile(target_position)
+	if not WorldGrid._in_bounds(tile):
 		return
-	WorldGrid.reveal_from(WorldGrid.world_to_tile(target_position))
+	var safe_tile: Vector2i = WorldGrid.get_safe_coords(tile, CellType.TerrainType.GROUND)
+	WorldGrid.reveal_from(safe_tile)
 			
 ## Moves [member target_position] directly from raw movement input. Used
 ## when [member behavior] is [constant Behavior.CONTROLLED].
@@ -119,7 +119,7 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0, instant_transmission: bo
 	if behavior == b:
 		return
 	behavior = b
-	if behavior != Behavior.TRACKING_PLAYER:
+	if behavior != Behavior.TRACKING_PLAYER and PlayerManager.player_set.is_connected(set_camera_target):
 		PlayerManager.player_set.disconnect(set_camera_target)
 	if delay_tween:
 		delay_tween.kill()
@@ -133,15 +133,19 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0, instant_transmission: bo
 			set_camera_target(null)
 		Behavior.CENTERED:
 			target_position = WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.get_center(), CellType.TerrainType.GROUND))
-			
+			reveal_from_camera()
 		Behavior.TRACKING_PLAYER:
+			if PlayerManager.player_set.is_connected(set_camera_target):
+				PlayerManager.player_set.disconnect(set_camera_target)
+			PlayerManager.player_set.connect(set_camera_target.bind(instant_transmission))
 			if is_instance_valid(PlayerManager.player):
 				set_camera_target(PlayerManager.player)
-			PlayerManager.player_set.connect(set_camera_target)
 	
 	if instant_transmission:
-		camera.global_position = target_position
-			
+		go_instantly_to(target_position)
+
+
+
 ## Clears the current target and resets tracking state (used when tearing
 ## down/reinitializing a scene).
 func reset() -> void:
@@ -149,6 +153,8 @@ func reset() -> void:
 	target_position = Vector2.ZERO
 	behavior = 2
 	_delay_timer = 0
+	_visibility_timer = 0
+	_tracking_random_timer = 0.0
 
 
 ## Registers [param c] as the active camera and makes it current. Call this
@@ -162,13 +168,13 @@ func register_camera(c: Camera2D) -> void:
 ## Sets [member target] to [param new_target], snaps [member target_position]
 ## to it, and re-reveals [WorldGrid] fog-of-war from the new target's tile.
 ## Emits [signal EventBus.camera_target_changed].
-func set_camera_target(new_target: Entity) -> void:
+func set_camera_target(new_target: Entity, snap: bool = false) -> void:
 	if not new_target:
 		return
 	target = new_target
 	target_position = target.global_position
-	#WorldGrid.hide_map()
-	#WorldGrid.reveal_from(WorldGrid.world_to_tile(new_target.global_position))
+	if snap:
+		go_instantly_to(target_position)
 	EventBus.camera_target_changed.emit(target)
 
 ## Smoothly moves [member camera] toward [param pos] at [member lerp_weight].
@@ -270,22 +276,24 @@ func _handle_camera_behavior(delta: float) -> void:
 				return
 			target_position = target.global_position
 			go_to(target_position, delta)
-		Behavior.TRACKING_RANDOM:
-			_tracking_random_timer -= delta
-			if _tracking_random_timer <= 0.0:
-				var random_entity: Entity = EntityManager.active_entities.pick_random()
-				set_camera_target(random_entity)
-				_tracking_random_timer = tracking_random_patience + randf_range(-2, 2)
-			if not target:
-				return
-			target_position = target.global_position
+		Behavior.TRACKING_RANDOM, Behavior.TRACKING_PLAYER:
+			if behavior == Behavior.TRACKING_RANDOM:
+				_tracking_random_timer -= delta
+				if _tracking_random_timer <= 0.0:
+					_tracking_random_timer = tracking_random_patience + randf_range(-2, 2)
+					if not EntityManager.active_entities.is_empty():
+						set_camera_target(EntityManager.active_entities.pick_random())
+			if target and is_instance_valid(target):
+				target_position = target.global_position
+			else:
+				target_position = _get_center_fallback_position()
 			go_to(target_position, delta)
+		
 		Behavior.CENTERED:
-			if not target_position:
-				return
 			go_to(target_position, delta)
 				
-#func _reveal_target(delta: float) -> void:
+func _get_center_fallback_position() -> Vector2:
+	return WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.get_center(), CellType.TerrainType.GROUND))
 	
 				
 ## Decays [member trauma] and applies a random offset to [member camera]

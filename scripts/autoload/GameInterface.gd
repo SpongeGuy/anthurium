@@ -74,8 +74,8 @@ func start_level(value: int) -> void:
 	
 	if not background_mode:
 		await spawn_player("focks")
-	
-	CameraController.reveal_from_camera()
+		
+	process_paused = false
 
 
 
@@ -84,14 +84,14 @@ func spawn_player(entity_name: StringName) -> void:
 	UiController.hud.set_state(UIHUD.State.INACTIVE)
 	var spawn_pos: Vector2i = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon"))
 	WorldGrid.reveal_from(spawn_pos)
-	CameraController.camera.position = WorldGrid.tile_to_world(spawn_pos)
+	CameraController.go_instantly_to(WorldGrid.tile_to_world(spawn_pos))
 	var scriptsprite: ScriptableSprite = ScriptableSprite.new("focks", WorldGrid.tile_to_world(spawn_pos), SpatialUtil.get_random_offscreen_position(CameraController.camera), 2.5, 0)
 	AppController.container_2d.add_child(scriptsprite)
 	await scriptsprite.finished_animating
 	UiController.hud.set_state(UIHUD.State.BAR)
 	EntityManager.simple_spawn_tile("focks", spawn_pos, true)
 	#WorldGrid.reveal_from(spawn_pos)
-	process_paused = false
+	
 
 func sprite_effect_player(position: Vector2, duration: float) -> void:
 	UiController.hud.set_state(UIHUD.State.INACTIVE)

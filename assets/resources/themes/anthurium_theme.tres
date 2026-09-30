@@ -1,11 +1,19 @@
 [gd_resource type="Theme" format=3 uid="uid://c7c3qrvevgtyq"]
 
 [ext_resource type="FontFile" uid="uid://fuidqwknq7ee" path="res://scenes/title_screen/assets/anthurium.ttf" id="1_rc7ts"]
+[ext_resource type="Texture2D" uid="uid://lhr5gbsweeo8" path="res://assets/textures/ui/menu_bar.png" id="2_qlwko"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_emcra"]
+texture = ExtResource("2_qlwko")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [resource]
-Label/colors/font_outline_color = Color(0.31137782, 0.39481157, 0.89885145, 1)
-Label/constants/line_spacing = -3
-Label/constants/outline_size = 4
+Label/colors/font_color = Color(1, 1, 1, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+Label/constants/line_spacing = -4
+Label/constants/outline_size = 0
 Label/font_sizes/font_size = 16
 Label/fonts/font = ExtResource("1_rc7ts")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_emcra")
 VBoxContainer/constants/separation = 4

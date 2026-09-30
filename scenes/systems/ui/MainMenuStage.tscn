@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://b5yi37xgoxo62" path="res://scripts/classes/ui/ShaderToggleElement.gd" id="5_sjuov"]
 [ext_resource type="Resource" uid="uid://cud5hfeisji" path="res://assets/resources/voices/ui/select.tres" id="6_mbejk"]
 [ext_resource type="Resource" uid="uid://6kfffdktq8ls" path="res://assets/resources/voices/ui/start_game.tres" id="8_oyyju"]
+[ext_resource type="Texture2D" uid="uid://c2ri1sabhb54v" path="res://assets/textures/ui/menu_bar_end.png" id="9_k77ob"]
 [ext_resource type="Resource" uid="uid://qwsnfefry0wx" path="res://assets/resources/voices/ui/change_shader.tres" id="10_ndna1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjuov"]
@@ -21,7 +22,15 @@ _limits = [0.0, 20.0, 0.0, 10.0]
 _data = [Vector2(0, 0.009433985), 0.0, 0.0, 0, 0, Vector2(1.8799367, 10.97015), 0.0, 0.0, 0, 0, Vector2(3.649289, 1.5671635), 0.0, 0.0, 0, 0, Vector2(4.802528, 18.58209), 2.1257486, 2.1257486, 0, 0, Vector2(5.308057, 19.477613), 0.0, 0.0, 0, 0, Vector2(5.703002, 0.7462692), -6.2698774, 0.0, 0, 0, Vector2(5.845182, 5.5223885), 0.0, 0.0, 0, 0, Vector2(6.066351, 0.82089615), 0.0, 0.0, 0, 0, Vector2(6.2243285, 3.955225), 0.0, 0.0, 0, 0, Vector2(6.366509, 0.8955231), 0.0, 0.0, 0, 0, Vector2(6.587678, 2.5373135), 0.0, 0.0, 0, 0, Vector2(6.887836, 0.8955231), 0.0, 0.0, 0, 0, Vector2(7.488152, 4.925373), 0.0, 0.0, 0, 0, Vector2(8.025276, 0.5671644), 0.0, 0.0, 0, 0, Vector2(8.973144, 9.552239), 0.0, 0.0, 0, 0, Vector2(10, 0), 0.0, 0.0, 0, 0]
 point_count = 16
 
+[sub_resource type="Theme" id="Theme_gyaym"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_stjce"]
+texture = ExtResource("9_k77ob")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
 [node name="MainMenuStage" type="Control" unique_id=774012473 node_paths=PackedStringArray("starting_element")]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,85 +39,120 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ndna1")
 script = ExtResource("1_veghu")
-starting_element = NodePath("VBoxContainer/InteractableUI")
+starting_element = NodePath("VBoxContainer/spacer/HBoxContainer/menu_bar")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1707851953]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = 15.0
-offset_right = -2.0
-offset_bottom = 15.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=265145605]
-layout_mode = 0
-offset_left = 51.0
-offset_top = 62.0
-offset_right = 241.0
-offset_bottom = 129.0
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_constants/separation = 4
-
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=259412320]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=259412320]
 custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
+layout_mode = 0
+offset_left = 140.0
+offset_top = 59.0
+offset_right = 140.0
+offset_bottom = 94.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource("Theme_rpsxs")
 
-[node name="AnthuriumLogoBigShadow" type="Sprite2D" parent="VBoxContainer/PanelContainer" unique_id=720365006]
+[node name="AnthuriumLogoBigShadow" type="Sprite2D" parent="PanelContainer" unique_id=720365006]
 modulate = Color(1, 1, 1, 0.5137255)
-position = Vector2(1, 1)
+position = Vector2(2, 3)
 texture = ExtResource("3_ykqqj")
 
-[node name="AnthuriumLogo" type="Sprite2D" parent="VBoxContainer/PanelContainer" unique_id=555791681]
+[node name="AnthuriumLogo" type="Sprite2D" parent="PanelContainer" unique_id=555791681]
 texture_filter = 1
 texture = ExtResource("3_mbejk")
 script = ExtResource("5_jy4b1")
 position_curve = SubResource("Curve_jy4b1")
 
-[node name="InteractableUI" type="CenterContainer" parent="VBoxContainer" unique_id=198535401 node_paths=PackedStringArray("neighbor_down", "selection_location")]
-propagate_maximum_size = false
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=265145605]
+layout_mode = 0
+offset_top = 114.0
+offset_right = 190.0
+offset_bottom = 159.0
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="spacer" type="Control" parent="VBoxContainer" unique_id=1374664556]
 layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/spacer" unique_id=615611468]
+layout_mode = 0
+offset_left = -120.0
+offset_top = -4.0
+offset_right = 216.0
+offset_bottom = 12.0
+theme_override_constants/separation = 0
+
+[node name="menu_bar" type="PanelContainer" parent="VBoxContainer/spacer/HBoxContainer" unique_id=1444834196 node_paths=PackedStringArray("scaling_node", "neighbor_up", "neighbor_down", "selection_location")]
+layout_mode = 2
+size_flags_horizontal = 3
 script = ExtResource("4_sjuov")
 activate_sound = ExtResource("6_mbejk")
 start_sound = ExtResource("8_oyyju")
-neighbor_down = NodePath("../InteractableUI2")
+scaling_node = NodePath("../..")
+neighbor_up = NodePath("../../../spacer2/HBoxContainer/menu_bar")
+neighbor_down = NodePath("../../../spacer2/HBoxContainer/menu_bar")
 type = 1
 selection_location = NodePath("Marker2D")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
 
-[node name="Label" type="Label" parent="VBoxContainer/InteractableUI" unique_id=1639967190]
+[node name="Label" type="Label" parent="VBoxContainer/spacer/HBoxContainer/menu_bar" unique_id=1639967190]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
 text = "PLAY"
 
-[node name="Marker2D" type="Marker2D" parent="VBoxContainer/InteractableUI" unique_id=1579849734]
-position = Vector2(22, 11)
+[node name="Marker2D" type="Marker2D" parent="VBoxContainer/spacer/HBoxContainer/menu_bar" unique_id=1579849734]
+position = Vector2(338, 11)
 
-[node name="InteractableUI2" type="CenterContainer" parent="VBoxContainer" unique_id=866924052 node_paths=PackedStringArray("neighbor_up", "selection_location")]
-propagate_maximum_size = false
+[node name="menu_bar_endcap" type="Panel" parent="VBoxContainer/spacer/HBoxContainer" unique_id=175476020]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-size_flags_horizontal = 0
+theme = SubResource("Theme_gyaym")
+theme_override_styles/panel = SubResource("StyleBoxTexture_stjce")
+
+[node name="spacer2" type="Control" parent="VBoxContainer" unique_id=1842634274]
+layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 0
+offset_transform_enabled = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/spacer2" unique_id=684674266]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -8.25
+offset_right = 216.0
+offset_bottom = 8.25
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="menu_bar" type="PanelContainer" parent="VBoxContainer/spacer2/HBoxContainer" unique_id=400885709 node_paths=PackedStringArray("scaling_node", "neighbor_up", "neighbor_down", "selection_location")]
+layout_mode = 2
+size_flags_horizontal = 3
+offset_transform_enabled = true
 script = ExtResource("5_sjuov")
 activate_sound = ExtResource("6_mbejk")
 start_sound = ExtResource("10_ndna1")
-neighbor_up = NodePath("../InteractableUI")
+scaling_node = NodePath("../..")
+neighbor_up = NodePath("../../../spacer/HBoxContainer/menu_bar")
+neighbor_down = NodePath("../../../spacer/HBoxContainer/menu_bar")
 type = 1
 selection_location = NodePath("Marker2D")
-metadata/_custom_type_script = "uid://bj82h33km47f1"
 
-[node name="Label" type="Label" parent="VBoxContainer/InteractableUI2" unique_id=2010256991]
+[node name="Label" type="Label" parent="VBoxContainer/spacer2/HBoxContainer/menu_bar" unique_id=2010256991]
 layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
 text = "TOGGLE SHADERS"
 
-[node name="Marker2D" type="Marker2D" parent="VBoxContainer/InteractableUI2" unique_id=536725038]
-position = Vector2(71, 11)
+[node name="Marker2D" type="Marker2D" parent="VBoxContainer/spacer2/HBoxContainer/menu_bar" unique_id=536725038]
+position = Vector2(313, 11.25)
+
+[node name="menu_bar_endcap" type="Panel" parent="VBoxContainer/spacer2/HBoxContainer" unique_id=264427018]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+theme = SubResource("Theme_gyaym")
+theme_override_styles/panel = SubResource("StyleBoxTexture_stjce")
