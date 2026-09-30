@@ -48,6 +48,9 @@ func _process(delta: float) -> void:
 			hold_time[id] += delta
 		else:
 			hold_time[id] = 0	
+		
+	if debug_draw_input_direction:
+		entity.queue_redraw() 
 	
 func press_action(id: int) -> void:
 	if is_held[id] == true:
@@ -87,3 +90,20 @@ func release_interact() -> void:
 	
 func set_move_input_direction(direction: Vector2) -> void:
 	move_input_direction = direction
+
+
+# -------------------------------------------------------------------
+# debug
+# ----------------------------------------------------------------------------------
+@export var debug_draw_input_direction: bool = false
+const DEBUG_LINE_LENGTH: float = 16.0
+const DEBUG_LINE_COLOR: Color = Color(0.16, 0.463, 0.961, 1.0)
+
+func _on_registered() -> void:
+	entity.draw.connect(_on_entity_draw)
+	
+
+func _on_entity_draw() -> void:
+	if not debug_draw_input_direction:
+		return
+	entity.draw_line(Vector2.ZERO, move_input_direction * DEBUG_LINE_LENGTH, DEBUG_LINE_COLOR, 2.0)

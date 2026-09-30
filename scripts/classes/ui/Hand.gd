@@ -95,6 +95,8 @@ func go_invisible() -> void:
 	visible = false
 		
 func control(delta: float) -> void:
+	if not is_instance_valid(selected_element):
+		return
 	for dir in DIR_ACTIONS:
 		var strength: float = Input.get_action_raw_strength(DIR_ACTIONS[dir])
 		var is_down: bool = strength >= DEADZONE

@@ -1,7 +1,13 @@
 extends Component
 class_name PhysicsComponent
 
-@export var disabled: bool = false
+const Z_EXCEPTION_CHECK_INTERVAL: float = 0.1
+
+@export var disabled: bool = false:
+	set(value):
+		disabled = value
+		if disabled:
+			_accumulated_force = Vector2.ZERO
 
 @export var friction_coefficient: float = 1.0
 @export var base_friction: float = 800
@@ -9,6 +15,7 @@ class_name PhysicsComponent
 @export var min_bounce_speed: float = 40.0
 @export var max_speed: float = 1000.0
 @export var locomotion: LocomotionHandler
+@export var collision_query_radius: float = 16
 
 @export var knockback_minimum_force: float = 0.0
 @export var knockback_scale: float = 1.0
@@ -21,6 +28,7 @@ const OVERLAP_DEPTH_THRESHOLD: float = 1.0
 var physics_velocity: Vector2 = Vector2.ZERO
 var _accumulated_force: Vector2 = Vector2.ZERO
 var _z_excepted: Dictionary[Entity, bool] = {}
+var _z_check_timer: float = 0.0
 
 signal wall_collision(source: Node)
 signal entity_collision(source: Entity)
@@ -34,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	physics_update(delta)
 
 func physics_update(delta: float) -> void:
-	_update_z_collision_exceptions()
+	_update_z_collision_exceptions(delta)
 	_apply_forces(delta)
 
 	# raw locomotion output before any terrain effect
@@ -62,6 +70,8 @@ func clear_velocity() -> void:
 func apply_impulse(direction: Vector2, magnitude: float) -> void:
 	physics_velocity += direction.normalized() * (magnitude / entity.mass)
 
+## `magnitude` is a raw force value which integrates delta internally
+## do not pre-multiply by delta when calling this
 func apply_force(direction: Vector2, magnitude: float) -> void:
 	_accumulated_force += direction.normalized() * magnitude
 
@@ -84,13 +94,17 @@ func _apply_friction(delta: float) -> void:
 func _handle_cell_terrain(_delta: float) -> void:
 	pass
 
-func _update_z_collision_exceptions() -> void:
+func _update_z_collision_exceptions(delta: float) -> void:
 	if not entity.is_initialized:
 		return
 	if is_zero_approx(entity.z):
 		return
+	_z_check_timer -= delta
+	if _z_check_timer > 0.0:
+		return
+	_z_check_timer = Z_EXCEPTION_CHECK_INTERVAL
 	var space_state: PhysicsDirectSpaceState2D = entity.get_world_2d().direct_space_state
-	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, 16, SpatialUtil.PhysicsLayers.CREATURES)
+	var nearby: Array[Entity] = SpatialUtil.get_entities_in_radius(space_state, entity.position, collision_query_radius, SpatialUtil.PhysicsLayers.CREATURES)
 	var still_relevant: Dictionary[Entity, bool] = {}
 
 	for other in nearby:
@@ -145,40 +159,27 @@ func _handle_collisions(pre_velocity: Vector2, pre_full: Vector2) -> void:
 			var into_normal: float = pre_full.dot(normal)
 
 			if other_physics:
-				if into_normal < 0.0:
+				if into_normal < 0.0 and CollisionResolutionTracker.try_claim(entity, collider):
 					var m1: float = entity.mass
 					var m2: float = collider.mass
-					var is_dominant: bool = m1 > m2 or (m1 == m2 and entity.get_instance_id() < collider.get_instance_id())
-
-					if is_dominant:
-						var total: float = m1 + m2
-						# project both velocities onto the A->B axis. use each
-						# side's FULL velocity (physics + locomotion) so an
-						# entity actively walking into another contributes its
-						# real momentum instead of being treated as stationary.
-						var other_locomotion_velocity: Vector2 = other_physics.locomotion.velocity if other_physics.locomotion else Vector2.ZERO
-						var other_full: Vector2 = other_physics.physics_velocity + other_locomotion_velocity
-
-						var axis: Vector2 = -normal
-						var v_a: float = -into_normal
-						var v_b: float = other_full.dot(axis)
-
-						# generalized restitution formula (e=1: elastic, e=0: inelastic)
-						var e: float = (restitution + other_physics.restitution) * 0.5
-						var new_va: float = (m1 * v_a + m2 * v_b + m2 * e * (v_b - v_a)) / total
-						var new_vb: float = (m1 * v_a + m2 * v_b + m1 * e * (v_a - v_b)) / total
-
-						physics_velocity += axis * (new_va - v_a)
-						other_physics.physics_velocity += axis * (new_vb - v_b)
-
-						# NOTE: this whole branch only runs on the entity whose
-						# own move_and_slide() generated a slide collision this
-						# frame. A near-stationary heavy body being bumped by a
-						# light one may never register its own collision, so
-						# is_dominant == false on the light side means NOTHING
-						# resolves the hit. Fixing this needs symmetric overlap
-						# detection independent of move_and_slide, not a change
-						# here.
+					var total: float = m1 + m2
+					
+					# project both velocities onto an A->B axis
+					# use each side's full velocity (physics + locomotion) so an entity actively walking into anther contrubutes its real momentum instead of being treated as a lazy nonmoving chud
+					var other_locomotion_velocity: Vector2 =other_physics.locomotion.velocity if other_physics.locomotion else Vector2.ZERO
+					var other_full: Vector2 = other_physics.physics_velocity + other_locomotion_velocity
+					
+					var axis: Vector2 = -normal
+					var v_a: float = -into_normal
+					var v_b: float = other_full.dot(axis)
+					
+					# generalized restitution formula (e=1 elastic e=0 not)
+					var e: float = (restitution + other_physics.restitution) * 0.5
+					var new_va: float = (m1 * v_a + m2 * v_b + m2 * e * (v_b - v_a)) / total
+					var new_vb: float = (m1 * v_a + m2 + v_b + m1 * e * (v_a - v_b)) / total
+					
+					physics_velocity += axis * (new_va - v_a)
+					other_physics.physics_velocity += axis * (new_vb - v_b)
 			else:
 				if into_normal < 0.0:
 					physics_velocity -= normal * into_normal

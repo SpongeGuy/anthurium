@@ -6,16 +6,22 @@ extends Resource
 @export var base_completion_factory: CompletionFactory
 @export var waves_per_tier: int = 3
 @export var blend_overlap_waves: int = 1
+@export var escalation_soft_cap: int = 60
+@export var modifier_unlocks: Array[ModifierUnlock] = []
 
 func generate_wave(wave_value: int) -> WaveDefinition:
 	var def: WaveDefinition = WaveDefinition.new()
-	def.entity_pool = tiered_entity_pools[clampi(wave_value / waves_per_tier, 0, tiered_entity_pools.size() - 1)]
-	def.point_budget = base_budget * pow(budget_growth, wave_value)
+	def.entity_pool = _resolve_pool(wave_value)
+	var effective: int = mini(wave_value, escalation_soft_cap) + int(sqrt(maxf(0.0, wave_value - escalation_soft_cap)) * 3.0)
+	def.point_budget = base_budget * pow(budget_growth, effective)
 	def.completion_factory = base_completion_factory
+	for u in modifier_unlocks:
+		if wave_value >= u.unlocks_at_escalation:
+			def.spawn_modifiers.append(u.modifier)
 	return def
 
 func _resolve_pool(wave_value: int) -> EntityPool:
-	var tier_index: int = clampi(wave_value / waves_per_tier, 0, tiered_entity_pools.size())
+	var tier_index: int = clampi(wave_value / waves_per_tier, 0, tiered_entity_pools.size() - 1)
 	var current: EntityPool = tiered_entity_pools[tier_index]
 	
 	if tier_index >= tiered_entity_pools.size() - 1 or blend_overlap_waves <= 0:

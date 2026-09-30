@@ -13,9 +13,13 @@ static var score_collect_pos: Vector2 = Vector2(600, 350)
 @export var bg_color: ColorRect
 @export var player_health_bar: ProgressBar
 @export var player_saturation_bar: ProgressBar
+@export var player_health_label: Label
+@export var player_saturation_label: Label
 
 @export var score_1_label: RichTextLabel
 @export var score_2_label: RichTextLabel
+
+@export var level_display_label: Label
 
 @export var time_label: Label
 
@@ -48,10 +52,6 @@ var score_inactive_color: Color = Color(0.47, 0.47, 0.47, 1.0)
 
 var _voice_inv_open: VoiceProfile = preload("uid://b778tjvr2o26a")
 var _voice_inv_close: VoiceProfile = preload("uid://dy7px8dso8tvd")
-
-
-
-
 
 
 
@@ -108,11 +108,13 @@ func _tween_to(target: Vector2) -> void:
 
 
 
-func update_health(ratio: float) -> void:
-	player_health_bar.value = ratio * 100
+func update_health(value: float, max_value: float) -> void:
+	player_health_bar.value = (value / max_value) * 100
+	player_health_label.text = str("%s/%s" % [int(value), int(max_value)])
 	
-func update_ichor(ratio: float) -> void:
-	player_saturation_bar.value = ratio * 100
+func update_ichor(value: float, max_value: float) -> void:
+	player_saturation_bar.value = (value / max_value) * 100
+	player_saturation_label.text = str("%s/%s" % [int(value), int(max_value)])
 	
 ## Sets the icon displayed for [param slot] (0–3).
 ## Pass [code]null[/code] to clear the slot (shows the missing-ability placeholder).
@@ -167,3 +169,8 @@ func _write_score(value: float, label: RichTextLabel) -> void:
 func _update_time() -> void:
 	var total_seconds: int = int(GameInterface.time)
 	time_label.text = "%02d:%02d" % [total_seconds / 60, total_seconds % 60]
+
+func update_level_text() -> void:
+	level_display_label.text = str("Level %d" % [GameInterface.current_level + 1])
+
+

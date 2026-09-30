@@ -14,6 +14,7 @@ static var BITMASK_TABLE: Array[Vector2i] = _build_bitmask_table()
 func _ready() -> void:
 	WorldGrid.cell_changed.connect(_on_cell_changed)
 	WorldGrid.cells_changed.connect(_on_cells_changed)
+	EventBus.clearing_grid.connect(clear)
 	
 func _on_cell_changed(coords: Vector2i, cell: CellData) -> void:
 	_draw_cell(coords, cell)

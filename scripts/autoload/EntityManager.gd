@@ -69,6 +69,8 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool =
 	if as_player:
 		PlayerManager.set_player(entity)
 	entity.tree_exiting.connect(_on_entity_left_tree.bind(entity), CONNECT_ONE_SHOT)
+	var name_base: String = str(entity.basename) if entity.basename != &"" else entity.get_class()
+	entity.name = "%s_%d" % [name_base, entity.get_instance_id()]
 	_entity_container.add_child.call_deferred(entity)
 	entity.is_spawned = true
 	entity.entity_spawned.emit.call_deferred()
@@ -80,6 +82,11 @@ func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: b
 func simple_spawn(entity_type: StringName, position: Vector2, as_player: bool = false, safely: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
 	spawn_entity(entity, position, 0, as_player, safely)
+	return entity
+
+func simple_spawn_tile(entity_type: StringName, tile: Vector2i, as_player: bool = false, safely: bool = true) -> Entity:
+	var entity: Entity = create_entity(entity_type)
+	spawn_entity_at_tile(entity, tile, 0, as_player, safely)
 	return entity
 
 func _on_entity_left_tree(e: Entity) -> void:

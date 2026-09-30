@@ -44,6 +44,7 @@ func set_player(entity: Entity) -> void:
 	
 	player.died.connect(_on_player_death)
 	
+	
 ## Polls the action/modifier/interact inputs and movement axis each frame
 ## and forwards them to the current player's [InputComponent] and
 ## [FacingComponent]. No-op if no player is set.

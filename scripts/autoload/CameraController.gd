@@ -76,6 +76,8 @@ func _physics_process(delta: float) -> void:
 ## invisible in [WorldGrid] and, if so, forces a reveal from that tile. If
 ## there is no target, keeps revealing from the camera instead.
 func _periodically_reveal_target(delta: float) -> void:
+	if not target:
+		return
 	_visibility_timer += delta
 	if _visibility_timer >= visibility_check_interval:
 		_visibility_timer = 0
@@ -98,6 +100,8 @@ func reveal_target() -> void:
 func reveal_from_camera() -> void:
 	if not target_position:
 		await EventBus.camera_target_changed
+	if target_position / 16 < Vector2(0,0) or target_position / 16 > Vector2(WorldGrid.width, WorldGrid.height):
+		return
 	WorldGrid.reveal_from(WorldGrid.world_to_tile(target_position))
 			
 ## Moves [member target_position] directly from raw movement input. Used
@@ -111,12 +115,16 @@ func directly_control(delta: float) -> void:
 ## zero, the switch to [param b] is deferred by that many seconds via a
 ## tween (any previously pending delayed switch is cancelled first).
 ## Entering [constant Behavior.CONTROLLED] clears [member target].
-func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
+func set_behavior_mode(b: Behavior, delay: float = 0.0, instant_transmission: bool = false) -> void:
+	if behavior == b:
+		return
 	behavior = b
+	if behavior != Behavior.TRACKING_PLAYER:
+		PlayerManager.player_set.disconnect(set_camera_target)
 	if delay_tween:
 		delay_tween.kill()
 		_delay_timer = 0
-	match b:
+	match behavior:
 		Behavior.TRACKING_RANDOM:
 			delay_tween = create_tween()
 			delay_tween.tween_property(self, "_delay_timer", delay, delay)
@@ -124,9 +132,15 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0) -> void:
 		Behavior.CONTROLLED:
 			set_camera_target(null)
 		Behavior.CENTERED:
-			target_position = WorldGrid.tile_to_world(WorldGrid.get_center())
+			target_position = WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.get_center(), CellType.TerrainType.GROUND))
+			
 		Behavior.TRACKING_PLAYER:
-			set_camera_target(PlayerManager.player)
+			if is_instance_valid(PlayerManager.player):
+				set_camera_target(PlayerManager.player)
+			PlayerManager.player_set.connect(set_camera_target)
+	
+	if instant_transmission:
+		camera.global_position = target_position
 			
 ## Clears the current target and resets tracking state (used when tearing
 ## down/reinitializing a scene).
@@ -148,13 +162,13 @@ func register_camera(c: Camera2D) -> void:
 ## Sets [member target] to [param new_target], snaps [member target_position]
 ## to it, and re-reveals [WorldGrid] fog-of-war from the new target's tile.
 ## Emits [signal EventBus.camera_target_changed].
-func set_camera_target(new_target: Node2D) -> void:
+func set_camera_target(new_target: Entity) -> void:
 	if not new_target:
 		return
 	target = new_target
 	target_position = target.global_position
-	WorldGrid.hide_map()
-	WorldGrid.reveal_from(WorldGrid.world_to_tile(new_target.global_position))
+	#WorldGrid.hide_map()
+	#WorldGrid.reveal_from(WorldGrid.world_to_tile(new_target.global_position))
 	EventBus.camera_target_changed.emit(target)
 
 ## Smoothly moves [member camera] toward [param pos] at [member lerp_weight].

@@ -1,5 +1,7 @@
 class_name SpatialUtil
 
+static var _rect_query_shape: RectangleShape2D = RectangleShape2D.new()
+
 static func random_offset(min_distance: float, max_distance: float, min_angle: float = 0, max_angle: float = TAU) -> Vector2:
 	var angle: float = randf_range(min_angle, max_angle)
 	var distance: float = randf_range(min_distance, max_distance)
@@ -45,6 +47,44 @@ static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, posit
 	return entities
 	
 
+static func get_entities_in_rectangle(space_state: PhysicsDirectSpaceState2D, position: Vector2, size: Vector2, rotation: float = 0.0, collision_mask: int = 0xFFFFFFFF) -> Array[Entity]:
+	_rect_query_shape.size = size
+	
+	var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+	query.shape = _rect_query_shape
+	query.transform = Transform2D(rotation, position)
+	query.collision_mask = collision_mask
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	
+	var results: Array[Dictionary] = space_state.intersect_shape(query, 64)
+	
+	var seen: Dictionary[Entity, bool] = {}
+	var entities: Array[Entity] = []
+	for result in results:
+		var entity: Entity = Entity.find_entity(result["collider"])
+		if entity and not seen.has(entity):
+			seen[entity] = true
+			entities.append(entity)
+	return entities
+	
+static func get_random_offscreen_position(camera: Camera2D, margin: float = 20) -> Vector2:
+	var viewport_size: Vector2 = camera.get_viewport_rect().size
+	var half_extent: Vector2 = (viewport_size * 0.5) / camera.zoom
+	var center: Vector2 = camera.get_screen_center_position()
+	
+	var min_pos: Vector2 = center - half_extent - Vector2(margin, margin)
+	var max_pos: Vector2 = center + half_extent + Vector2(margin, margin)
+	
+	match randi() % 4:
+		0: # top
+			return Vector2(randf_range(min_pos.x, max_pos.x), min_pos.y)
+		1: # bottom
+			return Vector2(randf_range(min_pos.x, max_pos.x), max_pos.y)
+		2: # left
+			return Vector2(min_pos.x, randf_range(min_pos.y, max_pos.y))
+		_: # right
+			return Vector2(max_pos.x, randf_range(min_pos.y, max_pos.y))
 
 ## Returns whether two vertical spans overlap, where each span runs from
 ## its given bottom ([param z_min_a]/[param z_min_b]) up to bottom + height.
@@ -57,8 +97,7 @@ static func z_ranges_overlap(z_min_a: float, height_a: float, z_min_b: float, he
 static func get_safe_location(position: Vector2) -> Vector2:
 	var pos: Vector2 = WorldGrid.get_safe_world_pos(position, CellType.TerrainType.WALL)
 	return pos
-	
-	
+
 
 static func get_safe_location_relative(position: Vector2, min_distance: float, max_distance: float) -> Vector2:
 	var pos: Vector2 = random_position(position, min_distance, max_distance)
@@ -95,11 +134,13 @@ static func get_entities_in_cone(space_state: PhysicsDirectSpaceState2D, origin:
 	return entities
 
 
-static func get_nearest_entity_in_array(origin: Vector2, array: Array[Entity]) -> Entity:
+static func get_nearest_entity_in_array(origin: Vector2, array: Array[Entity], exceptions: Array[Entity] = []) -> Entity:
 	var nearest: Entity = null
 	var nearest_dist_sq: float = INF
 	for e in array:
 		if not is_instance_valid(e):
+			continue
+		if exceptions.has(e):
 			continue
 		var dist_sq: float = origin.distance_squared_to(e.global_position)
 		if dist_sq < nearest_dist_sq:

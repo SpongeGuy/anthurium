@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d1bn1no2fwcee"]
 
-[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/fancy_text.tres" id="1_rpsxs"]
+[ext_resource type="Theme" uid="uid://c7c3qrvevgtyq" path="res://assets/resources/themes/anthurium_theme.tres" id="1_ndna1"]
 [ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="1_veghu"]
 [ext_resource type="Texture2D" uid="uid://bh6o47i6fb44u" path="res://assets/textures/misc/anthurium_logo_big.png" id="3_mbejk"]
 [ext_resource type="Texture2D" uid="uid://vnyhvw78orwb" path="res://assets/textures/misc/anthurium_logo_big_shadow.png" id="3_ykqqj"]
@@ -28,46 +28,54 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_rpsxs")
+theme = ExtResource("1_ndna1")
 script = ExtResource("1_veghu")
-starting_element = NodePath("HBoxContainer/VBoxContainer/InteractableUI")
+starting_element = NodePath("VBoxContainer/InteractableUI")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1707851953]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 15.0
+offset_right = -2.0
+offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=265145605]
-layout_mode = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=265145605]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 62.0
+offset_right = 241.0
+offset_bottom = 129.0
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/separation = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer" unique_id=259412320]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=259412320]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = SubResource("Theme_rpsxs")
 
-[node name="AnthuriumLogoBigShadow" type="Sprite2D" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=720365006]
+[node name="AnthuriumLogoBigShadow" type="Sprite2D" parent="VBoxContainer/PanelContainer" unique_id=720365006]
 modulate = Color(1, 1, 1, 0.5137255)
 position = Vector2(1, 1)
 texture = ExtResource("3_ykqqj")
 
-[node name="AnthuriumLogo" type="Sprite2D" parent="HBoxContainer/VBoxContainer/PanelContainer" unique_id=555791681]
+[node name="AnthuriumLogo" type="Sprite2D" parent="VBoxContainer/PanelContainer" unique_id=555791681]
 texture_filter = 1
 texture = ExtResource("3_mbejk")
 script = ExtResource("5_jy4b1")
 position_curve = SubResource("Curve_jy4b1")
 
-[node name="InteractableUI" type="CenterContainer" parent="HBoxContainer/VBoxContainer" unique_id=198535401 node_paths=PackedStringArray("neighbor_down", "selection_location")]
+[node name="InteractableUI" type="CenterContainer" parent="VBoxContainer" unique_id=198535401 node_paths=PackedStringArray("neighbor_down", "selection_location")]
 propagate_maximum_size = false
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 mouse_filter = 0
 script = ExtResource("4_sjuov")
 activate_sound = ExtResource("6_mbejk")
@@ -77,17 +85,17 @@ type = 1
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://bj82h33km47f1"
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/InteractableUI" unique_id=1639967190]
+[node name="Label" type="Label" parent="VBoxContainer/InteractableUI" unique_id=1639967190]
 layout_mode = 2
 text = "PLAY"
 
-[node name="Marker2D" type="Marker2D" parent="HBoxContainer/VBoxContainer/InteractableUI" unique_id=1579849734]
+[node name="Marker2D" type="Marker2D" parent="VBoxContainer/InteractableUI" unique_id=1579849734]
 position = Vector2(22, 11)
 
-[node name="InteractableUI2" type="CenterContainer" parent="HBoxContainer/VBoxContainer" unique_id=866924052 node_paths=PackedStringArray("neighbor_up", "selection_location")]
+[node name="InteractableUI2" type="CenterContainer" parent="VBoxContainer" unique_id=866924052 node_paths=PackedStringArray("neighbor_up", "selection_location")]
 propagate_maximum_size = false
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 size_flags_vertical = 3
 mouse_filter = 0
 script = ExtResource("5_sjuov")
@@ -98,9 +106,9 @@ type = 1
 selection_location = NodePath("Marker2D")
 metadata/_custom_type_script = "uid://bj82h33km47f1"
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/InteractableUI2" unique_id=2010256991]
+[node name="Label" type="Label" parent="VBoxContainer/InteractableUI2" unique_id=2010256991]
 layout_mode = 2
 text = "TOGGLE SHADERS"
 
-[node name="Marker2D" type="Marker2D" parent="HBoxContainer/VBoxContainer/InteractableUI2" unique_id=536725038]
+[node name="Marker2D" type="Marker2D" parent="VBoxContainer/InteractableUI2" unique_id=536725038]
 position = Vector2(71, 11)

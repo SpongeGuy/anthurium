@@ -69,3 +69,10 @@ signal cell_revealed(coords: Vector2i)
 ## Emitted with a batch of tiles whose visibility changed together, from
 ## [WorldGrid]'s batching system.
 signal cells_visibled(batch: Dictionary[Vector2i, bool])
+
+
+
+
+signal gate_activated(position: Vector2)
+
+signal clearing_grid()

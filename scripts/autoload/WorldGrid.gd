@@ -64,6 +64,7 @@ signal grid_loaded
 ## [code]&"out_of_bounds"[/code], and resets the flood-fill visited buffer.
 ## Emits [signal grid_loaded] when finished.
 func init_grid(w: int, h: int) -> void:
+	EventBus.clearing_grid.emit()
 	width = w
 	height = h
 	grid_size.x = w
@@ -107,6 +108,15 @@ func safe_get_cell(coords: Vector2i) -> CellData:
 ## might be arbitrary.
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
+
+func is_entity_out_of_bounds(entity: Entity) -> bool:
+	if not entity:
+		return true
+	if entity.global_position.x < 0.0 or entity.global_position.x > WorldGrid.width * 16:
+		return true
+	if entity.global_position.y < 0.0 or entity.global_position.y > WorldGrid.height * 16:
+		return true
+	return false
 	
 func get_center() -> Vector2i:
 	return Vector2i(floor(width / 2), floor(height / 2))
@@ -125,7 +135,6 @@ func get_random_coords_of_type(terrain_type: CellType.TerrainType, rng: RandomNu
 	
 func random_spawn_tile(rng: RandomNumberGenerator) -> Vector2i:
 	var pos: Vector2i = get_random_coords_of_type(CellType.TerrainType.GROUND, rng)
-	print(pos)
 	return pos
 
 	
@@ -322,6 +331,11 @@ func tile_to_world(coords: Vector2i) -> Vector2:
 # Converts a pixel world position to the tile coordinate it falls in.
 ## Converts a pixel world position to the tile coordinate it falls in.
 func world_to_tile(world_pos: Vector2) -> Vector2i:
+	var tile_pos: Vector2i = world_pos / tile_size
+	if tile_pos.x < 0.0 or tile_pos.y < 0.0:
+		return Vector2i(0, 0)
+	elif tile_pos.x > width or tile_pos.y > height:
+		return Vector2i(width, height)
 	return Vector2i(world_pos / tile_size)
 	
 ## Returns the ring of tile coordinates exactly [param radius] tiles from
@@ -516,7 +530,8 @@ func reveal_from(coords: Vector2i) -> void:
 	var border: Array[Vector2i] = result[1]
 	
 	begin_batch()
-	hide_visible_cells()
+	#hide_visible_cells()
+	hide_map()
 	for tile in flooded: reveal_cell(tile)
 	for tile in border: reveal_cell(tile)
 	end_batch()

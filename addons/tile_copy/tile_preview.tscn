@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dn48owpjbw5q7"]
+
+[sub_resource type="GDScript" id="GDScript_aapsn"]
+script/source = "@tool
+extends TextureRect
+
+var disable: bool: set = set_disable
+var enable: bool: set = set_enable
+
+func set_disable(value: bool) -> void:
+	disable = value; enable = not disable
+
+func set_enable(value: bool) -> void:
+	enable = value
+	self_modulate = Color8(128, 128, 128, 255) if not enable else Color8(255, 255, 255, 255)
+
+func toggle(event: InputEvent) -> void:
+	if not disable and event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT: enable = not enable
+"
+
+[node name="TilePreview" type="TextureRect" unique_id=1738673596]
+script = SubResource("GDScript_aapsn")
+
+[connection signal="gui_input" from="." to="." method="toggle"]

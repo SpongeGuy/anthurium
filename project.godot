@@ -36,13 +36,14 @@ PlayerManager="*uid://bsea5f0xq6js7"
 ParticleManager="*uid://dysb6b5wli0hs"
 CameraController="*uid://rrfxfwvhpqup"
 AudioManager="*uid://uiuetvnukvsw"
-DungeonGenerator="*uid://poanoxh62038"
+TerrainManager="*uid://poanoxh62038"
 UiController="*uid://pmgi17orx2e7"
 GameInterface="*uid://d4myfbotj4m52"
 AnthuriumInterface="*uid://bqqf3kkn3ad37"
 MusicController="*uid://s3f234v7vm1e"
 SpawnManager="*uid://xxmimb4gpi12"
 RunRng="*uid://dtogeyftd4ovl"
+CollisionResolutionTracker="*uid://dauakwttssnwo"
 
 [display]
 
@@ -62,7 +63,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/min_max_range/plugin.cfg", "res://addons/quick_add_palette/plugin.cfg")
+enabled=PackedStringArray("res://addons/min_max_range/plugin.cfg", "res://addons/quick_add_palette/plugin.cfg", "res://addons/tile_copy/plugin.cfg")
 
 [file_customization]
 

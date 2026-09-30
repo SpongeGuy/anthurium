@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://cxasq8wcxx21c"]
+
+[sub_resource type="GDScript" id="GDScript_gv1iu"]
+script/source = "@tool
+extends Button
+@onready var source_terrain_input: SpinBox = $\"../SourceTerrain/SourceTerrainInput\"
+@onready var target_terrain_input: SpinBox = $\"../TargetTerrain/TargetTerrainInput\"
+
+func update_disabled(value: float) -> void:
+	disabled = source_terrain_input.value == target_terrain_input.value
+"
+
+[node name="Action" type="VBoxContainer" unique_id=1295703565]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 8.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="PrimaryActions" type="HBoxContainer" parent="." unique_id=1941127559]
+layout_mode = 2
+
+[node name="CopyButton" type="Button" parent="PrimaryActions" unique_id=1353220370]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Copy"
+
+[node name="PasteButton" type="Button" parent="PrimaryActions" unique_id=737356899]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Paste"
+
+[node name="SettingButton" type="Button" parent="PrimaryActions" unique_id=568467120]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Setting"
+
+[node name="TerrainActions" type="HBoxContainer" parent="." unique_id=1040925416]
+layout_mode = 2
+
+[node name="ChangeTerrainButton" type="Button" parent="TerrainActions" unique_id=2045798152]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "Change Terrain"
+script = SubResource("GDScript_gv1iu")
+
+[node name="SourceTerrain" type="HBoxContainer" parent="TerrainActions" unique_id=1501537107]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SourceTerrainLabel" type="Label" parent="TerrainActions/SourceTerrain" unique_id=510797855]
+layout_mode = 2
+text = "From"
+
+[node name="SourceTerrainInput" type="SpinBox" parent="TerrainActions/SourceTerrain" unique_id=1114274620]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TargetTerrain" type="HBoxContainer" parent="TerrainActions" unique_id=142445375]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TargetTerrainLabel" type="Label" parent="TerrainActions/TargetTerrain" unique_id=745707987]
+layout_mode = 2
+text = "To"
+
+[node name="TargetTerrainInput" type="SpinBox" parent="TerrainActions/TargetTerrain" unique_id=1229780878]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="value_changed" from="TerrainActions/SourceTerrain/SourceTerrainInput" to="TerrainActions/ChangeTerrainButton" method="update_disabled"]
+[connection signal="value_changed" from="TerrainActions/TargetTerrain/TargetTerrainInput" to="TerrainActions/ChangeTerrainButton" method="update_disabled"]

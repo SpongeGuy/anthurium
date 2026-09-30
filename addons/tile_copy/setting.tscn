@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://dyyawj2ata8gu"]
+
+[ext_resource type="Script" uid="uid://bbq2ibwju7xpf" path="res://addons/tile_copy/property.gd" id="1_woofo"]
+[ext_resource type="Script" uid="uid://l68txb8aaanh" path="res://addons/tile_copy/tile_panel.gd" id="2_aapsn"]
+
+[node name="Setting" type="AcceptDialog" unique_id=666650738]
+oversampling_override = 1.0
+title = "Setting"
+initial_position = 2
+size = Vector2i(1160, 560)
+visible = true
+extend_to_title = true
+maximize_disabled = false
+
+[node name="TreeBox" type="HBoxContainer" parent="." unique_id=1865727008]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
+script = ExtResource("1_woofo")
+
+[node name="Coords" type="VBoxContainer" parent="TreeBox" unique_id=1719763845]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CoordinateHeader" type="Label" parent="TreeBox/Coords" unique_id=930815242]
+layout_mode = 2
+text = "Position"
+
+[node name="HSeparator" type="HSeparator" parent="TreeBox/Coords" unique_id=941987027]
+layout_mode = 2
+
+[node name="TilePanel" type="Control" parent="TreeBox/Coords" unique_id=613592295]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_aapsn")
+
+[node name="GridContainer" type="GridContainer" parent="TreeBox/Coords/TilePanel" unique_id=1995091521]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Property" type="VBoxContainer" parent="TreeBox" unique_id=207658119]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PropertyLabel" type="Label" parent="TreeBox/Property" unique_id=1721869309]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Property"
+
+[node name="HSeparator" type="HSeparator" parent="TreeBox/Property" unique_id=459815198]
+layout_mode = 2
+
+[node name="PropertyTree" type="Tree" parent="TreeBox/Property" unique_id=1617678214]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+allow_search = false
+scroll_horizontal_enabled = false
+
+[connection signal="item_edited" from="TreeBox/Property/PropertyTree" to="TreeBox" method="property_edited" flags=18]

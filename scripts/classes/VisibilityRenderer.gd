@@ -13,7 +13,7 @@ func _ready() -> void:
 	WorldGrid.cell_hidden.connect(_on_cell_hidden)
 	WorldGrid.cell_revealed.connect(_on_cell_revealed)
 	WorldGrid.cells_visibled.connect(_on_cells_visibled)
-
+	EventBus.clearing_grid.connect(clear)
 
 
 func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:

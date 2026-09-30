@@ -98,6 +98,14 @@ const ENTRIES: Array[Dictionary] = [
 		"class": "Sprite2D"
 	},
 	{
+		"path": "uid://carvudot6oer3",
+		"name": "Sprite Animator",
+	},
+	{
+		"path": "uid://cw28uq3fxf7i4",
+		"name": "Directional Sprite Animator",
+	},
+	{
 		"path": "uid://bkky2iu1meoku",
 		"name": "Jump On Timer",
 	},
@@ -113,6 +121,10 @@ const ENTRIES: Array[Dictionary] = [
 	{
 		"path": "uid://d0066k548lth5",
 		"name": "Baby Creator Helper",
+	},
+	{
+		"path": "uid://cnaxik0pjumv5",
+		"name": "Align When Idle"
 	},
 ]
 

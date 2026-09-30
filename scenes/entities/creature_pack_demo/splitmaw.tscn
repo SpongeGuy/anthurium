@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://ysc88eihci7p" path="res://scripts/abilities/AbilitySimpleMelee.gd" id="17_xy8xq"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="18_tvqqb"]
 [ext_resource type="Script" uid="uid://d30f4je5cetgk" path="res://scripts/components/SplitIntoTwoComponent.gd" id="19_rhmen"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="19_s5hno"]
+[ext_resource type="Resource" uid="uid://bmogldi0iyxlj" path="res://assets/resources/voices/clone.tres" id="20_o6lq2"]
 
 [sub_resource type="Resource" id="Resource_6w5ym"]
 script = ExtResource("2_w8fg7")
@@ -60,6 +62,11 @@ metadata/_custom_type_script = "uid://c4d730vfuwdfd"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_euory"]
 size = Vector2(8, 12)
+
+[sub_resource type="Resource" id="Resource_h24i3"]
+script = ExtResource("19_s5hno")
+voice = ExtResource("20_o6lq2")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
 
 [node name="Splitmaw" type="CharacterBody2D" unique_id=606427597 node_paths=PackedStringArray("visual")]
 texture_filter = 1
@@ -134,6 +141,7 @@ shape = SubResource("RectangleShape2D_euory")
 script = ExtResource("19_rhmen")
 health = NodePath("../HealthPackage/HealthComponent")
 ichor = NodePath("../HealthPackage/IchorComponent")
+split_effect = SubResource("Resource_h24i3")
 metadata/_custom_type_script = "uid://d30f4je5cetgk"
 
 [editable path="HealthPackage"]

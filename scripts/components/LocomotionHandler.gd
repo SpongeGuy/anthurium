@@ -50,7 +50,8 @@ func handle_locomotion(delta: float) -> Vector2:
 		_move_timer -= delta
 		if _move_timer <= 0.0:
 			_move_timer = RandomUtil.randomize_float_with_personality(rng, move_timer, 0.5, 1 - brain.get_personality_value(Brain.PERSONALITY.ENERGY), 1.0)
-			unhandled_step = true
+			if entity.is_on_ground():
+				unhandled_step = true
 	if disabled:
 		velocity = lerp(velocity, Vector2.ZERO, delta * 5)
 	elif profile:

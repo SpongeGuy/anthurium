@@ -134,12 +134,11 @@ metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="Healthstuff" type="Node" parent="." unique_id=345034668]
 
-[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1789891772 node_paths=PackedStringArray("hitbox", "state_machine")]
+[node name="HealthComponent" type="Node" parent="Healthstuff" unique_id=1789891772 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("20_gjwwr")
 max_health = 50.0
 health = 50.0
 hitbox = NodePath("../../Hitbox")
-state_machine = NodePath("../../StateMachine")
 ichor_starvation = false
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 

@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="LevelTheme" format=3 uid="uid://c0rxqusmnh5ew"]
+
+[ext_resource type="Script" uid="uid://d2a52fpf8hi5h" path="res://scripts/wave/WaveGenerator.gd" id="1_20r56"]
+[ext_resource type="Script" uid="uid://by27gvavoxq4q" path="res://scripts/wave/completion_strategy/CompletionFactory.gd" id="2_fg5ej"]
+[ext_resource type="Script" uid="uid://dcpjv6wm6x24i" path="res://scripts/wave/completion_strategy/RemainingRatioCompletionFactory.gd" id="3_ocxq8"]
+[ext_resource type="Script" uid="uid://3w8om5oexrvt" path="res://scripts/wave/completion_strategy/TimeCompletionFactory.gd" id="4_uuw13"]
+[ext_resource type="Script" uid="uid://c4ruv6hfsapap" path="res://scripts/wave/completion_strategy/CompositeAnyFactory.gd" id="5_gc2l8"]
+[ext_resource type="Script" uid="uid://cut6kc4ak5jmd" path="res://scripts/wave/ModifierUnlock.gd" id="6_o3hpn"]
+[ext_resource type="Script" uid="uid://b3qn56embl7ab" path="res://scripts/wave/EntityPool.gd" id="7_uqmw5"]
+[ext_resource type="Resource" uid="uid://b1idivchte2hj" path="res://assets/resources/spawn/maw_entity_pool.tres" id="8_43qjk"]
+[ext_resource type="Resource" uid="uid://dwlhu2gyft0ir" path="res://assets/resources/spawn/hard_entity_pool.tres" id="9_l0e1b"]
+[ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/level/LevelTheme.gd" id="10_76jr3"]
+[ext_resource type="Script" uid="uid://dynnebcmmv3uv" path="res://scripts/resources/terrain_generation/DrunkWalkTerrainGenerator.gd" id="11_melao"]
+
+[sub_resource type="Resource" id="Resource_2yclo"]
+script = ExtResource("3_ocxq8")
+metadata/_custom_type_script = "uid://dcpjv6wm6x24i"
+
+[sub_resource type="Resource" id="Resource_tfof0"]
+script = ExtResource("4_uuw13")
+metadata/_custom_type_script = "uid://3w8om5oexrvt"
+
+[sub_resource type="Resource" id="Resource_gpotn"]
+script = ExtResource("5_gc2l8")
+factories = Array[ExtResource("2_fg5ej")]([SubResource("Resource_2yclo"), SubResource("Resource_tfof0")])
+metadata/_custom_type_script = "uid://c4ruv6hfsapap"
+
+[sub_resource type="Resource" id="Resource_dbsae"]
+script = ExtResource("1_20r56")
+tiered_entity_pools = Array[ExtResource("7_uqmw5")]([ExtResource("8_43qjk"), ExtResource("9_l0e1b")])
+base_budget = 10.0
+base_completion_factory = SubResource("Resource_gpotn")
+metadata/_custom_type_script = "uid://d2a52fpf8hi5h"
+
+[sub_resource type="Resource" id="Resource_5vyu4"]
+script = ExtResource("11_melao")
+path_count = 4
+symmetry = 4
+metadata/_custom_type_script = "uid://dynnebcmmv3uv"
+
+[resource]
+script = ExtResource("10_76jr3")
+theme_name = &"grass"
+terrain_generator = SubResource("Resource_5vyu4")
+ground_type = &"ground_castle"
+soft_wall_type = &"wall_blick_block"
+wall_type = &"wall_stone"
+indestructible_type = &"wall_indestructible"
+pool_generators = Dictionary[StringName, ExtResource("1_20r56")]({
+&"grass": SubResource("Resource_dbsae")
+})
+metadata/_custom_type_script = "uid://cfuo6d2t7toqp"

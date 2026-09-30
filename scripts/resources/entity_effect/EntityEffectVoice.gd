@@ -4,4 +4,7 @@ class_name EntityEffectVoice
 @export var voice: VoiceProfile
 
 func _execute(entity: Entity) -> void:
-	AudioManager.play_voice(voice, entity)
+	if entity:
+		AudioManager.play_voice(voice, entity)
+	else:
+		AudioManager.play_voice(voice, null, true, false)

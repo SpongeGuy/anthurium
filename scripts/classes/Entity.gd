@@ -61,6 +61,8 @@ var is_spawned: bool = false
 ## or it could be funy haha :)))))
 var owned_by: Entity = null
 
+var key: Entity = null
+
 
 func _ready() -> void:
 	if not is_initialized: # covers entities placed in scene directly, not spawned using EntityManager
@@ -79,6 +81,12 @@ func _ready() -> void:
 	points = base_point_value
 	is_spawned = true
 	
+	_out_of_bounds_despawn_timer = out_of_bounds_check_timer
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# COMPONENT MANAGEMENT
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 func initialize() -> void:
 	if is_initialized:
 		return
@@ -146,40 +154,48 @@ func has_component(type: Script) -> bool:
 func get_basename() -> StringName:
 	return StringName(get_scene_file_path().get_file().get_basename())
 
-## Walks up the scene tree from [param node] until an [Entity] ancestor is found.[br]
-## Returns [code]null[/code] if no [Entity] exists in the ancestry.[br][br]
-## Useful for nodes that are nested inside an entity's scene tree but are not
-## [Component] instances themselves, such as [Hitbox] or [Hurtbox].
-static func find_entity(node: Node) -> Entity:
-	if node == null:
-		return null
-	if node is Entity:
-		return node
-	return find_entity(node.get_parent())
 
-
-func get_visual() -> CanvasItem:
-	return visual
 		
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# age
+# age and out of bounds
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 @export_category("Lifespan")
 @export var ages: bool = true
 @export var age: float = 0.0
 @export var lifespan: float = -1
+@export var out_of_bounds_despawn_timer: float = 5.0
+
+var _out_of_bounds_despawn_timer: float = 0.0
+var out_of_bounds_check_timer: float = 5.0
+var _out_of_bounds_check_timer: float = 0.0
+
+var is_out_of_bounds: bool = false:
+	set(value):
+		is_out_of_bounds = value
+		if value == false:
+			_out_of_bounds_despawn_timer = out_of_bounds_check_timer
 
 signal expired
 
 func _process(delta: float) -> void:
 	if ages:
 		_accumulate_age(delta)
+	if _out_of_bounds_check_timer <= 0.0:
+		_out_of_bounds_check_timer = out_of_bounds_check_timer
+		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
+	if is_out_of_bounds:
+		_out_of_bounds_despawn_timer -= delta
+	if _out_of_bounds_despawn_timer <= 0.0:
+		died.emit()
+		queue_free()
 
 func _accumulate_age(delta: float) -> void:
 	age += delta
 	if age >= lifespan:
 		expired.emit()
+
+
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # points
@@ -374,3 +390,21 @@ func set_z_value(value: float) -> void:
 	_apply_z_offset()
 
 
+# ------------------------------------------------------------------------------------------------
+# UTILITY
+# ------------------------------------------------------------------------------------------------
+
+## Walks up the scene tree from [param node] until an [Entity] ancestor is found.[br]
+## Returns [code]null[/code] if no [Entity] exists in the ancestry.[br][br]
+## Useful for nodes that are nested inside an entity's scene tree but are not
+## [Component] instances themselves, such as [Hitbox] or [Hurtbox].
+static func find_entity(node: Node) -> Entity:
+	if node == null:
+		return null
+	if node is Entity:
+		return node
+	return find_entity(node.get_parent())
+
+
+func get_visual() -> CanvasItem:
+	return visual

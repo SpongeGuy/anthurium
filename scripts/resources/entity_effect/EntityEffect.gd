@@ -29,7 +29,9 @@ func _passes_chance() -> bool:
 	return randf() < percent_chance
 
 func _entity_is_invisible(entity: Entity) -> bool:
-	var cell: CellData = WorldGrid.get_cell(WorldGrid.world_to_tile(entity.position))
+	if WorldGrid.is_entity_out_of_bounds(entity):
+		return true
+	var cell: CellData = WorldGrid.get_cell(WorldGrid.world_to_tile(entity.global_position))
 	return cell.invisible if cell else false
 
 ## override this. if the work is asynchronous (an animation, tween, a nested effect), use

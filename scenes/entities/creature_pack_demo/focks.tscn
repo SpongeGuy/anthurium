@@ -105,6 +105,7 @@ script = ExtResource("1_7d0cd")
 display_name = "jacob"
 visual = NodePath("Visual/Main")
 archetype = SubResource("Resource_m5w7m")
+mass = 5.0
 nodes_to_translate = [NodePath("HitDetection/Hitbox")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=174038696]
@@ -118,6 +119,7 @@ position = Vector2(0, -8)
 texture = ExtResource("2_e1qh5")
 hframes = 2
 vframes = 3
+frame = 4
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1393877488]
 

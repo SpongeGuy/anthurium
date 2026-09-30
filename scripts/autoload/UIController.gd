@@ -181,10 +181,12 @@ func _bind_player(entity: Entity) -> void:
 	_health_component = entity.get_component(HealthComponent)
 	if _health_component:
 		_health_component.health_changed.connect(_on_health_changed)
+		_on_health_changed(_health_component.health, _health_component.max_health)
 
 	_ichor_component = entity.get_component(IchorComponent)
 	if _ichor_component:
 		_ichor_component.ichor_changed.connect(_on_ichor_changed)
+		_on_ichor_changed(_ichor_component.ichor, _ichor_component.max_ichor)
 		
 	_ability_manager = entity.get_component(AbilityManager)
 	if _ability_manager:
@@ -245,9 +247,9 @@ func _on_ability_unregistered(slot: int) -> void:
 ## Connected to [signal HealthComponent.health_changed]; updates the HUD
 ## health bar as a fraction of max health.
 func _on_health_changed(value: float, max_value: float) -> void:
-	hud.update_health(value / max_value)
+	hud.update_health(value, max_value)
 
 ## Connected to [signal IchorComponent.ichor_changed]; updates the HUD ichor
 ## bar as a fraction of max ichor.
 func _on_ichor_changed(value: float, max_value: float) -> void:
-	hud.update_ichor(value / max_value)
+	hud.update_ichor(value, max_value)

@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://lrbyxx5gehes"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_ua105"]
+[ext_resource type="Texture2D" uid="uid://cqnyny28borcn" path="res://assets/textures/characters/bestguys/gate.png" id="2_0nnkv"]
+[ext_resource type="Script" uid="uid://cnaxik0pjumv5" path="res://scripts/components/IdleAlignComponent.gd" id="3_yei6x"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="4_wnur6"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="5_felwl"]
+[ext_resource type="Script" uid="uid://xakbsadm17jc" path="res://scripts/components/GateComponent.gd" id="6_searq"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_felwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gw2ls"]
+size = Vector2(14, 14)
+
+[sub_resource type="Resource" id="Resource_olap2"]
+script = ExtResource("7_felwl")
+name = &"warp"
+frames = 3
+speed = 10.0
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[node name="Gate" type="CharacterBody2D" unique_id=1243103028 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+script = ExtResource("1_ua105")
+display_name = "Gate"
+visual = NodePath("Sprite2D")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=745667078]
+texture = ExtResource("2_0nnkv")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1155352693]
+shape = SubResource("RectangleShape2D_gw2ls")
+
+[node name="AlignWhenIdle" type="Node" parent="." unique_id=1529354458 node_paths=PackedStringArray("physics")]
+script = ExtResource("3_yei6x")
+physics = NodePath("../PhysicsComponent")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=233639390]
+script = ExtResource("4_wnur6")
+metadata/_custom_type_script = "uid://bm176fnqfiea6"
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=1914553190 node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_felwl")
+sprite = NodePath("../Sprite2D")
+default_animation = SubResource("Resource_olap2")
+
+[node name="GateComponent" type="Node" parent="." unique_id=166321317]
+script = ExtResource("6_searq")
+metadata/_custom_type_script = "uid://xakbsadm17jc"

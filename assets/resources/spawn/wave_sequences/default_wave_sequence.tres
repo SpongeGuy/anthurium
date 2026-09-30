@@ -33,9 +33,16 @@ script = ExtResource("3_5tenk")
 entity_type = &"splitmaw"
 metadata/_custom_type_script = "uid://cxh36j76vvs2l"
 
+[sub_resource type="Resource" id="Resource_5vyu4"]
+script = ExtResource("3_5tenk")
+entity_type = &"skippa"
+weight = 0.5
+cost = 3.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
 [sub_resource type="Resource" id="Resource_8d7bp"]
 script = ExtResource("2_7m0yv")
-entries = Array[ExtResource("3_5tenk")]([SubResource("Resource_4pijf"), SubResource("Resource_1cgks")])
+entries = Array[ExtResource("3_5tenk")]([SubResource("Resource_4pijf"), SubResource("Resource_1cgks"), SubResource("Resource_5vyu4")])
 metadata/_custom_type_script = "uid://b3qn56embl7ab"
 
 [sub_resource type="Resource" id="Resource_dxhit"]

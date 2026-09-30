@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://bdnjlyan2i580"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_olap2"]
+[ext_resource type="Texture2D" uid="uid://b44r8qlftflcl" path="res://assets/textures/characters/bestguys/key.png" id="2_2mgyb"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="3_5wob7"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="4_rbp2h"]
+[ext_resource type="Script" uid="uid://cju8ec73bv23l" path="res://scripts/components/KeyComponent.gd" id="5_jq8g1"]
+[ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="6_r45tm"]
+[ext_resource type="Resource" uid="uid://cckynqp7uo5qm" path="res://assets/resources/voices/key_take.tres" id="7_r4jhi"]
+[ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="8_wod2m"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="9_5d7fs"]
+[ext_resource type="Script" uid="uid://cnaxik0pjumv5" path="res://scripts/components/IdleAlignComponent.gd" id="10_isthj"]
+[ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="11_lqqrq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ayuw"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_21scq"]
+script = ExtResource("6_r45tm")
+voice = ExtResource("7_r4jhi")
+metadata/_custom_type_script = "uid://bwr5nnuoec6r2"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pk2uk"]
+
+[node name="Key" type="CharacterBody2D" unique_id=1070054978 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_olap2")
+display_name = "Key"
+visual = NodePath("Sprite2D")
+jump_effect = null
+land_effect = null
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1377485209]
+position = Vector2(0, -7)
+texture = ExtResource("2_2mgyb")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=1076954807]
+script = ExtResource("3_5wob7")
+
+[node name="InputComponent" type="Node" parent="." unique_id=1166453932]
+script = ExtResource("4_rbp2h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1972007349]
+shape = SubResource("CircleShape2D_8ayuw")
+
+[node name="KeyComponent" type="Node" parent="." unique_id=1143055105 node_paths=PackedStringArray("input", "physics")]
+script = ExtResource("5_jq8g1")
+input = NodePath("../InputComponent")
+physics = NodePath("../PhysicsComponent")
+take_effect = SubResource("Resource_21scq")
+metadata/_custom_type_script = "uid://cju8ec73bv23l"
+
+[node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("collision_shape", "physics") instance=ExtResource("8_wod2m")]
+position = Vector2(0, -7)
+script = ExtResource("9_5d7fs")
+collision_shape = NodePath("CollisionShape2D")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
+shape = SubResource("CircleShape2D_pk2uk")
+
+[node name="IdleAlignComponent" type="Node" parent="." unique_id=1372735112 node_paths=PackedStringArray("physics")]
+script = ExtResource("10_isthj")
+physics = NodePath("../PhysicsComponent")
+metadata/_custom_type_script = "uid://cnaxik0pjumv5"
+
+[node name="CosmeticGlow" type="Node" parent="." unique_id=1396687708 node_paths=PackedStringArray("sprite")]
+script = ExtResource("11_lqqrq")
+sprite = NodePath("../Sprite2D")
+glow_width = 1.0
+
+[editable path="Hitbox"]

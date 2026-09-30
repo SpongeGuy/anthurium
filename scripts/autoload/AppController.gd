@@ -199,10 +199,11 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			GameInterface.background_mode = true
 			if not (GameInterface.run_active and !forcing):
 				GameInterface.start_new_run(randi_range(0, 9), randi())
-			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM)
+			
 			await _wait_for_ui()
+			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, true)
 			UiController.clear_stages()
-			#_fade(0, 1.6)
+			_fade(0, 1.6)
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
 			MusicController.play(true)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
@@ -212,20 +213,17 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			GameInterface.background_mode = false
 			UiController.clear_stages()
 			MusicController.stop()
-			#await _fade(1, 0.6)
-			#_fade(1, 0.2)
+			await _fade(1, 0.6)
 			_initialize_world()
-			GameInterface.start_new_run(randi_range(0, 9), randi())
+			GameInterface.start_new_run(0, randi())
 			
 			
 			_link_player_death()
-			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER)
+			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, true)
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
-			
-			UiController.hud.set_state(UIHUD.State.BAR)
-			#_fade(0, 0.5)
+			_fade(0, 0.5)
 		AppStatus.GAMEOVER:
 			GameInterface.background_mode = true
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="LevelDefinition" format=3 uid="uid://e4wghocsr5ug"]
 
 [ext_resource type="Script" uid="uid://bjck2pfbbf6rk" path="res://scripts/wave/WaveSequence.gd" id="1_523fa"]
-[ext_resource type="Script" uid="uid://bbmvt1d2ijx18" path="res://scripts/wave/LevelDefinition.gd" id="2_8proo"]
+[ext_resource type="Script" uid="uid://bbmvt1d2ijx18" path="res://scripts/wave/level/LevelDefinition.gd" id="2_8proo"]
 [ext_resource type="Resource" uid="uid://omfk37r5014h" path="res://assets/resources/spawn/wave_sequences/default_wave_sequence.tres" id="2_dx3nq"]
 
 [resource]
