@@ -128,7 +128,7 @@ func _initialize_world() -> void:
 	camera_2d = Camera2D.new()
 	world_2d.add_child(camera_2d)
 	world_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
-	#CameraController.reset()
+	CameraController.reset()
 	CameraController.register_camera(camera_2d)
 	
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
@@ -199,7 +199,6 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			GameInterface.background_mode = true
 			if not (GameInterface.run_active and !forcing):
 				GameInterface.start_new_run(randi_range(0, 9), randi())
-			
 			await _wait_for_ui()
 			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
 			UiController.clear_stages()
@@ -215,21 +214,20 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			MusicController.stop()
 			await _fade(1, 0.6)
 			_initialize_world()
-			GameInterface.start_new_run(0, randi())
-			
-			
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, 0.0, true)
+			await GameInterface.start_new_run(0, randi())
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
 			_fade(0, 0.5)
 		AppStatus.GAMEOVER:
+			
 			GameInterface.background_mode = true
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.NONE)
-			UiController.hand.visible = true # REPLACE THIS WITH SETTING THE STAGE FOR UI
+			UiController.hand.visible = false # REPLACE THIS WITH SETTING THE STAGE FOR UI
 	
 	app_state = status
 

@@ -57,15 +57,16 @@ func finish_run() -> void:
 	run_active = false
 
 func start_level(value: int) -> void:
+	process_paused = true
 	current_level = value
 	_teardown_current_level()
 	RunRng.start_level(current_level)
+	
 	var level_def: LevelDefinition = level_sequence.get_level(current_level, escalation)
 	reset_appstate_for_new_level(level_def)
 	
 	if level_sequence.is_exhausted(current_level, escalation):
 		return
-	
 	
 	for pool_id: StringName in level_def.pool_sequences:
 		_activate_wave_runner(pool_id, level_def.pool_sequences[pool_id], pool_id == MAIN_POOL)
@@ -80,7 +81,6 @@ func start_level(value: int) -> void:
 
 
 func spawn_player(entity_name: StringName) -> void:
-	process_paused = true
 	UiController.hud.set_state(UIHUD.State.INACTIVE)
 	var spawn_pos: Vector2i = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon"))
 	WorldGrid.reveal_from(spawn_pos)
@@ -90,7 +90,6 @@ func spawn_player(entity_name: StringName) -> void:
 	await scriptsprite.finished_animating
 	UiController.hud.set_state(UIHUD.State.BAR)
 	EntityManager.simple_spawn_tile("focks", spawn_pos, true)
-	#WorldGrid.reveal_from(spawn_pos)
 	
 
 func sprite_effect_player(position: Vector2, duration: float) -> void:
@@ -130,12 +129,14 @@ func _teardown_current_level() -> void:
 	wave_runners.clear() # RefCounted, no explicit disconnects needed
 	EntityManager.destroy_all_entities()
 
-func _on_main_sequence_complete() -> void:
-	start_level(current_level + 1)
-
 func _debug_stuff() -> void:
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+
+func _on_main_sequence_complete() -> void:
+	start_level(current_level + 1)
+
+
 
 func _on_gate_activated(position: Vector2) -> void:
 	await sprite_effect_player(position, 1)
