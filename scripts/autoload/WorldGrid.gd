@@ -58,11 +58,9 @@ signal cell_revealed(coords: Vector2i)
 ## Emitted once [method init_grid] has finished (re)initializing the grid.
 signal grid_loaded
 
-## Allocates and resets the grid to [param w] x [param h] tiles (plus
-## [member padding] on every side), fills the interior with
-## [code]&"ground_soil"[/code] and the border/padding with
-## [code]&"out_of_bounds"[/code], and resets the flood-fill visited buffer.
-## Emits [signal grid_loaded] when finished.
+## allocates and resets the grid to [param w] x [param h] tiles.
+## fills every entry in [member _grid] with tiles that have type [enum CellType.TerrainType.OUT_OF_BOUNDS] (other systems rely on these cells to be initialized with a [CellType] first.
+## clears all renderer arrays! see [WorldRenderer] and [VisibilityRenderer].
 func init_grid(w: int, h: int) -> void:
 	EventBus.clearing_grid.emit()
 	width = w
@@ -83,10 +81,10 @@ func init_grid(w: int, h: int) -> void:
 		_grid[i] = CellData.new()
 		_grid[i].type = CellTypeRegistry.get_cell_type(&"out_of_bounds")
 	
-	# set the inner area as in bounds
-	for y in height:
-		for x in width:
-			_grid[_idx(Vector2i(x, y))].type = CellTypeRegistry.get_cell_type(&"ground_soil")
+	# set the inner area as in bounds (this is not needed)
+	#for y in height:
+		#for x in width:
+			#_grid[_idx(Vector2i(x, y))].type = CellTypeRegistry.get_cell_type(&"ground_soil")
 	
 	# initialize visited array
 	_visited.resize(_grid.size())
@@ -95,17 +93,12 @@ func init_grid(w: int, h: int) -> void:
 	Log.info("Grid initialized!")
 	grid_loaded.emit()
 
-## Returns the [CellData] at [param coords], or [code]null[/code] if
-## [param coords] is outside [member width]/[member height]. Prefer this over
-## [method get_cell] when [param coords] isn't already known to be in bounds.
+## returns the cell at [param coords] if it's within bounds, returns nothing if not.
 func safe_get_cell(coords: Vector2i) -> CellData:
 	if not _in_bounds(coords):
 		return null
 	return _grid[_idx(coords)]
 
-## Returns the [CellData] at [param coords], including padding cells.
-## Does not bounds-check; use [method safe_get_cell] if [param coords]
-## might be arbitrary.
 func get_cell(coords: Vector2i) -> CellData:
 	return _grid[_idx(coords)]
 

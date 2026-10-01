@@ -15,6 +15,7 @@ run/main_scene="uid://b5tywkohv6dpv"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 run/max_fps=144
 boot_splash/show_image=false
+config/icon="uid://fxx3rmr4qv7e"
 
 [audio]
 

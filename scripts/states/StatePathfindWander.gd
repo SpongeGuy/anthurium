@@ -48,4 +48,3 @@ func _handle_ai_movement(delta: float) -> void:
 ## called every tick by the owning StateMachine after physics_process
 func get_transition() -> StringName:
 	return &""
-

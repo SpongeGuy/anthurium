@@ -140,6 +140,3 @@ func is_position_occupied(position: Vector2) -> bool:
 	query.collide_with_areas = false
 	query.collision_mask = SpatialUtil.PhysicsLayers.CREATURES
 	return not _entity_container.get_world_2d().direct_space_state.intersect_point(query, 1).is_empty()
-
-
-

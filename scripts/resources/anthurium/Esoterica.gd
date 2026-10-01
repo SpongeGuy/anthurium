@@ -21,7 +21,7 @@ func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, a
 	tremendum = tr
 	acedia = ac
 	anamnesis = an
-	
+
 func to_array() -> Array[float]:
 	return [felicity, furor, lacuna, tremendum, acedia, anamnesis]
 	
@@ -38,7 +38,8 @@ func normalized() -> Esoterica:
 	
 func dot(other: Esoterica) -> float:
 	return felicity*other.felicity + furor*other.furor + lacuna*other.lacuna + tremendum*other.tremendum + acedia*other.acedia + anamnesis*other.anamnesis
-	
+
+## used in multiple ways; [Entity] types have [member Entity.archetype], selecting [BloomEvent]s from [AnthuriumInterface].
 func cosine_similarity(other: Esoterica) -> float:
 	var denom: float = magnitude() * other.magnitude()
 	if denom == 0: return 0

@@ -1,13 +1,6 @@
 @tool
 extends Window
 
-## Curated list shown in the palette, in order. A dict with a "divider" key
-## starts a new labelled section; everything until the next divider (or the
-## end of the list) belongs to it. Non-divider entries need "path" (a
-## .tscn/.gd file, or a res:// uid); "name"/"description" are optional —
-## name falls back to the file's basename, description falls back to
-## blank. Section breaks below are placeholders — group/label them however
-## makes sense to you.
 const ENTRIES: Array[Dictionary] = [
 	{"divider": "Packages"},
 	{
@@ -128,8 +121,7 @@ const ENTRIES: Array[Dictionary] = [
 	},
 ]
 
-## Set by plugin.gd right after instantiation — needed to read the editor
-## theme (for icons/fonts) and the edited scene's root.
+
 var editor_interface: EditorInterface
 
 var _search_box: LineEdit
@@ -137,15 +129,12 @@ var _rows_container: VBoxContainer
 var _description_label: RichTextLabel
 var _bold_font: FontVariation
 
-var _item_lists: Array[ItemList] = []          # one per currently visible section
-var _section_entries: Array = []               # parallel: [i] -> that section's Array[Dictionary]
+var _item_lists: Array[ItemList] = []
+var _section_entries: Array = []
 
 const DIVIDER_HEIGHT: int = 12
 
 func _ready() -> void:
-	# get_editor_theme() is the documented way to fetch the actual editor
-	# theme from a plugin; get_base_control().theme is an older, less
-	# reliable fallback for versions that don't have it.
 	theme = editor_interface.get_editor_theme() if editor_interface.has_method("get_editor_theme") \
 		else editor_interface.get_base_control().theme
 
@@ -192,8 +181,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		hide()
 		get_viewport().set_input_as_handled()
 
-## Rebuilds the list from ENTRIES and clears any previous search filter.
-## Called each time the window opens.
 func refresh_list() -> void:
 	_search_box.text = ""
 	_populate_filtered("")
@@ -202,11 +189,7 @@ func refresh_list() -> void:
 func _on_search_changed(new_text: String) -> void:
 	_populate_filtered(new_text)
 
-## Rebuilds every section from ENTRIES. Each section becomes a small header
-## Label plus its own ItemList (auto-sized to its own row count), so a
-## header can be genuinely shorter than the rows below it — a single
-## ItemList can't vary row height per-item. Sections with no filter matches
-## are skipped entirely, header included.
+
 func _populate_filtered(filter: String) -> void:
 	for child in _rows_container.get_children():
 		child.queue_free()
@@ -273,10 +256,6 @@ func _default_display_name(entry: Dictionary) -> String:
 	return _resolve_path(entry["path"]).get_file().get_basename()
 	
 
-
-## Only one selection across all sections at a time — clicking a row in one
-## ItemList clears selection in every other one, so the description panel
-## always reflects a single, unambiguous pick.
 func _on_item_selected(row: int, list_index: int) -> void:
 	for i in _item_lists.size():
 		if i != list_index:
@@ -292,8 +271,7 @@ func _show_description(entry: Dictionary) -> void:
 func _on_item_activated(row: int, list_index: int) -> void:
 	_activate_entry(_section_entries[list_index][row])
 
-## Synthetic bold via a FontVariation of the editor's default font, so this
-## needs no bundled bold font file.
+
 func _get_bold_font() -> FontVariation:
 	if not _bold_font:
 		_bold_font = FontVariation.new()
@@ -301,10 +279,6 @@ func _get_bold_font() -> FontVariation:
 		_bold_font.variation_embolden = 1.0
 	return _bold_font
 
-## Resolves an editor icon for an entry without instantiating anything:
-## .tscn reads its root node's type straight off SceneState, .gd reads the
-## script's base engine type. Falls back to the generic Node icon if the
-## editor theme has nothing registered for that type.
 func _get_icon(entry: Dictionary) -> Texture2D:
 	var class_str: String = "Node"
 
@@ -326,8 +300,7 @@ func _get_icon(entry: Dictionary) -> Texture2D:
 		return theme.get_icon(class_str, "EditorIcons")
 	return editor_interface.get_base_control().get_theme_icon("Node", "EditorIcons")
 
-## Resolves a uid:// string to its real res:// path; passes any other
-## path string through unchanged.
+
 static func _resolve_path(path: String) -> String:
 	if not path.begins_with("uid://"):
 		return path
@@ -336,10 +309,6 @@ static func _resolve_path(path: String) -> String:
 		push_warning("Quick Add: could not resolve UID '%s'" % path)
 	return resolved
 
-## Double-click handler. Deliberately does NOT hide the window, and
-## deliberately does NOT select the newly added node — either would make
-## rapid-fire adds nest under whatever was just added instead of always
-## landing on the scene root.
 func _activate_entry(entry: Dictionary) -> void:
 	var root: Node = editor_interface.get_edited_scene_root()
 	if not root:
@@ -380,9 +349,6 @@ func _activate_entry(entry: Dictionary) -> void:
 	if entry.has("path") and _resolve_path(entry["path"]).ends_with(".tscn"):
 		root.set_editable_instance(instance, true)
 
-## Newly added nodes (and, for .tscn, their whole subtree) need their
-## owner set to the scene root or they look fine until you save and
-## reload the scene, then silently vanish.
 func _claim_ownership(node: Node, root: Node) -> void:
 	node.owner = root
 	if node.scene_file_path != "":

@@ -126,6 +126,7 @@ frame = 4
 [node name="Ichor" type="Node" parent="Health&Damage" unique_id=288599577]
 script = ExtResource("4_e47js")
 ichor = 50.0
+reduction_per_second = 0.0
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "ichor")]

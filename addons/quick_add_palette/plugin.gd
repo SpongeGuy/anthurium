@@ -23,8 +23,6 @@ func _exit_tree() -> void:
 	_toolbar_button.queue_free()
 	_window.queue_free()
 
-## Ctrl+A opens the palette, unless a text field currently has focus — in
-## which case we back off and let it do its normal "select all text" thing.
 func _shortcut_input(event: InputEvent) -> void:
 	if not (event is InputEventKey and event.pressed and not event.echo):
 		return
