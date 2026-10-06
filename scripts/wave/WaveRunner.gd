@@ -34,7 +34,7 @@ func _start_wave(value: int) -> void:
 
 func _on_wave_complete() -> void:
 	wave_value += 1
-	GameInterface.escalation = wave_value
+	GameInterface.escalate(wave_value * 0.25)
 	if sequence.is_exhausted(wave_value):
 		sequence_complete.emit()
 	else:

@@ -145,9 +145,9 @@ func _update_score_values(delta: float) -> void:
 		_score_1 = _target_score_1
 	_write_score(_score_1, score_1_label)
 
-	var factor_2: float = abs(_target_score_2 - _score_2) + 250.0
-	_score_2 = move_toward(_score_2, _target_score_2, delta * factor_2)
-	_write_score(_score_2, score_2_label)
+	#var factor_2: float = abs(_target_score_2 - _score_2) + 250.0
+	#_score_2 = move_toward(_score_2, _target_score_2, delta * factor_2)
+	#_write_score(_score_2, score_2_label)
 
 
 

@@ -6,9 +6,7 @@
 [ext_resource type="Script" uid="uid://3w8om5oexrvt" path="res://scripts/wave/completion_strategy/TimeCompletionFactory.gd" id="4_xfmt8"]
 [ext_resource type="Script" uid="uid://c4ruv6hfsapap" path="res://scripts/wave/completion_strategy/CompositeAnyFactory.gd" id="5_x32ba"]
 [ext_resource type="Script" uid="uid://cut6kc4ak5jmd" path="res://scripts/wave/ModifierUnlock.gd" id="6_hmt2r"]
-[ext_resource type="Script" uid="uid://b3qn56embl7ab" path="res://scripts/wave/EntityPool.gd" id="7_cfyyf"]
-[ext_resource type="Resource" uid="uid://b1idivchte2hj" path="res://assets/resources/spawn/maw_entity_pool.tres" id="8_db2ye"]
-[ext_resource type="Resource" uid="uid://dwlhu2gyft0ir" path="res://assets/resources/spawn/hard_entity_pool.tres" id="9_a7w2i"]
+[ext_resource type="Resource" uid="uid://c7ys27cg2d2b1" path="res://assets/resources/spawn/default_gamemode_entity_pool.tres" id="6_rlr24"]
 [ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/level/LevelTheme.gd" id="10_vt0wh"]
 [ext_resource type="Script" uid="uid://dynnebcmmv3uv" path="res://scripts/resources/terrain_generation/DrunkWalkTerrainGenerator.gd" id="11_0cvl7"]
 
@@ -27,7 +25,7 @@ metadata/_custom_type_script = "uid://c4ruv6hfsapap"
 
 [sub_resource type="Resource" id="Resource_dbsae"]
 script = ExtResource("1_suaam")
-tiered_entity_pools = Array[ExtResource("7_cfyyf")]([ExtResource("8_db2ye"), ExtResource("9_a7w2i")])
+entity_pool = ExtResource("6_rlr24")
 base_budget = 10.0
 base_completion_factory = SubResource("Resource_gpotn")
 metadata/_custom_type_script = "uid://d2a52fpf8hi5h"

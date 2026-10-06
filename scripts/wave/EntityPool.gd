@@ -5,6 +5,22 @@ extends Resource
 
 var _cheapest_cost: float = -1.0 # cache, -1 = dirty
 
+## retusn a new pool with every entry's weight baked in for this escalation.
+## enrties that aren't unlocked yet (weight 0 ) are lefgt out.
+func resolve_at(escalation: float) -> EntityPool:
+	var snapshot: EntityPool = EntityPool.new()
+	for e in entries:
+		var w: float = e.weight_at(escalation)
+		if w <= 0.0:
+			continue
+		var baked: EntityPoolEntry = EntityPoolEntry.new()
+		baked.entity_type = e.entity_type
+		baked.cost = e.cost
+		baked.weight = w
+		snapshot.entries.append(baked)
+	return snapshot
+
+
 func pick_affordable(rng: RandomNumberGenerator, max_cost: float) -> EntityPoolEntry:
 	var affordable: Array[EntityPoolEntry] = []
 	var total_weight: float = 0.0
@@ -23,6 +39,7 @@ func pick_affordable(rng: RandomNumberGenerator, max_cost: float) -> EntityPoolE
 		if roll <= cursor:
 			return e
 	return affordable[-1]
+
 
 ## cheapest entry cost in the pool; lets the runtime know when it should give up early
 func cheapest_cost() -> float:

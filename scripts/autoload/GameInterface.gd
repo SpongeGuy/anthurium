@@ -53,7 +53,8 @@ func daily_seed() -> int:
 	var d: Dictionary = Time.get_date_dict_from_system(true)
 	return d.year * 10000 + d.month * 100 + d.day
 
-
+func escalate(by: float) -> void:
+	escalation += by
 
 
 

@@ -22,7 +22,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cqfq"]
 bg_color = Color(0.5445382, 0.37135133, 0.14944139, 1)
 
-[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "player_health_label", "player_saturation_label", "score_1_label", "score_2_label", "level_display_label", "time_label", "ability_hud_elements", "starting_element")]
+[node name="HUD" type="Control" unique_id=1969460881 node_paths=PackedStringArray("bar_node", "menu_node", "toss_zone_slot", "bg_color", "player_health_bar", "player_saturation_bar", "player_health_label", "player_saturation_label", "score_1_label", "level_display_label", "time_label", "ability_hud_elements", "starting_element")]
 z_index = -2
 texture_filter = 1
 layout_mode = 3
@@ -41,7 +41,6 @@ player_saturation_bar = NodePath("Bar/Columns/MIDDLE/Control3/PlayerSaturation")
 player_health_label = NodePath("Bar/Columns/MIDDLE/Control/PlayerHealthLabel")
 player_saturation_label = NodePath("Bar/Columns/MIDDLE/Control3/PlayerSaturationLabel")
 score_1_label = NodePath("Bar/Columns/RIGHT/HBoxContainer/Score/RichTextLabel")
-score_2_label = NodePath("")
 level_display_label = NodePath("Bar/Columns/RIGHT/HBoxContainer/HBoxContainer/LevelDisplay")
 time_label = NodePath("Bar/Columns/RIGHT/HBoxContainer2/HBoxContainer2/Time")
 ability_hud_elements = [NodePath("Bar/Columns/LEFT/ItemStage/Items/Control"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control2"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control3"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control4")]
