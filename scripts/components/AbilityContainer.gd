@@ -1,6 +1,9 @@
 extends Component
 class_name AbilityContainer
 
+## Present on the `ability_shard` entity.
+## See [AbilityShardUse] ability, which requires this [Component] to be on the [Entity].
+
 @export var abilities: Array[Ability] = [null, null, null, null]
 
 func _on_registered() -> void:

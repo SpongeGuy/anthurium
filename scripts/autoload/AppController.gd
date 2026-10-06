@@ -95,6 +95,7 @@ func _initialize_world() -> void:
 	world_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
 	CameraController.reset()
 	CameraController.register_camera(camera_2d)
+	AudioManager.register_camera(camera_2d)
 	
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
 	EntityManager.destroy_all_entities()
@@ -142,7 +143,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 		AppStatus.MENU:
 			_initialize_world()
 			GameInterface.background_mode = true
-			GameInterface.start_new_run(randi_range(0, 9), randi())
+			GameInterface.start_new_run(randi_range(0, 9), randi(), GameInterface.demo_level_sequence)
 			await _wait_for_ui()
 			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
 			UiController.clear_stages()
@@ -160,7 +161,7 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			_initialize_world()
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, 0.0, true)
-			await GameInterface.start_new_run(0, randi())
+			await GameInterface.start_new_run(0, randi(), GameInterface.level_sequence)
 			change_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()

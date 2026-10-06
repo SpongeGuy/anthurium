@@ -9,15 +9,15 @@ The Great [[Aether]] Shard [[Calamas]] sticks out of the earth here, making this
 Strange things are common here, including otherworldly beings, alternate spaces, and nonsensical geometry. The weather changes drastically here due to the extraordinary amount of aether concentration.
 > Every time the weather changes, the flora and fauna are additionally changed to adapt to the new conditions.
 
-#Eo/Atlas/Foedd
-The main feature of Atlas is its tallest mountain peak Foedd. The mountain is split in half by Calamas, an endless, oddly pulsating cavern almost seems to replace what would have been the rest of the matter of the mountain.
+#Eo/Atlas/Napthe
+The main feature of Atlas is its tallest mountain peak Napthe. The mountain is split in half by Calamas, an endless, oddly pulsating cavern almost seems to replace what would have been the rest of the matter of the mountain.
 
-A cave exists on Atlas which heads directly into the heart of Foedd. Going deeper into the cave makes it evident that the mountain's interior is incredibly bizarre; the caves opens up into a chasm which is infinitely tall, going up and down forever. Ancient mechanisms and buildings are present inside the chasm, some clearly purposed to study the island's properties, and others for darker purposes. The strangest beings live inside the chasm (including a wererabbit).
+A cave exists on Atlas which heads directly into the heart of Napthe. Going deeper into the cave makes it evident that the mountain's interior is incredibly bizarre; the caves opens up into a chasm which is infinitely tall, going up and down forever. Ancient mechanisms and buildings are present inside the chasm, some clearly purposed to study the island's properties, and others for darker purposes. The strangest beings live inside the chasm (including a wererabbit).
 
-Every once in a while, Foedd erupts (an overwhelmingly powerful event). When this happens, a monolithic, concentrated beam of aether is shot out into the sky, dispersing out into the area. When this happens, Atlas transforms, its weather and climate changing (as well as its flora and fauna which live on the island).
+Every once in a while, Napthe erupts (an overwhelmingly powerful event). When this happens, a monolithic, concentrated beam of aether is shot out into the sky, dispersing out into the area. When this happens, Atlas transforms, its weather and climate changing (as well as its flora and fauna which live on the island).
 
 ```
-&-- Possible Effects of Foedd eruption --&
+&-- Possible Effects of Napthe eruption --&
 
 Entire biome change
 Lake becomes different fluid
@@ -71,7 +71,7 @@ After the traveller's execution, those who were touched by his promises gathered
 Morphing Map
 	A dusty old map which seems to have something different 
 	mapped out on it every few minutes.
-	It seems to have the exact layout of Foedd's heart mapped 
+	It seems to have the exact layout of Napthe's heart mapped 
 	at any given moment.
 Ascendant's Stone
 	Radiates an ancient, restless energy.

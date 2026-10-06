@@ -1,7 +1,10 @@
 extends Component
 class_name Brain
 
-
+## Driver for entity behavior. Contains [BrainLobe] instances, which calculate a `priority`.
+## When registered, the brain generates [BrainState] instances from [BrainStateBlueprint]s.[br]
+## Every [member reevaluation_interval], the Brain loops through all lobes and picks the highest priority lobe. The Brain's [member top_machine] then switches to the cooresponding state registered in [member BainStateMachine.states].
+## It is possible to define a hierarchical state machine using [ContainerState], which defines its own [BrainStateMachine] and cooresponding states, which use [method BrainStateMachine.transition_to] to switch between them.
 
 
 func _on_registered() -> void:
@@ -119,6 +122,7 @@ func get_personality_value(cat: PERSONALITY) -> float:
 # memory
 # ---------------------------------------------------------------------------------------------------
 
+## Use this to store and retrieve information that needs to travel between [BrainLobe]s.
 enum Memory{
 	TARGET,
 	THREAT,

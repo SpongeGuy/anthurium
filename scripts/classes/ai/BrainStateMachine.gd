@@ -1,6 +1,9 @@
 extends RefCounted
 class_name BrainStateMachine
 
+## Holds [BrainState] instances in [member states] with a [StringName] as a key.[br]
+## These states can be transitioned to either by the brain reevaluating priorities and choosing a better Lobe, or with [method transition_to], which is called if the active [BrainState] returns anything except `&""` in [method BrainState.get_transition]
+
 var states: Dictionary[StringName, BrainState] = {}
 var current_name: StringName = &""
 var current_state: BrainState = null

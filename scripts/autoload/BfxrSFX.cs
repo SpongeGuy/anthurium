@@ -4,37 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using AudioStreamWAV = Godot.AudioStreamWav;
 
-/// <summary>
-/// BfxrSFX; Godot 4 C# port of the Bfxr sound effect generator.
-/// Bfxr by increpare (Stephen Lavelle), based on sfxr by DrPetter (Thomas Vian).
-///
-/// Wave types:
-///   0=Square  1=Saw  2=Sine   3=White  4=Triangle
-///   5=Rasp    6=Tan  7=Whistle  8=Breaker  9=Bitnoise  10=FMSyn  11=Voice
-///
-/// Changes from original:
-///   • Random helpers now use System.Random.Shared (lock-free, thread-safe).
-///   • Generate() refactored into GenerateFromSnapshot() + BuildWav() to support threading.
-///   • BfxrParamSnapshot struct snapshots all Godot Dictionary values into plain C# value
-///     types before any background work, keeping Godot object access on the main thread.
-///   • GenerateWav()     ; public synchronous generation (call from main thread).
-///   • GenerateWavAsync(); fire-and-forget: synthesis runs on a Task, result delivered
-///     to the main thread via Callable.CallDeferred so the AudioStreamWAV is always
-///     created and played on the main thread.
-///
-/// Corrections vs first port:
-///   • SuperSampleCount raised from 4 to 8 to match the original JS inner loop.
-///     4x caused every pitch to be generated one octave too low; the amplitude
-///     normaliser (1/SuperSampleCount) compensates automatically when changed.
-///     To revert to 4x for performance, set SuperSampleCount = 4. The pitch will
-///     drop an octave but everything else will remain correct.
-///   • Wave types 5 (Rasp), 10 (FMSyn), and 11 (Voice) now use the original
-///     Adventure Kid Waveform (AKWF) single-cycle lookup tables instead of
-///     mathematical approximations. The JS implementation always used these tables;
-///     the approximations were audibly wrong for any sound using those wave types.
-///     Tables are stored as ushort[] (0..65535 unsigned) and normalised to [-1,1]
-///     identically to the JS: value / 32768f - 1f.
-/// </summary>
+
 [GlobalClass]
 public partial class BfxrSFX : Node
 {
@@ -42,12 +12,6 @@ public partial class BfxrSFX : Node
 	private const int PoolSize         = 8;
 	private const int LoResNoisePeriod = 8;
 
-	/// <summary>
-	/// Inner supersampling iterations per output sample.
-	/// 8 matches the original JS and gives correct pitch.
-	/// 4 is faster but produces every pitch one octave too low.
-	/// The volume normaliser (1/SuperSampleCount) adjusts automatically.
-	/// </summary>
 	private const int SuperSampleCount = 8;
 
 	private readonly AudioStreamPlayer[] _players = new AudioStreamPlayer[PoolSize];
@@ -63,14 +27,7 @@ public partial class BfxrSFX : Node
 		}
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  PUBLIC GENERATION API  (called by AudioManager / VoiceProfile)
-	// ─────────────────────────────────────────────────────────────────────────
 
-	/// <summary>
-	/// Synchronously generate and return an AudioStreamWAV from the given params.
-	/// Safe to call from the main thread; suitable for editor previews.
-	/// </summary>
 	public AudioStreamWAV GenerateWav(Godot.Collections.Dictionary p)
 		=> Generate(p);
 
@@ -95,9 +52,6 @@ public partial class BfxrSFX : Node
 		});
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  EXISTING PUBLIC PLAY API  (unchanged)
-	// ─────────────────────────────────────────────────────────────────────────
 
 	public void Play(Godot.Collections.Dictionary p)
 	{
@@ -279,11 +233,8 @@ public partial class BfxrSFX : Node
 		return result;
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  INTERNAL GENERATION PIPELINE
-	// ─────────────────────────────────────────────────────────────────────────
 
-	/// <summary>Synchronous internal path used by Play* preset methods.</summary>
+
 	private static AudioStreamWAV Generate(Godot.Collections.Dictionary p)
 	{
 		FillDefaults(p);
@@ -292,7 +243,6 @@ public partial class BfxrSFX : Node
 		return BuildWav(bytes, usedBytes);
 	}
 
-	/// <summary>Wrap raw bytes into an AudioStreamWAV. Must run on the main thread.</summary>
 	private static AudioStreamWAV BuildWav(byte[] bytes, int usedBytes)
 	{
 		var wav = new AudioStreamWAV();
@@ -303,13 +253,9 @@ public partial class BfxrSFX : Node
 		return wav;
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  SYNTHESIS ENGINE
-	// ─────────────────────────────────────────────────────────────────────────
 
 	private static (byte[] bytes, int usedBytes) GenerateFromSnapshot(BfxrParamSnapshot s)
 	{
-		// ── Derive locals from snapshot ───────────────────────────────────────
 		float masterVol    = s.MasterVolume; masterVol *= masterVol;
 		int   waveType     = s.WaveType;
 		float sustainPunch = s.SustainPunch;
@@ -417,19 +363,16 @@ public partial class BfxrSFX : Node
 		int   oneBitState = 1 << 14;
 		float oneBitVal   = 0.0f;
 
-		// ── Envelope state ────────────────────────────────────────────────────
 		int   envStage  = 0;
 		float envTime   = 0.0f;
 		float envVol    = 0.0f;
 		float attackLen = envLen0;
 
-		// ── Phase & period cache ──────────────────────────────────────────────
 		int   phase      = 0;
 		int   periodTemp = 8;
 		float invPeriod  = 1.0f / 8.0f;
 		int   lastPeriod = -1;
 
-		// ── Output buffer ─────────────────────────────────────────────────────
 		byte[] bytes      = new byte[fullLen * 2];
 		int    usedBytes  = fullLen * 2;
 		int    lastNonzero = 0;
@@ -437,12 +380,9 @@ public partial class BfxrSFX : Node
 
 		var sampleSpan = MemoryMarshal.Cast<byte, short>(bytes.AsSpan());
 
-		// ═════════════════════════════════════════════════════════════════════
-		//  MAIN LOOP
-		// ═════════════════════════════════════════════════════════════════════
+
 		for (int i = 0; i < fullLen; i++)
 		{
-			// ── Repeat / partial reset ────────────────────────────────────────
 			repeatTimer += 1.0f;
 			if (repeatTimer >= repeatPeriod && repeatPeriod > 0.0f)
 			{
@@ -469,7 +409,7 @@ public partial class BfxrSFX : Node
 				lastPeriod = -1;
 			}
 
-			// ── Pitch-jump timers ─────────────────────────────────────────────
+
 			pjTimer += 1.0f;
 			if (pjTimer >= pjRepLen)
 			{
@@ -480,7 +420,6 @@ public partial class BfxrSFX : Node
 			if (!pj1Hit && pjTimer >= pj1Ts) { pj1Hit = true; freqPeriod *= pj1Amount; }
 			if (!pj2Hit && pjTimer >= pj2Ts) { pj2Hit = true; freqPeriod *= pj2Amount; }
 
-			// ── Frequency slide + acceleration ────────────────────────────────
 			slide      += freqAccl;
 			freqPeriod *= slide;
 			if (freqPeriod > freqMaxPeriod)
@@ -489,7 +428,6 @@ public partial class BfxrSFX : Node
 				if (minFreq > 0.0f) muted = true;
 			}
 
-			// ── Period with optional vibrato ──────────────────────────────────
 			int newPeriod = (int)freqPeriod;
 			if (vibAmp > 0.0f)
 			{
@@ -505,7 +443,6 @@ public partial class BfxrSFX : Node
 				invPeriod  = 1.0f / newPeriod;
 			}
 
-			// ── Square duty sweep ─────────────────────────────────────────────
 			if (waveType == 0)
 			{
 				sqDuty += sqSweep;
@@ -513,7 +450,6 @@ public partial class BfxrSFX : Node
 				else if (sqDuty > 0.500f) sqDuty = 0.500f;
 			}
 
-			// ── Envelope ──────────────────────────────────────────────────────
 			envTime += 1.0f;
 			if (envTime > attackLen)
 			{
@@ -530,7 +466,6 @@ public partial class BfxrSFX : Node
 				default: envVol = 0.0f; break;
 			}
 
-			// ── Flanger offset update ─────────────────────────────────────────
 			if (useFlanger)
 			{
 				flangerOffset += flangerDelta;
@@ -539,7 +474,6 @@ public partial class BfxrSFX : Node
 				else if (flangerInt > 1023) flangerInt = 1023;
 			}
 
-			// ── HP filter cutoff sweep ────────────────────────────────────────
 			if (useFilters)
 			{
 				hpCutoff *= hpDcut;
@@ -547,11 +481,6 @@ public partial class BfxrSFX : Node
 				else if (hpCutoff > 0.100f)   hpCutoff = 0.100f;
 			}
 
-			// ═════════════════════════════════════════════════════════════════
-			//  SUPERSAMPLING INNER LOOP
-			//  SuperSampleCount = 8 matches the original JS.
-			//  Change to 4 for performance (pitch drops one octave).
-			// ═════════════════════════════════════════════════════════════════
 			float superSample = 0.0f;
 
 			for (int j = 0; j < SuperSampleCount; j++)
@@ -609,9 +538,6 @@ public partial class BfxrSFX : Node
 						case 4:
 							sample = MathF.Abs(1.0f - norm * 2.0f) - 1.0f;
 							break;
-						// ── AKWF wavetable lookups (types 5, 10, 11) ─────────────────────
-						// Identical to the JS: index = floor(norm * 256) & 255
-						//                     sample = table[index] / 32768 - 1
 						case 5:
 							sample = Akwf_granular_0044[(int)(norm * 256f) & 255] / 32768f - 1f;
 							break;
@@ -715,7 +641,6 @@ public partial class BfxrSFX : Node
 					}
 				}
 
-				// ── LP + HP filter ────────────────────────────────────────────
 				if (useFilters)
 				{
 					float lpOld = lpPos;
@@ -738,7 +663,6 @@ public partial class BfxrSFX : Node
 					sample = hpPos;
 				}
 
-				// ── Flanger ───────────────────────────────────────────────────
 				if (useFlanger)
 				{
 					flangerBuf[flangerPos & 1023] = sample;
@@ -749,11 +673,9 @@ public partial class BfxrSFX : Node
 				superSample += sample;
 			}
 
-			// ── Clamp super-sample ────────────────────────────────────────────
 			if      (superSample >  8.0f) superSample =  8.0f;
 			else if (superSample < -8.0f) superSample = -8.0f;
 
-			// ── Bit crush ─────────────────────────────────────────────────────
 			bcPhase += bcFreq;
 			if (bcPhase > 1.0f)
 			{
@@ -766,19 +688,16 @@ public partial class BfxrSFX : Node
 			else if (bcFreq > 1.0f)     bcFreq = 1.0f;
 			superSample = bcLast;
 
-			// ── Volume
-			// Normaliser is 1/SuperSampleCount (0.125 at 8x, 0.25 at 4x).
-			// Matches the JS * 0.125 which hard-coded its 8x inner loop count.
 			superSample = masterVol * envVol * superSample * (1.0f / SuperSampleCount);
 
-			// ── Compressor ────────────────────────────────────────────────────
+
 			if (useCompr)
 			{
 				if      (superSample > 0.0f) superSample =  MathF.Pow( superSample, compress);
 				else if (superSample < 0.0f) superSample = -MathF.Pow(-superSample, compress);
 			}
 
-			// ── Early-out when frequency has hit its floor ────────────────────
+
 			if (muted)
 			{
 				usedBytes = i * 2;
@@ -794,7 +713,6 @@ public partial class BfxrSFX : Node
 			sampleSpan[i] = (short)ival;
 		}
 
-		// ── Trim silent tail ──────────────────────────────────────────────────
 		if (lastNonzero >= 0 && lastNonzero < fullLen - 1)
 			usedBytes = Math.Max(lastNonzero + 1, 10) * 2;
 
@@ -807,15 +725,6 @@ public partial class BfxrSFX : Node
 	//  Single-cycle waveforms from the Adventure Kid Waveforms (AKWF) library.
 	//  https://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/
 	//  Public domain, CC0 1.0 Universal.
-	//
-	//  256 samples each, stored as ushort (0..65535 unsigned).
-	//  Lookup: table[(int)(norm * 256f) & 255] / 32768f - 1f  →  [-1, 1]
-	//  This exactly replicates the JS: AKWF.name[sample_index] / 32768 - 1
-	//
-	//  Used by:
-	//    waveType 5  (Rasp)   → Akwf_granular_0044
-	//    waveType 10 (FMSyn)  → Akwf_fmsynth_0012
-	//    waveType 11 (Voice)  → Akwf_hvoice_0012
 	// ─────────────────────────────────────────────────────────────────────────
 
 	private static readonly ushort[] Akwf_granular_0044 = {
@@ -875,9 +784,7 @@ public partial class BfxrSFX : Node
 		19312, 20471, 21661, 22740, 23624, 24392, 25151, 25945, 26715, 27439, 28051, 28700, 29403, 30342, 31272, 32180
 	};
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  PARAM SNAPSHOT
-	// ─────────────────────────────────────────────────────────────────────────
+
 
 	private readonly struct BfxrParamSnapshot
 	{
@@ -965,9 +872,7 @@ public partial class BfxrSFX : Node
 		}
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  PARAM HELPERS
-	// ─────────────────────────────────────────────────────────────────────────
+
 
 	private static Godot.Collections.Dictionary Defaults() => new()
 	{
@@ -1063,9 +968,7 @@ public partial class BfxrSFX : Node
 		p["compressionAmount"] = 0.0f;
 	}
 
-	// ─────────────────────────────────────────────────────────────────────────
-	//  RANDOM HELPERS
-	// ─────────────────────────────────────────────────────────────────────────
+
 
 	private static float Randf()                        => Random.Shared.NextSingle();
 	private static float RandF(float min, float max)    => min + Random.Shared.NextSingle() * (max - min);

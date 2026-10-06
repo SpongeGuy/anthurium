@@ -1,14 +1,11 @@
 extends Node2D
 class_name UIHand
 
-## Navigates [InteractableUI] elements and performs ability inventory operations
-## on behalf of the player.
-##
-## The hand is bound to a player's [AbilityManager] via [method bind_ability_manager]
-## (called by [UIController] whenever the player entity changes). All ability slot
-## mutations go through [AbilityManager]'s public API; the hand never writes to
-## [code]abilities[][/code] directly.
-##
+
+
+## Navigates gui elements.
+## Performs actions depending on the [InteractableUI] element's methods.
+## Has utility methods relating to [AbilityHudUI] elements for managing [AbilityManager] [Ability] references, which are called by ui elements on the [UIHud].
 ## Lifecycle for a grab-and-drop:
 ##   1. Hand hovers over an [AbilityHudElement] → [method grab_ability_from] is called.
 ##      The ability stays in the manager; only the visual representation is "held."
@@ -51,8 +48,6 @@ var _dir_pressed: Dictionary = {
 
 var current_state: State = State.DEFAULT
 
-# The ability currently "held" visually, and the slot it came from.
-# The ability is NOT extracted from the manager until a drop or toss confirms the action.
 var _held_ability: Ability = null
 var _held_slot: int = -1
 var _held_element: AbilityHudElement = null
@@ -155,10 +150,8 @@ func _get_settled_position(control: Control) -> Vector2:
 	await control.resized
 	return _get_control_center(control)
 # --------------------------------
-# binding
+# binding to ability manager
 # ---------------------------------
-## Binds this hand to [param manager]. Called by [UIController] on player change.
-## Clears any held ability from the previous session before switching.
 func bind_ability_manager(manager: AbilityManager) -> void:
 	if _held_ability != null:
 		_release_held()
@@ -195,12 +188,8 @@ func _on_state_changed(to: State) -> void:
 			
 # ---------- ability hand operations -----------------------------------
 
-## Visually picks up the ability in [param element]'s slot.
-##
-## The ability is not removed from [AbilityManager]; it remains active and
-## usable while held. Call [method drop_ability_onto] or [method toss_held_ability]
-## to confirm the action.
-## returns true if successful, false if nothing was picked up.
+## Really only used from [InteractableUI] elements.
+## Used to store an ability reference to either swap it or drop it.
 func grab_ability_from(element: AbilityHudElement) -> bool:
 	if current_state == State.HOLDING:
 		return false
@@ -218,11 +207,7 @@ func grab_ability_from(element: AbilityHudElement) -> bool:
 	change_state(State.HOLDING)
 	return true
 	
-## Drops the held ability onto [param element]'s slot.
-##
-## Delegates to [method AbilityManager.swap_slots], which handles both cases:
-## - Target slot occupied  → abilities swap positions between the two slots.
-## - Target slot empty     → held ability moves to the target slot, origin becomes empty.
+## Really only used from [InteractableUI] elements.
 func drop_ability_onto(element: AbilityHudElement) -> void:
 	if current_state != State.HOLDING or _held_ability == null:
 		return
@@ -234,12 +219,7 @@ func drop_ability_onto(element: AbilityHudElement) -> void:
 	change_state(selected_element.type)
 	element.select(self)
 
-## Tosses the held ability to the world as an [AbilityShard].
-##
-## Calls [method AbilityManager.drop_to_shard], which extracts the ability from
-## its slot (emitting [signal AbilityManager.ability_unregistered] so the HUD
-## updates automatically) and spawns a shard at the owning entity's feet.
-## returns true if successful, false if not.
+## Really only used from [InteractableUI] elements.
 func toss_held_ability() -> bool:
 	if _held_ability == null or _held_slot < 0:
 		return false

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="LevelSequence" format=3 uid="uid://3e6jt2dwi4wd"]
+
+[ext_resource type="Script" uid="uid://bai2jrflbugl" path="res://scripts/wave/level/LevelGenerator.gd" id="1_jrfle"]
+[ext_resource type="Script" uid="uid://cu0ahwcs8ptq8" path="res://scripts/wave/level/LevelThemeSet.gd" id="2_py8ef"]
+[ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/level/LevelTheme.gd" id="3_dv5fe"]
+[ext_resource type="Resource" uid="uid://1nwebqeb4klg" path="res://assets/resources/spawn/level_themes/grassland_level_theme.tres" id="4_f2omk"]
+[ext_resource type="Resource" uid="uid://b2xbscfopcolo" path="res://assets/resources/spawn/level_themes/sand_level_theme.tres" id="5_5fpem"]
+[ext_resource type="Resource" uid="uid://c0rxqusmnh5ew" path="res://assets/resources/spawn/level_themes/castle_level_theme.tres" id="6_thm0a"]
+[ext_resource type="Script" uid="uid://boo7x73ni2v6k" path="res://scripts/wave/level/LevelSequence.gd" id="7_8d3do"]
+[ext_resource type="Script" uid="uid://bbmvt1d2ijx18" path="res://scripts/wave/level/LevelDefinition.gd" id="8_m8csc"]
+
+[sub_resource type="Resource" id="Resource_32wiy"]
+script = ExtResource("2_py8ef")
+themes = Array[ExtResource("3_dv5fe")]([ExtResource("4_f2omk"), ExtResource("5_5fpem"), ExtResource("6_thm0a")])
+metadata/_custom_type_script = "uid://cu0ahwcs8ptq8"
+
+[sub_resource type="Resource" id="Resource_mkj6q"]
+script = ExtResource("1_jrfle")
+theme_set = SubResource("Resource_32wiy")
+metadata/_custom_type_script = "uid://bai2jrflbugl"
+
+[resource]
+script = ExtResource("7_8d3do")
+generator = SubResource("Resource_mkj6q")
+endless = true
+metadata/_custom_type_script = "uid://boo7x73ni2v6k"

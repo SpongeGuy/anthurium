@@ -1,6 +1,8 @@
 extends Component
 class_name StateMachine
 
+## @deprecated
+
 signal state_switched(old_state: BehaviorState, new_state: BehaviorState)
 
 var current_state: BehaviorState

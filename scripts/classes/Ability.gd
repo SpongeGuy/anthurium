@@ -45,18 +45,18 @@ var display_name: String = "AbilityName"
 ## Populate this in [method initialize] so [method clean_up] can free them when the ability is removed.
 var created_nodes: Array[Node] = []
 
-## call this when adding nodes to the tree that this ability in particular uses and calls when executing.
-## nodes added this way are correctly cleaned up when the ability is destroyed.
-## this version accepts a packedscene and initializes it as a child of the entity.
+## Call this when adding nodes to the tree that this ability in particular uses and calls when executing.
+## Nodes added this way are correctly cleaned up when the ability is destroyed.
+## This version accepts a packedscene and initializes it as a child of the entity.
 func create_new_system(scene: PackedScene) -> Node:
 	var new: Node = scene.instantiate()
 	created_nodes.append(new)
 	entity.add_child(new)
 	return new
 
-## call this when adding nodes to the tree that this ability in particular uses and calls when executing.
-## nodes added this way are correctly cleaned up when the ability is destroyed.
-## this version assumes that systems have been created and initialized in initialize()
+## Call this when adding nodes to the tree that this ability in particular uses and calls when executing.
+## Nodes added this way are correctly cleaned up when the ability is destroyed.
+## This version assumes that systems have been created and initialized in initialize()
 func register_new_system(node: Node) -> void:
 	created_nodes.append(node)
 

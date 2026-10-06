@@ -1,10 +1,3 @@
-## Autoload: AudioManager
-##
-## Central sound-playback service: maintains a pool of [AudioStreamPlayer]
-## nodes (no 2D nodes, so no viewport-listener issues) and manually computes
-## distance-based volume for positional sounds relative to the active
-## camera. Also owns the [BfxrSFX] instance used to synthesize
-## [VoiceProfile]-driven sounds on demand.
 extends Node
 
 # -----------------------------------------------------------------------------------
@@ -13,23 +6,14 @@ extends Node
 # positional sounds manually compute volume from distance to camera
 # -----------------------------------------------------------------------------------
 
-## Idle players available for immediate reuse.
 var _pool:   Array[AudioStreamPlayer] = []
-## Players currently playing a sound.
 var _active: Array[AudioStreamPlayer] = []
-## The camera used as the listener origin for positional (2D) sounds. Set by
-## [method _on_camera_ready].
 var _camera: Camera2D = null
 
-## Number of [AudioStreamPlayer]s created up front in [method _ready].
 const INITIAL_POOL_SIZE: int = 20
-## Hard cap on total pooled + active players; beyond this, the oldest active
-## player is stopped and reused.
 const MAX_POOL_SIZE:     int = 100
 
-## Logical audio buses sounds can be routed to.
 enum AudioBus { MASTER, SFX, MUSIC, UI }
-## Maps [enum AudioBus] to the actual [AudioServer] bus name.
 const BUS_NAMES := {
 	AudioBus.MASTER: "Master",
 	AudioBus.SFX:    "SFX",
@@ -37,34 +21,25 @@ const BUS_NAMES := {
 	AudioBus.UI:     "UI"
 }
 
-## In-flight [method play_voice] requests keyed by request id, awaiting
-## their synthesized [AudioStreamWAV] from [BfxrSFX].
 var _wav_pending: Dictionary = {}   # id -> data dict
 var _wav_next_id: int = 0
-## The [BfxrSFX] synthesizer instance used by [method play_voice].
 var _bfxr: BfxrSFX
 
-## Pre-fills the player pool, listens for the camera becoming ready, and
-## creates the [BfxrSFX] child used for on-the-fly sound synthesis.
+
 func _ready() -> void:
 	for i in INITIAL_POOL_SIZE:
 		_pool.append(_create_player())
-	EventBus.camera_ready.connect(_on_camera_ready)
 	
 	_bfxr = BfxrSFX.new()
 	add_child(_bfxr)
-
-
-## Connected to [signal EventBus.camera_ready]; caches [param camera] as the
-## listener origin for positional sound falloff.
-func _on_camera_ready(camera: Camera2D) -> void:
-	_camera = camera
+	
+func register_camera(c: Camera2D) -> void:
+	_camera = c
 
 # -----------------------------------------------------------------------------------
 # public api
 # -----------------------------------------------------------------------------------
 
-## play a global non-positional sound (UI, music, screen-wide effects)
 func play_sound(
 	sound:       AudioStream,
 	volume_db:   float    = 0.0,
@@ -82,7 +57,6 @@ func play_sound(
 	return p
 
 
-## play a positional sound at a world position; volume computed from camera distance
 func play_2d(
 	sound:        AudioStream,
 	position:     Vector2,
@@ -108,50 +82,39 @@ func play_2d(
 
 
 	
-## Play a BfxrVoiceProfile as a spatial or global sound.
 func play_voice(
-	profile:          VoiceProfile,
-	entity:           Entity            = null,
-	global_sound:     bool              = false,
-	check_if_visible: bool              = true,
-	volume_db:        float             = 0.0,
-	pitch_scale:      float             = 1.0,
-	bus:              AudioBus          = AudioBus.SFX,
-	max_distance:     float             = 400.0,
-	attenuation:      float             = 2.0
+	profile: VoiceProfile,
+	entity: Entity = null,
+	global_sound: bool = false,
+	check_if_visible: bool = true,
+	volume_db: float = 0.0,
+	pitch_scale: float = 1.0,
+	bus: AudioBus = AudioBus.SFX,
+	max_distance: float = 400.0,
+	attenuation: float = 2.0,
+	overrides: Dictionary[StringName, Variant] = {}
 ) -> void:
  
-	# ── Validate ──────────────────────────────────────────────────────────────
 	if profile == null:
 		push_error("AudioManager.play_voice: profile is null"); return
 	if not global_sound and entity == null:
 		push_error("AudioManager.play_voice: entity required when global_sound is false"); return
  
-	# ── Visibility gate (before any generation work) ──────────────────────────
-	# Checked only for non-global sounds when check_if_visible is true.
 	if not global_sound and check_if_visible:
 		var is_invisible: bool = WorldGrid.get_cell(WorldGrid.world_to_tile(entity.position)).invisible
 		if is_invisible:
 			return
  
-	# ── Capture position now, on the main thread ──────────────────────────────
-	# The entity may move or be freed by the time async generation completes.
-	# Storing a Vector2 value here is safe regardless.
 	var position := Vector2.ZERO
 	if not global_sound:
 		position = entity.global_position
  
-	# ── Build the mutated param dictionary ────────────────────────────────────
-	# build_params() applies variance offsets and returns a plain Dictionary.
-	# This is fast (pure GDScript arithmetic) and happens on the main thread.
+	for override in overrides:
+		profile.set(override, overrides[override])
+
 	var params: Dictionary = profile.build_params()
 	
  
-	# ── Generate asynchronously, play on callback ─────────────────────────────
-	# GenerateWavAsync() snapshots params into a C# struct (main thread),
-	# runs synthesis on a Task (background thread, Random.Shared),
-	# then fires the callback via CallDeferred (main thread) so play is safe.
-	# ── Generate asynchronously, play on callback ─────────────────────────────
 	var id := _wav_next_id
 	_wav_next_id += 1
 	_wav_pending[id] = {
@@ -165,9 +128,6 @@ func play_voice(
 	}
 	_bfxr.GenerateWavAsync(self, "_on_wav_ready", id, params)
 
-## Callback invoked by [method BfxrSFX.GenerateWavAsync] once synthesis
-## finishes; looks up the pending request by [param id] and plays the
-## resulting [param wav] as a global or positional sound accordingly.
 func _on_wav_ready(id: int, wav: AudioStreamWAV) -> void:
 	var data: Dictionary = _wav_pending.get(id, {})
 	_wav_pending.erase(id)
@@ -179,51 +139,40 @@ func _on_wav_ready(id: int, wav: AudioStreamWAV) -> void:
 		play_2d(wav, data.position, data.volume_db, data.pitch_scale,
 				data.bus, data.max_distance, data.attenuation)
 
-## Stops every currently playing sound.
 func stop_all_sounds() -> void:
 	for p in _active: p.stop()
 
 
-## Stops every currently playing sound on [param bus].
 func stop_sounds_on_bus(bus: AudioBus) -> void:
 	var bus_name = BUS_NAMES[bus]
 	for p in _active:
 		if p.bus == bus_name: p.stop()
 
 
-## Sets the [AudioServer] volume, in dB, for [param bus].
 func set_bus_volume(bus: AudioBus, volume_db: float) -> void:
 	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
 	if idx >= 0: AudioServer.set_bus_volume_db(idx, volume_db)
 
 
-## Returns the current [AudioServer] volume, in dB, for [param bus].
-## Returns [code]0.0[/code] if the bus can't be found.
 func get_bus_volume(bus: AudioBus) -> float:
 	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
 	return AudioServer.get_bus_volume_db(idx) if idx >= 0 else 0.0
 
 
-## Mutes or unmutes [param bus].
 func set_bus_mute(bus: AudioBus, muted: bool) -> void:
 	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
 	if idx >= 0: AudioServer.set_bus_mute(idx, muted)
 
 
-## Returns whether [param bus] is currently muted. Returns [code]false[/code]
-## if the bus can't be found.
 func is_bus_muted(bus: AudioBus) -> bool:
 	var idx := AudioServer.get_bus_index(BUS_NAMES[bus])
 	return AudioServer.is_bus_mute(idx) if idx >= 0 else false
 
 
-## Returns how many players are currently playing a sound.
 func get_active_sound_count() -> int:
 	return _active.size()
 
 
-## Returns the total number of players that have ever been allocated
-## (idle + active).
 func get_pool_size() -> int:
 	return _pool.size() + _active.size()
 
@@ -231,8 +180,6 @@ func get_pool_size() -> int:
 # internal
 # -----------------------------------------------------------------------------------
 
-## inverse power falloff; attenuation = 1.0 is linear, 2.0 is squared, higher = tighter
-## returns -INF when out of range so the caller can skip the play entirely
 func _distance_to_db(position: Vector2, max_distance: float, attenuation: float) -> float:
 	if _camera == null:
 		return 0.0  # no camera yet, play at full volume
@@ -243,8 +190,6 @@ func _distance_to_db(position: Vector2, max_distance: float, attenuation: float)
 	return linear_to_db(gain)
 
 
-## Creates a new [AudioStreamPlayer], adds it as a child, and wires up its
-## [signal AudioStreamPlayer.finished] to recycle it back into the pool.
 func _create_player() -> AudioStreamPlayer:
 	var p := AudioStreamPlayer.new()
 	add_child(p)
@@ -252,9 +197,6 @@ func _create_player() -> AudioStreamPlayer:
 	return p
 
 
-## Returns a player ready to use: pops one from [member _pool] if available,
-## creates a new one if under [constant MAX_POOL_SIZE], or otherwise steals
-## and stops the oldest active player.
 func _get_player() -> AudioStreamPlayer:
 	if not _pool.is_empty():
 		var p = _pool.pop_back()
@@ -264,14 +206,11 @@ func _get_player() -> AudioStreamPlayer:
 		var p = _create_player()
 		_active.append(p)
 		return p
-	push_warning("AudioManager: pool exhausted, reusing oldest")
-	var p := _active[0]
-	p.stop()
-	return p
+	Log.warn("Pool exhausted, reusing oldest")
+	var active := _active[0]
+	active.stop()
+	return active
 
-
-## Connected to each player's [signal AudioStreamPlayer.finished]; moves
-## [param player] from [member _active] back into [member _pool].
 func _on_finished(player: AudioStreamPlayer) -> void:
 	_active.erase(player)
 	_pool.append(player)

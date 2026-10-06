@@ -1,6 +1,9 @@
 extends Component
 class_name PhysicsComponent
 
+## Resolves collisions using epic linear algebra dot product.[br]
+## Controls entity velocity.
+
 const Z_EXCEPTION_CHECK_INTERVAL: float = 0.1
 
 @export var disabled: bool = false:

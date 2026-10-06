@@ -5,14 +5,12 @@ class_name Entity
 @export var visual: Sprite2D
 @export var archetype: CreatureArchetype
 
-## Physical vertical extent of this entity, from [member z] (its base/feet)
-## to [code]z + height[/code] (its top). Drives z-based collision overlap;
-## see [method SpatialUtil.z_ranges_overlap] for both entity-vs-entity
-## physics ([PhysicsComponent]) and [Hitbox]/[Hurtbox] damage checks.
+
+## See [method SpatialUtil.z_ranges_overlap], [PhysicsComponent], and [Hitbox]/[Hurtbox]
 @export var height: float = 1.0
 ## This entity's mass. Used by [PhysicsComponent] for collision response,
 ## and available directly here so behavior/AI code can compare relative
-## size against other creatures without needing to fetch a component.
+## size against other creatures
 @export var mass: float = 1.0
 
 var visible_state_flag: int = 0
@@ -26,27 +24,11 @@ enum VisibleStateFlag {
 	HAPPY = 1 << 6
 }
 
-## The base class for all actors in the game world.
-##
-## Entities manage a component registry that allows systems to query for
-## attached components by type. Components are registered automatically from
-## the scene tree on [method _ready], and can also be added at runtime via
-## [method add_component].[br][br]
-## Components are stored by every class in their inheritance chain, so
-## querying by a base class (e.g. [LocomotionHandler]) will correctly return
-## a subclass instance (e.g. [NormalLocomotionHandler]).
-
 var _components: Dictionary[Script, Array] = {}
 
-## Emitted after all components have been registered and the entity is ready.
 signal entity_initialized
-
-## Emitted when the entity's health reaches zero.
 signal died
-
-## Emitted when then entity's point value changes.
 signal points_changed
-
 signal entity_spawned
 
 ## The filename of the scene this entity was instantiated from, without extension.
@@ -189,6 +171,8 @@ func _process(delta: float) -> void:
 	if _out_of_bounds_despawn_timer <= 0.0:
 		died.emit()
 		queue_free()
+	
+	_tick_flower_cooldown(delta)
 
 func _accumulate_age(delta: float) -> void:
 	age += delta
@@ -208,6 +192,10 @@ func transfer_points(to: Entity) -> void:
 	to.points += points
 	to.points_changed.emit()
 	points = 0
+
+func add_points(amount: float) -> void:
+	points += amount
+	points_changed.emit()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # visibility
@@ -395,7 +383,7 @@ func set_z_value(value: float) -> void:
 # ------------------------------------------------------------------------------------------------
 
 ## Walks up the scene tree from [param node] until an [Entity] ancestor is found.[br]
-## Returns [code]null[/code] if no [Entity] exists in the ancestry.[br][br]
+## Returns `null` if no [Entity] exists in the ancestry.[br][br]
 ## Useful for nodes that are nested inside an entity's scene tree but are not
 ## [Component] instances themselves, such as [Hitbox] or [Hurtbox].
 static func find_entity(node: Node) -> Entity:
@@ -408,3 +396,36 @@ static func find_entity(node: Node) -> Entity:
 
 func get_visual() -> CanvasItem:
 	return visual
+
+
+# ----------------------------------------
+# flowers
+# ------------------------------------------
+var flower_collection_sound: VoiceProfile = preload("uid://d0h0hx6hotcbb")
+var flowers_collected: int = 0
+var _flower_combo_timer: float = 0
+var flower_combo_timer: float = 1.5
+var flower_combo_multiplier: int = 1
+
+func _get_pitch_jump(n: int, max: float, rate: float, start: float) -> float:
+	return (max - start) * (1.0 - exp(-rate * n)) + start
+
+func flower_collected() -> void:
+	flowers_collected += 1
+	flower_combo_multiplier += 1
+	_flower_combo_timer = 1.5
+	AudioManager.play_voice(flower_collection_sound, self, false, true, 0.0, 1.0, AudioManager.AudioBus.SFX, 400, 2.0, {"frequency_start": _get_pitch_jump(flowers_collected, 0.65, 0.015, 0.2)})
+	
+func flower_collection_complete() -> void:
+	var point_value: float = flowers_collected * flower_combo_multiplier
+	add_points(point_value) 
+	ParticleManager.spawn_number(point_value, global_position)
+	flowers_collected = 0
+	flower_combo_timer = 0
+	flower_combo_multiplier = 0
+
+func _tick_flower_cooldown(delta: float) -> void:
+	if _flower_combo_timer > 0:
+		_flower_combo_timer -= delta
+		if _flower_combo_timer <= 0:
+			flower_collection_complete()

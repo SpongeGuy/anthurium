@@ -1,0 +1,108 @@
+[gd_resource type="Resource" script_class="LevelSequence" format=3 uid="uid://c7vo7boeg0tp1"]
+
+[ext_resource type="Script" uid="uid://boo7x73ni2v6k" path="res://scripts/wave/level/LevelSequence.gd" id="1_krt01"]
+[ext_resource type="Script" uid="uid://bai2jrflbugl" path="res://scripts/wave/level/LevelGenerator.gd" id="1_prjch"]
+[ext_resource type="Script" uid="uid://cu0ahwcs8ptq8" path="res://scripts/wave/level/LevelThemeSet.gd" id="2_g84kf"]
+[ext_resource type="Script" uid="uid://bbmvt1d2ijx18" path="res://scripts/wave/level/LevelDefinition.gd" id="2_i8gvn"]
+[ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/level/LevelTheme.gd" id="3_wgk3d"]
+[ext_resource type="Script" uid="uid://d2a52fpf8hi5h" path="res://scripts/wave/WaveGenerator.gd" id="4_6i6gt"]
+[ext_resource type="Script" uid="uid://cut6kc4ak5jmd" path="res://scripts/wave/ModifierUnlock.gd" id="5_07j8m"]
+[ext_resource type="Script" uid="uid://dcpjv6wm6x24i" path="res://scripts/wave/completion_strategy/RemainingRatioCompletionFactory.gd" id="5_wgk3d"]
+[ext_resource type="Script" uid="uid://b3qn56embl7ab" path="res://scripts/wave/EntityPool.gd" id="6_fkit0"]
+[ext_resource type="Script" uid="uid://cxh36j76vvs2l" path="res://scripts/wave/EntityPoolEntry.gd" id="7_taajq"]
+[ext_resource type="Script" uid="uid://dynnebcmmv3uv" path="res://scripts/resources/terrain_generation/DrunkWalkTerrainGenerator.gd" id="8_g84kf"]
+
+[sub_resource type="Resource" id="Resource_6i6gt"]
+script = ExtResource("5_wgk3d")
+threshold_ratio = 0.5
+metadata/_custom_type_script = "uid://dcpjv6wm6x24i"
+
+[sub_resource type="Resource" id="Resource_prjch"]
+script = ExtResource("7_taajq")
+entity_type = &"maw"
+weight = 3.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_pkhcs"]
+script = ExtResource("7_taajq")
+entity_type = &"splitmaw"
+weight = 2.0
+cost = 2.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_elixi"]
+script = ExtResource("7_taajq")
+entity_type = &"bombo"
+cost = 3.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_qfcsx"]
+script = ExtResource("7_taajq")
+entity_type = &"skippa"
+weight = 2.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_2pkb5"]
+script = ExtResource("7_taajq")
+entity_type = &"gnawlfy"
+cost = 3.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_e8cc6"]
+script = ExtResource("7_taajq")
+entity_type = &"blargle"
+weight = 2.0
+cost = 2.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_g84kf"]
+script = ExtResource("7_taajq")
+entity_type = &"porcule"
+weight = 0.5
+cost = 5.0
+metadata/_custom_type_script = "uid://cxh36j76vvs2l"
+
+[sub_resource type="Resource" id="Resource_l0bg3"]
+script = ExtResource("6_fkit0")
+entries = Array[ExtResource("7_taajq")]([SubResource("Resource_prjch"), SubResource("Resource_pkhcs"), SubResource("Resource_elixi"), SubResource("Resource_qfcsx"), SubResource("Resource_2pkb5"), SubResource("Resource_e8cc6"), SubResource("Resource_g84kf")])
+metadata/_custom_type_script = "uid://b3qn56embl7ab"
+
+[sub_resource type="Resource" id="Resource_n6t3c"]
+script = ExtResource("4_6i6gt")
+tiered_entity_pools = Array[ExtResource("6_fkit0")]([SubResource("Resource_l0bg3")])
+base_budget = 25.0
+base_completion_factory = SubResource("Resource_6i6gt")
+metadata/_custom_type_script = "uid://d2a52fpf8hi5h"
+
+[sub_resource type="Resource" id="Resource_h2gv8"]
+script = ExtResource("8_g84kf")
+metadata/_custom_type_script = "uid://dynnebcmmv3uv"
+
+[sub_resource type="Resource" id="Resource_lt8dn"]
+script = ExtResource("3_wgk3d")
+terrain_generator = SubResource("Resource_h2gv8")
+ground_type = &"ground_soil"
+soft_wall_type = &"wall_blick_block"
+wall_type = &"wall_stone"
+indestructible_type = &"wall_indestructible"
+pool_generators = Dictionary[StringName, ExtResource("4_6i6gt")]({
+&"default": SubResource("Resource_n6t3c")
+})
+metadata/_custom_type_script = "uid://cfuo6d2t7toqp"
+
+[sub_resource type="Resource" id="Resource_yvsse"]
+script = ExtResource("2_g84kf")
+themes = Array[ExtResource("3_wgk3d")]([SubResource("Resource_lt8dn")])
+metadata/_custom_type_script = "uid://cu0ahwcs8ptq8"
+
+[sub_resource type="Resource" id="Resource_v7mpg"]
+script = ExtResource("1_prjch")
+theme_set = SubResource("Resource_yvsse")
+world_size_range = Vector2i(64, 128)
+metadata/_custom_type_script = "uid://bai2jrflbugl"
+
+[resource]
+script = ExtResource("1_krt01")
+generator = SubResource("Resource_v7mpg")
+endless = true
+metadata/_custom_type_script = "uid://boo7x73ni2v6k"

@@ -1,6 +1,3 @@
----
-kanban_order: W0f
----
 ```
 this continent is generally fertile and temperate. it is the largest continent of three and has the largest natural diversity in flora and fauna. 
 in the southeast there are swamplands and high oceanside cliffs, where the anthro rabbits live. these rabbit people are seafarers/fishermen and prosper on the cliffsides because they can jump really far. they create interesting equipment to travel to and from their towns, like glide suits and climbing hooks. 

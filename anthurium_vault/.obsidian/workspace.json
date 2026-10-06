@@ -11,14 +11,17 @@
             "id": "12afc7c931b135ff",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "Creatures.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -15683.076330818187,
+                  "y": 7632.025410961967,
+                  "zoom": 0.8
+                }
               },
-              "icon": "lucide-file",
-              "title": "Creatures"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           },
           {
@@ -29,65 +32,16 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -293.2273084214514,
-                  "y": -106.33593773861196,
+                  "x": -789.2273084214514,
+                  "y": 789.664062261388,
                   "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "job list 9-1-26"
             }
-          },
-          {
-            "id": "ba92e09675b44bc7",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Main.canvas",
-                "viewState": {
-                  "x": -3112.451015336467,
-                  "y": 6510.152820132406,
-                  "zoom": -0.40000000000000013
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
-            }
-          },
-          {
-            "id": "a8149b427b435108",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "worldbuilder/Timeline.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Timeline"
-            }
-          },
-          {
-            "id": "1ad3479136ccc51d",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "for my capstone/job list 9-1-26.canvas",
-                "viewState": {
-                  "x": -3684.8327971379176,
-                  "y": -236.57554192285576,
-                  "zoom": -0.02617981284091242
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "job list 9-1-26"
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -237,7 +191,7 @@
             }
           },
           {
-            "id": "4564e25fde84c590",
+            "id": "1df97a187de200ab",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -266,19 +220,35 @@
       "system3-relay:Relay": false
     }
   },
-  "active": "ba92e09675b44bc7",
+  "active": "12afc7c931b135ff",
   "lastOpenFiles": [
+    "for my capstone/plant anthurium design for the plant.canvas",
+    "for my capstone/anthurium.md",
+    "anthurium.canvas",
+    "Creatures.md",
     "for my capstone/job list 9-1-26.canvas",
-    "Main.canvas",
+    "worldbuilder/Timeline.md",
+    "worldbuilder/Atlas.md",
     "worldbuilder/Map.canvas",
+    "worldbuilder/Homepage.md",
+    "worldbuilder/Alizarin.md",
+    "worldbuilder/Artifacts.md",
+    "worldbuilder/Khazuur-Na.md",
+    "worldbuilder/Erenor.md",
+    "worldbuilder/Nyxis Nimmos.md",
+    "worldbuilder/Seanor Ikhor.md",
+    "worldbuilder/Spire Sea.md",
+    "worldbuilder/Emer.md",
+    "worldbuilder/Calamat.md",
+    "worldbuilder/Calamas.md",
+    "worldbuilder/Astral Traveller.md",
+    "worldbuilder/Rhwnych.md",
+    "Main.canvas",
     "mappa.png",
     "anthurium.md",
-    "Creatures.md",
-    "anthurium.canvas",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",
     "worldbuilder/The Unfathomed.md",
-    "worldbuilder/Timeline.md",
     "for my capstone/anthurium_tasks/wave man.md",
     "merm.md",
     "for my capstone/anthurium_tasks",
@@ -294,12 +264,6 @@
     "Projects/anthurium",
     "loop.md",
     "Pasted image 20260830012729.png",
-    "Untitled.canvas",
-    "Operon/Demo Workspace/Operon Basics Project.md",
-    "Operon/Demo Workspace/Set Up Your Obsidian Vault with Operon.md",
-    "Operon/Demo Workspace/Operon Command Palette.md",
-    "for my capstone/anthurium.md",
-    "for my capstone/inspiration bible.md",
-    "for my capstone/plant anthurium design for the plant.canvas"
+    "Untitled.canvas"
   ]
 }

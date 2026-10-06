@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://c586fol8exg8p"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_xaj8w"]
+[ext_resource type="Texture2D" uid="uid://da42b5rwycgju" path="res://assets/textures/misc/flower/flower_green.png" id="2_w2c22"]
+[ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="5_w2c22"]
+[ext_resource type="Texture2D" uid="uid://dkobyrim6kmsn" path="res://assets/textures/misc/flower/flower_purple.png" id="5_yp0i6"]
+[ext_resource type="Texture2D" uid="uid://vvobc7a6gqnm" path="res://assets/textures/misc/flower/flower_red.png" id="6_81nke"]
+[ext_resource type="Texture2D" uid="uid://xh0qxi3sf6p1" path="res://assets/textures/misc/flower/flower_yellow.png" id="7_uahuf"]
+[ext_resource type="Script" uid="uid://511e40a3ma0b" path="res://scripts/components/FlowerComponent.gd" id="8_81nke"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_81nke"]
+radius = 5.0990195
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+radius = 9.055386
+
+[node name="Entity" type="CharacterBody2D" unique_id=2003748824 node_paths=PackedStringArray("visual")]
+z_index = -1
+texture_filter = 1
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_xaj8w")
+display_name = "Flower"
+visual = NodePath("Sprite2D")
+render_shadow = false
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1141723906]
+shape = SubResource("CircleShape2D_81nke")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1049879297]
+texture = ExtResource("2_w2c22")
+
+[node name="RandomTextureSelector" type="Node" parent="." unique_id=1457820296 node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_w2c22")
+sprite = NodePath("../Sprite2D")
+choices = Array[Texture2D]([ExtResource("2_w2c22"), ExtResource("5_yp0i6"), ExtResource("6_81nke"), ExtResource("7_uahuf")])
+metadata/_custom_type_script = "uid://bbr47xrtnv1ac"
+
+[node name="FlowerComponent" type="Node" parent="." unique_id=1729456102 node_paths=PackedStringArray("col")]
+script = ExtResource("8_81nke")
+col = NodePath("../Area2D")
+metadata/_custom_type_script = "uid://511e40a3ma0b"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=131553894]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1035437580]
+shape = SubResource("CircleShape2D_emcra")

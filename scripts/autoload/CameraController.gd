@@ -20,19 +20,12 @@ var delay_tween: Tween
 
 signal found_target
 
-## Current shake intensity, in the range [code][0, 1][/code]. Decays toward
-## zero at [member trauma_decay] per second; the visible shake offset scales
-## with [code]trauma * trauma[/code] for a punchier falloff.
-var trauma: float = 0
-## How quickly [member trauma] decays per second.
+
+var trauma: float = 0 # range [0, 1]
 var trauma_decay: float = 1
-## Maximum pixel offset applied to the camera at full trauma.
 var max_shake_offset: float = 18.0
-## Distance beyond which [method add_trauma_distance] contributes no shake.
 var trauma_falloff_range: float = 400.0
 
-## Mouse position converted into the camera's local/world-relative space,
-## updated every [method _process]. Used by debug tile-painting.
 var relative_mouse_coords: Vector2
 
 
@@ -95,12 +88,12 @@ func set_behavior_mode(b: Behavior, delay: float = 0.0, instant: bool = false) -
 			if not PlayerManager.player_set.is_connected(_on_player_set):
 				PlayerManager.player_set.connect(_on_player_set)
 			if is_instance_valid(PlayerManager.player):
-				set_camera_target(PlayerManager.player, instant)
+				_set_camera_target(PlayerManager.player, instant)
 
 func _on_player_set(player: Entity) -> void:
 	if behavior != Behavior.TRACKING_PLAYER:
 		return
-	set_camera_target(player, true)
+	_set_camera_target(player, true)
 	
 #func await_and_track_player(instant: bool) -> void:
 	#var generation: int = _await_generation
@@ -110,18 +103,20 @@ func _on_player_set(player: Entity) -> void:
 		#return
 	#set_camera_target(PlayerManager.player, instant)
 
-func set_camera_target(new_target: Entity, instant: bool = false) -> void:
+func _set_camera_target(new_target: Entity, instant: bool = false) -> void:
 	if not new_target:
 		return
 	target = new_target
 	_place(new_target.global_position, instant)
 	EventBus.camera_target_changed.emit(target)
 
+## Used by [AppController] to control the camera manually. Currently just a debug feature.
 func directly_control(delta: float) -> void:
 	var magnitude: float = 150.0
 	var move_input_direction = Input.get_vector("west", "east", "north", "south")
 	target_position += move_input_direction * magnitude * delta
 
+## Used by [AppController] when creating a fresh world to create a camera.
 func register_camera(c: Camera2D) -> void:
 	Log.info("Camera %s registered." % c)
 	camera = c
@@ -150,9 +145,10 @@ func _periodically_reveal_target(delta: float) -> void:
 	_visibility_timer += delta
 	if _visibility_timer >= visibility_check_interval:
 		_visibility_timer = 0
-		reveal_target()
-			
-func reveal_target() -> void:
+		_reveal_target()
+
+
+func _reveal_target() -> void:
 	if not target:
 		reveal_from_camera()
 		return
@@ -163,7 +159,7 @@ func reveal_target() -> void:
 	if occupying_cell.invisible:
 		WorldGrid.reveal_from(tile_pos)
 
-
+## Used when camera target changes and when [WorldGrid] sets new cells.
 func reveal_from_camera() -> void:
 	var tile: Vector2i = WorldGrid.world_to_tile(target_position)
 	if not WorldGrid._in_bounds(tile):
@@ -177,13 +173,11 @@ func reveal_from_camera() -> void:
 # screen shake
 # --------------------------------------------------------------------------------------------------
 
-## Adds [param amount] to [member trauma], clamped to [code][0, 1][/code].
 func add_trauma(amount: float) -> void:
 	trauma = clamp(trauma + amount, 0, 1)
 	
 ## Adds trauma from an event at [param position], falling off linearly with
-## distance from the camera up to [member trauma_falloff_range]. No-op if no
-## camera is registered.
+## distance from the camera up to [member trauma_falloff_range]
 func add_trauma_distance(position: Vector2, amount: float) -> void:
 	if not camera:
 		return
@@ -218,9 +212,7 @@ func get_screen_mouse_position() -> Vector2:
 # ---------------------------------
 # debug
 # -----------------------------------
-## Debug hotkeys for painting terrain under the mouse cursor
-## ([code]debug_1[/code] paints stone wall, [code]debug_2[/code] paints soil
-## ground).
+
 func debug_handlers() -> void:
 	var tile_coords: Vector2i = WorldGrid.world_to_tile(relative_mouse_coords)
 	if Input.is_action_just_pressed("debug_1"):
@@ -232,10 +224,6 @@ func debug_handlers() -> void:
 # private eyes
 # ------------------------------
 
-## Applies the current [member behavior] each physics frame: follows
-## [member target_position] directly, or (for
-## [constant Behavior.TRACKING_RANDOM]) periodically retargets to a random
-## active entity before following it.
 func _handle_camera_behavior(delta: float) -> void:
 	match behavior:
 		Behavior.TRACKING_PLAYER:
@@ -246,7 +234,7 @@ func _handle_camera_behavior(delta: float) -> void:
 			if _tracking_random_timer <= 0.0:
 				_tracking_random_timer = tracking_random_patience + randf_range(-2, 2)
 				if not EntityManager.active_entities.is_empty():
-					set_camera_target(EntityManager.active_entities.pick_random())
+					_set_camera_target(EntityManager.active_entities.pick_random())
 			var pos: Vector2 = target.global_position if (target and is_instance_valid(target)) else _get_center_fallback_position()
 			_place(pos, false, delta)
 		Behavior.CENTERED, Behavior.CONTROLLED:
@@ -258,8 +246,6 @@ func _get_center_fallback_position() -> Vector2:
 	return WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.get_center(), CellType.TerrainType.GROUND))
 	
 				
-## Decays [member trauma] and applies a random offset to [member camera]
-## scaled by [code]trauma * trauma[/code].
 func _handle_screen_shake(delta: float) -> void:
 	trauma = move_toward(trauma, 0.0, trauma_decay * delta)
 	var intensity: float = trauma * trauma

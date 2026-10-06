@@ -7,6 +7,7 @@ class_name Lobe
 # holds vital information in memory
 # when this information is changed, emit signal changed
 # this signal will be transmitted to the brain which will then evaluate all memory to decide to change states
+## @deprecated
 # ------------------------------------------------------------------------------------------
 
 

@@ -1,13 +1,3 @@
-## Autoload: WorldGrid
-##
-## Owns the tile grid backing the playable world: cell data storage, terrain
-## mutation, fog-of-war visibility (flood-fill reveal), and neighbor/radius
-## queries used by pathing, spawning, and world generation. Grid contents are
-## padded on every side so out-of-bounds lookups return a valid (but
-## [constant CellType.TerrainType.OUT_OF_BOUNDS]) cell instead of erroring.
-##
-## Call [method init_grid] once to size and initialize the grid before
-## anything else touches it (see [DungeonGenerator]).
 extends Node
 # AUTOLOAD AS WorldGrid
 
@@ -58,9 +48,9 @@ signal cell_revealed(coords: Vector2i)
 ## Emitted once [method init_grid] has finished (re)initializing the grid.
 signal grid_loaded
 
-## allocates and resets the grid to [param w] x [param h] tiles.
-## fills every entry in [member _grid] with tiles that have type [enum CellType.TerrainType.OUT_OF_BOUNDS] (other systems rely on these cells to be initialized with a [CellType] first.
-## clears all renderer arrays! see [WorldRenderer] and [VisibilityRenderer].
+## Allocates and resets the grid to [param w] x [param h] tiles.
+## Fills every entry in [member _grid] with tiles that have type [enum CellType.TerrainType.OUT_OF_BOUNDS] (other systems rely on these cells to be initialized with a [CellType] first.
+## Clears all renderer arrays! see [WorldRenderer] and [VisibilityRenderer].
 func init_grid(w: int, h: int) -> void:
 	EventBus.clearing_grid.emit()
 	width = w
@@ -255,6 +245,8 @@ func damage_circle(coords: Vector2i, radius: int, amount: float) -> void:
 			var tbc = Vector2i(x, y)
 			if _in_bounds(tbc) and Vector2(tbc - coords).length() <= radius:
 				damage_cell(tbc, amount)
+
+
 		
 ## The four cardinal direction offsets, keyed by compass label.
 const CARDINAL_DIRS = {
@@ -316,12 +308,10 @@ func _in_bounds(coords: Vector2i) -> bool:
 # ------------ helpers --------------------
 # -----------------------------------------
 
-# Converts a tile coordinate to the center pixel position of that tile.
 ## Converts a tile coordinate to the center pixel position of that tile.
 func tile_to_world(coords: Vector2i) -> Vector2:
 	return Vector2(coords * tile_size) + Vector2(tile_size * 0.5, tile_size * 0.5)
 
-# Converts a pixel world position to the tile coordinate it falls in.
 ## Converts a pixel world position to the tile coordinate it falls in.
 func world_to_tile(world_pos: Vector2) -> Vector2i:
 	var tile_pos: Vector2i = world_pos / tile_size
@@ -360,9 +350,6 @@ func get_coords_in_radius(center: Vector2i, radius: int) -> Array[Vector2i]:
 			d += 2 * (y - x) + 1
 	return result
 	
-# returns nearest tile coords matching the given terrain type
-# searches outward in rings from 'origin'
-# returns Vector2i(-1, -1) if none found within max_radius
 ## Returns the nearest tile coords matching [param terrain], searching
 ## outward in rings from [param origin] up to [param max_radius]. Returns
 ## [code]Vector2i(-1, -1)[/code] if none is found.

@@ -1,6 +1,9 @@
 extends Resource
 class_name BrainLobe
 
+## Resource file for defining a behavior for an [Entity].
+## On entity registration, the [Brain] then generates new [BrainState] instances and adds them to a dictionary with [member state_name] as the key and [member blueprint] as the value.
+
 @export var state_name: StringName
 @export var blueprint: BrainStateBlueprint
 ## how fast boredom accrues per second while this lobe is active.

@@ -5,6 +5,8 @@ class_name AbilityManager
 # interfaces with an inputcomponent to activate abilities
 # -----------------------------------------------
 
+## The acting force behind [InputComponent]. Inputs are driven through here for every [Entity] and if an ability exists, its functions will be cast. See [Ability] for more information.
+
 @export var abilities: Array[Ability] = [null, null, null, null]
 var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
@@ -55,7 +57,6 @@ func get_ability(slot: int) -> Ability:
 # --------------------------------------
 
 ## Places [param ability] into [param slot] (default: first available slot).
-##
 ## Reparents the ability under this manager and initializes it for the owning
 ## entity. Returns true on success, false if the target slot is occupied or
 ## the manager is full.
@@ -74,7 +75,6 @@ func add_ability(ability: Ability, slot: int = -1) -> bool:
 	
 
 ## Removes the ability from [param slot] and returns it without freeing it.
-##
 ## Tears down all runtime state (created nodes, entity/manager references) so
 ## the ability can be safely transferred to another entity or stored in a shard.
 ## Returns null if the slot was already empty.
@@ -98,7 +98,6 @@ func destroy_ability(slot: int) -> bool:
 	return true
 
 ## Swaps the contents of [param slot_a] and [param slot_b].
-##
 ## Handles every case: both filled, one empty, or both empty. Emits change
 ## signals for each slot so listeners see both halves of the swap.
 func swap_slots(slot_a: int, slot_b: int) -> void:
@@ -120,7 +119,6 @@ func swap_slots(slot_a: int, slot_b: int) -> void:
 
 ## Extracts the ability from [param slot] and spawns an [AbilityShard] at
 ## [param position], transferring the ability into the shard's [AbilityContainer].
-##
 ## Returns the spawned shard entity, or null if the slot was empty.
 ## A scatter offset is applied when no explicit position is supplied.
 func drop_to_shard(slot: int, position: Vector2) -> Entity:

@@ -1,6 +1,10 @@
 extends TileMapLayer
 class_name WorldRenderer
 
+## General "renderer" (just a tilemaplayer) that connects to [signal WorldGrid.cell_changed] from [WorldGrid].
+## See [CellData]. "Draws" cells by calling [method TileMapLayer.set_cell] when a cell is changed.[br]
+## To define navigation mesh and cell collision, modify the tileset directly. All other properties like skin or health should be modified in [CellData] and [CellType][br]
+## Defines a bitmask to automatically pick the correct connecting tile.
 
 const MAPPING: PackedByteArray = [128, 64, 32, 16, 8, 4, 2, 1]
 static var DIRECTIONS: Array[Vector2i] = [
@@ -74,7 +78,7 @@ func _redraw_neighbors(coords: Vector2i) -> void:
 		neighbor.atlas_coordinate = resolve_atlas_coordinate(neighbor, nc)
 		set_cell(nc, neighbor.type.tileset_id, neighbor.atlas_coordinate)
 
-
+## this is fucked i don't remember how i did this
 static func _build_bitmask_table() -> Array[Vector2i]:
 	var t: Array[Vector2i] = []
 	t.resize(256)

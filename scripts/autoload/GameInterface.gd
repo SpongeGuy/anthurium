@@ -8,6 +8,7 @@ extends Node
 const MAIN_POOL: StringName = &"main"
 
 var level_sequence: LevelSequence = load("uid://3e6jt2dwi4wd")
+var demo_level_sequence: LevelSequence = load("uid://c7vo7boeg0tp1")
 var wave_runners: Dictionary[StringName, WaveRunner] = {}
 
 var current_level: int = 0
@@ -19,14 +20,14 @@ var escalation: int = 0
 var background_mode: bool = true
 var process_paused: bool = true
 
-func _ready() -> void:
-	EventBus.gate_activated.connect(_on_gate_activated)
 
 func _process(delta: float) -> void:
 	if process_paused:
 		return
 	for runner: WaveRunner in wave_runners.values():
 		runner.process(delta)
+	
+	_tick_flower_quest_runtime(delta)
 	
 	if run_active:
 		time += delta
@@ -35,16 +36,17 @@ func _process(delta: float) -> void:
 ## A "run" is essentially just a collection of levels which play one after another.
 ## This function starts the player at a [param level] with an [member escalation] value of 0.
 ## If [member level_sequence] is null, this will error within [method start_level].
-func start_new_run(at_level: int, seed: int) -> void:
+func start_new_run(at_level: int, seed: int, level_seq: LevelSequence) -> void:
 	run_active = true
 	time = 0
 	escalation = 0
 	current_level = at_level
 	RunRng.start_run(seed)
-	start_level(current_level)
+	start_level(current_level, level_seq)
+	EventBus.gate_activated.connect(_on_gate_activated.bind(level_seq))
 
-func start_daily_run() -> void:
-	start_new_run(0, daily_seed())
+func start_daily_run(level_seq: LevelSequence) -> void:
+	start_new_run(0, daily_seed(), level_seq)
 
 func daily_seed() -> int:
 	# use utc here so its global time
@@ -62,19 +64,21 @@ func daily_seed() -> int:
 
 func finish_run() -> void:
 	run_active = false
+	EventBus.gate_activated.disconnect(_on_gate_activated)
 
 ## Starts the next level at [param value]. if [member background_mode] is `true`, then this function will also spawn a player entity with a visual effect before doing any processes.
 ## [member process_paused] is turned on when this function first starts and turned off when the function ends so that the player animation can play.
-func start_level(value: int) -> void:
+func start_level(value: int, level_seq: LevelSequence) -> void:
 	process_paused = true
 	current_level = value
 	_teardown_current_level()
+	reset_flower_quest()
 	RunRng.start_level(current_level)
 	
-	var level_def: LevelDefinition = level_sequence.get_level(current_level, escalation)
+	var level_def: LevelDefinition = level_seq.get_level(current_level, escalation)
 	_reset_appstate_for_new_level(level_def)
 	
-	if level_sequence.is_exhausted(current_level, escalation):
+	if level_seq.is_exhausted(current_level, escalation):
 		return
 	
 	for pool_id: StringName in level_def.pool_sequences:
@@ -82,13 +86,65 @@ func start_level(value: int) -> void:
 	
 	_debug_stuff()
 	
+	
+	spawn_flowers()
+	
 	if not background_mode:
 		await spawn_player("focks")
 		
 	process_paused = false
 
 
-## this used to change the camera mode, but i think that the camera mode should only be changed within [AppController]
+
+
+
+
+
+
+var total_flowers: int = 0
+var current_flowers: int = 0
+var flower_quest_complete: bool = false
+var flower_quest_ratio: float = 0.1
+var flowers: Array[Entity]
+
+func reset_flower_quest() -> void:
+	total_flowers = 0
+	current_flowers = 0
+	flower_quest_complete = false
+	for f in range(flowers.size() - 1, -1, -1):
+		flowers[f].queue_free()
+	flowers.clear()
+
+func spawn_flowers() -> void:
+	var coordinates: Array[Vector2i] = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND)
+	for c in coordinates:
+		#if SpatialUtil.is_tile_occupied(AppController.world_2d.get_world_2d().direct_space_state, c, SpatialUtil.PhysicsLayers.PLANTS):
+			#continue
+		var flower: Entity = EntityManager.simple_spawn_tile("collectible_flower", c)
+		var comp: FlowerComponent = flower.get_component(FlowerComponent)
+		flowers.append(flower)
+		current_flowers += 1
+		total_flowers += 1
+		comp.collected.connect(collect_flower, CONNECT_ONE_SHOT)
+
+func collect_flower(flower: Entity) -> void:
+	flowers.erase(flower)
+	current_flowers -= 1
+	print(current_flowers)
+
+func _tick_flower_quest_runtime(_delta: float) -> void:
+	if flower_quest_complete:
+		return
+	if float(current_flowers) / float(total_flowers) <= flower_quest_ratio:
+		complete_flower_quest()
+
+func complete_flower_quest() -> void:
+	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+	flower_quest_complete = true
+	
+
+
+## This used to change the camera mode, but i think that the camera mode should only be changed within [AppController]
 func spawn_player(entity_name: StringName) -> void:
 	UiController.hud.set_state(UIHUD.State.INACTIVE)
 	var spawn_pos: Vector2i = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon"))
@@ -99,7 +155,25 @@ func spawn_player(entity_name: StringName) -> void:
 	await scriptsprite.finished_animating
 	UiController.hud.set_state(UIHUD.State.BAR)
 	EntityManager.simple_spawn_tile("focks", spawn_pos, true)
-	
+
+
+
+
+
+
+
+
+
+
+# ----------------------------------------------
+# utility
+# ---------------------------------------------
+
+
+
+
+
+
 ## Spawns in a [ScriptableSprite] of the player and spins them toward the spawn point. Purely a visual effect.
 func _sprite_effect_player(position: Vector2, duration: float) -> void:
 	UiController.hud.set_state(UIHUD.State.INACTIVE)
@@ -121,11 +195,6 @@ func _reset_appstate_for_new_level(level_def: LevelDefinition) -> void:
 
 
 
-
-
-
-
-
 func _activate_wave_runner(pool_id: StringName, sequence: WaveSequence, drives_level: bool) -> void:
 	var runner: WaveRunner = WaveRunner.new(sequence, "level_%d_%s" % [current_level, pool_id], escalation)
 	wave_runners[pool_id] = runner
@@ -140,13 +209,12 @@ func _teardown_current_level() -> void:
 
 func _debug_stuff() -> void:
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
-	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 
-func _on_main_sequence_complete() -> void:
-	start_level(current_level + 1)
-
+func _on_main_sequence_complete(level_seq: LevelSequence) -> void:
+	start_level(current_level + 1, level_seq)
 
 
-func _on_gate_activated(position: Vector2) -> void:
+
+func _on_gate_activated(position: Vector2, level_seq: LevelSequence) -> void:
 	await _sprite_effect_player(position, 1)
-	start_level(current_level + 1)
+	start_level(current_level + 1, level_seq)

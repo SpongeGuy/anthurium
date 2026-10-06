@@ -24,6 +24,7 @@ enum PhysicsLayers {
 
 const LOW_TERRAIN_CLEARANCE: int = 3
 const MAX_NUDGE_ATTEMPTS: int = 15
+const TILE_OVERLAP_EPSILON: float = 0.1
 
 static func get_entities_in_radius(space_state: PhysicsDirectSpaceState2D, position: Vector2, radius: float, collision_mask: int = 0xFFFFFFFF) -> Array[Entity]:
 	_query_shape.radius = radius
@@ -93,6 +94,17 @@ static func get_random_offscreen_position(camera: Camera2D, margin: float = 20) 
 ## altitude, independent of their 2D footprint.
 static func z_ranges_overlap(z_min_a: float, height_a: float, z_min_b: float, height_b: float) -> bool:
 	return z_min_a < z_min_b + height_b and z_min_b < z_min_a + height_a
+
+static func is_tile_occupied(space_state: PhysicsDirectSpaceState2D, coords: Vector2i, collision_mask: int) -> bool:
+	var tile_px: float = float(WorldGrid.tile_size) - TILE_OVERLAP_EPSILON
+	_rect_query_shape.size = Vector2(tile_px, tile_px)
+	var query: PhysicsShapeQueryParameters2D = PhysicsShapeQueryParameters2D.new()
+	query.shape = _rect_query_shape
+	query.transform = Transform2D(0.0, WorldGrid.tile_to_world(coords))
+	query.collision_mask = collision_mask
+	query.collide_with_bodies = true
+	query.collide_with_areas = false
+	return not space_state.intersect_shape(query, 1).is_empty()
 
 static func get_safe_location(position: Vector2) -> Vector2:
 	var pos: Vector2 = WorldGrid.get_safe_world_pos(position, CellType.TerrainType.WALL)

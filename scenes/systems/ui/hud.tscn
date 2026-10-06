@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ability_icons/not_icon.png" id="4_dp7nh"]
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/resources/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
-[ext_resource type="Texture2D" uid="uid://cooy1ijtbnunq" path="res://assets/textures/ui/icon-leaf.png" id="6_n78go"]
 [ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scripts/classes/ui/toss_zone.gd" id="11_4p43q"]
 [ext_resource type="Script" uid="uid://d315vbgqswj2g" path="res://scripts/ui/misc/blink_visually.gd" id="11_8rlmo"]
 [ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability_icons/toss_icon.png" id="12_8rlmo"]
@@ -42,7 +41,7 @@ player_saturation_bar = NodePath("Bar/Columns/MIDDLE/Control3/PlayerSaturation")
 player_health_label = NodePath("Bar/Columns/MIDDLE/Control/PlayerHealthLabel")
 player_saturation_label = NodePath("Bar/Columns/MIDDLE/Control3/PlayerSaturationLabel")
 score_1_label = NodePath("Bar/Columns/RIGHT/HBoxContainer/Score/RichTextLabel")
-score_2_label = NodePath("Bar/Columns/RIGHT/HBoxContainer2/Nutri/RichTextLabel")
+score_2_label = NodePath("")
 level_display_label = NodePath("Bar/Columns/RIGHT/HBoxContainer/HBoxContainer/LevelDisplay")
 time_label = NodePath("Bar/Columns/RIGHT/HBoxContainer2/HBoxContainer2/Time")
 ability_hud_elements = [NodePath("Bar/Columns/LEFT/ItemStage/Items/Control"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control2"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control3"), NodePath("Bar/Columns/LEFT/ItemStage/Items/Control4")]
@@ -389,28 +388,14 @@ offset = Vector2(4, 4)
 layout_mode = 2
 text = "3:56"
 
-[node name="Nutri" type="HBoxContainer" parent="Bar/Columns/RIGHT/HBoxContainer2" unique_id=1303671589]
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_constants/separation = 0
-
-[node name="Control" type="Control" parent="Bar/Columns/RIGHT/HBoxContainer2/Nutri" unique_id=2040665459]
-custom_minimum_size = Vector2(8, 6)
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="Bar/Columns/RIGHT/HBoxContainer2/Nutri/Control" unique_id=1064848680]
-texture = ExtResource("6_n78go")
-offset = Vector2(4, 4)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Bar/Columns/RIGHT/HBoxContainer2/Nutri" unique_id=1487497205]
+[node name="HBoxContainer" type="HBoxContainer" parent="Bar/Columns/RIGHT/HBoxContainer2" unique_id=606012752]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("1_hv3iq")
-text = "00000000"
-fit_content = true
-autowrap_mode = 0
-horizontal_alignment = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Bar/Columns/RIGHT/HBoxContainer2/HBoxContainer" unique_id=504478089]
+layout_mode = 2
+text = "15/15"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="Bar/Columns/RIGHT" unique_id=1513827826]
 layout_mode = 2

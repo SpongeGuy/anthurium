@@ -1,6 +1,3 @@
----
-kanban_order: W0o
----
 #Eo/Rhwnych
 Vast, ancient mudlands populated sparsely by gargantuan trees.
 

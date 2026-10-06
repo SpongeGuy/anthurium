@@ -1,8 +1,3 @@
----
-kanban_order: W0c
----
-The most
-
 An ever-changing dreamscape present on Eo thanks to [[Calamas]], the Great Aether Shard.
 
 The land changes continually; the flora, fauna and terrain are never the same day by day. It's incredibly rare to find traditional flora or fauna here since the concentration of [[aether]] is so high here.
