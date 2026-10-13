@@ -1,19 +1,22 @@
 class_name WeightUtil
 
-## picks a random key from [param weights] proportional to its float value.
-## returns an empty/null-equivalent if weights is empty or all weights are <= 0.
-static func weighted_pick(weights: Dictionary) -> Variant:
+## Returns the index chosen by weight, or -1 if no weight is positive.
+static func pick_index(rng: RandomNumberGenerator, weights: PackedFloat32Array) -> int:
 	var total: float = 0.0
-	for w in weights.values():
-		total += w
+	for i in weights.size():
+		total += maxf(weights[i], 0.0)
 	if total <= 0.0:
-		return null
-		
-	var roll: float = randf() * total
-	var cumulative: float = 0.0
-	for key in weights:
-		cumulative += weights[key]
-		if roll < cumulative:
-			return key
-			
-	return weights.keys().back() # float rounding fallback
+		return -1
+ 
+	var roll: float = rng.randf() * total
+	var cursor: float = 0.0
+	var last: int = -1
+	for i in weights.size():
+		var w: float = maxf(weights[i], 0.0)
+		if w <= 0.0:
+			continue
+		cursor += w
+		last = i
+		if roll < cursor:
+			return i
+	return last # roll landed exactly on the upper edge

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpawnDirectorConfig" format=3 uid="uid://ber8fdp8shydu"]
+
+[ext_resource type="Script" uid="uid://bpyrdy5phhuq" path="res://scripts/wave/new/SpawnModifierEntry.gd" id="1_dsykb"]
+[ext_resource type="Script" uid="uid://digqw7bnpu1a5" path="res://scripts/wave/new/SpawnDirectorConfig.gd" id="1_f1x1c"]
+[ext_resource type="Resource" uid="uid://dalcs7wh7p1sq" path="res://assets/resources/spawn/default_spawn_table.tres" id="3_lito1"]
+
+[resource]
+script = ExtResource("1_f1x1c")
+spawn_table = ExtResource("3_lito1")
+metadata/_custom_type_script = "uid://digqw7bnpu1a5"

@@ -15,9 +15,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -14499.358237441422,
-                  "y": 7615.364771236671,
-                  "zoom": 0
+                  "x": -5499.123260045846,
+                  "y": 6420.112388941663,
+                  "zoom": -4
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -32,16 +32,31 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -789.2273084214514,
-                  "y": 789.664062261388,
-                  "zoom": -4
+                  "x": 718.069248004338,
+                  "y": 551.3737445955389,
+                  "zoom": -0.4000000000000006
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "job list 9-1-26"
             }
+          },
+          {
+            "id": "e8b368230a70366d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Untitled.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Untitled"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -97,6 +112,16 @@
               },
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "bced9cf98742f93d",
+            "type": "leaf",
+            "state": {
+              "type": "word-smith-menu",
+              "state": {},
+              "icon": "word-smith-w",
+              "title": "Word-Smith"
             }
           }
         ]
@@ -191,7 +216,7 @@
             }
           },
           {
-            "id": "1df97a187de200ab",
+            "id": "d7d5492bf5a161ef",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -217,16 +242,23 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "system3-relay:Relay": false
+      "system3-relay:Relay": false,
+      "word-smith:Open the Word-Smith menu": false
     }
   },
-  "active": "12afc7c931b135ff",
+  "active": "e8b368230a70366d",
   "lastOpenFiles": [
+    "Pasted image 20260830012729.png",
+    "Untitled.md",
+    "for my capstone/job list 9-1-26.canvas",
+    "Main.canvas",
+    "Word-Smith/ws-settings.md",
+    "Word-Smith/ws-structure.md",
+    "Word-Smith",
     "for my capstone/plant anthurium design for the plant.canvas",
     "for my capstone/anthurium.md",
     "anthurium.canvas",
     "Creatures.md",
-    "for my capstone/job list 9-1-26.canvas",
     "worldbuilder/Timeline.md",
     "worldbuilder/Atlas.md",
     "worldbuilder/Map.canvas",
@@ -243,7 +275,6 @@
     "worldbuilder/Calamas.md",
     "worldbuilder/Astral Traveller.md",
     "worldbuilder/Rhwnych.md",
-    "Main.canvas",
     "mappa.png",
     "anthurium.md",
     "anthurium.canvas.before-empty.bak",
@@ -258,12 +289,7 @@
     "Markwhen/Markwhen 9-17-2026 02.02.23.mw",
     "Markwhen",
     "Projects/anthurium/_tasks/give-creatures-point-value.md",
-    "Projects/anthurium/_tasks/wave-manager.md",
-    "Projects/anthurium/anthurium.md",
     "Projects/anthurium/_tasks",
-    "Projects/anthurium",
-    "loop.md",
-    "Pasted image 20260830012729.png",
     "Untitled.canvas"
   ]
 }

@@ -31,10 +31,6 @@ enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 @export var ignore_height: bool = false
 
 signal hit_received(damage_amount: float, source: Node2D)
-
-func _enter_tree() -> void:
-	var new_collider: CollisionShape2D = CollisionShape2D.new()
-	add_child(new_collider)
 	
 
 func _ready() -> void:

@@ -12,6 +12,7 @@ var logo_voices: Array[VoiceProfile] = [
 enum GameStatus { PLAYING, PAUSED }
 enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
 enum Controller { NONE, PLAYER, HAND, CAMERA }
+enum GameMode { QUEST }
 var active_controller: Controller
 var game_state: GameStatus
 var app_state: AppStatus
@@ -52,7 +53,7 @@ func _ready() -> void:
 	BloomEventRegistry.scan_all()
 	UiController.retrieve_references(main_viewport)
 	
-	change_app_state(AppStatus.BOOT)
+	switch_app_state(AppStatus.BOOT)
 
 
 func _process(delta: float) -> void:
@@ -61,7 +62,7 @@ func _process(delta: float) -> void:
 		toggle_pause()
 		
 	if Input.is_key_pressed(KEY_E):
-		change_app_state(AppStatus.MENU, true)
+		switch_app_state(AppStatus.MENU, true)
 		
 	_handle_control_inputs(delta)
 
@@ -76,15 +77,11 @@ func _run_boot_sequence() -> void:
 	UiController.screen.set_bg_visible(false)
 	
 	
-	change_app_state(AppStatus.MENU)
+	switch_app_state(AppStatus.MENU)
 	
 	await _wait_for_ui()
 	
 	
-
-
-
-
 
 
 
@@ -111,7 +108,7 @@ func change_active_controller(controller: Controller) -> void:
 ## [member GameStatus.PAUSED] raises the UI bar to expose additional inventory information using [UiController] and pauses processes on the tree.[br]
 ## [member GameStatus.PLAYING] sets the UI bar to default position and unpauses the tree.[br]
 ## Note: the UILayer CanvasLayer is set to always process so the ui does not freeze when the tree is paused.
-func change_game_state(status: GameStatus) -> void:
+func switch_game_state(status: GameStatus) -> void:
 	if not app_state == AppStatus.GAME:
 		return
 	game_state = status
@@ -135,15 +132,16 @@ func change_game_state(status: GameStatus) -> void:
 ## Controls the camera through [CameraController]'s [method set_behavior_mode].[br]
 ## [member AppStatus.BOOT] runs the boot sequence, which scans all the resource directories.[br]
 ## [member AppStatus.MENU] starts a new run without the player and summons the ui scenes
-func change_app_state(status: AppStatus, forcing: bool = false) -> void:
+func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 	match status:
 		AppStatus.BOOT:
 			UiController.hand.visible = false
 			_run_boot_sequence()
+			switch_game_mode(GameMode.QUEST)
 		AppStatus.MENU:
 			_initialize_world()
 			GameInterface.background_mode = true
-			GameInterface.start_new_run(randi_range(0, 9), randi(), GameInterface.demo_level_sequence)
+			GameInterface.start_new_run(randi_range(0, 9), randi())
 			await _wait_for_ui()
 			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
 			UiController.clear_stages()
@@ -161,8 +159,8 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 			_initialize_world()
 			_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, 0.0, true)
-			await GameInterface.start_new_run(0, randi(), GameInterface.level_sequence)
-			change_game_state(GameStatus.PLAYING)
+			await GameInterface.start_new_run(0, randi())
+			switch_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
 			_fade(0, 0.5)
@@ -176,12 +174,18 @@ func change_app_state(status: AppStatus, forcing: bool = false) -> void:
 	app_state = status
 
 
+func switch_game_mode(to: GameMode) -> void:
+	match to:
+		GameMode.QUEST:
+			GameInterface.active_level_gen = load("uid://bmt0fkah08ra7") # default_level_generator
+			GameInterface.active_spawn_cfg = load("uid://ber8fdp8shydu") # default_spawn_director_config
+
 func toggle_pause() -> void:
 	if game_state == GameStatus.PLAYING:
-		change_game_state(GameStatus.PAUSED)
+		switch_game_state(GameStatus.PAUSED)
 		
 	elif game_state == GameStatus.PAUSED:
-		change_game_state(GameStatus.PLAYING)
+		switch_game_state(GameStatus.PLAYING)
 		
 
 func change_scene_and_wait(container: Node, scene: PackedScene) -> Node:
@@ -223,7 +227,7 @@ func _link_player_death() -> void:
 	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
 
 func _on_player_death(_e: Entity) -> void:
-	change_app_state(AppStatus.GAMEOVER)
+	switch_app_state(AppStatus.GAMEOVER)
 	
 func _wait_for_ui() -> void:
 	if not UiController.is_ready:

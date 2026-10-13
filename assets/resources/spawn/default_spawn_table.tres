@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="SpawnTable" format=3 uid="uid://dalcs7wh7p1sq"]
+
+[ext_resource type="Script" uid="uid://23ijowfbopw6" path="res://scripts/wave/new/SpawnEntry.gd" id="1_u7uy8"]
+[ext_resource type="Script" uid="uid://w74h2c448y16" path="res://scripts/wave/new/SpawnTable.gd" id="3_yc1eg"]
+
+[sub_resource type="Resource" id="Resource_4p43q"]
+script = ExtResource("1_u7uy8")
+entity_type = &"maw"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_8rlmo"]
+script = ExtResource("1_u7uy8")
+entity_type = &"splitmaw"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_2sts4"]
+script = ExtResource("1_u7uy8")
+entity_type = &"skippa"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_vuu5x"]
+script = ExtResource("1_u7uy8")
+entity_type = &"porcule"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_5n25l"]
+script = ExtResource("1_u7uy8")
+entity_type = &"bombo"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_7lyeb"]
+script = ExtResource("1_u7uy8")
+entity_type = &"gnawlfy"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[sub_resource type="Resource" id="Resource_irmgs"]
+script = ExtResource("1_u7uy8")
+entity_type = &"blargle"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
+[resource]
+script = ExtResource("3_yc1eg")
+entries = Array[ExtResource("1_u7uy8")]([SubResource("Resource_4p43q"), SubResource("Resource_8rlmo"), SubResource("Resource_2sts4"), SubResource("Resource_vuu5x"), SubResource("Resource_5n25l"), SubResource("Resource_7lyeb"), SubResource("Resource_irmgs")])
+metadata/_custom_type_script = "uid://b87obst8wpc54"

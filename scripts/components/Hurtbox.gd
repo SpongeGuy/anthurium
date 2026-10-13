@@ -31,14 +31,14 @@ var tween: Tween
 
 signal activated
 
-func _enter_tree() -> void:
+func initialize() -> void:
+	if not collision_shape:
+		return
 	if constant_hurtbox:
 		set_active(true)
 	else:
 		set_active(false)
 		
-	var new_collider: CollisionShape2D = CollisionShape2D.new()
-	add_child(new_collider)
 
 func _ready() -> void:
 	name = "Hurtbox"
@@ -46,6 +46,7 @@ func _ready() -> void:
 	collision_layer |= 7
 	collision_mask |= 6
 	entity = Entity.find_entity(self)
+	initialize()
 	
 ## creates and adds a collision shape to the hurtbox.
 ## useful when programmatically creating new hurtboxes, like in [Ability].
@@ -56,6 +57,7 @@ func create_circular_collision_shape(r: float, offset: float = 0.0) -> void:
 	collision.position.x = offset
 	add_child(collision)
 	collision_shape = collision
+	initialize()
 
 func _init(hurtbox_damage: float = 1.0) -> void:
 	damage = hurtbox_damage

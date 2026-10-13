@@ -7,25 +7,26 @@ extends Node
 
 const MAIN_POOL: StringName = &"main"
 
-var level_sequence: LevelSequence = load("uid://3e6jt2dwi4wd")
-var demo_level_sequence: LevelSequence = load("uid://c7vo7boeg0tp1")
-var wave_runners: Dictionary[StringName, WaveRunner] = {}
+var active_spawn_cfg: SpawnDirectorConfig
+var active_level_gen: LevelGenerator
+var spawn_directors: Dictionary[StringName, SpawnDirector] = {}
 
 var current_level: int = 0
 var time: float = 0.0
 var run_active: bool = false
 ## Used in level generation to choose what kind of creatures are spawned. The higher the escalation, the more likely harder/weirder creatures will spawn.
-var escalation: int = 0
 
 var background_mode: bool = true
 var process_paused: bool = true
+
+var _saved_player: Entity
 
 
 func _process(delta: float) -> void:
 	if process_paused:
 		return
-	for runner: WaveRunner in wave_runners.values():
-		runner.process(delta)
+	for d: SpawnDirector in spawn_directors.values():
+		d.process(delta)
 	
 	_tick_flower_quest_runtime(delta)
 	
@@ -36,25 +37,23 @@ func _process(delta: float) -> void:
 ## A "run" is essentially just a collection of levels which play one after another.
 ## This function starts the player at a [param level] with an [member escalation] value of 0.
 ## If [member level_sequence] is null, this will error within [method start_level].
-func start_new_run(at_level: int, seed: int, level_seq: LevelSequence) -> void:
+func start_new_run(at_level: int, seed: int) -> void:
 	run_active = true
 	time = 0
-	escalation = 0
 	current_level = at_level
 	RunRng.start_run(seed)
-	start_level(current_level, level_seq)
-	EventBus.gate_activated.connect(_on_gate_activated.bind(level_seq))
+	start_level(current_level)
+	EventBus.gate_activated.connect(_on_gate_activated)
+	_saved_player = EntityManager.create_entity("focks")
 
-func start_daily_run(level_seq: LevelSequence) -> void:
-	start_new_run(0, daily_seed(), level_seq)
+func start_daily_run() -> void:
+	start_new_run(0, daily_seed())
 
 func daily_seed() -> int:
 	# use utc here so its global time
 	var d: Dictionary = Time.get_date_dict_from_system(true)
 	return d.year * 10000 + d.month * 100 + d.day
 
-func escalate(by: float) -> void:
-	escalation += by
 
 
 
@@ -66,24 +65,26 @@ func escalate(by: float) -> void:
 func finish_run() -> void:
 	run_active = false
 	EventBus.gate_activated.disconnect(_on_gate_activated)
+	_saved_player = null
 
 ## Starts the next level at [param value]. if [member background_mode] is `true`, then this function will also spawn a player entity with a visual effect before doing any processes.
 ## [member process_paused] is turned on when this function first starts and turned off when the function ends so that the player animation can play.
-func start_level(value: int, level_seq: LevelSequence) -> void:
+func start_level(value: int) -> void:
 	process_paused = true
 	current_level = value
 	_teardown_current_level()
 	reset_flower_quest()
 	RunRng.start_level(current_level)
 	
-	var level_def: LevelDefinition = level_seq.get_level(current_level, escalation)
+	if not active_level_gen or not active_spawn_cfg:
+		Log.error("Game mode not set properly! See AppController to fix issue.", true)
+	
+	var level_def: LevelDefinition = active_level_gen.generate_level(current_level)
 	_reset_appstate_for_new_level(level_def)
-	
-	if level_seq.is_exhausted(current_level, escalation):
-		return
-	
-	for pool_id: StringName in level_def.pool_sequences:
-		_activate_wave_runner(pool_id, level_def.pool_sequences[pool_id], pool_id == MAIN_POOL)
+	var ground_tile_count: int = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND).size()
+
+
+	_create_new_spawn_director("main", level_def, current_level, ground_tile_count)
 	
 	_debug_stuff()
 	
@@ -131,7 +132,6 @@ func spawn_flowers() -> void:
 func collect_flower(flower: Entity) -> void:
 	flowers.erase(flower)
 	current_flowers -= 1
-	print(current_flowers)
 
 func _tick_flower_quest_runtime(_delta: float) -> void:
 	if flower_quest_complete:
@@ -155,7 +155,7 @@ func spawn_player(entity_name: StringName) -> void:
 	AppController.container_2d.add_child(scriptsprite)
 	await scriptsprite.finished_animating
 	UiController.hud.set_state(UIHUD.State.BAR)
-	EntityManager.simple_spawn_tile("focks", spawn_pos, true)
+	EntityManager.spawn_entity_at_tile(_saved_player, spawn_pos, 1, true)
 
 
 
@@ -170,15 +170,10 @@ func spawn_player(entity_name: StringName) -> void:
 # utility
 # ---------------------------------------------
 
-
-
-
-
-
 ## Spawns in a [ScriptableSprite] of the player and spins them toward the spawn point. Purely a visual effect.
-func _sprite_effect_player(position: Vector2, duration: float) -> void:
+func _sprite_effect_player(to: Vector2, from: Vector2, duration: float) -> void:
 	UiController.hud.set_state(UIHUD.State.INACTIVE)
-	var scriptsprite: ScriptableSprite = ScriptableSprite.new(PlayerManager.player.basename, position, PlayerManager.player.global_position, duration, 1)
+	var scriptsprite: ScriptableSprite = ScriptableSprite.new(PlayerManager.player.basename, to, from, duration, 1)
 	PlayerManager.player.queue_free()
 	AppController.container_2d.add_child(scriptsprite)
 	await scriptsprite.finished_animating
@@ -188,7 +183,7 @@ func _reset_appstate_for_new_level(level_def: LevelDefinition) -> void:
 	EntityManager.destroy_all_entities()
 	CameraController.target = null
 	var level_rng: RandomNumberGenerator = RunRng.get_stream("level_%d" % current_level)
-	WorldGrid.init_grid(level_rng.randi_range(8, 32), level_rng.randi_range(8, 32))
+	WorldGrid.init_grid(level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y), level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y))
 	TerrainManager.generate(level_def.terrain_generator, level_rng, level_def.ground_type, level_def.wall_type, level_def.indestructible_type, level_def.soft_wall_type)
 	WorldGrid.hide_map()
 	UiController.hud.update_level_text()
@@ -196,26 +191,24 @@ func _reset_appstate_for_new_level(level_def: LevelDefinition) -> void:
 
 
 
-func _activate_wave_runner(pool_id: StringName, sequence: WaveSequence, drives_level: bool) -> void:
-	var runner: WaveRunner = WaveRunner.new(sequence, "level_%d_%s" % [current_level, pool_id], escalation)
-	wave_runners[pool_id] = runner
-	if drives_level:
-		runner.sequence_complete.connect(_on_main_sequence_complete, CONNECT_ONE_SHOT)
-	runner.start()
+func _create_new_spawn_director(id: StringName, l_def: LevelDefinition, l_value: int, n_ground_tiles: int) -> void:
+	var director: SpawnDirector = SpawnDirector.new(active_spawn_cfg, l_def, l_value, n_ground_tiles, "level_%d_%s" % [current_level, id])
+	spawn_directors[id] = director
+	director.start()
 
 
 func _teardown_current_level() -> void:
-	wave_runners.clear() # RefCounted, no explicit disconnects needed
+	spawn_directors.clear()
 	EntityManager.destroy_all_entities()
 
 func _debug_stuff() -> void:
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 
-func _on_main_sequence_complete(level_seq: LevelSequence) -> void:
-	start_level(current_level + 1, level_seq)
 
 
 
-func _on_gate_activated(position: Vector2, level_seq: LevelSequence) -> void:
-	await _sprite_effect_player(position, 1)
-	start_level(current_level + 1, level_seq)
+
+func _on_gate_activated(position: Vector2) -> void:
+	_saved_player = PlayerManager.player.duplicate()
+	await _sprite_effect_player(position, PlayerManager.player.global_position, 1)
+	start_level(current_level + 1)

@@ -1,5 +1,6 @@
 {
   "showInlineTitle": false,
   "alwaysUpdateLinks": true,
-  "spellcheck": false
+  "spellcheck": false,
+  "vimMode": false
 }

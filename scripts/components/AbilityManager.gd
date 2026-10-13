@@ -21,15 +21,18 @@ signal ability_cast_successfully(slot: int)
 
 
 
-func _on_registered() -> void:
+func _on_entity_spawned() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
 	# initialize any abilities already present as children in the scene tree
+	for i in range(abilities.size() - 1):
+		if abilities.get(i) != null:
+			_initialize_ability(abilities[i], i)
 	for child in get_children():
 		if child is Ability:
 			_register_ability_to_first_slot(child)
 			
-			
+	print("hi")
 
 
 

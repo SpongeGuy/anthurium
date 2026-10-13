@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="LevelGenerator" format=3 uid="uid://bmt0fkah08ra7"]
+
+[ext_resource type="Script" uid="uid://bai2jrflbugl" path="res://scripts/wave/new/LevelGenerator.gd" id="1_5otpm"]
+[ext_resource type="Script" uid="uid://cu0ahwcs8ptq8" path="res://scripts/wave/new/LevelThemeSet.gd" id="2_1x5w2"]
+[ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/new/LevelTheme.gd" id="3_s8d18"]
+[ext_resource type="Script" uid="uid://bnba2svv11gy3" path="res://scripts/wave/new/TilePalette.gd" id="4_eo0r6"]
+[ext_resource type="Script" uid="uid://ce3jw6ms60t7o" path="res://scripts/resources/terrain_generation/TerrainGenerator.gd" id="5_80mk7"]
+[ext_resource type="Script" uid="uid://dynnebcmmv3uv" path="res://scripts/resources/terrain_generation/DrunkWalkTerrainGenerator.gd" id="6_ktt6o"]
+[ext_resource type="Script" uid="uid://b0fy5xxaynl78" path="res://scripts/resources/terrain_generation/CaveTerrainGenerator.gd" id="7_1x5w2"]
+
+[sub_resource type="Resource" id="Resource_l4xe8"]
+script = ExtResource("4_eo0r6")
+palette_name = &"grass"
+ground_type = &"ground_soil"
+soft_wall_type = &"wall_stone"
+wall_type = &"wall_stone"
+indestructible_type = &"wall_indestructible"
+metadata/_custom_type_script = "uid://bnba2svv11gy3"
+
+[sub_resource type="Resource" id="Resource_dsykb"]
+script = ExtResource("6_ktt6o")
+metadata/_custom_type_script = "uid://dynnebcmmv3uv"
+
+[sub_resource type="Resource" id="Resource_gmvqu"]
+script = ExtResource("6_ktt6o")
+symmetry = 4
+metadata/_custom_type_script = "uid://dynnebcmmv3uv"
+
+[sub_resource type="Resource" id="Resource_4p43q"]
+script = ExtResource("7_1x5w2")
+metadata/_custom_type_script = "uid://b0fy5xxaynl78"
+
+[sub_resource type="Resource" id="Resource_vk6j0"]
+script = ExtResource("3_s8d18")
+theme_name = &"grass"
+terrain_generators = Array[ExtResource("5_80mk7")]([SubResource("Resource_dsykb"), SubResource("Resource_gmvqu"), SubResource("Resource_4p43q")])
+palettes = Array[ExtResource("4_eo0r6")]([SubResource("Resource_l4xe8")])
+metadata/_custom_type_script = "uid://cfuo6d2t7toqp"
+
+[sub_resource type="Resource" id="Resource_lito1"]
+script = ExtResource("2_1x5w2")
+themes = Array[ExtResource("3_s8d18")]([SubResource("Resource_vk6j0")])
+metadata/_custom_type_script = "uid://cu0ahwcs8ptq8"
+
+[resource]
+script = ExtResource("1_5otpm")
+theme_set = SubResource("Resource_lito1")
+metadata/_custom_type_script = "uid://bai2jrflbugl"

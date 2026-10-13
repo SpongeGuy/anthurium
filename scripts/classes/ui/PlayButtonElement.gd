@@ -12,7 +12,7 @@ func select(hand: UIHand) -> void:
 	TweenUtil.tween_to(x_tween, scaling_node, "offset_transform_position", Vector2(24, 0), 0.5)
 	
 func activate(hand: UIHand) -> void:
-	AppController.change_app_state(AppController.AppStatus.GAME)
+	AppController.switch_app_state(AppController.AppStatus.GAME)
 	if activate_sound:
 		AudioManager.play_voice(activate_sound, null, true, false)
 	if start_sound:
