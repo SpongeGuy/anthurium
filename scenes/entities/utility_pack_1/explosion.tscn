@@ -1,9 +1,29 @@
 [gd_scene format=3 uid="uid://bkpk5651dfktf"]
 
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_10bth"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="2_gpywb"]
 [ext_resource type="PackedScene" uid="uid://dbcds6snlgl8h" path="res://scenes/systems/hurtbox.tscn" id="2_my6n5"]
-[ext_resource type="Script" uid="uid://bekq6gmovthak" path="res://scripts/components/DespawnComponent.gd" id="3_8j3to"]
+[ext_resource type="Script" uid="uid://bmywdepruaofk" path="res://scripts/resources/entity_effect/EntityEffectCreateHurtbox.gd" id="4_my6n5"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="5_2mwau"]
+[ext_resource type="Script" uid="uid://b86jgkqxils6p" path="res://scripts/resources/entity_effect/EntityEffectDespawn.gd" id="5_my6n5"]
 [ext_resource type="Resource" uid="uid://dnfkmppj7mxsk" path="res://assets/resources/effects/detonation_effect.tres" id="6_gpywb"]
+
+[sub_resource type="Resource" id="Resource_nxt5f"]
+script = ExtResource("4_my6n5")
+damage = 100.0
+radius = 40.0
+persistence = 0.1
+metadata/_custom_type_script = "uid://bmywdepruaofk"
+
+[sub_resource type="Resource" id="Resource_7kgg4"]
+script = ExtResource("5_my6n5")
+metadata/_custom_type_script = "uid://b86jgkqxils6p"
+
+[sub_resource type="Resource" id="Resource_7wp5n"]
+script = ExtResource("5_2mwau")
+parallel = true
+effects = Array[ExtResource("2_gpywb")]([ExtResource("6_gpywb"), SubResource("Resource_nxt5f"), SubResource("Resource_7kgg4")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gpywb"]
 radius = 1.0
@@ -15,12 +35,11 @@ radius = 1.0
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_10bth")
+spawn_effect = SubResource("Resource_7wp5n")
 render_shadow = false
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Hurtbox" parent="." unique_id=504261229 instance=ExtResource("2_my6n5")]
-constant_hurtbox = true
-type = 3
 height = 20.0
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0" unique_id=45213650]
@@ -28,11 +47,5 @@ shape = SubResource("CircleShape2D_gpywb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1557376430]
 shape = SubResource("CircleShape2D_emcra")
-
-[node name="DespawnComponent" type="Node" parent="." unique_id=793946802]
-script = ExtResource("3_8j3to")
-timer = 0.1
-spawn_effect = ExtResource("6_gpywb")
-metadata/_custom_type_script = "uid://bekq6gmovthak"
 
 [editable path="Hurtbox"]

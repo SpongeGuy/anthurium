@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dkobyrim6kmsn" path="res://assets/textures/misc/flower/flower_purple.png" id="5_yp0i6"]
 [ext_resource type="Texture2D" uid="uid://vvobc7a6gqnm" path="res://assets/textures/misc/flower/flower_red.png" id="6_81nke"]
 [ext_resource type="Texture2D" uid="uid://xh0qxi3sf6p1" path="res://assets/textures/misc/flower/flower_yellow.png" id="7_uahuf"]
-[ext_resource type="Script" uid="uid://511e40a3ma0b" path="res://scripts/components/FlowerComponent.gd" id="8_81nke"]
+[ext_resource type="Script" uid="uid://511e40a3ma0b" path="res://scripts/components/specific/FlowerComponent.gd" id="8_81nke"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_81nke"]
 radius = 5.0990195
@@ -22,6 +22,7 @@ collision_mask = 0
 script = ExtResource("1_xaj8w")
 display_name = "Flower"
 visual = NodePath("Sprite2D")
+show_in_debug = false
 render_shadow = false
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 

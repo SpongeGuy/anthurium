@@ -12,6 +12,8 @@ class_name Entity
 ## and available directly here so behavior/AI code can compare relative
 ## size against other creatures
 @export var mass: float = 1.0
+@export var spawn_effect: EntityEffect
+@export var show_in_debug: bool = true
 
 var visible_state_flag: int = 0
 enum VisibleStateFlag {
@@ -37,11 +39,7 @@ var basename: StringName
 var is_initialized: bool = false
 var is_spawned: bool = false
 
-## used in resolving attribution chains when trying to determine the causality of events
-## if an entity is spawning a projectile or explosion, set owned_by to that entity
-## it is up to your discretion if you want to set an owner to living entities, this could cause some unintended behavior
-## or it could be funy haha :)))))
-var owned_by: Entity = null
+
 
 var key: Entity = null
 
@@ -169,8 +167,7 @@ func _process(delta: float) -> void:
 	if is_out_of_bounds:
 		_out_of_bounds_despawn_timer -= delta
 	if _out_of_bounds_despawn_timer <= 0.0:
-		died.emit()
-		queue_free()
+		die_and_despawn()
 	
 	_tick_flower_cooldown(delta)
 
@@ -179,7 +176,9 @@ func _accumulate_age(delta: float) -> void:
 	if age >= lifespan:
 		expired.emit()
 
-
+func die_and_despawn() -> void:
+	died.emit()
+	queue_free()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # points
@@ -231,6 +230,57 @@ func resolve_visibility(cell: CellData) -> void:
 	
 	if not cell.invisible and visible == false:
 		set_visibility(true)
+	
+
+# ----------------------------------------------
+# master / slave
+# ----------------------------------------------
+
+## used in resolving attribution chains when trying to determine the causality of events
+## if an entity is spawning a projectile or explosion, set master to that entity
+## it is up to your discretion if you want to set an owner to living entities, this could cause some unintended behavior
+## or it could be funy haha :)))))
+var origin: Entity = null
+
+func set_origin(entity: Entity) -> void:
+	origin = entity
+
+func get_ultimate_origin(entity: Entity) -> Entity:
+	if not origin:
+		return self
+	if origin.origin == self:
+		return origin
+	else:
+		return get_ultimate_origin(origin)
+		
+# -------------------------------------------------------------------
+# friends
+# -------------------------------------------------------------------
+
+# if an entity is friends with this one, then its hurtboxes will not interact with this entity's hitboxes.
+var friends: Array[Entity] = []
+
+
+
+func add_friend(entity: Entity) -> void:
+	_clean_up_invalid_friends()
+	friends.append(entity)
+
+func remove_friend(entity: Entity) -> void:
+	_clean_up_invalid_friends()
+	for i in range(friends.size() - 1):
+		if friends[i] == entity:
+			friends.remove_at(i)
+			return
+		
+func is_friends_with(entity: Entity) -> bool:
+	return friends.has(entity)
+
+func _clean_up_invalid_friends() -> void:
+	for i in range(friends.size() -1, -1, -1):
+		if not is_instance_valid(friends[i]):
+			friends.remove_at(i)
+			continue
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -309,6 +359,8 @@ func _apply_z_offset() -> void:
 	if visual:
 		visual.offset.y = offset
 	for node in _z_tracked_nodes.keys():
+		if basename == "water_projectile":
+			print(node.position.y)
 		if is_instance_valid(node):
 			node.position.y = _z_tracked_nodes[node] + offset
 		else:

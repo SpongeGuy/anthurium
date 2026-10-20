@@ -82,5 +82,4 @@ func die(source: Entity) -> void:
 	if source:
 		entity.transfer_points(source)
 	
-	entity.died.emit()
-	entity.queue_free()
+	entity.die_and_despawn()

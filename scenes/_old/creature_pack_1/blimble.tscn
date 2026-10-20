@@ -14,7 +14,6 @@
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="18_ybvok"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="19_m6vu1"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="20_bt4x6"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="20_f4hbb"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="20_m2h6w"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="21_m2h6w"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="22_6tbtn"]
@@ -22,11 +21,8 @@
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="23_m2h6w"]
 [ext_resource type="Resource" uid="uid://jxj2ne0nnqgk" path="res://assets/resources/lobes/hunger_lobe.tres" id="23_yaau6"]
 [ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="24_i2sl0"]
-[ext_resource type="Script" uid="uid://c6tkayh62s4tf" path="res://scripts/states/StateWatchThreat.gd" id="24_xd38x"]
-[ext_resource type="Script" uid="uid://bphc4eebn1pka" path="res://scripts/states/StateFleeFromThreat.gd" id="25_54mgb"]
 [ext_resource type="Resource" uid="uid://dmgf5tlac12go" path="res://assets/resources/particle_profiles/big_pop.tres" id="25_i2sl0"]
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="25_yaau6"]
-[ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="26_haym0"]
 [ext_resource type="Script" uid="uid://cvunw8u3r5f0x" path="res://scripts/components/DropFoodOnDeathComponent.gd" id="27_yaau6"]
 [ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/LocomotionHandler.gd" id="30_54mgb"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="31_haym0"]
@@ -52,7 +48,6 @@ radius = 9.0
 
 [sub_resource type="Resource" id="Resource_ybvok"]
 script = ExtResource("19_m6vu1")
-state_script = ExtResource("20_f4hbb")
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
 [sub_resource type="Resource" id="Resource_cyct4"]
@@ -62,23 +57,8 @@ state_name = &"wander"
 blueprint = SubResource("Resource_ybvok")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
-[sub_resource type="Resource" id="Resource_he4kk"]
-script = ExtResource("19_m6vu1")
-state_script = ExtResource("24_xd38x")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_54mgb"]
-script = ExtResource("19_m6vu1")
-state_script = ExtResource("25_54mgb")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
 [sub_resource type="Resource" id="Resource_xd38x"]
 script = ExtResource("19_m6vu1")
-state_script = ExtResource("26_haym0")
-is_container = true
-entry_child = &"watch"
-child_names = Array[StringName]([&"watch", &"flee"])
-child_states = Array[ExtResource("19_m6vu1")]([SubResource("Resource_he4kk"), SubResource("Resource_54mgb")])
 metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
 [sub_resource type="Resource" id="Resource_yaau6"]
@@ -141,6 +121,7 @@ position = Vector2(0, -3)
 script = ExtResource("7_sofh0")
 collision_shape = NodePath("CollisionShape2D")
 physics = NodePath("../PhysicsComponent")
+damage_response = Dictionary[int, int]({})
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1813180517]

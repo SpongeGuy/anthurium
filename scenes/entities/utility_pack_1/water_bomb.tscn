@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://dh5pe7hipk5yc"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_5uhuo"]
+[ext_resource type="Script" uid="uid://dpxu7j476ke02" path="res://scripts/resources/entity_effect/EntityEffectJump.gd" id="2_lsvaa"]
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="3_rd8j4"]
+[ext_resource type="Script" uid="uid://bmywdepruaofk" path="res://scripts/resources/entity_effect/EntityEffectCreateHurtbox.gd" id="4_arvoa"]
+[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="5_fsryi"]
+[ext_resource type="Script" uid="uid://b86jgkqxils6p" path="res://scripts/resources/entity_effect/EntityEffectDespawn.gd" id="5_s1go3"]
+[ext_resource type="PackedScene" uid="uid://dbcds6snlgl8h" path="res://scenes/systems/hurtbox.tscn" id="6_t7vuj"]
+[ext_resource type="Texture2D" uid="uid://bnkydyq50ciul" path="res://assets/textures/misc/water_drop.png" id="8_arvoa"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="9_alpp8"]
+[ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="10_rd8j4"]
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_34fpa"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="13_s1go3"]
+[ext_resource type="Script" uid="uid://ca55u3oxwnad4" path="res://scripts/abilities/AbilityDamageAoE.gd" id="14_arvoa"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="15_arvoa"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="16_alpp8"]
+
+[sub_resource type="Resource" id="Resource_oa2w7"]
+script = ExtResource("2_lsvaa")
+power = 30.0
+metadata/_custom_type_script = "uid://dpxu7j476ke02"
+
+[sub_resource type="Resource" id="Resource_c1cmv"]
+script = ExtResource("4_arvoa")
+damage = 1.0
+radius = 10.0
+persistence = 0.1
+metadata/_custom_type_script = "uid://bmywdepruaofk"
+
+[sub_resource type="Resource" id="Resource_t7vuj"]
+script = ExtResource("5_s1go3")
+metadata/_custom_type_script = "uid://b86jgkqxils6p"
+
+[sub_resource type="Resource" id="Resource_nyslg"]
+script = ExtResource("5_fsryi")
+parallel = true
+effects = Array[ExtResource("3_rd8j4")]([SubResource("Resource_c1cmv"), SubResource("Resource_t7vuj")])
+metadata/_custom_type_script = "uid://qy3at433r6s0"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gyaym"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_5uhuo"]
+script = ExtResource("11_34fpa")
+name = &"wibble"
+frames = 2
+speed = 0.5
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[node name="WaterBomb" type="CharacterBody2D" unique_id=1797047372 node_paths=PackedStringArray("visual", "nodes_to_translate")]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_5uhuo")
+display_name = "Water Drop"
+visual = NodePath("Sprite2D")
+spawn_effect = SubResource("Resource_oa2w7")
+nodes_to_translate = [NodePath("Hurtbox")]
+gravity = 100.0
+jump_effect = null
+land_effect = SubResource("Resource_nyslg")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Hurtbox" parent="." unique_id=504261229 instance=ExtResource("6_t7vuj")]
+position = Vector2(0, -5)
+damage = 1.0
+behavior_type = 2
+z_offset = -1.0
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0" unique_id=45213650]
+shape = SubResource("CircleShape2D_emcra")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=62547031]
+position = Vector2(0, -5)
+texture = ExtResource("8_arvoa")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1790017606]
+shape = SubResource("CircleShape2D_gyaym")
+
+[node name="PhysicsComponent" type="Node" parent="." unique_id=258275515]
+script = ExtResource("9_alpp8")
+
+[node name="SpriteAnimator" type="Node" parent="." unique_id=24918634 node_paths=PackedStringArray("sprite")]
+script = ExtResource("10_rd8j4")
+sprite = NodePath("../Sprite2D")
+default_animation = SubResource("Resource_5uhuo")
+
+[node name="AbilityManager" type="Node" parent="." unique_id=167488260 node_paths=PackedStringArray("ichor_component", "input")]
+script = ExtResource("13_s1go3")
+ichor_component = NodePath("../IchorComponent")
+input = NodePath("../InputComponent")
+
+[node name="AbilityDamageAoE" type="Node" parent="AbilityManager" unique_id=2084321791]
+script = ExtResource("14_arvoa")
+metadata/_custom_type_script = "uid://ca55u3oxwnad4"
+
+[node name="InputComponent" type="Node" parent="." unique_id=797960804]
+script = ExtResource("15_arvoa")
+
+[node name="IchorComponent" type="Node" parent="." unique_id=76634863]
+script = ExtResource("16_alpp8")
+
+[editable path="Hurtbox"]

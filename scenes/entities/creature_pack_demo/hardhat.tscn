@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="9_ih2ag"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="10_dn1wi"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="11_ebhsp"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="12_jq2yg"]
+[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/brain/states/StatePathfindWander.gd" id="12_jq2yg"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="13_q3ml7"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="14_h3ubb"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="15_fv4jk"]

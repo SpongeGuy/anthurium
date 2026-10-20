@@ -5,6 +5,10 @@
 [node name="Hitbox" type="Area2D" unique_id=530098828 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("1_xhspr")
 collision_shape = NodePath("CollisionShape2D")
+damage_response = null
+z_offset = null
+height = null
+ignore_height = null
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=89117285]

@@ -11,9 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="9_kmc5u"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="11_5mpf5"]
 [ext_resource type="Script" uid="uid://1xriy2jrq4a5" path="res://scripts/resources/locomotion/HopLocomotionProfile.gd" id="11_6alht"]
-[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="12_mkvqn"]
+[ext_resource type="Script" uid="uid://dr1246wo0rspr" path="res://scripts/brain/blueprint/BSBPathfindWander.gd" id="12_643ob"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="13_r4532"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="14_kmc5u"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="15_o1hvi"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="15_wg1nk"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="16_fhcxy"]
@@ -41,16 +40,15 @@ radius = 5.0990195
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y7v1v"]
 size = Vector2(20, 13)
 
-[sub_resource type="Resource" id="Resource_643ob"]
-script = ExtResource("12_mkvqn")
-state_script = ExtResource("14_kmc5u")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_m5w7m"]
+script = ExtResource("12_643ob")
+metadata/_custom_type_script = "uid://dr1246wo0rspr"
 
 [sub_resource type="Resource" id="Resource_5mpf5"]
 script = ExtResource("15_wg1nk")
 priority = 0.1
 state_name = &"wander"
-blueprint = SubResource("Resource_643ob")
+blueprint = SubResource("Resource_m5w7m")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [sub_resource type="Resource" id="Resource_6alht"]
@@ -60,6 +58,8 @@ metadata/_custom_type_script = "uid://1xriy2jrq4a5"
 
 [node name="Entity" type="CharacterBody2D" unique_id=435185496 node_paths=PackedStringArray("visual")]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_y7v1v")
 display_name = "Skippa"
 visual = NodePath("Sprite2D")

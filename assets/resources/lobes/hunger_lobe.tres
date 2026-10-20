@@ -1,39 +1,8 @@
 [gd_resource type="Resource" script_class="LobeHunger" format=3 uid="uid://jxj2ne0nnqgk"]
 
-[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="1_ajtoq"]
-[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="2_r7w8g"]
-[ext_resource type="Script" uid="uid://dox5lvort2eyw" path="res://scripts/states/StatePathfindWanderSeekingFood.gd" id="3_mugrt"]
-[ext_resource type="Script" uid="uid://bo178rkxs658l" path="res://scripts/states/StatePathfindTowardsTarget.gd" id="4_oa0jm"]
-[ext_resource type="Script" uid="uid://b1cd4ecqbjxtn" path="res://scripts/states/StateStopAndInteractWithTarget.gd" id="5_7jgcg"]
-[ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="6_v3bjw"]
 [ext_resource type="Script" uid="uid://bswtngqdlu4k5" path="res://scripts/lobes/HungerLobe.gd" id="7_jtd0x"]
-
-[sub_resource type="Resource" id="Resource_i2sl0"]
-script = ExtResource("1_ajtoq")
-state_script = ExtResource("3_mugrt")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_xd38x"]
-script = ExtResource("1_ajtoq")
-state_script = ExtResource("4_oa0jm")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_he4kk"]
-script = ExtResource("1_ajtoq")
-state_script = ExtResource("5_7jgcg")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
-
-[sub_resource type="Resource" id="Resource_yaau6"]
-script = ExtResource("1_ajtoq")
-state_script = ExtResource("6_v3bjw")
-is_container = true
-entry_child = &"seek"
-child_names = Array[StringName]([&"seek", &"move_to_target", &"interact"])
-child_states = Array[ExtResource("1_ajtoq")]([SubResource("Resource_i2sl0"), SubResource("Resource_xd38x"), SubResource("Resource_he4kk")])
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
 
 [resource]
 script = ExtResource("7_jtd0x")
 state_name = &"hungry"
-blueprint = SubResource("Resource_yaau6")
 metadata/_custom_type_script = "uid://bswtngqdlu4k5"

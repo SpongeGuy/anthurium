@@ -45,6 +45,7 @@ MusicController="*uid://s3f234v7vm1e"
 SpawnManager="*uid://xxmimb4gpi12"
 RunRng="*uid://dtogeyftd4ovl"
 CollisionResolutionTracker="*uid://dauakwttssnwo"
+DebugOverlay="*uid://bjcltnmlky4ve"
 
 [display]
 
@@ -77,11 +78,11 @@ folder_colors={
 "res://scenes/title_screen/": "blue",
 "res://scripts/abilities/": "red",
 "res://scripts/autoload/": "orange",
+"res://scripts/brain/states/": "purple",
 "res://scripts/classes/": "yellow",
 "res://scripts/components/": "green",
 "res://scripts/lobes/": "teal",
 "res://scripts/resources/": "blue",
-"res://scripts/states/": "purple",
 "res://scripts/ui/": "pink",
 "res://scripts/wave/": "blue"
 }

@@ -22,7 +22,7 @@
 [ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="21_dji3k"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="22_34fkb"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="24_k82wc"]
-[ext_resource type="Script" uid="uid://143u7xgfchhw" path="res://scripts/states/deprecated/blom_bulb/growth_into_new_entity.gd" id="26_5rdin"]
+[ext_resource type="Script" uid="uid://143u7xgfchhw" path="res://scripts/brain/states/deprecated/blom_bulb/growth_into_new_entity.gd" id="26_5rdin"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="26_wdex0"]
 [ext_resource type="Script" uid="uid://bkky2iu1meoku" path="res://scripts/components/JumpOnTimerComponent.gd" id="27_b62um"]
 [ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="27_wdex0"]

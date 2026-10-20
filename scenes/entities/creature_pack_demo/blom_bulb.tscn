@@ -24,7 +24,7 @@
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="24_x5ibe"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="25_7jhgd"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="26_nbn7m"]
-[ext_resource type="Script" uid="uid://bvq3h1gfyw5af" path="res://scripts/states/StateStopAndCastAbility.gd" id="26_x5ibe"]
+[ext_resource type="Script" uid="uid://bvq3h1gfyw5af" path="res://scripts/brain/states/StateStopAndCastAbility.gd" id="26_x5ibe"]
 
 [sub_resource type="Resource" id="Resource_suep0"]
 script = ExtResource("2_suep0")

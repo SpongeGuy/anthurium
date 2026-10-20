@@ -7,19 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="5_o38mt"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="6_jtcli"]
 [ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="7_4vcgw"]
+[ext_resource type="Script" uid="uid://dr1246wo0rspr" path="res://scripts/brain/blueprint/BSBPathfindWander.gd" id="8_fdski"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="8_lfti0"]
-[ext_resource type="Script" uid="uid://dqla77e71xqib" path="res://scripts/states/StatePathfindWanderUntilHurt.gd" id="9_qer62"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="10_5jy1q"]
-[ext_resource type="Resource" uid="uid://hywss0tw7ueb" path="res://assets/resources/particle_profiles/pop.tres" id="11_5jy1q"]
-[ext_resource type="Script" uid="uid://cr00blwj3vmgx" path="res://scripts/states/StatePathfindWanderOccasionallyEffect.gd" id="11_o38mt"]
+[ext_resource type="Script" uid="uid://bcrii7x5jinec" path="res://scripts/brain/blueprint/BSBContainer.gd" id="10_r6k1o"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="11_vf10k"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="12_0md4n"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="12_4xrl1"]
-[ext_resource type="Script" uid="uid://bts03386nclu3" path="res://scripts/classes/ai/ContainerState.gd" id="12_jtcli"]
-[ext_resource type="Script" uid="uid://dqgelxi8t408e" path="res://scripts/resources/entity_effect/EntityEffectParticle.gd" id="12_vf10k"]
+[ext_resource type="Script" uid="uid://clbof20js1smo" path="res://scripts/brain/blueprint/BSBStopAndCastAbility.gd" id="12_jtcli"]
 [ext_resource type="Script" uid="uid://3rahci53su3r" path="res://scripts/resources/entity_effect/EntityEffectChangeSpeed.gd" id="13_4xrl1"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="13_35noe"]
-[ext_resource type="Script" uid="uid://qy3at433r6s0" path="res://scripts/resources/entity_effect/EntityEffectSequence.gd" id="14_35noe"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="14_uwg5e"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="16_vf10k"]
 
@@ -32,54 +29,48 @@ metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 [sub_resource type="CircleShape2D" id="CircleShape2D_emcra"]
 radius = 4.1231055
 
-[sub_resource type="Resource" id="Resource_35noe"]
-script = ExtResource("7_4vcgw")
-state_script = ExtResource("9_qer62")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_2pc5x"]
+script = ExtResource("8_fdski")
+mode = 3
+metadata/_custom_type_script = "uid://dr1246wo0rspr"
 
-[sub_resource type="Resource" id="Resource_jtcli"]
-script = ExtResource("12_vf10k")
-particle_profile = ExtResource("11_5jy1q")
-metadata/_custom_type_script = "uid://dqgelxi8t408e"
-
-[sub_resource type="Resource" id="Resource_4vcgw"]
+[sub_resource type="Resource" id="Resource_r6k1o"]
 script = ExtResource("13_4xrl1")
-speed = 80.0
+speed = 100.0
 metadata/_custom_type_script = "uid://3rahci53su3r"
 
-[sub_resource type="Resource" id="Resource_o38mt"]
-script = ExtResource("14_35noe")
-parallel = true
-effects = Array[ExtResource("8_lfti0")]([SubResource("Resource_jtcli"), SubResource("Resource_4vcgw")])
-metadata/_custom_type_script = "uid://qy3at433r6s0"
-
 [sub_resource type="Resource" id="Resource_5vwnp"]
+script = ExtResource("8_fdski")
+mode = 3
+min_wander_radius = 100.0
+timer_duration = 5.0
+effects = Dictionary[StringName, ExtResource("8_lfti0")]({
+&"on_enter": SubResource("Resource_r6k1o")
+})
+metadata/_custom_type_script = "uid://dr1246wo0rspr"
+
+[sub_resource type="Resource" id="Resource_e7r31"]
 script = ExtResource("16_vf10k")
 metadata/_custom_type_script = "uid://q8oievajpib8"
 
-[sub_resource type="Resource" id="Resource_uwg5e"]
-script = ExtResource("7_4vcgw")
-state_script = ExtResource("11_o38mt")
-effects = Dictionary[StringName, ExtResource("8_lfti0")]({
-&"on_enter": SubResource("Resource_o38mt"),
-&"on_timer": SubResource("Resource_5vwnp")
-})
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_o5u2p"]
+script = ExtResource("12_jtcli")
+cast_timer = 0.0
+cast_ability = SubResource("Resource_e7r31")
+metadata/_custom_type_script = "uid://clbof20js1smo"
 
-[sub_resource type="Resource" id="Resource_4xrl1"]
-script = ExtResource("7_4vcgw")
-state_script = ExtResource("12_jtcli")
-is_container = true
-entry_child = &"wander"
-child_names = Array[StringName]([&"wander", &"triggered"])
-child_states = Array[ExtResource("7_4vcgw")]([SubResource("Resource_35noe"), SubResource("Resource_uwg5e")])
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_iddnd"]
+script = ExtResource("10_r6k1o")
+entry_child = &"walk"
+child_names = Array[StringName]([&"walk", &"on_hurt", &"switch"])
+child_states = Array[ExtResource("7_4vcgw")]([SubResource("Resource_2pc5x"), SubResource("Resource_5vwnp"), SubResource("Resource_o5u2p")])
+metadata/_custom_type_script = "uid://bcrii7x5jinec"
 
 [sub_resource type="Resource" id="Resource_vf10k"]
 script = ExtResource("10_5jy1q")
 priority = 0.1
 state_name = &"wander"
-blueprint = SubResource("Resource_4xrl1")
+blueprint = SubResource("Resource_iddnd")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [sub_resource type="Resource" id="Resource_fc06j"]

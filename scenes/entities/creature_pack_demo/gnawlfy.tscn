@@ -4,12 +4,11 @@
 [ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="2_6sh86"]
 [ext_resource type="Texture2D" uid="uid://bhn2otohxrv4d" path="res://assets/textures/characters/bestguys/imp.png" id="2_r8xof"]
 [ext_resource type="PackedScene" uid="uid://britq7hc1nr0f" path="res://scenes/systems/health_and_ichor_package.tscn" id="7_7kk3y"]
+[ext_resource type="Script" uid="uid://dr1246wo0rspr" path="res://scripts/brain/blueprint/BSBPathfindWander.gd" id="10_j24rx"]
 [ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="11_15f1d"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="13_jijkt"]
-[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="14_15f1d"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="15_464gt"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="15_n8icr"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="16_4pwgi"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="16_44yvb"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="17_4noo4"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="18_3kdaj"]
@@ -24,16 +23,15 @@ metadata/_custom_type_script = "uid://dfvnbi3cahln7"
 [sub_resource type="CircleShape2D" id="CircleShape2D_ajtoq"]
 radius = 3.0
 
-[sub_resource type="Resource" id="Resource_7nfix"]
-script = ExtResource("14_15f1d")
-state_script = ExtResource("16_4pwgi")
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_2pc5x"]
+script = ExtResource("10_j24rx")
+metadata/_custom_type_script = "uid://dr1246wo0rspr"
 
 [sub_resource type="Resource" id="Resource_6371t"]
 script = ExtResource("17_4noo4")
 priority = 0.1
 state_name = &"wander"
-blueprint = SubResource("Resource_7nfix")
+blueprint = SubResource("Resource_2pc5x")
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [sub_resource type="Resource" id="Resource_jijkt"]
@@ -45,6 +43,8 @@ size = Vector2(9, 12)
 
 [node name="Gnawlfy" type="CharacterBody2D" unique_id=635328393 node_paths=PackedStringArray("visual")]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_ue6cv")
 display_name = "Gnawlfy"
 visual = NodePath("Sprite2D")

@@ -3,7 +3,6 @@ class_name Hitbox
 
 var entity: Entity
 @export var collision_shape: CollisionShape2D
-@export var friends: FriendComponent
 @export var physics: PhysicsComponent
 @export var damage_response: Dictionary[Hurtbox.DamageType, DamageResponses] = {
 	Hurtbox.DamageType.GENERIC: DamageResponses.DAMAGE,
@@ -25,7 +24,7 @@ enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 ## roughly a creature's body height; set higher/lower for hitboxes meant to
 ## represent a specific body part, or for projectiles that fly at their own
 ## altitude.
-@export var height: float = 2.0
+@export var height: float = 1.0
 ## If true, this hitbox hits regardless of vertical overlap with the
 ## hurtbox; for abilities/effects that should ignore height entirely.
 @export var ignore_height: bool = false
@@ -43,8 +42,6 @@ func _ready() -> void:
 	
 	if not physics:
 		physics = entity.get_component(PhysicsComponent)
-	if not friends:
-		friends = entity.get_component(FriendComponent)
 
 ## Returns whether this hitbox's damage volume vertically overlaps
 ## [param hurtbox]'s, using each side's owning entity's live [member Entity.z]
@@ -66,7 +63,7 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	var hurtbox: Hurtbox = area
 	if hurtbox.entity == entity and not hurtbox.can_hurt_self:
 		return
-	if friends and friends.is_friend(hurtbox.entity):
+	if hurtbox.entity.is_friends_with(entity):
 		return
 	if not _hits_by_height(hurtbox):
 		return

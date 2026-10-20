@@ -12,9 +12,4 @@ func _on_entity_spawned() -> void:
 func _process(delta: float) -> void:
 	_timer -= delta
 	if _timer <= 0.0:
-		despawn()
-
-
-func despawn() -> void:
-	entity.died.emit()
-	entity.queue_free()
+		entity.die_and_despawn()

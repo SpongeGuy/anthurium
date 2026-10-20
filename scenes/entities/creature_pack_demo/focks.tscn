@@ -10,24 +10,21 @@
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="8_tkxpy"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="12_mutx0"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="12_qcr3t"]
-[ext_resource type="Script" uid="uid://b06wram7ecjpl" path="res://scripts/components/friend_component.gd" id="13_y0tv5"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
+[ext_resource type="Script" uid="uid://y1m6acghhwfb" path="res://scripts/abilities/AbilityChargeAndSmash.gd" id="22_o65h8"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="26_s02rk"]
-[ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="28_3qtpx"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
 [ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/ability_jump.gd" id="29_tkxpy"]
 [ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="29_ypaju"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="30_tkxpy"]
-[ext_resource type="Script" uid="uid://c2dh1fyb3f8mj" path="res://scripts/resources/ai/BrainStateBlueprint.gd" id="31_vl5tg"]
+[ext_resource type="Script" uid="uid://dr1246wo0rspr" path="res://scripts/brain/blueprint/BSBPathfindWander.gd" id="31_456ii"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="32_1cjm5"]
-[ext_resource type="Script" uid="uid://66jhuio88ema" path="res://scripts/states/StatePathfindWander.gd" id="33_4npmj"]
 [ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
-[ext_resource type="Script" uid="uid://d6cq0g5ot4oc" path="res://scripts/resources/entity_effect/EntityEffectAnimation.gd" id="33_tkxpy"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="34_d1yhl"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/SpriteAnimatorDirectional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="34_tkxpy"]
@@ -68,32 +65,15 @@ script = ExtResource("36_4npmj")
 particle_profile = ExtResource("35_1cjm5")
 metadata/_custom_type_script = "uid://dqgelxi8t408e"
 
-[sub_resource type="Resource" id="Resource_vl5tg"]
-script = ExtResource("16_v7tyf")
-name = &"walk"
-frames = 2
-speed = 5.0
-scales_with_speed = true
-metadata/_custom_type_script = "uid://cym0ubd2tvsch"
-
-[sub_resource type="Resource" id="Resource_4npmj"]
-script = ExtResource("33_tkxpy")
-animation = SubResource("Resource_vl5tg")
-is_default_animation = true
-metadata/_custom_type_script = "uid://d6cq0g5ot4oc"
-
-[sub_resource type="Resource" id="Resource_gyaym"]
-script = ExtResource("31_vl5tg")
-state_script = ExtResource("33_4npmj")
-effects = Dictionary[StringName, ExtResource("32_1cjm5")]({
-&"on_enter": SubResource("Resource_4npmj")
-})
-metadata/_custom_type_script = "uid://c2dh1fyb3f8mj"
+[sub_resource type="Resource" id="Resource_pe8vo"]
+script = ExtResource("31_456ii")
+metadata/_custom_type_script = "uid://dr1246wo0rspr"
 
 [sub_resource type="Resource" id="Resource_emcra"]
 script = ExtResource("34_d1yhl")
 state_name = &"wander"
-blueprint = SubResource("Resource_gyaym")
+blueprint = SubResource("Resource_pe8vo")
+boredom_effectivity = 1.0
 metadata/_custom_type_script = "uid://jjlkhibelmw5"
 
 [node name="Focks" type="CharacterBody2D" unique_id=163986961 node_paths=PackedStringArray("visual", "nodes_to_translate") groups=["creature"]]
@@ -131,6 +111,8 @@ metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
 [node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1840254880 node_paths=PackedStringArray("hitbox", "ichor")]
 script = ExtResource("4_jwlga")
+max_health = 8.0
+health = 8.0
 hitbox = NodePath("../../HitDetection/Hitbox")
 ichor = NodePath("../Ichor")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
@@ -161,18 +143,17 @@ metadata/_custom_type_script = "uid://bmipqa5sa8rwt"
 [node name="Hitbox" type="Area2D" parent="HitDetection" unique_id=518959131 node_paths=PackedStringArray("collision_shape")]
 script = ExtResource("12_mutx0")
 collision_shape = NodePath("CollisionShape2D")
+damage_response = null
+z_offset = null
+height = null
+ignore_height = null
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetection/Hitbox" unique_id=1487131131]
 position = Vector2(-0.5, -3)
 shape = SubResource("RectangleShape2D_mg4qc")
 
-[node name="FriendComponent" type="Node" parent="HitDetection" unique_id=2132330165]
-script = ExtResource("13_y0tv5")
-metadata/_custom_type_script = "uid://b06wram7ecjpl"
-
 [node name="Animation" type="Node2D" parent="." unique_id=1057125269]
-visible = false
 
 [node name="DirectionalSpriteAnimator" type="Node" parent="Animation" unique_id=1364615240 node_paths=PackedStringArray("facing", "sprite", "locomotion")]
 script = ExtResource("34_ipt6n")
@@ -231,12 +212,9 @@ metadata/_custom_type_script = "uid://tda3ohuci2fd"
 script = ExtResource("29_tkxpy")
 metadata/_custom_type_script = "uid://ckl5wy0pud2yy"
 
-[node name="AbilitySpawnEntity" type="Node" parent="AbilityManager" unique_id=1050257195 node_paths=PackedStringArray("ichor_component")]
-script = ExtResource("28_3qtpx")
-entity_name = &"meat_shank"
-ichor_cost = 30.0
-ichor_component = NodePath("../../Health&Damage/Ichor")
-metadata/_custom_type_script = "uid://yatksxan7xhj"
+[node name="AbilityChargeAndSmash" type="Node" parent="AbilityManager" unique_id=1052121321]
+script = ExtResource("22_o65h8")
+metadata/_custom_type_script = "uid://y1m6acghhwfb"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")

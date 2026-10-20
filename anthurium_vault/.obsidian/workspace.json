@@ -11,17 +11,14 @@
             "id": "12afc7c931b135ff",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "Main.canvas",
-                "viewState": {
-                  "x": -5499.123260045846,
-                  "y": 6420.112388941663,
-                  "zoom": -4
-                }
+                "file": "for my capstone/anthurium.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "icon": "lucide-file",
+              "title": "anthurium"
             }
           },
           {
@@ -32,9 +29,9 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": 718.069248004338,
-                  "y": 551.3737445955389,
-                  "zoom": -0.4000000000000006
+                  "x": -6119.007379994278,
+                  "y": -571.1393580120347,
+                  "zoom": 0.39999999999999947
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -56,7 +53,7 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -216,7 +213,7 @@
             }
           },
           {
-            "id": "d7d5492bf5a161ef",
+            "id": "042c46c59bf9c5ca",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -246,17 +243,17 @@
       "word-smith:Open the Word-Smith menu": false
     }
   },
-  "active": "e8b368230a70366d",
+  "active": "181dfbdcfab63d9d",
   "lastOpenFiles": [
-    "Pasted image 20260830012729.png",
-    "Untitled.md",
-    "for my capstone/job list 9-1-26.canvas",
+    "for my capstone/anthurium.md",
     "Main.canvas",
+    "for my capstone/job list 9-1-26.canvas",
+    "Untitled.md",
+    "Pasted image 20260830012729.png",
     "Word-Smith/ws-settings.md",
     "Word-Smith/ws-structure.md",
     "Word-Smith",
     "for my capstone/plant anthurium design for the plant.canvas",
-    "for my capstone/anthurium.md",
     "anthurium.canvas",
     "Creatures.md",
     "worldbuilder/Timeline.md",

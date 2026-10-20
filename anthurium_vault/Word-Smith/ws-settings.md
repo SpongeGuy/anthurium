@@ -6,7 +6,7 @@ reinstall — or a vault restored from a backup that kept the notes and
 not the plugin folder — can get everything back.
 
 - vault: anthurium_vault
-- written: 2026-10-13 13:27:36
+- written: 2026-10-16 20:57:28
 
 ```json
 {
@@ -79,11 +79,11 @@ not the plugin folder — can get everything back.
   "vimPanelHeight": 23,
   "barBottomGap": 23,
   "focusedFileMode": false,
-  "enableTypewriter": true,
+  "enableTypewriter": false,
   "editorPaddingH": 204,
   "zenEnabled": false,
   "zenTitlebarMatch": true,
-  "enableLetterbox": true,
+  "enableLetterbox": false,
   "letterboxLines": 8,
   "letterboxPx": 368.817,
   "maskOverhang": 4,

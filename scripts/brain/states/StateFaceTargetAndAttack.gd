@@ -1,5 +1,4 @@
-extends BrainState
-class_name StateStopAndAttack
+class_name StateFaceNearestAndAttack extends BrainState
 
 var navigation: NavigationHelper
 var input: InputComponent
@@ -54,7 +53,6 @@ func _handle_ai_behavior(delta: float) -> void:
 		_timer = ability_use_timer + randf_range(-EPSILON, EPSILON)
 		input.press_action(0)
 		input.release_action(0)
-	
 
 ## return teh StringName of the state to transition to, or &"" to stay.
 ## called every tick by the owning StateMachine after physics_process

@@ -8,6 +8,8 @@ var ability_man: AbilityManager
 var _timer: float
 var cast_timer: float = 2.0
 
+var cast_ability: EntityEffect
+
 var rng: RandomNumberGenerator
 
 func _init(e: Entity, b: Brain) -> void:
@@ -29,7 +31,7 @@ func exit() -> void:
 func physics_process(delta: float) -> void:
 	_timer -= delta
 	if _timer <= 0.0:
-		play_effect("cast_ability")
+		try_play_effect(cast_ability)
 		_timer = cast_timer + rng.randf_range(-2, 2)
 	
 

@@ -438,16 +438,6 @@
 		},
 		{"id":"1cb9dcf81a82fca4","type":"text","text":"which is more interesting?\n\na land cursed with fog so dark and dense that otherworldly creatures live inside it. the only thing protecting the land against the fog is a deific plant: the anthurium. the player must curate the plant and help it grow and evolve to protect the land against the ever-changing threats in the fog. at the end of each day, the plant enters a dormant state, causing the fog to roll in along with the lethal creatures inside it.\n\n> a land brimming with life, energy, and chaos. the source of the magic keeping the land energetic is the legendary anthurium plant; a hungry and violent but necessary element of the ecosystem. although the plant provides immense nutrition to the whole land, this plant is not afraid to grow forcefully in order to satiate itself and has a tendency to grow violent if not treated carefully. the day ends when the plant grows so angry and intolerant of the inhabitants that it begins producing lethal plant monsters to kill creatures and drag them into the soil.\n\ni think the second one is better, but how tf do i design such a thing? the plant has to be smart and be able to react to stimuli.","x":-13590,"y":-10966,"width":620,"height":636},
 		{
-			"id":"5d6184c785dacbc8",
-			"type":"text",
-			"text":"# This is the final iteration of the Anthurium.\nlets all say our congratulations because it's been a long and wild ride.",
-			"styleAttributes":{},
-			"x":-12670,
-			"y":-579,
-			"width":620,
-			"height":100
-		},
-		{
 			"id":"8f60b056994b9a6d",
 			"type":"text",
 			"text":"# APEX PREDATOR",
@@ -456,16 +446,6 @@
 			"y":-244,
 			"width":260,
 			"height":60
-		},
-		{
-			"id":"3c63b1fb557e2059",
-			"type":"text",
-			"text":"`WorldGrid.set_cell_by_type(type_name: StringName, world_pos: Vector2)`\n1. retrieve `CellData` from those coordinates\n2. retrieve `CellType` resource that maps to `type_name`\n3. set `CellData.type` = retrieved type\n4. call `WorldGrid.set_cell()`\n5. ",
-			"styleAttributes":{},
-			"x":-11170,
-			"y":-1839,
-			"width":540,
-			"height":350
 		},
 		{
 			"id":"03bc771e89492ec8",
@@ -516,16 +496,6 @@
 			"y":-1799,
 			"width":660,
 			"height":1160
-		},
-		{
-			"id":"1578bc4a7aec6666",
-			"type":"text",
-			"text":"Setting cells from a library of the cells! :DDD\n\nCellData: holds data that is individual to each cell in the world\nCellType: describes one single cell type, including graphics and properties\n\n```gdscript\nextends Resource\nclass_name CellData\n\nvar type: CellType\nvar invisible = false\nvar max_health: float = 0\nvar health: float = 0\n```\n\n```gdscript\nextends Resource\nclass_name CellType\n\nenum TerrainType{GROUND, WALL, GAP, OUT_OF_BOUNDS}\n\n@export var terrain: TerrainType\n# tileset that this celltype points to\n@export var tileset_id: int\n# does this tileset tile or does it pick random textures from the tileset?\n@export var random_tile: bool\n# does this tileset tile with cells that don't own the same tileset_id?\n@export var tile_with_aliens: bool\n\n```\n\nEvery CellType resource file is stored in a `Dictionary[StringName, Resource]` inside a new script called `CellTypeRegistry`.\n\n```gdscript\nextends Node\n# autoload\n\nconst SCAN_PATHS: Array[String] = [\n\t\"res://resources/cell_types/\",\n\t\"user://mods/cell_types/\"\n]\n\nvar registry: Dictionary[StringName, String] = {}\n# StringName -> Resource (populated on first use)\nvar _cache: Dictionary[StringName, Resource] = {}\n\n```\n\nso essentially, it's a big lookup table that captures the basename of the resource file, and sets that as a key to the actual resource file.\n\nthen, the user can simply just call `WorldGrid.set_cell_by_type(type_name: StringName, world_pos: Vector2)` to set a cell to that type.",
-			"styleAttributes":{},
-			"x":-11810,
-			"y":-1959,
-			"width":620,
-			"height":1180
 		},
 		{
 			"id":"af4fc38193aaa5f7",
@@ -1031,16 +1001,6 @@
 			"height":300
 		},
 		{
-			"id":"6353630d295c213d",
-			"type":"text",
-			"text":"# todo 6/11/2026:\n- [x] portal object to show where an entity is spawning\n- [ ] pickupable tiles (graphical data is transferred)\n- [x] rework anthurium movement and look, place down root tiles\n- [ ] bomb guy that blows up on contact with any entity\n- [ ] fix `ecube_gamma` not blowing everything up (weird bug)\n- [x] tool to help with making sounds\n- [x] tool to help with particle creation\n- [ ] make particle system work for screen space as well as world space\n- [x] system to link up tilemap coordinates to cell properties\n- [x] revisit how the tilemap implementation works, maybe add a dictionary that describes terrain types (look into CellData) (maybe resources that define every themed terrain look/type/property)\n>  There's two different types of tile sources!\n>  TILING: every tile is made of the same material and are visually connected to each other to form a surface\n>  NON-TILING: every tile is a representation of a different object\n- [x] figure out a good way to set up aura and ichor\n- [ ] a death screen / restart run interface\n- [ ] text formatting codes\n- [ ] configure ability descriptions\n- [ ] make ability icons bounce when they are pressed\n- [x] add a CRT filter\n- [ ] add functionality to reorganize and move around HUD elements\n- [ ] make an EntityEffect that casts an ability!\n- [ ] refine lerping camera and make it have a bit of a deadzone tracking the player\n- [ ] make BloomEvents\n- [ ] program in the anthurium brain\n- [ ] add anthurium BloomEvent support\n- [ ] add the bones of the main menu!\n- [x] EntityEffect that spawns another entity\n\n# todo 06/21/2026\n- [ ] z-axis standalone component\n- [x] EntityEffect that shakes the screen\n- [ ] make it so that camera follows random entity when dead\n- [ ] ichor / food / starvation",
-			"styleAttributes":{},
-			"x":-16380,
-			"y":-2180,
-			"width":697,
-			"height":1230
-		},
-		{
 			"id":"e73fabb54f64b97c",
 			"type":"text",
 			"text":"explort\n",
@@ -1232,24 +1192,114 @@
 		{"id":"f86d25b1bcecb850","type":"file","file":"assets/Pasted image 20260406154004.png","x":-14140,"y":-16244,"width":500,"height":500},
 		{"id":"8a64245fb56c58e2","type":"file","file":"assets/Pasted image 20260406153702.png","x":-14960,"y":-16384,"width":774,"height":665},
 		{
-			"id":"3fbc96eca5825ab8",
+			"id":"eb303f4381055558",
 			"type":"text",
-			"text":"```gdscript\nclass_name CompletionFactory\nextends Resource\nfunc build() -> CompletionStrategy:\n\tLog.error(\"Override me\")\n\treturn null\n\nclass_name TimeCompletionFactory\nextends CompletionFactory\n@export var duration: float = 30.0\nfunc build() -> CompletionStrategy:\n\treturn TimeCompletionStrategy.new(duration)\n\nclass_name RemainingCompletionFactory\nextends CompletionFactory\n\n```",
+			"text":"# Brain\nhas `BrainLobe`s which calculate priority\n`best_score` and therefore `best_lobe` are calculated.\n`top_machine` is a `BrainStateMachine` that switches between `BrainState` instances.\nin some instances, it can be useful to define a `ContainerState` which has a machine of its own. this is when `BrainState.transition_to()` should be utilized to create a hierarchical state machine.",
 			"styleAttributes":{},
-			"x":-3360,
-			"y":6020,
-			"width":600,
+			"x":-19360,
+			"y":6160,
+			"width":620,
+			"height":440
+		},
+		{
+			"id":"8fad821979377a63",
+			"type":"text",
+			"text":"# LIL PUP",
+			"styleAttributes":{},
+			"x":-12590,
+			"y":1716,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"1df4cce560a11f2a",
+			"type":"text",
+			"text":"### GRUBBA\nFat pale segmented larva. It wiggles occasionally, clearly soft, harmless, and tasty.\n\n---\n\n| Q                 | A                                                                                                                                                                                                                                      |\n| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Behavior class?   | PASSIVE CONSUMER                                                                                                                                                                                                                       |\n| Reproduction?     | When ichor reserves are high, splits into two half-sized Grubbas.                                                                                                                                                                      |\n| Abilities?        | 1. Curls into a ball and launches forward like a bowling ball, knocking back and dealing slight damage to entities. This ability can be charged for a faster launch.<br>2. Grows larger in size if its ichor reserves are high enough. |\n| Ecosystem role?   | Grubba is the main food source for predatory beasts. If grubs are thriving, then predatory creatures are bound to be less aggressive.                                                                                                  |\n| Behavior pattern? | Slowly wanders and wiggles around, tending to hang around food sources as it cannot move very fast unless escaping.                                                                                                                    |\n",
+			"styleAttributes":{},
+			"x":-12210,
+			"y":1156,
+			"width":700,
+			"height":460
+		},
+		{
+			"id":"ae27136b1155af95",
+			"type":"text",
+			"text":"```csharp\nusing Godot;\n\npublic partial class PhysicsComponent : Component\n{\n    // snake_case to match serialized scene data and existing GDScript callers\n    [Export] public bool disabled = false;\n    [Export] public float mass = 1.0f;\n    [Export] public float friction_coefficient = 1.0f;\n    [Export] public float base_friction = 800f;\n    [Export] public float restitution = 0.4f;\n    [Export] public float min_bounce_speed = 40.0f;\n    [Export] public float max_speed = 1000.0f;\n    [Export] public Node world_interface;  // WorldInterface in GDScript\n    [Export] public Node locomotion;       // LocomotionHandler in GDScript\n\n    private const float OverlapSeparationSpeed = 1500.0f;\n    private const float OverlapDepthThreshold = 1.0f;\n\n    public Vector2 physics_velocity = Vector2.Zero;\n    private Vector2 _accumulatedForce = Vector2.Zero;\n\n    [Signal] public delegate void WallCollisionEventHandler(Node source);       // \"wall_collision\"\n    [Signal] public delegate void EntityCollisionEventHandler(Entity source);   // \"entity_collision\"\n\n    public override void _PhysicsProcess(double delta)\n    {\n        if (disabled) return;\n        PhysicsUpdate((float)delta);\n    }\n\n    public void PhysicsUpdate(float delta)\n    {\n        ApplyForces(delta);\n        ApplyFriction(delta);\n\n        // cross-language property access — one marshaling call per frame, acceptable\n        var locoVel = locomotion != null\n            ? locomotion.Get(\"velocity\").As<Vector2>()\n            : Vector2.Zero;\n\n        var preSlideVelocity = physics_velocity;\n        var preSlideFull = physics_velocity + locoVel;\n\n        entity.Velocity = preSlideFull;\n        entity.MoveAndSlide();\n        physics_velocity = entity.Velocity - locoVel;\n\n        HandleCollisions(preSlideVelocity, preSlideFull);\n    }\n\n    public void clear_velocity() => physics_velocity = Vector2.Zero;\n\n    public void apply_impulse(Vector2 direction, float magnitude)\n        => physics_velocity += direction.Normalized() * (magnitude / mass);\n\n    public void apply_force(Vector2 direction, float magnitude)\n        => _accumulatedForce += direction.Normalized() * magnitude;\n\n    private void ApplyForces(float delta)\n    {\n        physics_velocity += (_accumulatedForce / mass) * delta;\n        _accumulatedForce = Vector2.Zero;\n        physics_velocity = physics_velocity.LimitLength(max_speed);\n    }\n\n    private void ApplyFriction(float delta)\n    {\n        float decel = base_friction * friction_coefficient / mass;\n        physics_velocity = physics_velocity.MoveToward(Vector2.Zero, decel * delta);\n    }\n\n    private void HandleCollisions(Vector2 preVelocity, Vector2 preFull)\n    {\n        int count = entity.GetSlideCollisionCount();\n        for (int i = 0; i < count; i++)\n        {\n            var col = entity.GetSlideCollision(i);\n            var normal = col.GetNormal();\n            var collider = col.GetCollider();\n\n            if (collider is StaticBody2D || collider is TileMapLayer)\n            {\n                var relVel = col.GetColliderVelocity() - physics_velocity;\n                float push = relVel.Dot(normal);\n                if (push > 0f)\n                    physics_velocity += normal * push;\n\n                if (preVelocity.Length() > min_bounce_speed && preVelocity.Dot(normal) < 0f)\n                {\n                    physics_velocity = preVelocity.Bounce(normal) * restitution;\n                    EmitSignal(SignalName.WallCollision, (Node)col.GetCollider());\n                }\n            }\n            else if (collider is Entity otherEntity)\n            {\n                // fully native — both types are C#, zero marshaling\n                var otherPhysics = otherEntity.GetComponent<PhysicsComponent>();\n                float intoNormal = preFull.Dot(normal);\n\n                if (otherPhysics != null)\n                {\n                    if (intoNormal < 0f)\n                    {\n                        float m1 = mass, m2 = otherPhysics.mass;\n                        bool dominant = m1 > m2 || (m1 == m2 && entity.GetInstanceId() < otherEntity.GetInstanceId());\n\n                        if (dominant)\n                        {\n                            float total = m1 + m2;\n                            var axis = -normal;\n                            float vA = -intoNormal;\n                            float vB = otherPhysics.physics_velocity.Dot(axis);\n                            float e = (restitution + otherPhysics.restitution) * 0.5f;\n\n                            float newVa = (m1 * vA + m2 * vB + m2 * e * (vB - vA)) / total;\n                            float newVb = (m1 * vA + m2 * vB + m1 * e * (vA - vB)) / total;\n\n                            physics_velocity += axis * (newVa - vA);\n                            otherPhysics.physics_velocity += axis * (newVb - vB);\n                        }\n                    }\n                }\n                else\n                {\n                    if (intoNormal < 0f)\n                        physics_velocity -= normal * intoNormal;\n                }\n\n                if (col.GetDepth() > OverlapDepthThreshold)\n                    entity.GlobalPosition += Vector2.FromAngle((float)GD.Randf() * Mathf.Tau);\n\n                EmitSignal(SignalName.EntityCollision, otherEntity);\n            }\n        }\n    }\n}\n```",
+			"styleAttributes":{},
+			"x":-18800,
+			"y":1000,
+			"width":620,
+			"height":1400
+		},
+		{
+			"id":"6098b1f5848c11f4",
+			"type":"text",
+			"text":"```csharp\nusing Godot;\nusing System.Collections.Generic;\n\npublic partial class Entity : CharacterBody2D\n{\n    // GDScript components keyed by their Script object (same as before)\n    private readonly Godot.Collections.Dictionary<Script, Godot.Collections.Array> _gdComponents = new();\n    // C# components keyed by System.Type — no GDScript object involved\n    private readonly Dictionary<System.Type, List<Component>> _csComponents = new();\n\n    [Signal] public delegate void EntityInitializedEventHandler();\n\n    public StringName basename { get; private set; }\n\n    public override void _Ready()\n    {\n        basename = GetBasename();\n        RegisterComponentsRecursive(this);\n        EmitSignal(SignalName.EntityInitialized);\n        MotionMode = MotionModeEnum.Floating;\n    }\n\n    private void RegisterComponentsRecursive(Node node)\n    {\n        foreach (var child in node.GetChildren())\n        {\n            if (child is Component c)\n                _RegisterComponent(c);\n            RegisterComponentsRecursive(child);\n        }\n    }\n\n    public void _RegisterComponent(Component component)\n    {\n        var script = component.GetScript().As<Script>();\n\n        if (script != null)\n        {\n            // GDScript component: walk script inheritance chain\n            var s = script;\n            while (s != null)\n            {\n                if (!_gdComponents.ContainsKey(s))\n                    _gdComponents[s] = new Godot.Collections.Array();\n                _gdComponents[s].Add(component);\n                s = s.GetBaseScript();\n            }\n            component.entity = this;\n            component.Call(\"_on_registered\"); // dispatches to GDScript override\n        }\n        else\n        {\n            // C# component: walk type inheritance chain\n            var t = component.GetType();\n            while (t != null && typeof(Component).IsAssignableFrom(t))\n            {\n                if (!_csComponents.ContainsKey(t))\n                    _csComponents[t] = new List<Component>();\n                _csComponents[t].Add(component);\n                t = t.BaseType;\n            }\n            component.entity = this;\n            component._on_registered(); // direct C# virtual dispatch\n        }\n\n        component.EmitSignal(Component.SignalName.Registered);\n    }\n\n    // GDScript: entity.add_component(to, component)\n    public void add_component(Node to, Component component)\n    {\n        _RegisterComponent(component);\n        to.AddChild(component);\n    }\n\n    // GDScript: entity.get_component(SomeGDScriptClass)\n    public Component get_component(Script type)\n    {\n        if (_gdComponents.TryGetValue(type, out var arr) && arr.Count > 0)\n            return (Component)arr[0];\n        return null;\n    }\n\n    // C#: entity.GetComponent<PhysicsComponent>() — no marshaling, no Script object\n    public T GetComponent<T>() where T : Component\n    {\n        if (_csComponents.TryGetValue(typeof(T), out var list) && list.Count > 0)\n            return (T)list[0];\n        return null;\n    }\n\n    public Godot.Collections.Array get_components(Script type)\n        => _gdComponents.TryGetValue(type, out var arr) ? arr : null;\n\n    public bool has_component(Script type)\n        => _gdComponents.TryGetValue(type, out var arr) && arr.Count > 0;\n\n    public bool HasComponent<T>() where T : Component\n        => _csComponents.TryGetValue(typeof(T), out var list) && list.Count > 0;\n\n    public StringName GetBasename()\n        => new StringName(SceneFilePath.GetFile().GetBaseName());\n\n    public static Entity FindEntity(Node node)\n    {\n        if (node == null) return null;\n        if (node is Entity e) return e;\n        return FindEntity(node.GetParent());\n    }\n}\n```",
+			"styleAttributes":{},
+			"x":-19320,
+			"y":900,
+			"width":440,
+			"height":1420
+		},
+		{
+			"id":"a666859beac034ef",
+			"type":"text",
+			"text":"# ENERGY CUBE GAMMA\n\n| Q                 | A                                                                                     |\n| ----------------- | ------------------------------------------------------------------------------------- |\n| Behavior class?   | ALOOF EXEMPT                                                                          |\n| Reproduction?     | does not reproduce. these are spawned from random events or interdimensional portals. |\n| Abilities?        | Detonate, causing a large explosion and dealing massive damage to nearby entities.    |\n| Ecosystem role?   |                                                                                       |\n| Behavior pattern? | Moves quickly and wanders around aimlessly. Detonates when it dies.                   |\n",
+			"styleAttributes":{},
+			"x":-11050,
+			"y":616,
+			"width":540,
 			"height":420
 		},
 		{
-			"id":"46941e43d0ac66ca",
+			"id":"d7d59d25110a2342",
 			"type":"text",
-			"text":"```gdscript\nclass_name WaveCompletionStrategy\nextends RefCounted\n\nsignal completed\n\nfunc start(_ctx: WaveRuntime) -> void: pass\nfunc tick(_delta: float) -> void: pass\nfunc on_entity_tracked(_entity: Entity) -> void: pass\nfunc _complete() -> void: completed.emit()\n```\n\n```gdscript\nclass_name TimeCompletionStrategy\nextends WaveCompletionStrategy\n\nvar _remaining: float\n\nfunc _init(duration: float) -> void:\n\t_remaining = duration\n\nfunc tick(delta: float) -> void:\n\t_remaining -= delta\n\tif _remaining <= 0.0:\n\t\t_complete()\n```\n\n```gdscript\nclass_name RemainingRatioStrategy\nextends WaveCompletionStrategy\n\nvar _threshold: float\nvar _alive: int = 0\nvar _total: int = 0\n\nfunc _init(threshold_ratio: float) -> void:\n\t_threshold = threshold_ratio\n\nfunc on_entity_tracked(entity: Entity) -> void:\n\t_total += 1\n\t_alive += 1\n\tentity.tree_exiting.connect(func():\n\t\t_alive -= 1\n\t\tif _total > 0 and float(_alive) / _total <= _threshold:\n\t\t\t_complete()\n\t, CONNECT_ONE_SHOT)\n```\n\n```gdscript\nclass_name BossCompletionStrategy\nextends CompletionStrategy\n\nvar _boss: Entity\n\nfunc _init(boss: Entity) -> void:\n\t_boss = boss\n\nfunc start(_ctx: WaveRuntime) -> void:\n\t_boss.died.connect(_complete, CONNECT_ONE_SHOT)\n```\n\n```gdscript\nclass_name CompositeAnyStrategy\nextends CompletionStrategy\n\nvar _children: Array[CompletionStrategy]\n\nfunc _init(children: Array[CompletionStrategy]) -> void:\n\t_children = children\n\nfunc start(ctx: WaveRuntime) -> void:\n\tfor c in _children:\n\t\tc.completed.connect(_complete, CONNECT_ONE_SHOT)\n\t\tc.start(ctx)\n\nfunc tick(delta: float) -> void:\n\tfor c in _children: c.tick(delta)\n\nfunc on_entity_tracked(entity: Entity) -> void:\n\tfor c in _children: c.on_entity_tracked(entity)\n```",
+			"text":"```csharp\nusing Godot;\n\npublic partial class Component : Node\n{\n    public Entity entity;\n\n    [Signal]\n    public delegate void RegisteredEventHandler(); // exposed as \"registered\"\n\n    public virtual void _on_registered() { }\n}\n```",
 			"styleAttributes":{},
-			"x":-4100,
-			"y":6000,
-			"width":680,
-			"height":1760
+			"x":-19780,
+			"y":880,
+			"width":420,
+			"height":360
+		},
+		{
+			"id":"bc60eb517af8ddbf",
+			"type":"text",
+			"text":"ui design\n\nfor menu\n\n```\ncontroller\n\tsub node\n\tsub node\n\tsub node\n```\n\nwhat can these nodes do?\n\nopen a new menu within same context\nlose/gain focus\nnavigate",
+			"styleAttributes":{},
+			"x":-19260,
+			"y":-120,
+			"width":360,
+			"height":620
+		},
+		{
+			"id":"c821d79b5330210e",
+			"type":"text",
+			"text":"on stage decrement:\n- particle\n- change animation frame\n- check if last stage (if so, kill this entity)\n\ninteractablecomponent\n- when entity B comes nearby entity A (the owner of interactablecomponent), play subtle flash animation on entity A.\n- prioritize closest entity (not self) for interact target",
+			"styleAttributes":{},
+			"x":-17940,
+			"y":-200,
+			"width":320,
+			"height":420
+		},
+		{
+			"id":"25bbd4faebd5a6b3",
+			"type":"text",
+			"text":"StageController (probably not necessary)\n- component that declares arbitrary stages for an entity\n- no brains alternative to the statemachine?\n\nconsume ability: when held down,\n- sprite is offset an amount towards the direction of the affecting entity\n- sprite shakes\n- every period of time (configurable), the \"item stage\" is decremented",
+			"styleAttributes":{},
+			"x":-18340,
+			"y":-200,
+			"width":360,
+			"height":420
+		},
+		{
+			"id":"7e2ca643bad17bcc",
+			"type":"text",
+			"text":"starvation mechanic\n- when ichor is at 0, the entity will periodically take ticks of damage.\n\ninteract with nearby entity\n- entity A is within proximity of entity B\n- entity A can press their INTERACT button to communicate with entity B's interactable component. \n- this will trigger entity B's configured EntityEffect.",
+			"styleAttributes":{},
+			"x":-18760,
+			"y":-200,
+			"width":400,
+			"height":420
 		},
 		{
 			"id":"a7f665fcb9818b0f",
@@ -1260,16 +1310,6 @@
 			"y":6020,
 			"width":900,
 			"height":1170
-		},
-		{
-			"id":"9a3ad9cf982bf785",
-			"type":"text",
-			"text":"```gdscript\nclass_name EntityPool\nextends Resource\n\n@export var entries: Array[EntityPoolEntry] = []\n\nvar _cheapest_cost: flaot = -1.0 # cache, -1 = dirty\n\nfunc pick_affordable(rng: RandomNumberGenerator, max_cost: float) -> EntityPoolEntry:\n\tvar affordable: Array[EntityPoolArray] = []\n\tvar total_weight: float = 0.0\n\tfor e in entries:\n\t\tif e.cost <= max_cost:\n\t\t\taffordable.append(e)\n\t\t\ttotal_weight += e.weight\n\t\n\tif affordable.is_empty():\n\t\treturn null\n\t\n\tvar roll: float = rng.randf() * total_weight\n\tvar cursor: float = 0.0\n\tfor e in affordable:\n\t\tcursor += e.weight\n\t\tif roll <= cursor:\n\t\t\treturn e\n\treturn affordable[-1]\n\n## cheapest entry cost in the pool; lets the runtime know when it should give up early\nfunc cheapest_cost() -> float:\n\tif _cheapest_cost < 0.0:\n\t\t_cheapest_cost = INF\n\t\tfor e in entries:\n\t\t\t_cheapest_cost = minf(_cheapest_cost, e.cost)\n\treturn _cheapest_cost\n```",
-			"styleAttributes":{},
-			"x":-2680,
-			"y":6180,
-			"width":660,
-			"height":760
 		},
 		{
 			"id":"12440d0c183b8049",
@@ -1332,26 +1372,6 @@
 			"height":320
 		},
 		{
-			"id":"350b233c1e66fee3",
-			"type":"text",
-			"text":"```gdscript\nextends Node\n# GameInterface autoload\n\nconst MAIN_POOL: StringName = &\"main\"\n\nvar wave_runners: Dictionary = {} # StringName pool_id -> WaveRunner\n\nvar main_sequences: Array[WaveSequence] = []\nvar plant_sequences: Array[WaveSequence] = []\n\nvar current_level: int = 0\n\nfunc _process(delta: float) -> void:\n\tfor runner: WaveRunner in wave_runners.values():\n\t\trunner.process(delta)\n\nfunc start_level(value: int) -> void:\n\tcurrent_level = value\n\t_teardown_current_level()\n\n\tvar level_rng: RandomNumberGenerator = RunRng.get_stream(\"level_%d\" % current_level)\n\tWorldGrid.init_grid(level_rng.randi_range(8, 32), level_rng.randi_range(8, 32))\n\tDungeonGenerator.generate(level_rng)\n\n\t_activate_wave_runner(MAIN_POOL, main_sequences[current_level], true)\n\t_activate_wave_runner(&\"plants\", plant_sequences[current_level], false)\n\nfunc _activate_wave_runner(pool_id: StringName, sequence: WaveSequence, drives_level: bool) -> void:\n\tvar runner: WaveRunner = WaveRunner.new(sequence, \"level_%d_%s\" % [current_level, pool_id])\n\twave_runners[pool_id] = runner\n\tif drives_level:\n\t\trunner.sequence_complete.connect(_on_main_sequence_complete, CONNECT_ONE_SHOT)\n\trunner.start()\n\nfunc _teardown_current_level() -> void:\n\twave_runners.clear() # RefCounted, no explicit disconnects needed\n\tEntityManager.destroy_all_entities()\n\nfunc _on_main_sequence_complete() -> void:\n\tstart_level(current_level + 1)\n```",
-			"styleAttributes":{},
-			"x":-2580,
-			"y":7200,
-			"width":800,
-			"height":940
-		},
-		{
-			"id":"91e36693fe14c9c4",
-			"type":"text",
-			"text":"# WaveRuntime\ntakes in a `WaveDefinition`\ncreates `CompletionStrategy` from `WaveDefinition` `CompletionFactory`\n- initially\n\ncalls `CompletionStrategy` `tick()`\nincrements `_next_spawn_timer`\n- in `process()`\n\ncalls `_spawn_one()`\nqueues next spawn\n- when `_next_spawn_timer` elapses\n\ncreates `EntityPoolEntry` `entry` from `WaveDefinition` `EntityPool`\ncreates `SpawnRequest` and configures it using `EntityPoolEntry` and `WaveDefinition`\ncreates `Entity` `portal`\ncreates `Entity` instance(s) `e` from `SpawnRequest`\nconfigures `portal`; add `e` to its `PortalComponent`\nspawns `portal`\n- on `_spawn_one()`\n\n",
-			"styleAttributes":{},
-			"x":-1720,
-			"y":7400,
-			"width":640,
-			"height":600
-		},
-		{
 			"id":"b8f254cbbdc959a2",
 			"type":"text",
 			"text":"```gdscript\nclass_name WaveRunner\nextends RefCounted\n\nsignal wave_started(runtime: WaveRuntime)\nsignal sequence_complete\n\nvar sequence: WaveSequence\nvar wave_value: int = 0\nvar current_runtime: WaveRuntime\n\nvar _rng_stream_key: String\n\nfunc _init(seq: WaveSequence, rng_stream_key: String) -> void:\n\tsequence = seq\n\t_rng_stream_key = rng_stream_key\n\nfunc start() -> void:\n\t_start_wave(wave_value)\n\nfunc process(delta: float) -> void:\n\tif current_runtime:\n\t\tcurrent_runtime.process(delta)\n\nfunc _start_wave(value: int) -> void:\n\tvar def: WaveDefinition = sequence.get_wave(value)\n\tif def == null:\n\t\tsequence_complete.emit()\n\t\treturn\n\tcurrent_runtime = WaveRuntime.new(def, \"%s_w%d\" % [_rng_stream_key, value])\n\tcurrent_runtime.wave_complete.connect(_on_wave_complete, CONNECT_ONE_SHOT)\n\twave_started.emit(current_runtime)\n\tcurrent_runtime.start()\n\nfunc _on_wave_complete() -> void:\n\twave_value += 1\n\tif sequence.is_exhausted(wave_value):\n\t\tsequence_complete.emit()\n\telse:\n\t\t_start_wave(wave_value)\n```",
@@ -1372,45 +1392,149 @@
 			"height":1620
 		},
 		{
-			"id":"c4ed1fc1ce14715c",
+			"id":"3fbc96eca5825ab8",
 			"type":"text",
-			"text":"the system how it is now is pretty flawed because it is built upon the assumption that waves of entities will be scripted ahead of time.\n\nreally the system that picks the creatures should be procedural.\n\nthe system should continuously spawn entities as long as the level's max_entity cap is not currently exceeded. i'm talking every 1-4 seconds the system picks 1-3 entities to spawn.\n\nthese entities are chosen based on their weights (which are determined based on the current difficulty and other parameters).\n\nright now, i have to define `WaveGenerator` resources inside of `LevelTheme`. I should not have to do this. instead, it would be better if there existed a singular baseline for all spawnable entities. this baseline would include the entity_id and its weight. (cost is no longer a factor, since entities are spawned continuously until a cap is reached).\n\ni actually don't think `WaveGenerator` should exist. and `LevelSequence` needs reworked since it assumes scripted waves first, which i don't plan on doing.\n\ni think that `LevelDefinition` and `LevelTheme` are mostly fine, but it still has too much scripting; the terrain generator should be chosen randomly and so should the tiles chosen.\n\nthis also means that `CompletionStrategy` or `CompletionFactory` do not need to exist either, since entities will be spawned continuously\n\nnot sure what to do next.",
+			"text":"```gdscript\nclass_name CompletionFactory\nextends Resource\nfunc build() -> CompletionStrategy:\n\tLog.error(\"Override me\")\n\treturn null\n\nclass_name TimeCompletionFactory\nextends CompletionFactory\n@export var duration: float = 30.0\nfunc build() -> CompletionStrategy:\n\treturn TimeCompletionStrategy.new(duration)\n\nclass_name RemainingCompletionFactory\nextends CompletionFactory\n\n```",
 			"styleAttributes":{},
-			"x":-14860,
-			"y":7240,
-			"width":580,
-			"height":680
+			"x":-3360,
+			"y":6020,
+			"width":600,
+			"height":420
 		},
 		{
-			"id":"8763153b12cd57a7",
+			"id":"46941e43d0ac66ca",
 			"type":"text",
-			"text":"let's make this shit way simpler.\n\nthe only thing that's happening here is spawning enemies.\n\nso there should be a spawnlist (dictionary) of every entity that can be spawned along with a weight.\n\nthe weight corresponding to every entity is changed over time.\n\nhow it should work:\n- there exists a runtime processing in the background\n- every interval (1-4 seconds) the runtime should decide how many creatures to spawn\n- recalculate the spawnlist weights.\n- for each spawn in this interval, resolve the entity by picking one based on the weights in the spawnlist.\n- summon portal and attach entity to the portal\n\n**my question is** how should i recalculate these weights?\n\nsome creatures are very basic and simple: wanderers that are simple-mindedly oriented on just attacking other nearby creatures.\n\nsome creatures are like the basic ones but with some upgrades.\n\nother creatures are special, like worms, wizards, or demons, and should be spawned only occasionally.\n\nright now i'm simply thinking that i should just hardcode base weight values. for the main gamemode (quest), rarer entities should gradually become more common.",
+			"text":"```gdscript\nclass_name WaveCompletionStrategy\nextends RefCounted\n\nsignal completed\n\nfunc start(_ctx: WaveRuntime) -> void: pass\nfunc tick(_delta: float) -> void: pass\nfunc on_entity_tracked(_entity: Entity) -> void: pass\nfunc _complete() -> void: completed.emit()\n```\n\n```gdscript\nclass_name TimeCompletionStrategy\nextends WaveCompletionStrategy\n\nvar _remaining: float\n\nfunc _init(duration: float) -> void:\n\t_remaining = duration\n\nfunc tick(delta: float) -> void:\n\t_remaining -= delta\n\tif _remaining <= 0.0:\n\t\t_complete()\n```\n\n```gdscript\nclass_name RemainingRatioStrategy\nextends WaveCompletionStrategy\n\nvar _threshold: float\nvar _alive: int = 0\nvar _total: int = 0\n\nfunc _init(threshold_ratio: float) -> void:\n\t_threshold = threshold_ratio\n\nfunc on_entity_tracked(entity: Entity) -> void:\n\t_total += 1\n\t_alive += 1\n\tentity.tree_exiting.connect(func():\n\t\t_alive -= 1\n\t\tif _total > 0 and float(_alive) / _total <= _threshold:\n\t\t\t_complete()\n\t, CONNECT_ONE_SHOT)\n```\n\n```gdscript\nclass_name BossCompletionStrategy\nextends CompletionStrategy\n\nvar _boss: Entity\n\nfunc _init(boss: Entity) -> void:\n\t_boss = boss\n\nfunc start(_ctx: WaveRuntime) -> void:\n\t_boss.died.connect(_complete, CONNECT_ONE_SHOT)\n```\n\n```gdscript\nclass_name CompositeAnyStrategy\nextends CompletionStrategy\n\nvar _children: Array[CompletionStrategy]\n\nfunc _init(children: Array[CompletionStrategy]) -> void:\n\t_children = children\n\nfunc start(ctx: WaveRuntime) -> void:\n\tfor c in _children:\n\t\tc.completed.connect(_complete, CONNECT_ONE_SHOT)\n\t\tc.start(ctx)\n\nfunc tick(delta: float) -> void:\n\tfor c in _children: c.tick(delta)\n\nfunc on_entity_tracked(entity: Entity) -> void:\n\tfor c in _children: c.on_entity_tracked(entity)\n```",
 			"styleAttributes":{},
-			"x":-15440,
-			"y":7240,
+			"x":-4100,
+			"y":6000,
+			"width":680,
+			"height":1760
+		},
+		{
+			"id":"9a3ad9cf982bf785",
+			"type":"text",
+			"text":"```gdscript\nclass_name EntityPool\nextends Resource\n\n@export var entries: Array[EntityPoolEntry] = []\n\nvar _cheapest_cost: flaot = -1.0 # cache, -1 = dirty\n\nfunc pick_affordable(rng: RandomNumberGenerator, max_cost: float) -> EntityPoolEntry:\n\tvar affordable: Array[EntityPoolArray] = []\n\tvar total_weight: float = 0.0\n\tfor e in entries:\n\t\tif e.cost <= max_cost:\n\t\t\taffordable.append(e)\n\t\t\ttotal_weight += e.weight\n\t\n\tif affordable.is_empty():\n\t\treturn null\n\t\n\tvar roll: float = rng.randf() * total_weight\n\tvar cursor: float = 0.0\n\tfor e in affordable:\n\t\tcursor += e.weight\n\t\tif roll <= cursor:\n\t\t\treturn e\n\treturn affordable[-1]\n\n## cheapest entry cost in the pool; lets the runtime know when it should give up early\nfunc cheapest_cost() -> float:\n\tif _cheapest_cost < 0.0:\n\t\t_cheapest_cost = INF\n\t\tfor e in entries:\n\t\t\t_cheapest_cost = minf(_cheapest_cost, e.cost)\n\treturn _cheapest_cost\n```",
+			"styleAttributes":{},
+			"x":-2680,
+			"y":6180,
+			"width":660,
+			"height":760
+		},
+		{
+			"id":"350b233c1e66fee3",
+			"type":"text",
+			"text":"```gdscript\nextends Node\n# GameInterface autoload\n\nconst MAIN_POOL: StringName = &\"main\"\n\nvar wave_runners: Dictionary = {} # StringName pool_id -> WaveRunner\n\nvar main_sequences: Array[WaveSequence] = []\nvar plant_sequences: Array[WaveSequence] = []\n\nvar current_level: int = 0\n\nfunc _process(delta: float) -> void:\n\tfor runner: WaveRunner in wave_runners.values():\n\t\trunner.process(delta)\n\nfunc start_level(value: int) -> void:\n\tcurrent_level = value\n\t_teardown_current_level()\n\n\tvar level_rng: RandomNumberGenerator = RunRng.get_stream(\"level_%d\" % current_level)\n\tWorldGrid.init_grid(level_rng.randi_range(8, 32), level_rng.randi_range(8, 32))\n\tDungeonGenerator.generate(level_rng)\n\n\t_activate_wave_runner(MAIN_POOL, main_sequences[current_level], true)\n\t_activate_wave_runner(&\"plants\", plant_sequences[current_level], false)\n\nfunc _activate_wave_runner(pool_id: StringName, sequence: WaveSequence, drives_level: bool) -> void:\n\tvar runner: WaveRunner = WaveRunner.new(sequence, \"level_%d_%s\" % [current_level, pool_id])\n\twave_runners[pool_id] = runner\n\tif drives_level:\n\t\trunner.sequence_complete.connect(_on_main_sequence_complete, CONNECT_ONE_SHOT)\n\trunner.start()\n\nfunc _teardown_current_level() -> void:\n\twave_runners.clear() # RefCounted, no explicit disconnects needed\n\tEntityManager.destroy_all_entities()\n\nfunc _on_main_sequence_complete() -> void:\n\tstart_level(current_level + 1)\n```",
+			"styleAttributes":{},
+			"x":-2580,
+			"y":7200,
+			"width":800,
+			"height":940
+		},
+		{
+			"id":"91e36693fe14c9c4",
+			"type":"text",
+			"text":"# WaveRuntime\ntakes in a `WaveDefinition`\ncreates `CompletionStrategy` from `WaveDefinition` `CompletionFactory`\n- initially\n\ncalls `CompletionStrategy` `tick()`\nincrements `_next_spawn_timer`\n- in `process()`\n\ncalls `_spawn_one()`\nqueues next spawn\n- when `_next_spawn_timer` elapses\n\ncreates `EntityPoolEntry` `entry` from `WaveDefinition` `EntityPool`\ncreates `SpawnRequest` and configures it using `EntityPoolEntry` and `WaveDefinition`\ncreates `Entity` `portal`\ncreates `Entity` instance(s) `e` from `SpawnRequest`\nconfigures `portal`; add `e` to its `PortalComponent`\nspawns `portal`\n- on `_spawn_one()`\n\n",
+			"styleAttributes":{},
+			"x":-1720,
+			"y":7400,
+			"width":640,
+			"height":600
+		},
+		{
+			"id":"2746395eecc1ceb1",
+			"type":"text",
+			"text":"design a spawninterface\n\nwave types\n{TIME, REMAINING, TIME_OR_REMAINING, BOSS}\n\nTIME waves move on",
+			"styleAttributes":{},
+			"x":-6410,
+			"y":7130,
 			"width":520,
-			"height":980
+			"height":300
 		},
 		{
-			"id":"1915a48f5639585d",
+			"id":"87ddca03514f594d",
 			"type":"text",
-			"text":"i kinda want this system to be rewritten. i believe a paradigm shift is in order.\nright now, the spawning system is mainly built around scripting waves with procedural generation as an afterthought. but that is not what i want. i need a game that evolves as you play and progress. factors should change over time to influence what creatures spawn, with what effects, etc.\nspawning should be procedural, not scripted (although there should be support to hardcode a level's spawns if necessary through some function).\nhow to format this so that it is as easy as possible to change spawn conditions for a creature. i don't think that these spawn conditions should be static. how should i change certain conditions per level?\nit should be easy to add new conditions as well.\n\n**remember that a level is:**\n- a new map\n- unique terrain generation parameters\n- a fresh player instance\n\n**things i am imagining:**\n- at the beginning of a normal run, the game only spawns simple creatures.\n- a level can begin to spawn crazier creatures if the player spends too much time on that level\n- a complement system: if this entity type is spawned, then it's much more likely that an other type is also spawned.\n- when entering a new level, a small amount of creatures are already present (pre-spawned)\n- force spawning a creature if a condition suddently becomes true\n\n**factors that influence a spawn**\n- `GameInterface.time`\n- `WaveRunner.wave_value`\n- `GameInterface.level`\n- tileset theme\n- size of map / available ground tiles per that level\n- terrain generation method used per that level\n- amount of entities currently active on that level\n- amount of creatures that's been spawned on this level\n- a level state that only allows the spawn of specific entity types\n- others?",
+			"text":"```\nCLASS Wave\n\nvar completion_condition\nvar entities_to_spawn: Array[Entity]\nvar random_delay_strength: float = 1.0\n\n```",
 			"styleAttributes":{},
-			"x":-16080,
-			"y":7240,
-			"width":580,
-			"height":1000
+			"x":-6320,
+			"y":8420,
+			"width":560,
+			"height":420
 		},
 		{
-			"id":"8fc99678dbaca079",
+			"id":"63058cdb26db8084",
 			"type":"text",
-			"text":"```gdscript\nextends Node\n\nenum COMPLETION_CONDITION{REMAINING, TIME}\n\nconst SPAWN_TRIES: int = 200\n\nsignal wave_started(pool: Pool, wave_index: int)\nsignal wave_complete(pool: Pool, wave_index: int)\nsignal all_waves_complete(pool: Pool)\n\nvar active_pools: Array[Pool] = []\n\nfunc create_new_pool(waves: Array[SpawnWave]) -> Pool:\n\tvar pool: Pool = Pool.new(waves)\n\tactive_pools.append(pool)\n\treturn pool\n\nfunc clear_pools() -> void:\n\tfor pool in active_pools:\n\t\tpool.queue_free()\n\tactive_pools.clear()\n\nfunc _process(delta: float) -> void:\n\tfor pool in active_pools:\n\t\tif not pool.current_completion_condition == COMPLETION_CONDITION.TIME:\n\t\t\tcontinue\n\t\tpool.current_time += delta\n\t\tif pool.current_time >= pool.time_limit:\n\t\t\tstart_next_wave(pool)\n\t\t\n\nfunc start_next_wave(pool: SpawnPool) -> void:\n\tif pool.current_wave >= pool.waves.size():\n\t\tWaver.all_waves_complete.emit(pool)\n\t\treturn\n\tpool.current_wave += 1\n\tspawn_wave(pool.current_wave)\n\t\nfunc spawn_wave(pool: SpawnPool, wave_index: int) -> void:\n\tpool.tracked_entities.clear()\n\tpool.creatures_spawned_this_wave = 0\n\tpool.current_time = 0.0\n\tset_next_wave_conditions(pool, wave_index)\n\t\n\tvar budget: int = get_point_budget(pool, wave_index)\n\tvar spawn_list: Array[StringName] = build_spawn_list(pool, budget)\n\t\n\tfor entity_name in spawn_list:\n\t\tvar pos: Vector2 = get_random_spawn_position()\n\t\tvar entity: Entity = EntityManager.spawn_safely(entity_name, WorldGrid.tile_to_world(pos))\n\t\tif entity:\n\t\t\ttrack_entity(pool, entity)\n\t\n\twave_active = true\n\nfunc track_entity(pool: SpawnPool, entity: Entity) -> void:\n\tpool.creatures_spawned_this_wave += 1\n\tpool.tracked_entities.append(entity)\n\tentity.tree_exiting.connect(_on_tracked_entity_died.bind(pool, entity), CONNECT_ONE_SHOT)\n\t\nfunc _on_tracked_entity_died(pool: SpawnPool, entity: Entity) -> void:\n\tif not pool.wave_active:\n\t\treturn\n\tpool.tracked_entities.erase(entity)\n\tif float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave <= pool.completion_ratio:\n\t\tpool.wave_active = false\n\t\tWaver.wave_complete.emit(pool, current_wave)\n\nfunc set_next_wave_conditions(pool: SpawnPool, wave_index: int) -> void:\n\tvar wave: SpawnWave = pool.waves[wave_index]\n\tmatch wave.completion_condition:\n\t\tWaver.COMPLETION_CONDITION.REMAINING:\n\t\t\tpool.completion_ratio = wave.remaining_limit_ratio\n\t\tWaver.COMPLETION_CONDITION.TIME:\n\t\t\tpool.time_limit = wave.time_limit\n\t\t\t\n\tpool.completion_condition = wave.completion_condition\n\nfunc get_point_budget(pool: SpawnPool, wave_index: int) -> int:\n\treturn pool.waves[wave_index].budget\n\nfunc build_spawn_list(pool: SpawnPool, wave_index: int) -> Array[StringName]:\n\tvar creature_names: Array = pool.waves[wave_index].creatures.keys()\n\tvar creatures: Array = pool.waves[wave_index].creatures\n\tvar list: Array[StringName] = []\n\tvar remaining: int = waves[wave_index].budget\n\tvar safety: int = 0\n\twhile remaining > 0 and safety < 200:\n\t\tsafety += 1\n\t\tvar affordable: Array = creature_names.filter(func(n): return creatures[n] <= remaining)\n\t\tif affordable.is_empty():\n\t\t\tbreak\n\t\tvar choice: StringName = affordable[randi() % affordable.size()]\n\t\tlist.append(choice)\n\t\tremaining -= creatures[choice]\n\treturn list\n\nfunc get_random_spawn_position() -> Vector2i:\n\trandomize()\n\tfor i in range(SPAWN_TRIES):\n\t\tvar pos = Vector2i(randi_range(0, WorldGrid.width - 1), randi_range(0, WorldGrid.height - 1))\n\t\tif WorldGrid.get_cell(pos).type.terrain == CellType.TerrainType.GROUND:\n\t\t\treturn pos\n\t\tLog.warn(\"Could not find a safe position, spawning at world center.\")\n\t\treturn WorldGrid.get_center()\n\t\t\n\n\nclass SpawnPool:\n\tvar waves: Array[SpawnWave] = []\n\tvar tracked_entities: Array[Entity] = []\n\tvar creatures_spawned_this_wave: int = 0\n\tvar wave_active: bool = false\n\n\tvar current_wave: int = -1\n\tvar current_time: float = 0.0\n\tvar time_limit: float = -1\n\t\n\tvar current_completion_condition: Waver.COMPLETION_CONDITION\n\t\n\t## ratio of tracked_entities.size() / creatures_spawned_this_wave \n\t## below or equal to this threshold waves are considered complete\n\tvar completion_ratio: float = 0.20\n\t\n\tfunc _init(spawn_waves: Array[SpawnWave]) -> void:\n\t\twaves = spawn_waves\n\n\n\n```",
+			"text":"```\nAUTOLOAD SPAWNMANAGER\n\nvar current_wave: wave\n\nsignal all_waves_complete(pool: Pool)\n\nstart_wave(wave: Wave) -> void:\n\tcurrent_wave = wave\n\tbegin_spawning(wave)\n\tawait wave.all_entities_spawned\n\tregister_wave_completion_condition(wave)\n\nregister_wave(wave: Wave) -> void:\n\tconnect wave completion condition to _on_wave_complete()\n\n_on_wave_complete(wave: Wave) -> void:\n\tdisconnect that wave from _on_wave_complete()\n\tif wave.loop:\n\t\tstart_wave(wave)\n\t\treturn\n\tif wave is last in pool:\n\t\tall_waves_complete.emit(pool)\n\t\treturn\n\tpool.wave_value += 1\n\tif next wave completion condition is REMAINING or TIMEORREMAINING:\n\t\tnext_wave.tracked_entities = wave.tracked_entities\n\tstart_wave(next wave)\n\t\n\t\n\t\n\t\n```",
 			"styleAttributes":{},
-			"x":-10680,
-			"y":5780,
-			"width":840,
-			"height":2740
+			"x":-5850,
+			"y":7130,
+			"width":620,
+			"height":780
 		},
+		{
+			"id":"80f2cdb2b6eca011",
+			"type":"text",
+			"text":"```\nCLASS Level\n\nlevel: int\n\nstart_new_level(level: int)\n```",
+			"styleAttributes":{},
+			"x":-5850,
+			"y":8000,
+			"width":420,
+			"height":280
+		},
+		{
+			"id":"a7128848105c3e06",
+			"type":"text",
+			"text":"```gdscript\nextends Node\n# EntityManager autoload\n\nconst FREE_SEARCH_RADIUS: int = 3\nconst SPAWN_CLEARANCE: float = 12\n\nvar _entity_container: Node2D\nvar active_entities: Array[Entity] = []\n\nfunc register_ysort_entity_container(ysort: Node2D) -> void:\n\t_entity_container = ysort\n\tLog.info(\"Registered %s as new entity container.\" % ysort)\n\n\n\n\n\n\n\n\n# ---------------------------------------------------------------------------------------------------\n# main functions\n# ---------------------------------------------------------------------------------------------------\n\nfunc destroy_all_entities() -> void:\n\tfor i in range(active_entities.size() - 1, -1, -1):\n\t\tactive_entities[i].queue_free()\n\nfunc create_entity(entity_type: StringName) -> Entity:\n\tif entity_type == \"\":\n\t\tLog.error(\"Given blank entity_type, aborting entity instantiation.\")\n\t\treturn null\n\tvar instance = EntityRegistry.instantiate(entity_type)\n\tif not instance:\n\t\tLog.error(\"Failed to instantiate '%s'\" % entity_type)\n\t\treturn null\n\tif not instance is Entity:\n\t\tLog.error(\"EntityManager: '%s' is not an Entity\" % entity_type)\n\t\tinstance.queue_free()\n\t\treturn null\n\tinstance.initialize()\n\treturn instance\n\n## packages an entity\nfunc package_entity_into_portal(entity: Entity) -> Entity:\n\tvar portal: Entity = create_entity(&\"portal\")\n\tif not portal.is_initialized:\n\t\tawait portal.entity_initialized\n\tvar p_component: PortalComponent = portal.get_component(PortalComponent)\n\tp_component.add_entity(entity)\n\treturn portal\n\nfunc attach_key_to_entity(entity: Entity) -> Entity:\n\tpass # to be implemented\n\n## takes in an Entity and adds it to the world at a given position and z.\n## offsets entity very slightly to prevent infinite collisions with other entities.\n## set safely to false to prevent checking for a valid ground location.\nfunc spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool = false, safely: bool = true) -> void:\n\tif not entity.is_initialized:\n\t\tentity.initialize()\n\tvar spawn_pos: Vector2 = get_safe_spawn_position(position) if safely else position\n\tif spawn_pos == Vector2.INF:\n\t\tLog.error(\"No ground tile found for spawn near %s\" % position)\n\t\treturn\n\tentity.global_position = spawn_pos + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))\n\tentity.set_z_value(z)\n\tactive_entities.append(entity)\n\tif as_player:\n\t\tPlayerManager.set_player(entity)\n\tentity.tree_exiting.connect(_on_entity_left_tree.bind(entity), CONNECT_ONE_SHOT)\n\t_entity_container.add_child.call_deferred(entity)\n\tentity.is_spawned = true\n\tentity.entity_spawned.emit.call_deferred()\n\tEventBus.entity_spawned.emit.call_deferred(entity)\n\nfunc spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: bool = false safely: bool = true) -> void:\n\tspawn_entity(entity, WorldGrid.tile_to_world(tile), z, as_player, safely)\n\nfunc _on_entity_left_tree(e: Entity) -> void:\n\tactive_entities.erase(e)\n\tEventBus.entity_destroyed.emit(e)\n\n\n# ---------------------------------------------------------------------------------------------------\n# utility\n# ---------------------------------------------------------------------------------------------------\n\nfunc get_safe_spawn_position(desired: Vector2) -> Vector2:\n\tvar origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))\n\tvar max_r: int = maxi(WorldGrid.width, WorldGrid.height)\n\tvar fallback: Vector2 = Vector2.INF # nearest ground tile, even if occupied\n\tfor r in range(max_r + 1):\n\t\tif r > FREE_SEARCH_RADIUS and fallback != Vector2.INF:\n\t\t\tbreak\n\t\tfor dx in range(-r, r+1):\n\t\t\tfor dy in range(-r, r+1):\n\t\t\t\tif maxi(absi(dx), absi(dy)) != r: # ring only\n\t\t\t\t\tcontinue\n\t\t\t\tvar tile: Vector2i = origin + Vector2i(dx, dy)\n\t\t\t\tif not _is_ground_tile(tile):\n\t\t\t\t\tcontinue\n\t\t\t\tvar world: Vector2 = WorldGrid.tile_to_world(tile)\n\t\t\t\tif fallback == Vector2.INF:\n\t\t\t\t\tfallback = world\n\t\t\t\tif not is_position_occupied(world):\n\t\t\t\t\treturn world\n\treturn fallback\n\nfunc _is_ground_tile(tile: Vector2i) -> bool:\n\tif tile.x < 0 or tile.y < 0 or tile.x >= WorldGrid.width or tile.y >= WorldGrid.height:\n\t\treturn false\n\tvar cell: CellData = WorldGrid.get_cell(tile)\n\treturn cell != null and cell.type.terrain == CellType.TerrainType.GROUND\n\t\n\nfunc is_position_occupied(position: Vector2) -> bool:\n\t# entities spawned earlier this frame aren't in the physics space yet\n\tfor e: Entity in active_entities:\n\t\tif is_instance_valid(e) and e.global_position.distance_to(position) < SPAWN_CLEARANCE:\n\t\t\treturn true\n\t# other physics bodies\n\tif _entity_container == null:\n\t\treturn false\n\tvar query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()\n\tquery.position = position\n\tquery.collide_with_bodies = true\n\tquery.collide_with_areas = false\n\tquery.collision_mask = SpatialUtil.PhysicsLayers.CREATURES\n\treturn not _entity_container.get_world_2d().direct_space_state.intersect_point(query, 1).is_empty()\n\n\n\n\n```",
+			"styleAttributes":{},
+			"x":-8120,
+			"y":5760,
+			"width":1100,
+			"height":2640
+		},
+		{
+			"id":"1bd0501d559571fa",
+			"type":"text",
+			"text":"sprites should ideally encompass all of their area; there should not be very many transparent pixels.",
+			"styleAttributes":{},
+			"x":-7680,
+			"y":3860,
+			"width":320,
+			"height":200
+		},
+		{
+			"id":"ecb4211d4bd41e55",
+			"type":"text",
+			"text":"should i or shouldn't i keep the black outlines??",
+			"styleAttributes":{},
+			"x":-7640,
+			"y":4120,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"2052825d162bb2e1",
+			"type":"text",
+			"text":"so this guy is bad, i need to redesign them",
+			"styleAttributes":{},
+			"x":-7206,
+			"y":4030,
+			"width":220,
+			"height":60
+		},
+		{"id":"c824fbcc1758e1e3","type":"file","file":"assets/Pasted image 20260716152838.png","x":-7340,"y":3860,"width":267,"height":240},
+		{"id":"ed338791e057ac17","type":"file","file":"assets/Pasted image 20260716153149.png","x":-6960,"y":4100,"width":400,"height":286},
+		{"id":"baf4ba57c98e15a4","type":"file","file":"assets/Pasted image 20260716153202.png","x":-6940,"y":4243,"width":128,"height":60},
+		{
+			"id":"56f2e5fdc8f31e08",
+			"type":"text",
+			"text":"```gdscript\nextends Component\nclass_name PortalComponent\n\n@export var autostart: bool = true\n@export var timer_length: float = 3.0\nvar _timer: float = 0.0\nvar entities_to_spawn: Array[Entity] = []\nvar activated: bool = false\n\nvar portal_particles: ParticleProfile = preload(\"uid://caei1gsudwqth\")\nvar portal_sound: VoiceProfile = preload(\"uid://ciolmmgn3qpw7\")\n\nfunc _on_registered() -> void:\n\t_timer = RandomUtil.randomize_float(RunRng.get_stream(&\"portal\"), timer_length, 1)\n\t\n\nfunc _on_entity_spawned() -> void:\n\tAudioManager.play_voice(portal_sound, entity.global_position)\n\tif autostart:\n\t\tactivated = true\n\nfunc _process(delta: float) -> void:\n\tif not activated:\n\t\treturn\n\t_elapse_timer(delta)\n\tParticleManager.burst(portal_particles, entity.global_position)\n\nfunc _elapse_timer(delta: float) -> void:\n\t_timer -= delta\n\tif _timer <= 0.0:\n\t\tactivate_portal()\n\nfunc add_entity(entity: Entity) -> void:\n\tentities_to_spawn.append(entity)\n\nfunc activate_portal() -> void:\n\tfor e in entities_to_spawn:\n\t\tEntityManager.spawn_entity(e, entity.global_position, entity.z)\n\tentity.queue_free()\n```",
+			"styleAttributes":{},
+			"x":-6876,
+			"y":5800,
+			"width":1140,
+			"height":880
+		},
+		{"id":"9693bd89d773047f","type":"link","url":"https://zladx.github.io/posts/special-effects-in-zelda-links-awakening","x":-6560,"y":3843,"width":400,"height":400},
 		{
 			"id":"66106472e3828b2f",
 			"type":"text",
@@ -1420,6 +1544,76 @@
 			"y":3940,
 			"width":780,
 			"height":1080
+		},
+		{
+			"id":"c52ed0fef21dda10",
+			"type":"text",
+			"text":"```gdscript\nextends Resource\nclass_name BrainLobe\n\n@export var state_name: StringName\n@export var blueprint: BrainStateBlueprint\n\nfunc get_priority(entity: Entity) -> float:\n\treturn 0.0\n\n\n```",
+			"styleAttributes":{},
+			"x":-14540,
+			"y":3940,
+			"width":480,
+			"height":300
+		},
+		{
+			"id":"24564c665fca493d",
+			"type":"text",
+			"text":"",
+			"styleAttributes":{},
+			"x":-13200,
+			"y":4120,
+			"width":260,
+			"height":60
+		},
+		{
+			"id":"18a9fa0d5c3c982e",
+			"type":"text",
+			"text":"```gdscript\nextends RefCounted\nclass_name BrainStateMachine\n\nvar states: Dictionary[StringName, BrainState] = {}\nvar current_name: StringName = &\"\"\nvar current_state: BrainState = null\n\nsignal state_changed(from: StringName, to: StringName)\n\nfunc add_state(name: StringName, state: BrainState) -> void:\n\tstates[name] = state\n\nfunc transition_to(name: StringName) -> void:\n\tif name == current_name or not states.has(name):\n\t\treturn\n\tif current_state:\n\t\tcurrent_state.exit()\n\tvar old_name: StringName = current_name\n\tcurrent_name = name\n\tcurrent_state = states[name]\n\tcurrent_state.enter()\n\tstate_changed.emit(old_name, name)\n\nfunc physics_process(delta: float) -> void:\n\tif not current_state:\n\t\treturn\n\tcurrent_state.physics_process(delta)\n\tvar next: StringName = current_state.get_transition()\n\tif next != &\"\":\n\t\ttransition_to(next)\n```",
+			"styleAttributes":{},
+			"x":-13740,
+			"y":3220,
+			"width":660,
+			"height":660
+		},
+		{
+			"id":"56447def7bee37c7",
+			"type":"text",
+			"text":"```gdscript\nextends RefCounted\nclass_name BrainState\n\n## Base class for any state; whether a top-level goal (SeekFood) or a leaf\n## behavior inside one (Wander). Container states override _get_transition()\n## to drive their own internal StateMachine\n\nvar entity: Entity\n\nfunc _init(e: Entity) -> void:\n\tentity = e\n\nfunc enter() -> void:\n\tpass\n\nfunc exit() -> void:\n\tpass\n\nfunc physics_process(delta: float) -> void:\n\tpass\n\n## return teh StringName of the state to transition to, or &\"\" to stay.\n## called every tick by the owning StateMachine after physics_process\nfunc get_transition() -> StringName:\n\treturn &\"\"\n```",
+			"styleAttributes":{},
+			"x":-14440,
+			"y":3220,
+			"width":680,
+			"height":560
+		},
+		{
+			"id":"81a31f7f905fbabe",
+			"type":"text",
+			"text":"```gdscript\nextends Resource\nclass_name BrainStateBlueprint\n\n## which BrainState subclass to instantiate. must accept (entity) in _init\n@export var state_script: Script\n\n## only used if state_script extends ContainerState\n@export var is_container: bool = false\n@export var child_states: Array[BrainStateBlueprint] = []\n@export var child_names: Array[StringName] = [] # parallel array, see note below\n@export var entry_child: StringName = &\"\"\n\nfunc instantiate(entity: Entity) -> BrainState:\n\tvar state: BrainState = state_script.new(entity)\n\tif is_container and state is ContainerState:\n\t\tfor i in child_states.size():\n\t\t\tstate.inner_machine.add_state(child_names[i], child_states[i].instantiate(entity))\n\t\tstate.entry_state = entry_child\n\treturn state\n```",
+			"styleAttributes":{},
+			"x":-12460,
+			"y":3240,
+			"width":740,
+			"height":460
+		},
+		{
+			"id":"aea27dd42e70a1d9",
+			"type":"text",
+			"text":"game concept:\n1. the player spawns into a level (collection of tiles)\n2. creatures are spawned in waves over time\n3. the player must survive until they find the entity that spawned with a key\n4. player must steal the key\n5. player escapes through door\n6. next level begins\n\nbut there are different modes\n- traditional (standard gamemode)\n- arena (large level, endless waves)\n- something else?\n\nthe goals\n- properly begin a new level when a wave completes\n- allow for endless waves (no level completion/progress)\n- properly scale difficulty by allowing harder and harder creatures to spawn as the wave value grows\n- allow to spawn special events\n\t- ex: multiple entities per portal\n\t- ex: spawn entities at custom z level\n\t- ex: spawn entities afflicted with some effect\n\t- ex: only one type of creature\n- allow the seamless addition of more completion types over development\n- programmatically create new waves as a level is finished",
+			"styleAttributes":{},
+			"x":-6500,
+			"y":7510,
+			"width":460,
+			"height":800
+		},
+		{
+			"id":"d2ff73e323b45c1f",
+			"type":"text",
+			"text":"```\nCompletionConditionTime\n\nsignal wave_complete\nvar _timer: float\n@export var timer_length: float = 30.0\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionRemaining\n\nsignal wave_complete\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n```\n\n```\nCompletionConditionTimeOrRemaining\n\nsignal wave_complete\n\nvar _timer: float\n@export var timer_length: float = 30.0\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionBoss\n\nsignal wave_complete\n\nvar tracked_entity: Entity\n\nset tracked_entity(e: Entity) -> void:\n\ttracked_entity = e\n\nconnect tracked_entity.died to emit wave_complete\n```",
+			"styleAttributes":{},
+			"x":-5120,
+			"y":7100,
+			"width":520,
+			"height":1620
 		},
 		{
 			"id":"b6b43a4dc912332b",
@@ -1472,66 +1666,6 @@
 			"height":180
 		},
 		{
-			"id":"c52ed0fef21dda10",
-			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name BrainLobe\n\n@export var state_name: StringName\n@export var blueprint: BrainStateBlueprint\n\nfunc get_priority(entity: Entity) -> float:\n\treturn 0.0\n\n\n```",
-			"styleAttributes":{},
-			"x":-14540,
-			"y":3940,
-			"width":480,
-			"height":300
-		},
-		{
-			"id":"24564c665fca493d",
-			"type":"text",
-			"text":"",
-			"styleAttributes":{},
-			"x":-13200,
-			"y":4120,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"eb303f4381055558",
-			"type":"text",
-			"text":"# Brain\nhas `BrainLobe`s which calculate priority\n`best_score` and therefore `best_lobe` are calculated.\n`top_machine` is a `BrainStateMachine` that switches between `BrainState` instances.\nin some instances, it can be useful to define a `ContainerState` which has a machine of its own. this is when `BrainState.transition_to()` should be utilized to create a hierarchical state machine.",
-			"styleAttributes":{},
-			"x":-19360,
-			"y":6160,
-			"width":620,
-			"height":440
-		},
-		{
-			"id":"18a9fa0d5c3c982e",
-			"type":"text",
-			"text":"```gdscript\nextends RefCounted\nclass_name BrainStateMachine\n\nvar states: Dictionary[StringName, BrainState] = {}\nvar current_name: StringName = &\"\"\nvar current_state: BrainState = null\n\nsignal state_changed(from: StringName, to: StringName)\n\nfunc add_state(name: StringName, state: BrainState) -> void:\n\tstates[name] = state\n\nfunc transition_to(name: StringName) -> void:\n\tif name == current_name or not states.has(name):\n\t\treturn\n\tif current_state:\n\t\tcurrent_state.exit()\n\tvar old_name: StringName = current_name\n\tcurrent_name = name\n\tcurrent_state = states[name]\n\tcurrent_state.enter()\n\tstate_changed.emit(old_name, name)\n\nfunc physics_process(delta: float) -> void:\n\tif not current_state:\n\t\treturn\n\tcurrent_state.physics_process(delta)\n\tvar next: StringName = current_state.get_transition()\n\tif next != &\"\":\n\t\ttransition_to(next)\n```",
-			"styleAttributes":{},
-			"x":-13740,
-			"y":3220,
-			"width":660,
-			"height":660
-		},
-		{
-			"id":"56447def7bee37c7",
-			"type":"text",
-			"text":"```gdscript\nextends RefCounted\nclass_name BrainState\n\n## Base class for any state; whether a top-level goal (SeekFood) or a leaf\n## behavior inside one (Wander). Container states override _get_transition()\n## to drive their own internal StateMachine\n\nvar entity: Entity\n\nfunc _init(e: Entity) -> void:\n\tentity = e\n\nfunc enter() -> void:\n\tpass\n\nfunc exit() -> void:\n\tpass\n\nfunc physics_process(delta: float) -> void:\n\tpass\n\n## return teh StringName of the state to transition to, or &\"\" to stay.\n## called every tick by the owning StateMachine after physics_process\nfunc get_transition() -> StringName:\n\treturn &\"\"\n```",
-			"styleAttributes":{},
-			"x":-14440,
-			"y":3220,
-			"width":680,
-			"height":560
-		},
-		{
-			"id":"81a31f7f905fbabe",
-			"type":"text",
-			"text":"```gdscript\nextends Resource\nclass_name BrainStateBlueprint\n\n## which BrainState subclass to instantiate. must accept (entity) in _init\n@export var state_script: Script\n\n## only used if state_script extends ContainerState\n@export var is_container: bool = false\n@export var child_states: Array[BrainStateBlueprint] = []\n@export var child_names: Array[StringName] = [] # parallel array, see note below\n@export var entry_child: StringName = &\"\"\n\nfunc instantiate(entity: Entity) -> BrainState:\n\tvar state: BrainState = state_script.new(entity)\n\tif is_container and state is ContainerState:\n\t\tfor i in child_states.size():\n\t\t\tstate.inner_machine.add_state(child_names[i], child_states[i].instantiate(entity))\n\t\tstate.entry_state = entry_child\n\treturn state\n```",
-			"styleAttributes":{},
-			"x":-12460,
-			"y":3240,
-			"width":740,
-			"height":460
-		},
-		{
 			"id":"8ae58534e6684122",
 			"type":"text",
 			"text":"```gdscript\nextends BrainState\nclass_name ContainerState\n\nvar inner_machine: BrainStateMachine = BrainStateMachine.new()\nvar entry_state: StringName\n\nfunc enter() -> void:\n\tinner_machine.transition_to(entry_state)\n\nfunc exit() -> void:\n\tif inner_machine.current_state:\n\t\tinner_machine.current_state.exit()\n\t\tinner_machine.current_state = null\n\t\tinner_machine.current_name = &\"\"\n\nfunc physics_process(delta: float) -> void:\n\tinner_machine.physics_process(delta)\n```",
@@ -1582,6 +1716,46 @@
 			"height":120
 		},
 		{
+			"id":"c4ed1fc1ce14715c",
+			"type":"text",
+			"text":"the system how it is now is pretty flawed because it is built upon the assumption that waves of entities will be scripted ahead of time.\n\nreally the system that picks the creatures should be procedural.\n\nthe system should continuously spawn entities as long as the level's max_entity cap is not currently exceeded. i'm talking every 1-4 seconds the system picks 1-3 entities to spawn.\n\nthese entities are chosen based on their weights (which are determined based on the current difficulty and other parameters).\n\nright now, i have to define `WaveGenerator` resources inside of `LevelTheme`. I should not have to do this. instead, it would be better if there existed a singular baseline for all spawnable entities. this baseline would include the entity_id and its weight. (cost is no longer a factor, since entities are spawned continuously until a cap is reached).\n\ni actually don't think `WaveGenerator` should exist. and `LevelSequence` needs reworked since it assumes scripted waves first, which i don't plan on doing.\n\ni think that `LevelDefinition` and `LevelTheme` are mostly fine, but it still has too much scripting; the terrain generator should be chosen randomly and so should the tiles chosen.\n\nthis also means that `CompletionStrategy` or `CompletionFactory` do not need to exist either, since entities will be spawned continuously\n\nnot sure what to do next.",
+			"styleAttributes":{},
+			"x":-14860,
+			"y":7240,
+			"width":580,
+			"height":680
+		},
+		{
+			"id":"8763153b12cd57a7",
+			"type":"text",
+			"text":"let's make this shit way simpler.\n\nthe only thing that's happening here is spawning enemies.\n\nso there should be a spawnlist (dictionary) of every entity that can be spawned along with a weight.\n\nthe weight corresponding to every entity is changed over time.\n\nhow it should work:\n- there exists a runtime processing in the background\n- every interval (1-4 seconds) the runtime should decide how many creatures to spawn\n- recalculate the spawnlist weights.\n- for each spawn in this interval, resolve the entity by picking one based on the weights in the spawnlist.\n- summon portal and attach entity to the portal\n\n**my question is** how should i recalculate these weights?\n\nsome creatures are very basic and simple: wanderers that are simple-mindedly oriented on just attacking other nearby creatures.\n\nsome creatures are like the basic ones but with some upgrades.\n\nother creatures are special, like worms, wizards, or demons, and should be spawned only occasionally.\n\nright now i'm simply thinking that i should just hardcode base weight values. for the main gamemode (quest), rarer entities should gradually become more common.",
+			"styleAttributes":{},
+			"x":-15440,
+			"y":7240,
+			"width":520,
+			"height":980
+		},
+		{
+			"id":"1915a48f5639585d",
+			"type":"text",
+			"text":"i kinda want this system to be rewritten. i believe a paradigm shift is in order.\nright now, the spawning system is mainly built around scripting waves with procedural generation as an afterthought. but that is not what i want. i need a game that evolves as you play and progress. factors should change over time to influence what creatures spawn, with what effects, etc.\nspawning should be procedural, not scripted (although there should be support to hardcode a level's spawns if necessary through some function).\nhow to format this so that it is as easy as possible to change spawn conditions for a creature. i don't think that these spawn conditions should be static. how should i change certain conditions per level?\nit should be easy to add new conditions as well.\n\n**remember that a level is:**\n- a new map\n- unique terrain generation parameters\n- a fresh player instance\n\n**things i am imagining:**\n- at the beginning of a normal run, the game only spawns simple creatures.\n- a level can begin to spawn crazier creatures if the player spends too much time on that level\n- a complement system: if this entity type is spawned, then it's much more likely that an other type is also spawned.\n- when entering a new level, a small amount of creatures are already present (pre-spawned)\n- force spawning a creature if a condition suddently becomes true\n\n**factors that influence a spawn**\n- `GameInterface.time`\n- `WaveRunner.wave_value`\n- `GameInterface.level`\n- tileset theme\n- size of map / available ground tiles per that level\n- terrain generation method used per that level\n- amount of entities currently active on that level\n- amount of creatures that's been spawned on this level\n- a level state that only allows the spawn of specific entity types\n- others?",
+			"styleAttributes":{},
+			"x":-16080,
+			"y":7240,
+			"width":580,
+			"height":1000
+		},
+		{
+			"id":"8fc99678dbaca079",
+			"type":"text",
+			"text":"```gdscript\nextends Node\n\nenum COMPLETION_CONDITION{REMAINING, TIME}\n\nconst SPAWN_TRIES: int = 200\n\nsignal wave_started(pool: Pool, wave_index: int)\nsignal wave_complete(pool: Pool, wave_index: int)\nsignal all_waves_complete(pool: Pool)\n\nvar active_pools: Array[Pool] = []\n\nfunc create_new_pool(waves: Array[SpawnWave]) -> Pool:\n\tvar pool: Pool = Pool.new(waves)\n\tactive_pools.append(pool)\n\treturn pool\n\nfunc clear_pools() -> void:\n\tfor pool in active_pools:\n\t\tpool.queue_free()\n\tactive_pools.clear()\n\nfunc _process(delta: float) -> void:\n\tfor pool in active_pools:\n\t\tif not pool.current_completion_condition == COMPLETION_CONDITION.TIME:\n\t\t\tcontinue\n\t\tpool.current_time += delta\n\t\tif pool.current_time >= pool.time_limit:\n\t\t\tstart_next_wave(pool)\n\t\t\n\nfunc start_next_wave(pool: SpawnPool) -> void:\n\tif pool.current_wave >= pool.waves.size():\n\t\tWaver.all_waves_complete.emit(pool)\n\t\treturn\n\tpool.current_wave += 1\n\tspawn_wave(pool.current_wave)\n\t\nfunc spawn_wave(pool: SpawnPool, wave_index: int) -> void:\n\tpool.tracked_entities.clear()\n\tpool.creatures_spawned_this_wave = 0\n\tpool.current_time = 0.0\n\tset_next_wave_conditions(pool, wave_index)\n\t\n\tvar budget: int = get_point_budget(pool, wave_index)\n\tvar spawn_list: Array[StringName] = build_spawn_list(pool, budget)\n\t\n\tfor entity_name in spawn_list:\n\t\tvar pos: Vector2 = get_random_spawn_position()\n\t\tvar entity: Entity = EntityManager.spawn_safely(entity_name, WorldGrid.tile_to_world(pos))\n\t\tif entity:\n\t\t\ttrack_entity(pool, entity)\n\t\n\twave_active = true\n\nfunc track_entity(pool: SpawnPool, entity: Entity) -> void:\n\tpool.creatures_spawned_this_wave += 1\n\tpool.tracked_entities.append(entity)\n\tentity.tree_exiting.connect(_on_tracked_entity_died.bind(pool, entity), CONNECT_ONE_SHOT)\n\t\nfunc _on_tracked_entity_died(pool: SpawnPool, entity: Entity) -> void:\n\tif not pool.wave_active:\n\t\treturn\n\tpool.tracked_entities.erase(entity)\n\tif float(pool.tracked_entities.size()) / pool.creatures_spawned_this_wave <= pool.completion_ratio:\n\t\tpool.wave_active = false\n\t\tWaver.wave_complete.emit(pool, current_wave)\n\nfunc set_next_wave_conditions(pool: SpawnPool, wave_index: int) -> void:\n\tvar wave: SpawnWave = pool.waves[wave_index]\n\tmatch wave.completion_condition:\n\t\tWaver.COMPLETION_CONDITION.REMAINING:\n\t\t\tpool.completion_ratio = wave.remaining_limit_ratio\n\t\tWaver.COMPLETION_CONDITION.TIME:\n\t\t\tpool.time_limit = wave.time_limit\n\t\t\t\n\tpool.completion_condition = wave.completion_condition\n\nfunc get_point_budget(pool: SpawnPool, wave_index: int) -> int:\n\treturn pool.waves[wave_index].budget\n\nfunc build_spawn_list(pool: SpawnPool, wave_index: int) -> Array[StringName]:\n\tvar creature_names: Array = pool.waves[wave_index].creatures.keys()\n\tvar creatures: Array = pool.waves[wave_index].creatures\n\tvar list: Array[StringName] = []\n\tvar remaining: int = waves[wave_index].budget\n\tvar safety: int = 0\n\twhile remaining > 0 and safety < 200:\n\t\tsafety += 1\n\t\tvar affordable: Array = creature_names.filter(func(n): return creatures[n] <= remaining)\n\t\tif affordable.is_empty():\n\t\t\tbreak\n\t\tvar choice: StringName = affordable[randi() % affordable.size()]\n\t\tlist.append(choice)\n\t\tremaining -= creatures[choice]\n\treturn list\n\nfunc get_random_spawn_position() -> Vector2i:\n\trandomize()\n\tfor i in range(SPAWN_TRIES):\n\t\tvar pos = Vector2i(randi_range(0, WorldGrid.width - 1), randi_range(0, WorldGrid.height - 1))\n\t\tif WorldGrid.get_cell(pos).type.terrain == CellType.TerrainType.GROUND:\n\t\t\treturn pos\n\t\tLog.warn(\"Could not find a safe position, spawning at world center.\")\n\t\treturn WorldGrid.get_center()\n\t\t\n\n\nclass SpawnPool:\n\tvar waves: Array[SpawnWave] = []\n\tvar tracked_entities: Array[Entity] = []\n\tvar creatures_spawned_this_wave: int = 0\n\tvar wave_active: bool = false\n\n\tvar current_wave: int = -1\n\tvar current_time: float = 0.0\n\tvar time_limit: float = -1\n\t\n\tvar current_completion_condition: Waver.COMPLETION_CONDITION\n\t\n\t## ratio of tracked_entities.size() / creatures_spawned_this_wave \n\t## below or equal to this threshold waves are considered complete\n\tvar completion_ratio: float = 0.20\n\t\n\tfunc _init(spawn_waves: Array[SpawnWave]) -> void:\n\t\twaves = spawn_waves\n\n\n\n```",
+			"styleAttributes":{},
+			"x":-10680,
+			"y":5780,
+			"width":840,
+			"height":2740
+		},
+		{
 			"id":"803bd2aa7f0a296d",
 			"type":"text",
 			"text":"\n```gdscript\nextends Resource\nclass SpawnWave\n\n@export var budget: int\n@export var completion_condition: Waver.COMPLETION_CONDITION\n@export var time_limit: float\n@export var remaining_limit_ratio: float\n\n\n@export var creatures: Dictionary[StringName, int] = []\n```",
@@ -1601,132 +1775,6 @@
 			"width":540,
 			"height":480
 		},
-		{
-			"id":"a7128848105c3e06",
-			"type":"text",
-			"text":"```gdscript\nextends Node\n# EntityManager autoload\n\nconst FREE_SEARCH_RADIUS: int = 3\nconst SPAWN_CLEARANCE: float = 12\n\nvar _entity_container: Node2D\nvar active_entities: Array[Entity] = []\n\nfunc register_ysort_entity_container(ysort: Node2D) -> void:\n\t_entity_container = ysort\n\tLog.info(\"Registered %s as new entity container.\" % ysort)\n\n\n\n\n\n\n\n\n# ---------------------------------------------------------------------------------------------------\n# main functions\n# ---------------------------------------------------------------------------------------------------\n\nfunc destroy_all_entities() -> void:\n\tfor i in range(active_entities.size() - 1, -1, -1):\n\t\tactive_entities[i].queue_free()\n\nfunc create_entity(entity_type: StringName) -> Entity:\n\tif entity_type == \"\":\n\t\tLog.error(\"Given blank entity_type, aborting entity instantiation.\")\n\t\treturn null\n\tvar instance = EntityRegistry.instantiate(entity_type)\n\tif not instance:\n\t\tLog.error(\"Failed to instantiate '%s'\" % entity_type)\n\t\treturn null\n\tif not instance is Entity:\n\t\tLog.error(\"EntityManager: '%s' is not an Entity\" % entity_type)\n\t\tinstance.queue_free()\n\t\treturn null\n\tinstance.initialize()\n\treturn instance\n\n## packages an entity\nfunc package_entity_into_portal(entity: Entity) -> Entity:\n\tvar portal: Entity = create_entity(&\"portal\")\n\tif not portal.is_initialized:\n\t\tawait portal.entity_initialized\n\tvar p_component: PortalComponent = portal.get_component(PortalComponent)\n\tp_component.add_entity(entity)\n\treturn portal\n\nfunc attach_key_to_entity(entity: Entity) -> Entity:\n\tpass # to be implemented\n\n## takes in an Entity and adds it to the world at a given position and z.\n## offsets entity very slightly to prevent infinite collisions with other entities.\n## set safely to false to prevent checking for a valid ground location.\nfunc spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool = false, safely: bool = true) -> void:\n\tif not entity.is_initialized:\n\t\tentity.initialize()\n\tvar spawn_pos: Vector2 = get_safe_spawn_position(position) if safely else position\n\tif spawn_pos == Vector2.INF:\n\t\tLog.error(\"No ground tile found for spawn near %s\" % position)\n\t\treturn\n\tentity.global_position = spawn_pos + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))\n\tentity.set_z_value(z)\n\tactive_entities.append(entity)\n\tif as_player:\n\t\tPlayerManager.set_player(entity)\n\tentity.tree_exiting.connect(_on_entity_left_tree.bind(entity), CONNECT_ONE_SHOT)\n\t_entity_container.add_child.call_deferred(entity)\n\tentity.is_spawned = true\n\tentity.entity_spawned.emit.call_deferred()\n\tEventBus.entity_spawned.emit.call_deferred(entity)\n\nfunc spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, as_player: bool = false safely: bool = true) -> void:\n\tspawn_entity(entity, WorldGrid.tile_to_world(tile), z, as_player, safely)\n\nfunc _on_entity_left_tree(e: Entity) -> void:\n\tactive_entities.erase(e)\n\tEventBus.entity_destroyed.emit(e)\n\n\n# ---------------------------------------------------------------------------------------------------\n# utility\n# ---------------------------------------------------------------------------------------------------\n\nfunc get_safe_spawn_position(desired: Vector2) -> Vector2:\n\tvar origin: Vector2i = WorldGrid.world_to_tile(desired).clamp(Vector2i.ZERO, Vector2i(WorldGrid.width - 1, WorldGrid.height - 1))\n\tvar max_r: int = maxi(WorldGrid.width, WorldGrid.height)\n\tvar fallback: Vector2 = Vector2.INF # nearest ground tile, even if occupied\n\tfor r in range(max_r + 1):\n\t\tif r > FREE_SEARCH_RADIUS and fallback != Vector2.INF:\n\t\t\tbreak\n\t\tfor dx in range(-r, r+1):\n\t\t\tfor dy in range(-r, r+1):\n\t\t\t\tif maxi(absi(dx), absi(dy)) != r: # ring only\n\t\t\t\t\tcontinue\n\t\t\t\tvar tile: Vector2i = origin + Vector2i(dx, dy)\n\t\t\t\tif not _is_ground_tile(tile):\n\t\t\t\t\tcontinue\n\t\t\t\tvar world: Vector2 = WorldGrid.tile_to_world(tile)\n\t\t\t\tif fallback == Vector2.INF:\n\t\t\t\t\tfallback = world\n\t\t\t\tif not is_position_occupied(world):\n\t\t\t\t\treturn world\n\treturn fallback\n\nfunc _is_ground_tile(tile: Vector2i) -> bool:\n\tif tile.x < 0 or tile.y < 0 or tile.x >= WorldGrid.width or tile.y >= WorldGrid.height:\n\t\treturn false\n\tvar cell: CellData = WorldGrid.get_cell(tile)\n\treturn cell != null and cell.type.terrain == CellType.TerrainType.GROUND\n\t\n\nfunc is_position_occupied(position: Vector2) -> bool:\n\t# entities spawned earlier this frame aren't in the physics space yet\n\tfor e: Entity in active_entities:\n\t\tif is_instance_valid(e) and e.global_position.distance_to(position) < SPAWN_CLEARANCE:\n\t\t\treturn true\n\t# other physics bodies\n\tif _entity_container == null:\n\t\treturn false\n\tvar query: PhysicsPointQueryParameters2D = PhysicsPointQueryParameters2D.new()\n\tquery.position = position\n\tquery.collide_with_bodies = true\n\tquery.collide_with_areas = false\n\tquery.collision_mask = SpatialUtil.PhysicsLayers.CREATURES\n\treturn not _entity_container.get_world_2d().direct_space_state.intersect_point(query, 1).is_empty()\n\n\n\n\n```",
-			"styleAttributes":{},
-			"x":-8120,
-			"y":5760,
-			"width":1100,
-			"height":2640
-		},
-		{
-			"id":"1bd0501d559571fa",
-			"type":"text",
-			"text":"sprites should ideally encompass all of their area; there should not be very many transparent pixels.",
-			"styleAttributes":{},
-			"x":-7680,
-			"y":3860,
-			"width":320,
-			"height":200
-		},
-		{
-			"id":"ecb4211d4bd41e55",
-			"type":"text",
-			"text":"should i or shouldn't i keep the black outlines??",
-			"styleAttributes":{},
-			"x":-7640,
-			"y":4120,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"8fad821979377a63",
-			"type":"text",
-			"text":"# LIL PUP",
-			"styleAttributes":{},
-			"x":-12590,
-			"y":1716,
-			"width":260,
-			"height":60
-		},
-		{
-			"id":"2052825d162bb2e1",
-			"type":"text",
-			"text":"so this guy is bad, i need to redesign them",
-			"styleAttributes":{},
-			"x":-7206,
-			"y":4030,
-			"width":220,
-			"height":60
-		},
-		{"id":"c824fbcc1758e1e3","type":"file","file":"assets/Pasted image 20260716152838.png","x":-7340,"y":3860,"width":267,"height":240},
-		{
-			"id":"1df4cce560a11f2a",
-			"type":"text",
-			"text":"### GRUBBA\nFat pale segmented larva. It wiggles occasionally, clearly soft, harmless, and tasty.\n\n---\n\n| Q                 | A                                                                                                                                                                                                                                      |\n| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Behavior class?   | PASSIVE CONSUMER                                                                                                                                                                                                                       |\n| Reproduction?     | When ichor reserves are high, splits into two half-sized Grubbas.                                                                                                                                                                      |\n| Abilities?        | 1. Curls into a ball and launches forward like a bowling ball, knocking back and dealing slight damage to entities. This ability can be charged for a faster launch.<br>2. Grows larger in size if its ichor reserves are high enough. |\n| Ecosystem role?   | Grubba is the main food source for predatory beasts. If grubs are thriving, then predatory creatures are bound to be less aggressive.                                                                                                  |\n| Behavior pattern? | Slowly wanders and wiggles around, tending to hang around food sources as it cannot move very fast unless escaping.                                                                                                                    |\n",
-			"styleAttributes":{},
-			"x":-12210,
-			"y":1156,
-			"width":700,
-			"height":460
-		},
-		{
-			"id":"ae27136b1155af95",
-			"type":"text",
-			"text":"```csharp\nusing Godot;\n\npublic partial class PhysicsComponent : Component\n{\n    // snake_case to match serialized scene data and existing GDScript callers\n    [Export] public bool disabled = false;\n    [Export] public float mass = 1.0f;\n    [Export] public float friction_coefficient = 1.0f;\n    [Export] public float base_friction = 800f;\n    [Export] public float restitution = 0.4f;\n    [Export] public float min_bounce_speed = 40.0f;\n    [Export] public float max_speed = 1000.0f;\n    [Export] public Node world_interface;  // WorldInterface in GDScript\n    [Export] public Node locomotion;       // LocomotionHandler in GDScript\n\n    private const float OverlapSeparationSpeed = 1500.0f;\n    private const float OverlapDepthThreshold = 1.0f;\n\n    public Vector2 physics_velocity = Vector2.Zero;\n    private Vector2 _accumulatedForce = Vector2.Zero;\n\n    [Signal] public delegate void WallCollisionEventHandler(Node source);       // \"wall_collision\"\n    [Signal] public delegate void EntityCollisionEventHandler(Entity source);   // \"entity_collision\"\n\n    public override void _PhysicsProcess(double delta)\n    {\n        if (disabled) return;\n        PhysicsUpdate((float)delta);\n    }\n\n    public void PhysicsUpdate(float delta)\n    {\n        ApplyForces(delta);\n        ApplyFriction(delta);\n\n        // cross-language property access — one marshaling call per frame, acceptable\n        var locoVel = locomotion != null\n            ? locomotion.Get(\"velocity\").As<Vector2>()\n            : Vector2.Zero;\n\n        var preSlideVelocity = physics_velocity;\n        var preSlideFull = physics_velocity + locoVel;\n\n        entity.Velocity = preSlideFull;\n        entity.MoveAndSlide();\n        physics_velocity = entity.Velocity - locoVel;\n\n        HandleCollisions(preSlideVelocity, preSlideFull);\n    }\n\n    public void clear_velocity() => physics_velocity = Vector2.Zero;\n\n    public void apply_impulse(Vector2 direction, float magnitude)\n        => physics_velocity += direction.Normalized() * (magnitude / mass);\n\n    public void apply_force(Vector2 direction, float magnitude)\n        => _accumulatedForce += direction.Normalized() * magnitude;\n\n    private void ApplyForces(float delta)\n    {\n        physics_velocity += (_accumulatedForce / mass) * delta;\n        _accumulatedForce = Vector2.Zero;\n        physics_velocity = physics_velocity.LimitLength(max_speed);\n    }\n\n    private void ApplyFriction(float delta)\n    {\n        float decel = base_friction * friction_coefficient / mass;\n        physics_velocity = physics_velocity.MoveToward(Vector2.Zero, decel * delta);\n    }\n\n    private void HandleCollisions(Vector2 preVelocity, Vector2 preFull)\n    {\n        int count = entity.GetSlideCollisionCount();\n        for (int i = 0; i < count; i++)\n        {\n            var col = entity.GetSlideCollision(i);\n            var normal = col.GetNormal();\n            var collider = col.GetCollider();\n\n            if (collider is StaticBody2D || collider is TileMapLayer)\n            {\n                var relVel = col.GetColliderVelocity() - physics_velocity;\n                float push = relVel.Dot(normal);\n                if (push > 0f)\n                    physics_velocity += normal * push;\n\n                if (preVelocity.Length() > min_bounce_speed && preVelocity.Dot(normal) < 0f)\n                {\n                    physics_velocity = preVelocity.Bounce(normal) * restitution;\n                    EmitSignal(SignalName.WallCollision, (Node)col.GetCollider());\n                }\n            }\n            else if (collider is Entity otherEntity)\n            {\n                // fully native — both types are C#, zero marshaling\n                var otherPhysics = otherEntity.GetComponent<PhysicsComponent>();\n                float intoNormal = preFull.Dot(normal);\n\n                if (otherPhysics != null)\n                {\n                    if (intoNormal < 0f)\n                    {\n                        float m1 = mass, m2 = otherPhysics.mass;\n                        bool dominant = m1 > m2 || (m1 == m2 && entity.GetInstanceId() < otherEntity.GetInstanceId());\n\n                        if (dominant)\n                        {\n                            float total = m1 + m2;\n                            var axis = -normal;\n                            float vA = -intoNormal;\n                            float vB = otherPhysics.physics_velocity.Dot(axis);\n                            float e = (restitution + otherPhysics.restitution) * 0.5f;\n\n                            float newVa = (m1 * vA + m2 * vB + m2 * e * (vB - vA)) / total;\n                            float newVb = (m1 * vA + m2 * vB + m1 * e * (vA - vB)) / total;\n\n                            physics_velocity += axis * (newVa - vA);\n                            otherPhysics.physics_velocity += axis * (newVb - vB);\n                        }\n                    }\n                }\n                else\n                {\n                    if (intoNormal < 0f)\n                        physics_velocity -= normal * intoNormal;\n                }\n\n                if (col.GetDepth() > OverlapDepthThreshold)\n                    entity.GlobalPosition += Vector2.FromAngle((float)GD.Randf() * Mathf.Tau);\n\n                EmitSignal(SignalName.EntityCollision, otherEntity);\n            }\n        }\n    }\n}\n```",
-			"styleAttributes":{},
-			"x":-18800,
-			"y":1000,
-			"width":620,
-			"height":1400
-		},
-		{"id":"ed338791e057ac17","type":"file","file":"assets/Pasted image 20260716153149.png","x":-6960,"y":4100,"width":400,"height":286},
-		{"id":"baf4ba57c98e15a4","type":"file","file":"assets/Pasted image 20260716153202.png","x":-6940,"y":4243,"width":128,"height":60},
-		{
-			"id":"56f2e5fdc8f31e08",
-			"type":"text",
-			"text":"```gdscript\nextends Component\nclass_name PortalComponent\n\n@export var autostart: bool = true\n@export var timer_length: float = 3.0\nvar _timer: float = 0.0\nvar entities_to_spawn: Array[Entity] = []\nvar activated: bool = false\n\nvar portal_particles: ParticleProfile = preload(\"uid://caei1gsudwqth\")\nvar portal_sound: VoiceProfile = preload(\"uid://ciolmmgn3qpw7\")\n\nfunc _on_registered() -> void:\n\t_timer = RandomUtil.randomize_float(RunRng.get_stream(&\"portal\"), timer_length, 1)\n\t\n\nfunc _on_entity_spawned() -> void:\n\tAudioManager.play_voice(portal_sound, entity.global_position)\n\tif autostart:\n\t\tactivated = true\n\nfunc _process(delta: float) -> void:\n\tif not activated:\n\t\treturn\n\t_elapse_timer(delta)\n\tParticleManager.burst(portal_particles, entity.global_position)\n\nfunc _elapse_timer(delta: float) -> void:\n\t_timer -= delta\n\tif _timer <= 0.0:\n\t\tactivate_portal()\n\nfunc add_entity(entity: Entity) -> void:\n\tentities_to_spawn.append(entity)\n\nfunc activate_portal() -> void:\n\tfor e in entities_to_spawn:\n\t\tEntityManager.spawn_entity(e, entity.global_position, entity.z)\n\tentity.queue_free()\n```",
-			"styleAttributes":{},
-			"x":-6876,
-			"y":5800,
-			"width":1140,
-			"height":880
-		},
-		{
-			"id":"6098b1f5848c11f4",
-			"type":"text",
-			"text":"```csharp\nusing Godot;\nusing System.Collections.Generic;\n\npublic partial class Entity : CharacterBody2D\n{\n    // GDScript components keyed by their Script object (same as before)\n    private readonly Godot.Collections.Dictionary<Script, Godot.Collections.Array> _gdComponents = new();\n    // C# components keyed by System.Type — no GDScript object involved\n    private readonly Dictionary<System.Type, List<Component>> _csComponents = new();\n\n    [Signal] public delegate void EntityInitializedEventHandler();\n\n    public StringName basename { get; private set; }\n\n    public override void _Ready()\n    {\n        basename = GetBasename();\n        RegisterComponentsRecursive(this);\n        EmitSignal(SignalName.EntityInitialized);\n        MotionMode = MotionModeEnum.Floating;\n    }\n\n    private void RegisterComponentsRecursive(Node node)\n    {\n        foreach (var child in node.GetChildren())\n        {\n            if (child is Component c)\n                _RegisterComponent(c);\n            RegisterComponentsRecursive(child);\n        }\n    }\n\n    public void _RegisterComponent(Component component)\n    {\n        var script = component.GetScript().As<Script>();\n\n        if (script != null)\n        {\n            // GDScript component: walk script inheritance chain\n            var s = script;\n            while (s != null)\n            {\n                if (!_gdComponents.ContainsKey(s))\n                    _gdComponents[s] = new Godot.Collections.Array();\n                _gdComponents[s].Add(component);\n                s = s.GetBaseScript();\n            }\n            component.entity = this;\n            component.Call(\"_on_registered\"); // dispatches to GDScript override\n        }\n        else\n        {\n            // C# component: walk type inheritance chain\n            var t = component.GetType();\n            while (t != null && typeof(Component).IsAssignableFrom(t))\n            {\n                if (!_csComponents.ContainsKey(t))\n                    _csComponents[t] = new List<Component>();\n                _csComponents[t].Add(component);\n                t = t.BaseType;\n            }\n            component.entity = this;\n            component._on_registered(); // direct C# virtual dispatch\n        }\n\n        component.EmitSignal(Component.SignalName.Registered);\n    }\n\n    // GDScript: entity.add_component(to, component)\n    public void add_component(Node to, Component component)\n    {\n        _RegisterComponent(component);\n        to.AddChild(component);\n    }\n\n    // GDScript: entity.get_component(SomeGDScriptClass)\n    public Component get_component(Script type)\n    {\n        if (_gdComponents.TryGetValue(type, out var arr) && arr.Count > 0)\n            return (Component)arr[0];\n        return null;\n    }\n\n    // C#: entity.GetComponent<PhysicsComponent>() — no marshaling, no Script object\n    public T GetComponent<T>() where T : Component\n    {\n        if (_csComponents.TryGetValue(typeof(T), out var list) && list.Count > 0)\n            return (T)list[0];\n        return null;\n    }\n\n    public Godot.Collections.Array get_components(Script type)\n        => _gdComponents.TryGetValue(type, out var arr) ? arr : null;\n\n    public bool has_component(Script type)\n        => _gdComponents.TryGetValue(type, out var arr) && arr.Count > 0;\n\n    public bool HasComponent<T>() where T : Component\n        => _csComponents.TryGetValue(typeof(T), out var list) && list.Count > 0;\n\n    public StringName GetBasename()\n        => new StringName(SceneFilePath.GetFile().GetBaseName());\n\n    public static Entity FindEntity(Node node)\n    {\n        if (node == null) return null;\n        if (node is Entity e) return e;\n        return FindEntity(node.GetParent());\n    }\n}\n```",
-			"styleAttributes":{},
-			"x":-19320,
-			"y":900,
-			"width":440,
-			"height":1420
-		},
-		{"id":"682deebbfbe4d1ff","type":"file","file":"assets/Pasted image 20260620124534.png","x":-15640,"y":1015,"width":400,"height":312},
-		{"id":"9693bd89d773047f","type":"link","url":"https://zladx.github.io/posts/special-effects-in-zelda-links-awakening","x":-6560,"y":3843,"width":400,"height":400},
-		{
-			"id":"2746395eecc1ceb1",
-			"type":"text",
-			"text":"design a spawninterface\n\nwave types\n{TIME, REMAINING, TIME_OR_REMAINING, BOSS}\n\nTIME waves move on",
-			"styleAttributes":{},
-			"x":-6410,
-			"y":7130,
-			"width":520,
-			"height":300
-		},
-		{
-			"id":"aea27dd42e70a1d9",
-			"type":"text",
-			"text":"game concept:\n1. the player spawns into a level (collection of tiles)\n2. creatures are spawned in waves over time\n3. the player must survive until they find the entity that spawned with a key\n4. player must steal the key\n5. player escapes through door\n6. next level begins\n\nbut there are different modes\n- traditional (standard gamemode)\n- arena (large level, endless waves)\n- something else?\n\nthe goals\n- properly begin a new level when a wave completes\n- allow for endless waves (no level completion/progress)\n- properly scale difficulty by allowing harder and harder creatures to spawn as the wave value grows\n- allow to spawn special events\n\t- ex: multiple entities per portal\n\t- ex: spawn entities at custom z level\n\t- ex: spawn entities afflicted with some effect\n\t- ex: only one type of creature\n- allow the seamless addition of more completion types over development\n- programmatically create new waves as a level is finished",
-			"styleAttributes":{},
-			"x":-6500,
-			"y":7510,
-			"width":460,
-			"height":800
-		},
-		{
-			"id":"87ddca03514f594d",
-			"type":"text",
-			"text":"```\nCLASS Wave\n\nvar completion_condition\nvar entities_to_spawn: Array[Entity]\nvar random_delay_strength: float = 1.0\n\n```",
-			"styleAttributes":{},
-			"x":-6320,
-			"y":8420,
-			"width":560,
-			"height":420
-		},
-		{"id":"22d24c7372b648d7","type":"text","text":"\n| Forget-me-not creatures                                                                                                    | Anthurium analog            |\n| -------------------------------------------------------------------------------------------------------------------------- | --------------------------- |\n| Grunt <br>Steps around, attacks nearby creatuers                                                                           | crab guy<br>Bimpy           |\n| Grunto <br>Steps around, occasionally fire a projectile, attacks nearby creatures                                          | crab guy 2<br>Bagabimpy     |\n| Grunta <br>Steps around quickly, rapidly attacks nearby creatures                                                          | crab guy 3<br>Bimporg       |\n| Energycube <br>Constantly moves around erratically, lots of health                                                         | ecube beta                  |\n| Frog <br>Hops around, sometimes long distances                                                                             |                             |\n| Bomb<br>Steps around, sets a timer to detonation when attacked, attacks nearby creatures                                   |                             |\n| Gunner<br>Steps around, shoots projectiles rapidly when creature is in LOS                                                 | crab guy 4<br>Bormose Bimpy |\n| Dungeoncube Alpha<br>Rapidly slides around the map in cardinal directions, kills anything it slides into                   | dcube alpha                 |\n| Dungeoncube Beta<br>Slides around the map in cardinal directions, kills anything it slides into                            | dcube beta                  |\n| Slimer<br>Steps around slowly, attacks nearby creatures, leaves a solid slime trail, dies when unable to make another move |                             |\n| Ghost<br>Steps around, shoots bombs behind it when it steps                                                                |                             |\n| Cloner<br>Grunt AI, duplicates itself when shot by a projectile                                                            |                             |\n| Unstablecube<br>Energycube AI, explodes when killed                                                                        | ecube gamma                 |\n| Bandit<br>Moves constantly quickly, seeks treasure and runs around with it                                                 |                             |\n| Worm<br>Moves constantly, attacks creatures in front of it                                                                 |                             |\n| Pinwheel<br>Moves constantly, is more likely to turn in one direction                                                      |                             |\n| Spider<br>Hops around when nearby other creatures                                                                          |                             |\nseems like the base creature takes a step where it's facing, then decides if it wants to face a different direction.","x":-16120,"y":30,"width":1180,"height":900},
 		{
 			"id":"207229774af92456",
 			"type":"text",
@@ -1748,46 +1796,6 @@
 			"height":340
 		},
 		{
-			"id":"a666859beac034ef",
-			"type":"text",
-			"text":"# ENERGY CUBE GAMMA\n\n| Q                 | A                                                                                     |\n| ----------------- | ------------------------------------------------------------------------------------- |\n| Behavior class?   | ALOOF EXEMPT                                                                          |\n| Reproduction?     | does not reproduce. these are spawned from random events or interdimensional portals. |\n| Abilities?        | Detonate, causing a large explosion and dealing massive damage to nearby entities.    |\n| Ecosystem role?   |                                                                                       |\n| Behavior pattern? | Moves quickly and wanders around aimlessly. Detonates when it dies.                   |\n",
-			"styleAttributes":{},
-			"x":-11050,
-			"y":616,
-			"width":540,
-			"height":420
-		},
-		{
-			"id":"d7d59d25110a2342",
-			"type":"text",
-			"text":"```csharp\nusing Godot;\n\npublic partial class Component : Node\n{\n    public Entity entity;\n\n    [Signal]\n    public delegate void RegisteredEventHandler(); // exposed as \"registered\"\n\n    public virtual void _on_registered() { }\n}\n```",
-			"styleAttributes":{},
-			"x":-19780,
-			"y":880,
-			"width":420,
-			"height":360
-		},
-		{
-			"id":"63058cdb26db8084",
-			"type":"text",
-			"text":"```\nAUTOLOAD SPAWNMANAGER\n\nvar current_wave: wave\n\nsignal all_waves_complete(pool: Pool)\n\nstart_wave(wave: Wave) -> void:\n\tcurrent_wave = wave\n\tbegin_spawning(wave)\n\tawait wave.all_entities_spawned\n\tregister_wave_completion_condition(wave)\n\nregister_wave(wave: Wave) -> void:\n\tconnect wave completion condition to _on_wave_complete()\n\n_on_wave_complete(wave: Wave) -> void:\n\tdisconnect that wave from _on_wave_complete()\n\tif wave.loop:\n\t\tstart_wave(wave)\n\t\treturn\n\tif wave is last in pool:\n\t\tall_waves_complete.emit(pool)\n\t\treturn\n\tpool.wave_value += 1\n\tif next wave completion condition is REMAINING or TIMEORREMAINING:\n\t\tnext_wave.tracked_entities = wave.tracked_entities\n\tstart_wave(next wave)\n\t\n\t\n\t\n\t\n```",
-			"styleAttributes":{},
-			"x":-5850,
-			"y":7130,
-			"width":620,
-			"height":780
-		},
-		{
-			"id":"80f2cdb2b6eca011",
-			"type":"text",
-			"text":"```\nCLASS Level\n\nlevel: int\n\nstart_new_level(level: int)\n```",
-			"styleAttributes":{},
-			"x":-5850,
-			"y":8000,
-			"width":420,
-			"height":280
-		},
-		{
 			"id":"4d28eaff25cb1227",
 			"type":"text",
 			"text":"\n| Behavior Class | Description                                                           |\n| -------------- | --------------------------------------------------------------------- |\n| PASSIVE        | Does not attack other creatures OR flees when nearby other creatures. |\n| REACTIVE       | Only retaliates if provoked.                                          |\n| PREDATORY      | Actively hunts other creatures to satiate itself.                     |\n| FERAL          | Violent towards other creatures.                                      |\n| ALOOF          | Does not care about other creatures.                                  |\n\n| Consumer Type | Description                                                 |\n| ------------- | ----------------------------------------------------------- |\n| AMBIENT       | Ichor is replenished passively over time given a condition. |\n| PROXIMITY     | Ichor is replenished when nearby a specific entity.         |\n| CONSUMER      | Ichor is replenished by consuming entities                  |\n| ESOTERIC      | Ichor is replenished through unconventional means.          |\n| EXEMPT        | Does not have ichor.                                        |\n\n",
@@ -1798,25 +1806,47 @@
 			"height":420
 		},
 		{
-			"id":"bc60eb517af8ddbf",
+			"id":"5d6184c785dacbc8",
 			"type":"text",
-			"text":"ui design\n\nfor menu\n\n```\ncontroller\n\tsub node\n\tsub node\n\tsub node\n```\n\nwhat can these nodes do?\n\nopen a new menu within same context\nlose/gain focus\nnavigate",
+			"text":"# This is the final iteration of the Anthurium.\nlets all say our congratulations because it's been a long and wild ride.",
 			"styleAttributes":{},
-			"x":-19260,
-			"y":-120,
-			"width":360,
-			"height":620
+			"x":-12670,
+			"y":-579,
+			"width":620,
+			"height":100
 		},
 		{
-			"id":"d2ff73e323b45c1f",
+			"id":"3c63b1fb557e2059",
 			"type":"text",
-			"text":"```\nCompletionConditionTime\n\nsignal wave_complete\nvar _timer: float\n@export var timer_length: float = 30.0\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionRemaining\n\nsignal wave_complete\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n```\n\n```\nCompletionConditionTimeOrRemaining\n\nsignal wave_complete\n\nvar _timer: float\n@export var timer_length: float = 30.0\n\nvar tracked_entities: Array[Entity]\nvar total_entities_tracked: int = 0\n@export var threshold_ratio: float = 0.2\n\nadd_entity(e: Entity) -> void:\n\ttotal_entities_tracked += 1\n\ttracked_entities.append(e)\n\non tracked_entities.size() / total_entities_tracked < threshold_ratio:\n\temit wave_complete\n\nset timer\non timer elapse:\n\temit wave_complete\n```\n\n```\nCompletionConditionBoss\n\nsignal wave_complete\n\nvar tracked_entity: Entity\n\nset tracked_entity(e: Entity) -> void:\n\ttracked_entity = e\n\nconnect tracked_entity.died to emit wave_complete\n```",
+			"text":"`WorldGrid.set_cell_by_type(type_name: StringName, world_pos: Vector2)`\n1. retrieve `CellData` from those coordinates\n2. retrieve `CellType` resource that maps to `type_name`\n3. set `CellData.type` = retrieved type\n4. call `WorldGrid.set_cell()`\n5. ",
 			"styleAttributes":{},
-			"x":-5120,
-			"y":7100,
-			"width":520,
-			"height":1620
+			"x":-11170,
+			"y":-1839,
+			"width":540,
+			"height":350
 		},
+		{
+			"id":"1578bc4a7aec6666",
+			"type":"text",
+			"text":"Setting cells from a library of the cells! :DDD\n\nCellData: holds data that is individual to each cell in the world\nCellType: describes one single cell type, including graphics and properties\n\n```gdscript\nextends Resource\nclass_name CellData\n\nvar type: CellType\nvar invisible = false\nvar max_health: float = 0\nvar health: float = 0\n```\n\n```gdscript\nextends Resource\nclass_name CellType\n\nenum TerrainType{GROUND, WALL, GAP, OUT_OF_BOUNDS}\n\n@export var terrain: TerrainType\n# tileset that this celltype points to\n@export var tileset_id: int\n# does this tileset tile or does it pick random textures from the tileset?\n@export var random_tile: bool\n# does this tileset tile with cells that don't own the same tileset_id?\n@export var tile_with_aliens: bool\n\n```\n\nEvery CellType resource file is stored in a `Dictionary[StringName, Resource]` inside a new script called `CellTypeRegistry`.\n\n```gdscript\nextends Node\n# autoload\n\nconst SCAN_PATHS: Array[String] = [\n\t\"res://resources/cell_types/\",\n\t\"user://mods/cell_types/\"\n]\n\nvar registry: Dictionary[StringName, String] = {}\n# StringName -> Resource (populated on first use)\nvar _cache: Dictionary[StringName, Resource] = {}\n\n```\n\nso essentially, it's a big lookup table that captures the basename of the resource file, and sets that as a key to the actual resource file.\n\nthen, the user can simply just call `WorldGrid.set_cell_by_type(type_name: StringName, world_pos: Vector2)` to set a cell to that type.",
+			"styleAttributes":{},
+			"x":-11810,
+			"y":-1959,
+			"width":620,
+			"height":1180
+		},
+		{
+			"id":"6353630d295c213d",
+			"type":"text",
+			"text":"# todo 6/11/2026:\n- [x] portal object to show where an entity is spawning\n- [ ] pickupable tiles (graphical data is transferred)\n- [x] rework anthurium movement and look, place down root tiles\n- [ ] bomb guy that blows up on contact with any entity\n- [ ] fix `ecube_gamma` not blowing everything up (weird bug)\n- [x] tool to help with making sounds\n- [x] tool to help with particle creation\n- [ ] make particle system work for screen space as well as world space\n- [x] system to link up tilemap coordinates to cell properties\n- [x] revisit how the tilemap implementation works, maybe add a dictionary that describes terrain types (look into CellData) (maybe resources that define every themed terrain look/type/property)\n>  There's two different types of tile sources!\n>  TILING: every tile is made of the same material and are visually connected to each other to form a surface\n>  NON-TILING: every tile is a representation of a different object\n- [x] figure out a good way to set up aura and ichor\n- [ ] a death screen / restart run interface\n- [ ] text formatting codes\n- [ ] configure ability descriptions\n- [ ] make ability icons bounce when they are pressed\n- [x] add a CRT filter\n- [ ] add functionality to reorganize and move around HUD elements\n- [ ] make an EntityEffect that casts an ability!\n- [ ] refine lerping camera and make it have a bit of a deadzone tracking the player\n- [ ] make BloomEvents\n- [ ] program in the anthurium brain\n- [ ] add anthurium BloomEvent support\n- [ ] add the bones of the main menu!\n- [x] EntityEffect that spawns another entity\n\n# todo 06/21/2026\n- [ ] z-axis standalone component\n- [x] EntityEffect that shakes the screen\n- [ ] make it so that camera follows random entity when dead\n- [ ] ichor / food / starvation",
+			"styleAttributes":{},
+			"x":-16380,
+			"y":-2180,
+			"width":697,
+			"height":1230
+		},
+		{"id":"682deebbfbe4d1ff","type":"file","file":"assets/Pasted image 20260620124534.png","x":-15640,"y":1015,"width":400,"height":312},
+		{"id":"22d24c7372b648d7","type":"text","text":"\n| Forget-me-not creatures                                                                                                    | Anthurium analog            |\n| -------------------------------------------------------------------------------------------------------------------------- | --------------------------- |\n| Grunt <br>Steps around, attacks nearby creatuers                                                                           | crab guy<br>Bimpy           |\n| Grunto <br>Steps around, occasionally fire a projectile, attacks nearby creatures                                          | crab guy 2<br>Bagabimpy     |\n| Grunta <br>Steps around quickly, rapidly attacks nearby creatures                                                          | crab guy 3<br>Bimporg       |\n| Energycube <br>Constantly moves around erratically, lots of health                                                         | ecube beta                  |\n| Frog <br>Hops around, sometimes long distances                                                                             |                             |\n| Bomb<br>Steps around, sets a timer to detonation when attacked, attacks nearby creatures                                   |                             |\n| Gunner<br>Steps around, shoots projectiles rapidly when creature is in LOS                                                 | crab guy 4<br>Bormose Bimpy |\n| Dungeoncube Alpha<br>Rapidly slides around the map in cardinal directions, kills anything it slides into                   | dcube alpha                 |\n| Dungeoncube Beta<br>Slides around the map in cardinal directions, kills anything it slides into                            | dcube beta                  |\n| Slimer<br>Steps around slowly, attacks nearby creatures, leaves a solid slime trail, dies when unable to make another move |                             |\n| Ghost<br>Steps around, shoots bombs behind it when it steps                                                                |                             |\n| Cloner<br>Grunt AI, duplicates itself when shot by a projectile                                                            |                             |\n| Unstablecube<br>Energycube AI, explodes when killed                                                                        | ecube gamma                 |\n| Bandit<br>Moves constantly quickly, seeks treasure and runs around with it                                                 |                             |\n| Worm<br>Moves constantly, attacks creatures in front of it                                                                 |                             |\n| Pinwheel<br>Moves constantly, is more likely to turn in one direction                                                      |                             |\n| Spider<br>Hops around when nearby other creatures                                                                          |                             |\nseems like the base creature takes a step where it's facing, then decides if it wants to face a different direction.","x":-16120,"y":30,"width":1180,"height":900},
 		{
 			"id":"41d6a9e269437582",
 			"type":"text",
@@ -1836,36 +1866,6 @@
 			"y":-284,
 			"width":420,
 			"height":460
-		},
-		{
-			"id":"c821d79b5330210e",
-			"type":"text",
-			"text":"on stage decrement:\n- particle\n- change animation frame\n- check if last stage (if so, kill this entity)\n\ninteractablecomponent\n- when entity B comes nearby entity A (the owner of interactablecomponent), play subtle flash animation on entity A.\n- prioritize closest entity (not self) for interact target",
-			"styleAttributes":{},
-			"x":-17940,
-			"y":-200,
-			"width":320,
-			"height":420
-		},
-		{
-			"id":"25bbd4faebd5a6b3",
-			"type":"text",
-			"text":"StageController (probably not necessary)\n- component that declares arbitrary stages for an entity\n- no brains alternative to the statemachine?\n\nconsume ability: when held down,\n- sprite is offset an amount towards the direction of the affecting entity\n- sprite shakes\n- every period of time (configurable), the \"item stage\" is decremented",
-			"styleAttributes":{},
-			"x":-18340,
-			"y":-200,
-			"width":360,
-			"height":420
-		},
-		{
-			"id":"7e2ca643bad17bcc",
-			"type":"text",
-			"text":"starvation mechanic\n- when ichor is at 0, the entity will periodically take ticks of damage.\n\ninteract with nearby entity\n- entity A is within proximity of entity B\n- entity A can press their INTERACT button to communicate with entity B's interactable component. \n- this will trigger entity B's configured EntityEffect.",
-			"styleAttributes":{},
-			"x":-18760,
-			"y":-200,
-			"width":400,
-			"height":420
 		}
 	],
 	"edges":[

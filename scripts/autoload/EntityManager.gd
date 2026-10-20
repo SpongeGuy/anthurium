@@ -73,6 +73,8 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, as_player: bool =
 	entity.name = "%s_%d" % [name_base, entity.get_instance_id()]
 	_entity_container.add_child.call_deferred(entity)
 	entity.is_spawned = true
+	if entity.spawn_effect:
+		entity.spawn_effect.execute(entity)
 	entity.entity_spawned.emit.call_deferred()
 	EventBus.entity_spawned.emit.call_deferred(entity)
 
@@ -92,6 +94,18 @@ func simple_spawn_tile(entity_type: StringName, tile: Vector2i, as_player: bool 
 func _on_entity_left_tree(e: Entity) -> void:
 	active_entities.erase(e)
 	EventBus.entity_destroyed.emit(e)
+
+func create_generic_entity() -> Entity:
+	var e: Entity = Entity.new()
+	e.ages = false
+	e.render_shadow = false
+	e.collision_layer = 0
+	e.collision_mask = 0
+	var col: CollisionShape2D = CollisionShape2D.new()
+	col.shape = CircleShape2D.new()
+	col.shape.radius = 1
+	e.add_child(col)
+	return e
 
 
 # ---------------------------------------------------------------------------------------------------

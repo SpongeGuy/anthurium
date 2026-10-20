@@ -56,7 +56,8 @@ func initialize() -> void:
 	
 
 	hurtbox = Hurtbox.new(0.7)
-	hurtbox.create_circular_collision_shape(16)
+	hurtbox.create_circular_collision_shape(8, 8)
+	hurtbox.height = 0.1
 	rotator.add_child(hurtbox)
 	
 	

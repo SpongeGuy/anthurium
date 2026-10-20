@@ -41,6 +41,11 @@ var manager: AbilityManager
 ## The display name shown in the UI.
 var display_name: String = "AbilityName"
 
+func set_metadata(ability_name: String, ability_icon: Texture2D) -> void:
+	display_name = ability_name
+	icon = ability_icon
+	
+
 ## Nodes created at runtime during [method initialize] that belong to this ability.
 ## Populate this in [method initialize] so [method clean_up] can free them when the ability is removed.
 var created_nodes: Array[Node] = []
@@ -124,6 +129,7 @@ func execute() -> void:
 	if not ichor_spend_successful:
 		return
 	_execute()
+	
 	
 
 func _start_cooldown() -> void:

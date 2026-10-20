@@ -31,3 +31,8 @@ func get_transition() -> StringName:
 func play_effect(key: StringName) -> void:
 	if effects.has(key):
 		effects[key].execute(entity)
+
+func try_play_effect(effect: EntityEffect) -> void:
+	if not effect:
+		return
+	effect.execute(entity)

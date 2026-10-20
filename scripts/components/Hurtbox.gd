@@ -1,12 +1,27 @@
 extends Area2D
 class_name Hurtbox
 
+# projectile: a singular travelling instance of damage
+# melee: usually close-range damage
+# force: things like explosions, magic, or environmental damage
+# contact: contact damage with an entity or damaging tile
+# self: self-inflicted damage
+enum DamageType{GENERIC, PROJECTILE, MELEE, FORCE, CONTACT, SELF}
+
+enum BehaviorType{ DEFAULT, BLINKING, CONSTANT }
+
 var entity: Entity
 @export var damage: float
-@export var constant_hurtbox: bool = false
 @export var can_hurt_self: bool = false
 @export var collision_shape: CollisionShape2D
-@export var type: DamageType
+@export var behavior_type: BehaviorType = BehaviorType.DEFAULT
+@export var damage_type: DamageType
+@export var register_to_entity_z: bool = false
+
+var persistence: float = -1
+signal persistence_elapsed
+
+@export var blink_timer: float = 1
 
 ## Height offset of this hurtbox's damage volume from the owning entity's
 ## current [member Entity.z] (its base). 0 means the volume starts at the
@@ -20,25 +35,34 @@ var entity: Entity
 ## soaring fireball.
 @export var height: float = 2.0
 
-# projectile: a singular travelling instance of damage
-# melee: usually close-range damage
-# force: things like explosions, magic, or environmental damage
-# contact: contact damage with an entity or damaging tile
-# self: self-inflicted damage
-enum DamageType{GENERIC, PROJECTILE, MELEE, FORCE, CONTACT, SELF}
+
 
 var tween: Tween
 
 signal activated
 
-func initialize() -> void:
-	if not collision_shape:
+func set_behavior_type(type: BehaviorType) -> void:
+	behavior_type = type
+	match behavior_type:
+		BehaviorType.DEFAULT:
+			collision_shape.disabled = true
+		BehaviorType.BLINKING:
+			pass
+		BehaviorType.CONSTANT:
+			collision_shape.disabled = false
+	
+
+func _process(delta: float) -> void:
+	tick_persistence(delta)
+	
+
+func tick_persistence(delta: float) -> void:
+	if persistence < 0.0:
 		return
-	if constant_hurtbox:
-		set_active(true)
-	else:
-		set_active(false)
-		
+	persistence -= delta
+	if persistence <= 0.0:
+		persistence_elapsed.emit()
+	
 
 func _ready() -> void:
 	name = "Hurtbox"
@@ -46,18 +70,26 @@ func _ready() -> void:
 	collision_layer |= 7
 	collision_mask |= 6
 	entity = Entity.find_entity(self)
-	initialize()
+	if collision_shape:
+		set_behavior_type(behavior_type)
+	
+	
+	if register_to_entity_z:
+		entity.register_z_node(self)
 	
 ## creates and adds a collision shape to the hurtbox.
 ## useful when programmatically creating new hurtboxes, like in [Ability].
 func create_circular_collision_shape(r: float, offset: float = 0.0) -> void:
+	if collision_shape:
+		collision_shape.queue_free()
 	var collision: CollisionShape2D = CollisionShape2D.new()
 	collision.shape = CircleShape2D.new()
 	collision.shape.radius = r
 	collision.position.x = offset
 	add_child(collision)
 	collision_shape = collision
-	initialize()
+	set_behavior_type(behavior_type)
+	
 
 func _init(hurtbox_damage: float = 1.0) -> void:
 	damage = hurtbox_damage

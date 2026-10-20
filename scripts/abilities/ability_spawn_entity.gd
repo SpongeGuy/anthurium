@@ -22,8 +22,11 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 func _execute() -> void:
 	if spawn_effect:
 		spawn_effect.execute(entity)
-	var new_e: Entity = EntityManager.spawn(entity_name, entity.position, false, entity.z)
+	var new_e: Entity = EntityManager.simple_spawn(entity_name, entity.position, false, false)
+	new_e.add_friend(entity)
+	new_e.owned
 	await new_e.entity_initialized
+	
 	if ichor_component:
 		var their_ichor: IchorComponent = new_e.get_component(IchorComponent)
 		if their_ichor:

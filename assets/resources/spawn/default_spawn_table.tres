@@ -10,7 +10,7 @@ metadata/_custom_type_script = "uid://23ijowfbopw6"
 
 [sub_resource type="Resource" id="Resource_8rlmo"]
 script = ExtResource("1_u7uy8")
-entity_type = &"splitmaw"
+entity_type = &"splitshroom"
 metadata/_custom_type_script = "uid://23ijowfbopw6"
 
 [sub_resource type="Resource" id="Resource_2sts4"]
@@ -35,10 +35,9 @@ metadata/_custom_type_script = "uid://23ijowfbopw6"
 
 [sub_resource type="Resource" id="Resource_irmgs"]
 script = ExtResource("1_u7uy8")
-entity_type = &"blargle"
+entity_type = &"drooler"
 metadata/_custom_type_script = "uid://23ijowfbopw6"
 
 [resource]
 script = ExtResource("3_yc1eg")
 entries = Array[ExtResource("1_u7uy8")]([SubResource("Resource_4p43q"), SubResource("Resource_8rlmo"), SubResource("Resource_2sts4"), SubResource("Resource_vuu5x"), SubResource("Resource_5n25l"), SubResource("Resource_7lyeb"), SubResource("Resource_irmgs")])
-metadata/_custom_type_script = "uid://b87obst8wpc54"

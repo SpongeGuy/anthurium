@@ -1,10 +1,7 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="5_272bh"]
-[ext_resource type="Shader" uid="uid://bdtihxlqy06si" path="res://assets/resources/shaders/scrolling_rainbow.gdshader" id="6_4c57u"]
 [ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="6_7mycd"]
-[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/resources/themes/debug.tres" id="10_w48qg"]
-[ext_resource type="Script" uid="uid://dkp5njvq1t3o" path="res://scripts/classes/ui/DebugUIHelper.gd" id="10_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
@@ -31,22 +28,6 @@ shader_parameter/min_scanline_thickness = 0.5
 shader_parameter/aspect = 0.562000002945
 shader_parameter/wobble_strength = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yaehf"]
-shader = ExtResource("6_4c57u")
-shader_parameter/scale = 2.1950001010026203
-shader_parameter/speed = 1.0
-shader_parameter/saturation = 0.2950000140125
-shader_parameter/value = 1.0
-shader_parameter/use_uv_x = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dg77c"]
-shader = ExtResource("6_4c57u")
-shader_parameter/scale = 25.00000118424012
-shader_parameter/speed = 5.0
-shader_parameter/saturation = 1.0
-shader_parameter/value = 1.0
-shader_parameter/use_uv_x = true
-
 [node name="Main" type="Node" unique_id=1100438637]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1388609310]
@@ -71,96 +52,6 @@ layer = 100
 [node name="UI_Layer" type="CanvasLayer" parent="SubViewportContainer/MainViewport" unique_id=2071487813]
 process_mode = 3
 layer = 5
-
-[node name="DebugHelper" type="Node2D" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=780434413 node_paths=PackedStringArray("vbox", "title", "l1", "l2", "l3", "l4", "selected_vbox", "selected_title", "selected_l1", "selected_l2", "selected_l3", "selected_l4")]
-script = ExtResource("10_ycdy4")
-show = true
-vbox = NodePath("../UI_Debug/VBoxContainer")
-title = NodePath("../UI_Debug/VBoxContainer/title")
-l1 = NodePath("../UI_Debug/VBoxContainer/Label")
-l2 = NodePath("../UI_Debug/VBoxContainer/Label2")
-l3 = NodePath("../UI_Debug/VBoxContainer/Label3")
-l4 = NodePath("../UI_Debug/VBoxContainer/Label4")
-selected_vbox = NodePath("../UI_Debug2/VBoxContainer")
-selected_title = NodePath("../UI_Debug2/VBoxContainer/title")
-selected_l1 = NodePath("../UI_Debug2/VBoxContainer/Label")
-selected_l2 = NodePath("../UI_Debug2/VBoxContainer/Label2")
-selected_l3 = NodePath("../UI_Debug2/VBoxContainer/Label3")
-selected_l4 = NodePath("../UI_Debug2/VBoxContainer/Label4")
-
-[node name="UI_Debug" type="Control" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=436922413]
-modulate = Color(1, 1, 1, 0.7764706)
-material = SubResource("ShaderMaterial_yaehf")
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme = ExtResource("10_w48qg")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug" unique_id=912685774]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="title" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=1967289439]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=1551783464]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=529828005]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label3" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=463304919]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label4" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug/VBoxContainer" unique_id=311188411]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="UI_Debug2" type="Control" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1557470030]
-modulate = Color(1, 1, 1, 0.7764706)
-material = SubResource("ShaderMaterial_yaehf")
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
-theme = ExtResource("10_w48qg")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2" unique_id=1335475122]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="title" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=1989361115]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=22280153]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=1197501733]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label3" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=324311140]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
-
-[node name="Label4" type="Label" parent="SubViewportContainer/MainViewport/UI_Layer/UI_Debug2/VBoxContainer" unique_id=2137113817]
-material = SubResource("ShaderMaterial_dg77c")
-layout_mode = 2
 
 [node name="UI_Screen" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1606049138 instance=ExtResource("5_272bh")]
 anchors_preset = 15

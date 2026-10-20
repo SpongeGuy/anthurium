@@ -44,33 +44,27 @@ func _reevaluate_periodically(delta: float) -> void:
 func _reevaluate_priorities() -> void:
 	var best_lobe: BrainLobe = null
 	var best_score: float = -INF
+	var current_score: float = -INF
 	for lobe in lobes:
 		var score: float = lobe.get_priority(entity)
+		if lobe == current_lobe:
+			score -= boredom_values.get(lobe, 0.0)
+			current_score = score
 		if score > best_score:
 			best_score = score
 			best_lobe = lobe
-			
 	if not best_lobe:
 		return
 	
-	var target: StringName = best_lobe.state_name
-	current_lobe = _lobe_by_name(top_machine.current_name)
-	if not boredom_values.has(current_lobe):
-		boredom_values[current_lobe] = 0.0
-	if target == top_machine.current_name:
-		var effectivity: float = current_lobe.boredom_effectivity if current_lobe else 1.0
-		boredom_values[current_lobe] += _effective_boredom_growth() * effectivity * reevaluation_interval
+	if best_lobe == current_lobe:
+		boredom_values[current_lobe] = boredom_values.get(current_lobe, 0.0) + _effective_boredom_growth() * current_lobe.boredom_effectivity * reevaluation_interval
 		return
-	
-	# hysteresis: only interrupt current goal if new one clearly wins
-	# so priorities don't flap on noisy scores near a tie
-	var current_score: float = _score_of(top_machine.current_name) - boredom_values.get(current_lobe)
 	if best_score - current_score < switch_priority_margin:
-		return
+		return	
 	
 	if current_lobe:
 		current_lobe.on_disengage(entity, self)
-	top_machine.transition_to(target)
+	top_machine.transition_to(best_lobe.state_name)
 
 func _lobe_by_name(state_name: StringName) -> BrainLobe:
 	for lobe in lobes:

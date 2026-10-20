@@ -44,6 +44,8 @@ func _find_nearest_threat(entity: Entity) -> Entity:
 	
 	var candidates: Array[Entity] = []
 	for e in nearby:
+		if e == entity:
+			continue
 		# don't count entity of the same species
 		if (e.basename == entity.basename and not count_same_species) and threat_exceptions["same_species"] == true:
 			continue
