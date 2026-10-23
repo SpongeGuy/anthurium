@@ -32,7 +32,6 @@ func _on_entity_spawned() -> void:
 		if child is Ability:
 			_register_ability_to_first_slot(child)
 			
-	print("hi")
 
 
 

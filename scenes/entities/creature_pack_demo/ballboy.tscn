@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://co23f0s30cdv7"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_dganx"]
+[ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="2_bk7p2"]
+[ext_resource type="PackedScene" uid="uid://britq7hc1nr0f" path="res://scenes/systems/health_and_ichor_package.tscn" id="2_ik1kk"]
+[ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="3_bk7p2"]
+[ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="4_6d7ti"]
+[ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="5_hfipn"]
+[ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="6_kpskn"]
+[ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="7_15d2j"]
+[ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="8_mb62q"]
+[ext_resource type="Script" uid="uid://bmipqa5sa8rwt" path="res://scripts/components/LocomotionHandler.gd" id="9_8eov1"]
+[ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="10_3p446"]
+[ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="11_wrxcb"]
+[ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="12_jbuco"]
+[ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="13_a7cav"]
+[ext_resource type="Script" uid="uid://cw37lvtvfj1fl" path="res://scripts/abilities/AbilityActivateHitboxAtSpeed.gd" id="14_6d7ti"]
+[ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="14_st7i0"]
+[ext_resource type="Texture2D" uid="uid://yeqhlaoc0kin" path="res://assets/textures/characters/ballboy.png" id="15_kol6x"]
+[ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="16_ik1kk"]
+
+[sub_resource type="Resource" id="Resource_ik1kk"]
+script = ExtResource("2_bk7p2")
+metadata/_custom_type_script = "uid://dfvnbi3cahln7"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p3cok"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_stjce"]
+radius = 4.0
+
+[node name="BallBoy" type="CharacterBody2D" unique_id=1837893033 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_dganx")
+display_name = "Ball Boy"
+visual = NodePath("Sprite2D")
+archetype = SubResource("Resource_ik1kk")
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=138228481]
+position = Vector2(0, -7)
+texture = ExtResource("15_kol6x")
+
+[node name="HealthPackage" parent="." unique_id=435903770 instance=ExtResource("2_ik1kk")]
+
+[node name="HealthComponent" parent="HealthPackage" index="0" unique_id=879424821 node_paths=PackedStringArray("hitbox", "ichor")]
+script = ExtResource("3_bk7p2")
+max_health = 10.0
+health = 10.0
+hitbox = NodePath("../../Hitbox")
+ichor = NodePath("../IchorComponent")
+
+[node name="IchorComponent" parent="HealthPackage" index="1" unique_id=1251577121]
+script = ExtResource("4_6d7ti")
+
+[node name="DamageAnimationComponent" parent="HealthPackage" index="2" unique_id=873897815 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("5_hfipn")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../Sprite2D")
+
+[node name="BehaviorPackage" parent="." unique_id=543663287 instance=ExtResource("6_kpskn")]
+
+[node name="Brain" parent="BehaviorPackage" index="0" unique_id=619245698]
+script = ExtResource("7_15d2j")
+
+[node name="PhysicsComponent" parent="BehaviorPackage" index="1" unique_id=908570387 node_paths=PackedStringArray("locomotion")]
+script = ExtResource("8_mb62q")
+restitution = 0.9
+locomotion = NodePath("../LocomotionHandler")
+
+[node name="LocomotionHandler" parent="BehaviorPackage" index="2" unique_id=2002083260 node_paths=PackedStringArray("navigation", "facing", "input", "brain")]
+script = ExtResource("9_8eov1")
+navigation = NodePath("../../NavigationHelper")
+facing = NodePath("../FacingComponent")
+input = NodePath("../InputComponent")
+brain = NodePath("../Brain")
+
+[node name="FacingComponent" parent="BehaviorPackage" index="3" unique_id=672545623]
+script = ExtResource("10_3p446")
+
+[node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
+script = ExtResource("11_wrxcb")
+ichor_component = NodePath("../../HealthPackage/IchorComponent")
+input = NodePath("../InputComponent")
+
+[node name="AbilityActivateHitboxAtSpeed" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=1395317386]
+script = ExtResource("14_6d7ti")
+metadata/_custom_type_script = "uid://cw37lvtvfj1fl"
+
+[node name="InputComponent" parent="BehaviorPackage" index="5" unique_id=1369484501]
+script = ExtResource("12_jbuco")
+
+[node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("collision_shape", "physics") instance=ExtResource("13_a7cav")]
+position = Vector2(0, -7)
+script = ExtResource("14_st7i0")
+collision_shape = NodePath("CollisionShape2D")
+physics = NodePath("../BehaviorPackage/PhysicsComponent")
+damage_response = null
+knockback_force = 1000.0
+z_offset = null
+height = null
+ignore_height = null
+metadata/_custom_type_script = "uid://dk6vro3btpxyj"
+
+[node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
+shape = SubResource("CircleShape2D_p3cok")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=282819187]
+position = Vector2(0, -2)
+shape = SubResource("CircleShape2D_stjce")
+
+[node name="NavigationHelper" type="Node" parent="." unique_id=651088574 node_paths=PackedStringArray("navigation")]
+script = ExtResource("16_ik1kk")
+navigation = NodePath("../NavigationAgent2D")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=503844243]
+
+[editable path="HealthPackage"]
+[editable path="BehaviorPackage"]
+[editable path="Hitbox"]

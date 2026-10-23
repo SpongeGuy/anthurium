@@ -135,6 +135,12 @@ func execute() -> void:
 func _start_cooldown() -> void:
 	_cd = cooldown
 
+func is_on_cooldown() -> bool:
+	return _cd > 0.0
+
+func get_cooldown_remaining() -> float:
+	return _cd
+
 ## The internal execution logic. Override this in subclasses to define what the ability does.
 ## Only called by [method execute] after cooldown and disabled checks pass.
 func _execute() -> void:

@@ -38,6 +38,11 @@ script = ExtResource("1_u7uy8")
 entity_type = &"drooler"
 metadata/_custom_type_script = "uid://23ijowfbopw6"
 
+[sub_resource type="Resource" id="Resource_ik1kk"]
+script = ExtResource("1_u7uy8")
+entity_type = &"ballboy"
+metadata/_custom_type_script = "uid://23ijowfbopw6"
+
 [resource]
 script = ExtResource("3_yc1eg")
-entries = Array[ExtResource("1_u7uy8")]([SubResource("Resource_4p43q"), SubResource("Resource_8rlmo"), SubResource("Resource_2sts4"), SubResource("Resource_vuu5x"), SubResource("Resource_5n25l"), SubResource("Resource_7lyeb"), SubResource("Resource_irmgs")])
+entries = Array[ExtResource("1_u7uy8")]([SubResource("Resource_4p43q"), SubResource("Resource_8rlmo"), SubResource("Resource_2sts4"), SubResource("Resource_vuu5x"), SubResource("Resource_5n25l"), SubResource("Resource_7lyeb"), SubResource("Resource_irmgs"), SubResource("Resource_ik1kk")])

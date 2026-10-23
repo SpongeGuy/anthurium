@@ -19,7 +19,6 @@
 [ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/brain/states/deprecated/simple/blank_state.gd" id="16_qvp6n"]
 [ext_resource type="Script" uid="uid://jrg503l8awgj" path="res://scripts/components/deprecated/proximity_detector.gd" id="17_rt8mq"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="18_fvtcv"]
-[ext_resource type="Script" path="res://scripts/components/friend_component.gd" id="19_82nbp"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="21_lm12l"]
 [ext_resource type="Script" uid="uid://bfk2v7v3dct6k" path="res://scripts/components/deprecated/obstruction_detector.gd" id="22_xa547"]
 [ext_resource type="Script" uid="uid://ibgyf864g08i" path="res://scripts/components/deprecated/manual_state_switcher.gd" id="23_l5amt"]
@@ -191,12 +190,10 @@ metadata/_custom_type_script = "uid://d4dkusgurvri8"
 position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_vh157")
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape", "friends", "knockback")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=696979438 node_paths=PackedStringArray("collision_shape")]
 visible = false
 script = ExtResource("14_83mm5")
 collision_shape = NodePath("CollisionShape2D")
-friends = NodePath("../Bullshit/FriendComponent")
-knockback = NodePath("../Movement/KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1756906287]
@@ -213,7 +210,6 @@ collision_mask = 65
 metadata/_custom_type_script = "uid://jrg503l8awgj"
 
 [node name="FriendComponent" type="Node" parent="Bullshit" unique_id=1196642861]
-script = ExtResource("19_82nbp")
 metadata/_custom_type_script = "uid://b06wram7ecjpl"
 
 [node name="NavigationHelper" type="Node" parent="Bullshit" unique_id=506310323 node_paths=PackedStringArray("navigation")]
@@ -230,8 +226,6 @@ metadata/_custom_type_script = "uid://bfk2v7v3dct6k"
 
 [node name="HealthComponent" type="Node" parent="Bullshit/Healthstuff" unique_id=1091304538 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("18_fvtcv")
-max_health = 5.0
-health = 5.0
 hitbox = NodePath("../../../Hitbox")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
@@ -287,7 +281,6 @@ metadata/_custom_type_script = "uid://bbr47xrtnv1ac"
 
 [node name="StepLocomotionHandler" type="Node" parent="Movement" unique_id=447542053 node_paths=PackedStringArray("input")]
 script = ExtResource("3_bld4x")
-step_delay = 1.25
 input = NodePath("../../Behavior/InputComponent")
 metadata/_custom_type_script = "uid://bxsrgbr0uwisl"
 

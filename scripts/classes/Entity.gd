@@ -359,8 +359,6 @@ func _apply_z_offset() -> void:
 	if visual:
 		visual.offset.y = offset
 	for node in _z_tracked_nodes.keys():
-		if basename == "water_projectile":
-			print(node.position.y)
 		if is_instance_valid(node):
 			node.position.y = _z_tracked_nodes[node] + offset
 		else:

@@ -115,9 +115,6 @@ locomotion = NodePath("../LocomotionHandler")
 input = NodePath("../InputComponent")
 profile = SubResource("Resource_uyvcu")
 
-[node name="FacingComponent" parent="BehaviorPackage" index="3" unique_id=672545623]
-debug_draw_facing = true
-
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
@@ -127,6 +124,17 @@ script = ExtResource("15_4sk5e")
 metadata/_custom_type_script = "uid://da417qi4wy7f"
 
 [node name="Hitbox" parent="." unique_id=530098828 instance=ExtResource("16_ejhln")]
+damage_response = Dictionary[int, int]({
+0: 0,
+1: 0,
+2: 0,
+3: 0,
+4: 0,
+5: 0
+})
+z_offset = 0.0
+height = 1.0
+ignore_height = false
 
 [node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
 position = Vector2(1, -7)

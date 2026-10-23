@@ -11,7 +11,9 @@ func _on_registered() -> void:
 	_memory_data.resize(Memory.size())
 	_randomize_personality(RunRng.get_stream(&"personality"))
 	for lobe in lobes:
-		top_machine.add_state(lobe.state_name, lobe.blueprint.instantiate(entity, self))
+		var state: BrainState = lobe.blueprint.instantiate(entity, self)
+		state.lobe = lobe
+		top_machine.add_state(lobe.state_name, state)
 
 
 func _physics_process(delta: float) -> void:
@@ -19,6 +21,9 @@ func _physics_process(delta: float) -> void:
 	_reevaluate_periodically(delta)
 	top_machine.physics_process(delta)
 	_tick_decrement_boredom_values(delta)
+	_tick_lobe_cooldowns(delta)
+
+
 
 # -------------------------------------------------------------------------------------
 # brain -> lobe function
@@ -26,12 +31,13 @@ func _physics_process(delta: float) -> void:
 @export var lobes: Array[BrainLobe] = []
 var top_machine: BrainStateMachine = BrainStateMachine.new()
 var boredom_values: Dictionary[BrainLobe, float] = {}
+var lobe_cooldowns: Dictionary[BrainLobe, float] = {}
 var current_lobe: BrainLobe
 
 @export var reevaluation_interval: float = 0.5
 @export var switch_priority_margin: float = 0.025 # hysteria (see below)
-@export var boredom_growth_rate: float = 0.15
-@export var boredom_decay_rate: float = 0.4
+@export var boredom_growth_rate: float = 0.1
+@export var boredom_decay_rate: float = 0.1
 var _reeval_timer: float = 0.0
 
 func _reevaluate_periodically(delta: float) -> void:
@@ -47,6 +53,8 @@ func _reevaluate_priorities() -> void:
 	var current_score: float = -INF
 	for lobe in lobes:
 		var score: float = lobe.get_priority(entity)
+		if is_lobe_on_cooldown(lobe):
+			continue
 		if lobe == current_lobe:
 			score -= boredom_values.get(lobe, 0.0)
 			current_score = score
@@ -65,6 +73,7 @@ func _reevaluate_priorities() -> void:
 	if current_lobe:
 		current_lobe.on_disengage(entity, self)
 	top_machine.transition_to(best_lobe.state_name)
+	current_lobe = best_lobe
 
 func _lobe_by_name(state_name: StringName) -> BrainLobe:
 	for lobe in lobes:
@@ -78,6 +87,9 @@ func _score_of(state_name: StringName) -> float:
 			return lobe.get_priority(entity)
 	return -INF
 
+# ----------------- BOREDOM -----------------------------------------------------------------
+# boredom is accumulated when a lobe is active, the rate of which depending on the lobe's boredom_effectivity
+
 func _effective_boredom_growth() -> float:
 	# aggressive creatures stay locked on longer, nervous ones break off sooner
 	var aggression: float = get_personality_value(PERSONALITY.AGGRESSION)
@@ -89,6 +101,26 @@ func _tick_decrement_boredom_values(delta: float) -> void:
 		if lobe == current_lobe:
 			continue
 		boredom_values[lobe] = maxf(0.0, boredom_values[lobe] - delta * (boredom_decay_rate))
+	
+# ----------------------- COOLDOWN ------------------------------------------------------
+# cooldowns are gained in special cases. states can call cooldown_lobe to put the lobe it is under on cooldown
+
+func set_lobe_cooldown(lobe: BrainLobe, seconds: float, reevaluate_now: bool = true) -> void:
+	var was_on_cooldown: bool = is_lobe_on_cooldown(lobe)
+	lobe_cooldowns[lobe] = maxf(seconds, lobe_cooldowns.get(lobe, 0.0))
+	if reevaluate_now and not was_on_cooldown:
+		_reeval_timer = 0.0
+
+func is_lobe_on_cooldown(lobe: BrainLobe) -> bool:
+	return lobe_cooldowns.get(lobe, 0.0) > 0.0
+
+func _tick_lobe_cooldowns(delta: float)  -> void:
+	for lobe in lobe_cooldowns.keys():
+		var left: float = lobe_cooldowns[lobe] - delta
+		if left <= 0.0:
+			lobe_cooldowns.erase(lobe)
+		else:
+			lobe_cooldowns[lobe] = left
 
 # --------------------------------------------------------------------------------------
 # personality

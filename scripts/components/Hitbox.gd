@@ -12,7 +12,7 @@ var entity: Entity
 	Hurtbox.DamageType.CONTACT: DamageResponses.DAMAGE,
 	Hurtbox.DamageType.SELF: DamageResponses.DAMAGE,
 }
-var knockback_force: float = 100
+@export var knockback_force: float = 100
 enum DamageResponses{DAMAGE, REFLECT, ABSORB, IGNORE, REDIRECT}
 
 ## Height offset of this hitbox's damage volume from the owning entity's
@@ -68,6 +68,6 @@ func _on_hurtbox_contact(area: Area2D) -> void:
 	if not _hits_by_height(hurtbox):
 		return
 	if physics:
-		physics.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force)
+		physics.apply_knockback(hurtbox.entity.global_position, hurtbox.damage * knockback_force * hurtbox.knockback_multiplier)
 	hit_received.emit(hurtbox.damage, hurtbox.entity)
 	EventBus.behavior_stimulus_event.emit(GameEvent.Stimulus.DAMAGE_TAKEN, {"damage": hurtbox.damage, "target": entity})

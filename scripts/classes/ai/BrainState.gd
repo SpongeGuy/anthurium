@@ -8,6 +8,7 @@ class_name BrainState
 var entity: Entity
 var brain: Brain
 var effects: Dictionary[StringName, EntityEffect] = {}
+var lobe: BrainLobe
 
 func _init(e: Entity, b: Brain) -> void:
 	entity = e
@@ -31,6 +32,10 @@ func get_transition() -> StringName:
 func play_effect(key: StringName) -> void:
 	if effects.has(key):
 		effects[key].execute(entity)
+	
+func cooldown_lobe(seconds: float) -> void:
+	if lobe:
+		brain.set_lobe_cooldown(lobe, seconds)
 
 func try_play_effect(effect: EntityEffect) -> void:
 	if not effect:

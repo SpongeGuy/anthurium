@@ -9,8 +9,8 @@ enum Mode{ DEFAULT, OCCASIONALLY_EFFECT, SEEKING_FOOD, SWITCH_WHEN_HURT, SWITCH_
 
 @export var timer_duration: float = 1
 
-func _init() -> void:
-	# set state_script to the corresponding state script here!
+
+func instantiate(entity: Entity, brain: Brain) -> BrainState:
 	match mode:
 		Mode.DEFAULT:
 			state_script = StatePathfindWander
@@ -22,6 +22,7 @@ func _init() -> void:
 			state_script = StatePathfindWanderUntilHurt
 		Mode.SWITCH_AFTER_TIMER:
 			state_script = StatePathfindWanderThenSwitch
+	return super(entity, brain)
 
 # set state's values to the exported values here
 func _configure(state: BrainState) -> void:

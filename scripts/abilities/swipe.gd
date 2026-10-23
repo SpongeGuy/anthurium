@@ -18,7 +18,6 @@ var swipe_texture: Texture = preload("res://assets/textures/misc/swice.png")
 var swipe_sound: VoiceProfile = preload("res://assets/resources/voices/swipe.tres")
 
 func initialize() -> void:
-	print("initialized animatoer")
 	display_name = "Swipe"
 	icon = icon_texture
 	locomotion = entity.get_component(LocomotionHandler)
@@ -56,7 +55,7 @@ func initialize() -> void:
 	
 
 	hurtbox = Hurtbox.new(0.7)
-	hurtbox.create_circular_collision_shape(8, 8)
+	hurtbox.create_circular_collision_shape(8, 12)
 	hurtbox.height = 0.1
 	rotator.add_child(hurtbox)
 	

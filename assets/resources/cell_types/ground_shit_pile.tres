@@ -5,5 +5,6 @@
 [resource]
 script = ExtResource("1_hnmvx")
 tileset_id = 2
+tile_with_aliens = true
 height = 0.0
 metadata/_custom_type_script = "uid://qoy5j717o0ok"

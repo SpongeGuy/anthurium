@@ -6,6 +6,7 @@ class_name NavigationHelper
 # --------------------------------------------
 
 @export var navigation: NavigationAgent2D
+@export var arrive_distance: float = 4.0
 
 signal picked_new_nav_point(target_position: Vector2i)
 signal navigation_finished
@@ -22,8 +23,13 @@ var disabled: bool = false
 # --------------------------------------------------------------------------------------------
 
 func _ready() -> void:
-	navigation.target_reached.connect(_on_target_reached)
-	navigation.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_EDGECENTERED
+	#navigation.target_reached.connect(_on_target_reached)
+	navigation.path_postprocessing = NavigationPathQueryParameters2D.PATH_POSTPROCESSING_CORRIDORFUNNEL
+	#navigation.path_desired_distance = 4
+	#navigation.target_desired_distance = 25
+
+func _arrival_radius() -> float:
+	return maxf(arrive_distance, navigation.target_desired_distance)
 
 func stop_navigation() -> void:
 	navigation.set_target_position(entity.global_position)
@@ -67,10 +73,34 @@ func get_next_path_position() -> Vector2:
 func get_next_path_direction() -> Vector2:
 	var direction: Vector2 = (navigation.get_next_path_position() - entity.global_position).normalized()
 	return direction
+	
+func has_arrived() -> bool:
+	if not has_target:
+		return true
+	var pos: Vector2 = entity.global_position
+	var r: float = _arrival_radius()
+	if pos.distance_to(navigation.target_position) <= r:
+		return true
+	return navigation.is_navigation_finished() and pos.distance_to(navigation.get_final_position()) <= r
+
+
+func is_navigating() -> bool:
+	if has_target and has_arrived():
+		_finish()
+	return has_target
+
+func _finish() -> void:
+	if not has_target:
+		return
+	has_target = false
+	navigation_finished.emit()
+
+func is_target_reachable() -> bool:
+	return navigation.is_target_reachable()
+
+func get_final_position() -> Vector2:
+	return navigation.get_final_position()
 
 func _on_target_reached() -> void:
 	navigation_finished.emit()
 	has_target = false
-
-func is_navigating() -> bool:
-	return has_target and not navigation.is_target_reached()

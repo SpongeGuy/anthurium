@@ -27,6 +27,7 @@ func enter() -> void:
 	input = entity.get_component(InputComponent)
 	locomotion = entity.get_component(LocomotionHandler)
 	facing = entity.get_component(FacingComponent)
+	ability_manager = entity.get_component(AbilityManager)
 	
 	if navigation.is_navigating():
 		navigation.stop_navigation()
@@ -50,6 +51,12 @@ func physics_process(delta: float) -> void:
 		
 func _handle_ai_behavior(delta: float) -> void:
 	facing.set_direction_angle(SpatialUtil.get_angle_between_entities(entity, target))
+	
+	var ability: Ability = ability_manager.get_ability(ability_to_use)
+	if ability == null or ability.is_on_cooldown():
+		cooldown_lobe(ability.get_cooldown_remaining() if ability else 5.0)
+		return
+	
 	_timer -= delta
 	if _timer <= 0.0:
 		try_play_effect(attack_effect)

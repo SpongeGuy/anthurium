@@ -41,8 +41,7 @@ metadata/_custom_type_script = "uid://3rahci53su3r"
 
 [sub_resource type="Resource" id="Resource_5vwnp"]
 script = ExtResource("8_fdski")
-mode = 3
-min_wander_radius = 100.0
+mode = 4
 timer_duration = 5.0
 effects = Dictionary[StringName, ExtResource("8_lfti0")]({
 &"on_enter": SubResource("Resource_r6k1o")
@@ -62,7 +61,7 @@ metadata/_custom_type_script = "uid://clbof20js1smo"
 [sub_resource type="Resource" id="Resource_iddnd"]
 script = ExtResource("10_r6k1o")
 entry_child = &"walk"
-child_names = Array[StringName]([&"walk", &"on_hurt", &"switch"])
+child_names = Array[StringName]([&"walk", &"was_hurt", &"switch"])
 child_states = Array[ExtResource("7_4vcgw")]([SubResource("Resource_2pc5x"), SubResource("Resource_5vwnp"), SubResource("Resource_o5u2p")])
 metadata/_custom_type_script = "uid://bcrii7x5jinec"
 
@@ -82,6 +81,8 @@ size = Vector2(8, 10)
 
 [node name="Bombo" type="CharacterBody2D" unique_id=442340313 node_paths=PackedStringArray("visual")]
 texture_filter = 1
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_fdski")
 display_name = "Bombo"
 visual = NodePath("Sprite2D")
@@ -141,6 +142,17 @@ script = ExtResource("13_35noe")
 navigation = NodePath("../NavigationAgent2D")
 
 [node name="Hitbox" parent="." unique_id=530098828 instance=ExtResource("14_uwg5e")]
+damage_response = Dictionary[int, int]({
+0: 0,
+1: 0,
+2: 0,
+3: 0,
+4: 0,
+5: 0
+})
+z_offset = 0.0
+height = 1.0
+ignore_height = false
 
 [node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
 position = Vector2(0, -7)

@@ -541,20 +541,20 @@ func _lobe_lines(brain: Brain, entity: Entity) -> PackedStringArray:
 	for lobe in brain.lobes:
 		var raw: float = lobe.get_priority(entity)
 		var bored: float = brain.boredom_values.get(lobe, 0.0)
+		var cd: float = brain.lobe_cooldowns.get(lobe, 0.0)
 		var is_active: bool = lobe.state_name == active_name
-		# Brain only subtracts boredom from the active lobe when deciding whether to switch.
-		var effective: float = raw - bored if is_active else raw
+		var effective: float = -INF if cd > 0.0 else raw - bored if is_active else raw   # same as Brain after the boredom fix
 		if is_active:
 			active_effective = effective
-		rows.append({"name": lobe.state_name, "raw": raw, "bored": bored, "effective": effective, "active": is_active})
+		rows.append({"name": lobe.state_name, "raw": raw, "bored": bored, "cd": cd, "effective": effective, "active": is_active})
 
 	rows.sort_custom(func(a, b): return a["effective"] > b["effective"])
 
 	var out := PackedStringArray()
 	var best_challenger: float = -INF
 	for row in rows:
-		if row["active"]:
-			out.append("  %s: %.3f - %.3f bored = %.3f  <-- active" % [row["name"], row["raw"], row["bored"], row["effective"]])
+		if row["cd"] > 0.0:
+			out.append("  %s: %.3f  [COOLDOWN %.1fs, ignored]%s" % [row["name"], row["raw"], row["cd"], "  <-- active (will be dropped)" if row["active"] else ""])
 		else:
 			best_challenger = maxf(best_challenger, row["effective"])
 			var tail: String = "  (bored %.3f)" % row["bored"] if row["bored"] > 0.0005 else ""

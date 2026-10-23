@@ -60,9 +60,16 @@ script = ExtResource("12_47chc")
 radius = 28.0
 count_same_species = true
 detection_type = 1
+threat_exceptions = {
+"has_LOS": true,
+"has_brain": true,
+"isnt_passive": false,
+"same_species": false,
+"weigh_less": false
+}
 state_name = &"attack"
 blueprint = SubResource("Resource_c7nay")
-boredom_effectivity = 5.0
+boredom_effectivity = 1.0
 metadata/_custom_type_script = "uid://b3nsolua7qeea"
 
 [sub_resource type="Resource" id="Resource_lkpdy"]
@@ -132,6 +139,17 @@ metadata/_custom_type_script = "uid://ysc88eihci7p"
 
 [node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("physics") instance=ExtResource("15_d7j76")]
 physics = NodePath("../BehaviorPackage/PhysicsComponent")
+damage_response = Dictionary[int, int]({
+0: 0,
+1: 0,
+2: 0,
+3: 0,
+4: 0,
+5: 0
+})
+z_offset = 0.0
+height = 1.0
+ignore_height = false
 
 [node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=89117285]
 position = Vector2(0, -9)

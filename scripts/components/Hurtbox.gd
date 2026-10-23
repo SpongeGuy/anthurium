@@ -23,6 +23,8 @@ signal persistence_elapsed
 
 @export var blink_timer: float = 1
 
+@export var knockback_multiplier: float = 1
+
 ## Height offset of this hurtbox's damage volume from the owning entity's
 ## current [member Entity.z] (its base). 0 means the volume starts at the
 ## entity's own base. For a standalone projectile flying at a fixed
@@ -105,7 +107,6 @@ func activate_in_time_range(value: float, min: float, max: float) -> void:
 		collision_shape.disabled = true
 
 func activate(start: float, end: float) -> Signal:
-
 	if tween: 
 		tween.kill()
 	collision_shape.disabled = true
