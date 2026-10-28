@@ -4,6 +4,8 @@ class_name AbilityContainer
 ## Present on the `ability_shard` entity.
 ## See [AbilityShardUse] ability, which requires this [Component] to be on the [Entity].
 
+@export var ability_icon_visual: Sprite2D
+
 @export var abilities: Array[Ability] = [null, null, null, null]
 
 func _on_registered() -> void:
@@ -17,6 +19,7 @@ func add_ability(ability: Ability) -> void:
 	else:
 		add_child(ability)
 	populate_abilities()
+	ability_icon_visual.texture = ability.display_icon
 	
 func populate_abilities() -> void:
 	abilities = [null, null, null, null]

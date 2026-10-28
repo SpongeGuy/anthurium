@@ -22,7 +22,7 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 func _execute() -> void:
 	if spawn_effect:
 		spawn_effect.execute(entity)
-	var new_e: Entity = EntityManager.simple_spawn(entity_name, entity.position, false, false)
+	var new_e: Entity = EntityManager.simple_spawn(entity_name, entity.position, false)
 	new_e.add_friend(entity)
 	new_e.owned
 	await new_e.entity_initialized

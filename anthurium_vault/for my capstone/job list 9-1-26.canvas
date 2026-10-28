@@ -421,6 +421,16 @@
 		},
 		{"id":"8ea32659915c1ad9","type":"link","url":"https://www.onlinegantt.com/#/gantt","x":-3200,"y":4570,"width":1570,"height":1030,"color":"1"},
 		{
+			"id":"4c3595f91af0b04e",
+			"type":"text",
+			"text":"BLARGLE\n\nshoots water droplets that fly through the air in an arc\nwater bursts when it reaches the ground",
+			"styleAttributes":{},
+			"x":0,
+			"y":-1190,
+			"width":360,
+			"height":240
+		},
+		{
 			"id":"795f1f56b459c73f",
 			"type":"text",
 			"text":"game over screen!\n- points are shown\n\t- collectibles\n\t- killed enemies\n- menu progression so that player can skip the display\n\n",
@@ -451,16 +461,6 @@
 			"height":240
 		},
 		{
-			"id":"4c3595f91af0b04e",
-			"type":"text",
-			"text":"BLARGLE\n\nshoots water droplets that fly through the air in an arc\nwater bursts when it reaches the ground",
-			"styleAttributes":{},
-			"x":0,
-			"y":-1190,
-			"width":360,
-			"height":240
-		},
-		{
 			"id":"9dd2e5bcc8b7082d",
 			"type":"text",
 			"text":"PORCULE\n\noccasionally charges and smashes through tiles",
@@ -469,6 +469,16 @@
 			"y":-660,
 			"width":300,
 			"height":240
+		},
+		{
+			"id":"4c73c90cd7573723",
+			"type":"text",
+			"text":"switch the quest from flowers to kills\nghosts will spawn at the beginning of a level and flee when more kills are gotten\nghosts will become hostile if too much time passes\nif enough ghosts flee, the gate appears",
+			"styleAttributes":{},
+			"x":-5900,
+			"y":-1100,
+			"width":520,
+			"height":300
 		}
 	],
 	"edges":[],

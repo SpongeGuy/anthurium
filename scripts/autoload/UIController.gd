@@ -17,6 +17,8 @@ var screen: UIScreen
 ## The cursor/interaction "hand" UI, found via [method retrieve_references].
 var hand: UIHand
 
+var c_selector: UICharacterSelector
+
 ## reference to the player, necessary for binding and unbinding functions to signals
 var player: Entity
 
@@ -28,7 +30,8 @@ var ui_canvas_layer: CanvasLayer
 ## [method add_stage].
 var ui_scenes: Dictionary[String, PackedScene] = {
 	"title": preload("uid://d1bn1no2fwcee"),
-	"floating_square_cutout": preload("uid://dd0xlhuktb0p2")
+	"floating_square_cutout": preload("uid://dd0xlhuktb0p2"),
+	"arcade_title": preload("uid://dwax5kri3bg24"),
 }
 ## Currently instantiated stages, keyed by the name they were added under.
 var active_ui_scenes: Dictionary[String, UIStage] = {}
@@ -140,14 +143,19 @@ func retrieve_references(starting_point: Node) -> void:
 		Log.error("Could not find HUD element while retrieving!")
 		return
 	
-	screen = starting_point.find_child("UI_Screen", true, false)
+	screen = starting_point.find_child("UI_SCREEN", true, false)
 	if not screen:
 		Log.error("Could not find screen element while retrieving!")
 		return
 		
-	hand = starting_point.find_child("UI_Hand", true, false)
+	hand = starting_point.find_child("UI_HAND", true, false)
 	if not hand:
 		Log.error("Could not find hand element while retrieving!")
+		return
+	
+	c_selector = starting_point.find_child("UI_C_SELECT", true, false)
+	if not c_selector:
+		Log.error("Could not find c_selector element while retrieving!")
 		return
 	
 	is_ready = true
@@ -225,7 +233,7 @@ func _refresh_ability_icons() -> void:
 	for i in _ability_manager.abilities.size():
 		var ability: Ability = _ability_manager.get_ability(i)
 		if ability:
-			hud.update_ability_icon(i, ability.icon)
+			hud.update_ability_icon(i, ability.display_icon)
 		else:
 			hud.update_ability_icon(i, null)
 			
@@ -237,7 +245,7 @@ func _on_points_changed() -> void:
 ## Connected to [signal AbilityManager.ability_registered]; updates the HUD
 ## icon for [param slot].
 func _on_ability_registered(slot: int, ability: Ability) -> void:
-	hud.update_ability_icon(slot, ability.icon)
+	hud.update_ability_icon(slot, ability.display_icon)
  
 ## Connected to [signal AbilityManager.ability_unregistered]; clears the HUD
 ## icon for [param slot].

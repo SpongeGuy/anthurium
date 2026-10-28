@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://d1t5vwf4x1k8y"]
+
+[ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_xpxfx"]
+[ext_resource type="PackedScene" uid="uid://bf03dtvmldj1" path="res://scenes/systems/ui/Records.tscn" id="2_8fpi0"]
+[ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="2_nrf41"]
+[ext_resource type="Texture2D" uid="uid://ci7m3poe5ch12" path="res://assets/textures/misc/anthurium_logo_green.png" id="3_nblk3"]
+
+[node name="ScoresStage" type="Control" unique_id=62457713]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_xpxfx")
+script = ExtResource("2_nrf41")
+metadata/_custom_type_script = "uid://dagk4uclh6cc1"
+
+[node name="Panel" type="Panel" parent="." unique_id=1059804015]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Records" parent="." unique_id=1975214078 instance=ExtResource("2_8fpi0")]
+layout_mode = 1
+offset_left = 55.0
+offset_top = 173.0
+offset_right = 55.0
+offset_bottom = 173.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=446245542]
+position = Vector2(317, 115)
+texture = ExtResource("3_nblk3")

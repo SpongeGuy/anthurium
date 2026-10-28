@@ -28,12 +28,19 @@ metadata/_custom_type_script = "uid://dynnebcmmv3uv"
 
 [sub_resource type="Resource" id="Resource_4p43q"]
 script = ExtResource("7_1x5w2")
+hidden_room_max_ratio = 0.0
 metadata/_custom_type_script = "uid://b0fy5xxaynl78"
+
+[sub_resource type="Resource" id="Resource_456ii"]
+script = ExtResource("6_ktt6o")
+path_count = 8
+symmetry = 0
+metadata/_custom_type_script = "uid://dynnebcmmv3uv"
 
 [sub_resource type="Resource" id="Resource_vk6j0"]
 script = ExtResource("3_s8d18")
 theme_name = &"grass"
-terrain_generators = Array[ExtResource("5_80mk7")]([SubResource("Resource_dsykb"), SubResource("Resource_gmvqu"), SubResource("Resource_4p43q")])
+terrain_generators = Array[ExtResource("5_80mk7")]([SubResource("Resource_dsykb"), SubResource("Resource_gmvqu"), SubResource("Resource_4p43q"), SubResource("Resource_456ii")])
 palettes = Array[ExtResource("4_eo0r6")]([SubResource("Resource_l4xe8")])
 metadata/_custom_type_script = "uid://cfuo6d2t7toqp"
 

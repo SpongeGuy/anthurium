@@ -25,14 +25,17 @@ func _on_entity_spawned() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
 	# initialize any abilities already present as children in the scene tree
+	abilities = [null, null, null, null]
+	initialize()
+	
+			
+func initialize() -> void:
 	for i in range(abilities.size() - 1):
 		if abilities.get(i) != null:
 			_initialize_ability(abilities[i], i)
 	for child in get_children():
 		if child is Ability:
 			_register_ability_to_first_slot(child)
-			
-
 
 
 	
@@ -127,8 +130,7 @@ func drop_to_shard(slot: int, position: Vector2) -> Entity:
 	var ability: Ability = extract_ability(slot)
 	if ability == null:
 		return null
-	var shard: Entity = EntityManager.spawn_safely(&"ability_shard", position)
-	await shard.entity_initialized
+	var shard: Entity = EntityManager.simple_spawn(&"ability_shard", position)
 	var container: AbilityContainer = shard.get_component(AbilityContainer)
 	container.add_ability.call_deferred(ability)
 	return shard

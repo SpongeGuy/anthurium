@@ -11,7 +11,8 @@ var logo_voices: Array[VoiceProfile] = [
 
 enum GameStatus { PLAYING, PAUSED }
 enum AppStatus { BOOT, MENU, GAME, GAMEOVER }
-enum Controller { NONE, PLAYER, HAND, CAMERA }
+enum MenuStatus { WORLD_DEMO, SCORES }
+enum Controller { NONE, PLAYER, HAND, CAMERA, MENU_DEFAULT }
 enum GameMode { QUEST }
 var active_controller: Controller
 var game_state: GameStatus
@@ -37,6 +38,9 @@ var time: float = 0
 
 signal game_state_changed(status: GameStatus)
 
+signal game_started
+
+var world_ready: bool = false
 
 	
 
@@ -58,13 +62,15 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
-	if Input.is_action_just_pressed("start"):
-		toggle_pause()
 		
 	if Input.is_key_pressed(KEY_E):
 		switch_app_state(AppStatus.MENU, true)
 		
 	_handle_control_inputs(delta)
+	
+	if not app_state == AppStatus.BOOT:
+		PlayerManager.control_selector(delta)
+		PlayerManager.control_players(delta)
 
 
 func _run_boot_sequence() -> void:
@@ -128,11 +134,17 @@ func switch_game_state(status: GameStatus) -> void:
 	game_state_changed.emit(game_state)
 
 
+func switch_menu_state(status: MenuStatus) -> void:
+	pass
+
+
 ## Main orchestrator for the app, switches from different modes and GUIs.
 ## Controls the camera through [CameraController]'s [method set_behavior_mode].[br]
 ## [member AppStatus.BOOT] runs the boot sequence, which scans all the resource directories.[br]
 ## [member AppStatus.MENU] starts a new run without the player and summons the ui scenes
 func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
+	app_state = status
+	world_ready = false
 	match status:
 		AppStatus.BOOT:
 			UiController.hand.visible = false
@@ -149,21 +161,25 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
 			MusicController.play(true)
 			UiController.hud.set_state(UIHUD.State.INACTIVE)
-			change_active_controller(Controller.HAND)
-			UiController.hand.switch_stages(UiController.add_stage("title"))
+			change_active_controller(Controller.MENU_DEFAULT)
+			#UiController.hand.switch_stages(UiController.add_stage("title"))
+			UiController.add_stage("arcade_title")
 		AppStatus.GAME:
 			GameInterface.background_mode = false
+			await _fade(1, 0.6)
 			UiController.clear_stages()
 			MusicController.stop()
-			await _fade(1, 0.6)
 			_initialize_world()
-			_link_player_death()
-			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_PLAYER, 0.0, true)
-			await GameInterface.start_new_run(0, randi())
+			#_link_player_death()
+			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
+			GameInterface.start_new_run(0, randi())
+			#GameInterface.start_debug_platform()
 			switch_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
 			UiController.hand.go_invisible()
-			_fade(0, 0.5)
+			await _fade(0, 0.5)
+			world_ready = true
+			game_started.emit()
 		AppStatus.GAMEOVER:
 			GameInterface.background_mode = true
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
@@ -171,7 +187,7 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			change_active_controller(Controller.NONE)
 			UiController.hand.visible = false # REPLACE THIS WITH SETTING THE STAGE FOR UI
 	
-	app_state = status
+	
 
 
 func switch_game_mode(to: GameMode) -> void:
@@ -226,8 +242,9 @@ func initialize_main_menu() -> void:
 func _link_player_death() -> void:
 	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
 
-func _on_player_death(_e: Entity) -> void:
-	switch_app_state(AppStatus.GAMEOVER)
+func _on_player_death(_slot: int, _e: Entity) -> void:
+	if not PlayerManager.slot_states.values().has(PlayerManager.SlotState.PLAYING):
+		switch_app_state(AppStatus.GAMEOVER)
 	
 func _wait_for_ui() -> void:
 	if not UiController.is_ready:
@@ -263,12 +280,11 @@ func _fade(target_alpha: float, duration: float) -> void:
 
 func _handle_control_inputs(delta: float) -> void:
 	match active_controller:
-		Controller.PLAYER:
-			PlayerManager.control_player(delta)
 		Controller.HAND:
 			UiController.hand.control(delta)
 		Controller.CAMERA:
 			CameraController.directly_control(delta)
+
 
 
 func _retrieve_references() -> void:

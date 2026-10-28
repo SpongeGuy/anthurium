@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cvm5fr4ckdci4"]
+
+[ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_8utxs"]
+[ext_resource type="Script" uid="uid://u500d8plrq5n" path="res://scripts/classes/ui/UICharacterSelector.gd" id="2_ve5we"]
+
+[node name="CharacterSelectorHUD" type="Control" unique_id=1391793777]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_8utxs")
+script = ExtResource("2_ve5we")
+metadata/_custom_type_script = "uid://u500d8plrq5n"
+
+[node name="CONTAINER" type="HBoxContainer" parent="." unique_id=1884662790]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 33.0
+grow_horizontal = 2
+alignment = 1

@@ -4,13 +4,16 @@ class_name AbilityDamageAoE
 
 @export var radius: float = 10
 @export var damage: float = 25
-var icon_texture: Texture2D = preload("uid://d4ixqeh4puotd")
+
 
 var hurtbox: Hurtbox
 
+var n: String = "Burst"
+var d: Texture2D = load("uid://d4ixqeh4puotd")
+
 func initialize() -> void:
-	icon = icon_texture
-	display_name = "Stomp"
+	display_icon = d
+	display_name = n
 	hurtbox = Hurtbox.new(damage)
 	hurtbox.create_circular_collision_shape(radius)
 	entity.add_child(hurtbox)

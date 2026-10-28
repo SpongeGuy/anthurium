@@ -47,13 +47,6 @@ metadata/_custom_type_script = "uid://c8mluv6scljeu"
 script = ExtResource("13_a020d")
 radius = 90.0
 count_same_species = true
-threat_exceptions = {
-"has_LOS": true,
-"has_brain": true,
-"isnt_passive": false,
-"same_species": false,
-"weigh_less": false
-}
 state_name = &"threat"
 blueprint = SubResource("Resource_iddnd")
 boredom_effectivity = 1.0

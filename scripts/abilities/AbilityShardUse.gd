@@ -1,0 +1,46 @@
+extends Ability
+class_name AbilityShardUse
+
+@export var recently_interacted: RecentlyInteracted
+@export var ability_container: AbilityContainer
+
+var n: String = "Absorb Ability"
+var d: Texture = load("uid://b32jgootwiu7p") # ability_shard_use.png
+var sound: VoiceProfile = preload("res://assets/resources/voices/pickup_shard.tres")
+
+func initialize() -> void:
+	display_icon = d
+	display_name = n
+	if not recently_interacted:
+		recently_interacted = entity.get_component(RecentlyInteracted)
+		
+	if not ability_container:
+		ability_container = entity.get_component(AbilityContainer)
+
+
+func on_pressed(modifier: bool) -> void:
+	
+	var subject: Entity = recently_interacted.recently_interacted
+	if subject:
+		var ability_manager: AbilityManager = subject.get_component(AbilityManager)
+		if not ability_manager:
+			return
+		if ability_manager.is_full():
+			return
+		for ability in ability_container.abilities:
+			
+			if ability:
+				ability_manager.add_ability(ability)
+				AudioManager.play_voice(sound, subject)
+		entity.queue_free()
+	
+func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
+	pass
+	
+func on_released(hold_duration: float, modifier: bool) -> void:
+	pass
+
+## actually execute the ability
+## this is where custom logic for the ability will go
+func _execute() -> void:
+	pass

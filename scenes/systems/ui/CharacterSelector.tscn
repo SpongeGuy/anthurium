@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://vdlisehj0wve"]
+
+[ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_j7bjm"]
+[ext_resource type="Texture2D" uid="uid://b1ua2qrg7qpdq" path="res://assets/textures/ui/right_arrow.png" id="2_j7bjm"]
+[ext_resource type="Script" uid="uid://clq8rcah16upk" path="res://scripts/classes/ui/CharacterSelector.gd" id="2_u5v3r"]
+[ext_resource type="Script" uid="uid://d315vbgqswj2g" path="res://scripts/ui/misc/blink_visually.gd" id="3_dryfu"]
+[ext_resource type="Theme" uid="uid://bef2u5uhlydku" path="res://assets/resources/themes/debug.tres" id="5_dryfu"]
+
+[node name="Panel" type="Panel" unique_id=558097259]
+texture_filter = 1
+custom_minimum_size = Vector2(61, 33)
+custom_maximum_size = Vector2(61, 33)
+clip_contents = true
+offset_right = 61.0
+offset_bottom = 33.0
+theme = ExtResource("1_j7bjm")
+script = ExtResource("2_u5v3r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1345815273]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=633050532]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 3)
+
+[node name="arwR" type="Sprite2D" parent="VBoxContainer/Control" unique_id=887181620]
+position = Vector2(13, 0)
+texture = ExtResource("2_j7bjm")
+script = ExtResource("3_dryfu")
+timer_duration = 0.25
+
+[node name="arwL" type="Sprite2D" parent="VBoxContainer/Control" unique_id=1378474884]
+position = Vector2(-13, 0)
+texture = ExtResource("2_j7bjm")
+flip_h = true
+script = ExtResource("3_dryfu")
+timer_duration = 0.25
+
+[node name="ORIGIN" type="Control" parent="VBoxContainer/Control" unique_id=30720899]
+anchors_preset = 0
+offset_top = 8.0
+offset_bottom = 8.0
+
+[node name="NAME" type="Label" parent="VBoxContainer" unique_id=1606787604]
+layout_mode = 2
+theme = ExtResource("5_dryfu")
+theme_override_font_sizes/font_size = 8
+text = "shit box"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="CharacterSelector" type="Control" parent="." unique_id=887821080]
+texture_filter = 1
+custom_maximum_size = Vector2(61, 33)
+anchors_preset = 0
+offset_right = 61.0
+offset_bottom = 33.0
+theme = ExtResource("1_j7bjm")

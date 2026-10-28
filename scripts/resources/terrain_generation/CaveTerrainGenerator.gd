@@ -14,7 +14,7 @@ func generate(rng: RandomNumberGenerator, ground_type: StringName, wall_type: St
 	_fill_walls(wall_type)
 	_cellular_automata_pass(rng, ground_type, wall_type)
 	_cull_and_connect_caves(rng, ground_type, wall_type)
-	_enforce_border(indestructible_type)
+	enforce_border(indestructible_type)
 
 func _fill_walls(wall_type: StringName) -> void:
 	var wall: CellType = CellTypeRegistry.get_cell_type(wall_type)
@@ -120,14 +120,7 @@ func _cull_and_connect_caves(rng: RandomNumberGenerator, ground_type: StringName
 	for i in range(main_caves.size() - 1):
 		_drunk_walk(_component_center(main_caves[i]), _component_center(main_caves[i + 1]), rng, ground)
 
-func _enforce_border(indestructible_type: StringName) -> void:
-	var wall: CellType = CellTypeRegistry.get_cell_type(indestructible_type)
-	for x in WorldGrid.width:
-		WorldGrid.get_cell(Vector2i(x, 0)).type = wall
-		WorldGrid.get_cell(Vector2i(x, WorldGrid.height - 1)).type = wall
-	for y in WorldGrid.height:
-		WorldGrid.get_cell(Vector2i(0, y)).type = wall
-		WorldGrid.get_cell(Vector2i(WorldGrid.width - 1, y)).type = wall
+
 
 func _random_cardinal_dir(rng: RandomNumberGenerator) -> Vector2i:
 	var dirs := [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]

@@ -78,6 +78,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	var speed: float = 15
 	if selected_element:
+		print(selected_element)
 		target_position = _get_interactable_selection_position(selected_element)
 	global_position = global_position.lerp(target_position, 1.0 - exp(delta * -speed))
 	
@@ -202,7 +203,7 @@ func grab_ability_from(element: AbilityHudElement) -> bool:
 	_held_slot = element.slot
 	_held_element = element
 	element.ability_icon.visible = false
-	grabbed_sprite.texture = ability.icon
+	grabbed_sprite.texture = ability.display_icon
 	AudioManager.play_voice(_activation_sound, null, true, false)
 	change_state(State.HOLDING)
 	return true

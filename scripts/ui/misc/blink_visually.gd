@@ -3,7 +3,7 @@ extends CanvasItem
 
 var _timer: float = 0.0
 
-var timer_duration: float = 0.5
+@export var timer_duration: float = 0.5
 
 func toggle_visibility() -> void:
 	if visible:

@@ -43,13 +43,6 @@ metadata/_custom_type_script = "uid://c8mluv6scljeu"
 [sub_resource type="Resource" id="Resource_456ii"]
 script = ExtResource("10_qa0d8")
 radius = 40.0
-threat_exceptions = {
-"has_LOS": true,
-"has_brain": true,
-"isnt_passive": false,
-"same_species": false,
-"weigh_less": false
-}
 state_name = &"attack"
 blueprint = SubResource("Resource_pe8vo")
 boredom_effectivity = 0.5

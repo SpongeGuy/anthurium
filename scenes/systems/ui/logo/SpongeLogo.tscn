@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cs4i88vmrey4p"]
 
-[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/lowkey.tres" id="1_ajq2a"]
+[ext_resource type="Theme" uid="uid://c7dgvxhg4nhv7" path="res://assets/resources/themes/typecast.tres" id="1_ajq2a"]
 [ext_resource type="Texture2D" uid="uid://dy7y5wvwex3fy" path="res://assets/textures/logo/buff sponge traspeonrt stench.png" id="2_ajq2a"]
 
 [node name="SpongeLogo" type="Control" unique_id=1961714859]

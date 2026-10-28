@@ -14,17 +14,16 @@
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
 [ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
-[ext_resource type="Script" uid="uid://y1m6acghhwfb" path="res://scripts/abilities/AbilityChargeAndSmash.gd" id="22_o65h8"]
+[ext_resource type="Script" uid="uid://c87rertjxrdl2" path="res://scripts/abilities/AbilitySummonLilShrooms.gd" id="21_0ansf"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="26_s02rk"]
 [ext_resource type="Script" uid="uid://bn7rbs36wuutg" path="res://scripts/abilities/swipe.gd" id="29_jr5rt"]
-[ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/ability_jump.gd" id="29_tkxpy"]
+[ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/AbilityJump.gd" id="29_tkxpy"]
 [ext_resource type="Script" uid="uid://dwy74leu2y8cr" path="res://scripts/components/Brain.gd" id="29_ypaju"]
 [ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="30_tkxpy"]
 [ext_resource type="Script" uid="uid://dr1246wo0rspr" path="res://scripts/brain/blueprint/BSBPathfindWander.gd" id="31_456ii"]
 [ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="31_ypaju"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="32_1cjm5"]
-[ext_resource type="Texture2D" uid="uid://cgskihl2d35os" path="res://assets/textures/ability_icons/claw_icon.png" id="33_oduj7"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="34_d1yhl"]
 [ext_resource type="Script" uid="uid://cw28uq3fxf7i4" path="res://scripts/components/SpriteAnimatorDirectional.gd" id="34_ipt6n"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="34_tkxpy"]
@@ -201,7 +200,6 @@ metadata/_custom_type_script = "uid://byeskwmhfllnd"
 
 [node name="AbilitySwipe" type="Node" parent="AbilityManager" unique_id=609262734]
 script = ExtResource("29_jr5rt")
-icon = ExtResource("33_oduj7")
 metadata/_custom_type_script = "uid://bn7rbs36wuutg"
 
 [node name="AbilityDetonate" type="Node" parent="AbilityManager" unique_id=2109672073]
@@ -212,9 +210,9 @@ metadata/_custom_type_script = "uid://tda3ohuci2fd"
 script = ExtResource("29_tkxpy")
 metadata/_custom_type_script = "uid://ckl5wy0pud2yy"
 
-[node name="AbilityChargeAndSmash" type="Node" parent="AbilityManager" unique_id=1052121321]
-script = ExtResource("22_o65h8")
-metadata/_custom_type_script = "uid://y1m6acghhwfb"
+[node name="AbilitySummonLilShrooms" type="Node" parent="AbilityManager" unique_id=350401700]
+script = ExtResource("21_0ansf")
+metadata/_custom_type_script = "uid://c87rertjxrdl2"
 
 [node name="NavigationHelper" type="Node" parent="." unique_id=109929255 node_paths=PackedStringArray("navigation")]
 script = ExtResource("34_tkxpy")

@@ -9,29 +9,25 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
 [ext_resource type="Script" uid="uid://1ywf387jau87" path="res://scripts/components/AbilityContainer.gd" id="9_vqng3"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="10_6afsf"]
-[ext_resource type="Script" uid="uid://b420r8tw5oyu6" path="res://scripts/abilities/ability_shard_use.gd" id="10_xpqok"]
+[ext_resource type="Script" uid="uid://b420r8tw5oyu6" path="res://scripts/abilities/AbilityShardUse.gd" id="10_xpqok"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="11_4sxbx"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="11_5fcyu"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="12_5fcyu"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="15_eer0l"]
-[ext_resource type="Script" uid="uid://snopn0q86518" path="res://scripts/classes/StateMachine.gd" id="16_gnawu"]
-[ext_resource type="Script" uid="uid://mwp6ulr8npgu" path="res://scripts/brain/states/deprecated/simple/blank_state.gd" id="16_mvwcn"]
-[ext_resource type="Script" uid="uid://mec4gvle4nkh" path="res://scripts/brain/states/deprecated/piss_ball_guy/death/ability_death.gd" id="18_gnawu"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="18_r3st6"]
+[ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="19_4txoy"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="20_gbc8y"]
-[ext_resource type="Script" uid="uid://cvaptyot73a1d" path="res://scripts/components/deprecated/visibility_component.gd" id="22_gbc8y"]
+[ext_resource type="Script" uid="uid://bkky2iu1meoku" path="res://scripts/components/JumpOnTimerComponent.gd" id="20_r3st6"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="22_mvwcn"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_73w5w"]
-[ext_resource type="Script" path="res://scripts/components/hide_in_invisible_cells.gd" id="23_mvwcn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ny4fw"]
 radius = 5.0
 
-[sub_resource type="Resource" id="Resource_eer0l"]
+[sub_resource type="Resource" id="Resource_24x73"]
 script = ExtResource("7_xpqok")
-name = &"cycle"
 frames = 4
-speed = 25.0
+speed = 5.0
 metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xpqok"]
@@ -40,17 +36,26 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 script = ExtResource("23_73w5w")
 metadata/_custom_type_script = "uid://q8oievajpib8"
 
-[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931 node_paths=PackedStringArray("visual")]
+[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931 node_paths=PackedStringArray("visual", "nodes_to_translate")]
 texture_filter = 1
-collision_layer = 4
-collision_mask = 7
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_dgkf4")
+display_name = "Ability Shard"
 visual = NodePath("Sprite2D")
+mass = 0.1
+nodes_to_translate = [NodePath("AbilityIconVisual")]
+jump_effect = null
+land_effect = null
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1169875588]
+position = Vector2(0, -8)
 texture = ExtResource("2_8keq8")
 hframes = 4
+
+[node name="AbilityIconVisual" type="Sprite2D" parent="." unique_id=1729035825]
+position = Vector2(0, -9)
 
 [node name="PickupableComponent" type="Node" parent="." unique_id=355918229 node_paths=PackedStringArray("components_to_disable")]
 script = ExtResource("5_4sxbx")
@@ -63,12 +68,11 @@ shape = SubResource("CircleShape2D_ny4fw")
 [node name="SpriteAnimator" type="Node" parent="." unique_id=304008367 node_paths=PackedStringArray("sprite")]
 script = ExtResource("6_5fcyu")
 sprite = NodePath("../Sprite2D")
-starting_animation = 0
-animations = Array[ExtResource("7_xpqok")]([SubResource("Resource_eer0l")])
+default_animation = SubResource("Resource_24x73")
 
 [node name="PhysicsComponent" type="Node" parent="." unique_id=434546018]
 script = ExtResource("3_vqng3")
-base_friction = 300.0
+base_friction = 100.0
 restitution = 0.8
 metadata/_custom_type_script = "uid://bm176fnqfiea6"
 
@@ -77,8 +81,9 @@ script = ExtResource("4_6afsf")
 physics = NodePath("../PhysicsComponent")
 metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
-[node name="AbilityContainer" type="Node" parent="." unique_id=435915172]
+[node name="AbilityContainer" type="Node" parent="." unique_id=435915172 node_paths=PackedStringArray("ability_icon_visual")]
 script = ExtResource("9_vqng3")
+ability_icon_visual = NodePath("../AbilityIconVisual")
 metadata/_custom_type_script = "uid://1ywf387jau87"
 
 [node name="AbilityManager" type="Node" parent="." unique_id=595066811 node_paths=PackedStringArray("input")]
@@ -103,29 +108,14 @@ physics = NodePath("../PhysicsComponent")
 hitbox = NodePath("../Hitbox")
 metadata/_custom_type_script = "uid://dqikotd5sv8r6"
 
-[node name="Hitbox" type="Area2D" parent="." unique_id=366145633 node_paths=PackedStringArray("collision_shape", "knockback")]
+[node name="Hitbox" type="Area2D" parent="." unique_id=366145633 node_paths=PackedStringArray("collision_shape")]
+position = Vector2(0, -9)
 script = ExtResource("12_5fcyu")
 collision_shape = NodePath("CollisionShape2D2")
-knockback = NodePath("../KnockbackComponent")
 metadata/_custom_type_script = "uid://dk6vro3btpxyj"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox" unique_id=958616858]
 shape = SubResource("CircleShape2D_xpqok")
-
-[node name="StateMachine" type="Node" parent="." unique_id=1077872555 node_paths=PackedStringArray("initial_state", "death_state")]
-script = ExtResource("16_gnawu")
-initial_state = NodePath("BlankState")
-death_state = NodePath("AbilityDeathState")
-metadata/_custom_type_script = "uid://snopn0q86518"
-
-[node name="BlankState" type="Node" parent="StateMachine" unique_id=1299934253]
-script = ExtResource("16_mvwcn")
-metadata/_custom_type_script = "uid://mwp6ulr8npgu"
-
-[node name="AbilityDeathState" type="Node" parent="StateMachine" unique_id=388598118 node_paths=PackedStringArray("input")]
-script = ExtResource("18_gnawu")
-input = NodePath("../../InputComponent")
-metadata/_custom_type_script = "uid://mec4gvle4nkh"
 
 [node name="Health&Damage" type="Node" parent="." unique_id=1575843158]
 
@@ -133,12 +123,9 @@ metadata/_custom_type_script = "uid://mec4gvle4nkh"
 script = ExtResource("18_r3st6")
 metadata/_custom_type_script = "uid://cfrmrclnx8ldt"
 
-[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1362790502 node_paths=PackedStringArray("hitbox", "state_machine")]
+[node name="HealthComponent" type="Node" parent="Health&Damage" unique_id=1362790502 node_paths=PackedStringArray("hitbox")]
 script = ExtResource("15_eer0l")
-max_health = 5.0
-health = 5.0
 hitbox = NodePath("../../Hitbox")
-state_machine = NodePath("../../StateMachine")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 
 [node name="DamageAnimationComponent" type="Node" parent="Health&Damage" unique_id=972566010 node_paths=PackedStringArray("health_component", "sprite")]
@@ -148,17 +135,22 @@ health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="VisibilityComponent" type="Node" parent="." unique_id=866264973 node_paths=PackedStringArray("nodes")]
-script = ExtResource("22_gbc8y")
-nodes = [NodePath("../Sprite2D")]
-metadata/_custom_type_script = "uid://cvaptyot73a1d"
-
-[node name="HideInInvisibleCells" type="Node" parent="." unique_id=1947247156 node_paths=PackedStringArray("visibility")]
-script = ExtResource("23_mvwcn")
-visibility = NodePath("../VisibilityComponent")
-metadata/_custom_type_script = "uid://b7fumud38ekr4"
+[node name="DamageAnimationComponent2" type="Node" parent="Health&Damage" unique_id=1698139525 node_paths=PackedStringArray("health_component", "sprite")]
+script = ExtResource("20_gbc8y")
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../../AbilityIconVisual")
+damage_voice = null
+metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
 [node name="InteractableComponent" type="Node" parent="." unique_id=1922570257]
 script = ExtResource("22_mvwcn")
 effect = SubResource("Resource_emcra")
 metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"
+
+[node name="CosmeticGlow" type="Node" parent="." unique_id=619304158 node_paths=PackedStringArray("sprite")]
+script = ExtResource("19_4txoy")
+sprite = NodePath("../AbilityIconVisual")
+glow_width = 2.0
+
+[node name="JumpOnTimer" type="Node" parent="." unique_id=1794882641]
+script = ExtResource("20_r3st6")

@@ -77,7 +77,7 @@ func die(source: Entity) -> void:
 	dying = true
 	if death_effect:
 		death_effect.execute(entity)
-	if source and source == PlayerManager.player and show_points_on_death_effect:
+	if source and PlayerManager.is_entity_player(source) and show_points_on_death_effect:
 		show_points_on_death_effect.execute(entity)
 	if source:
 		entity.transfer_points(source)

@@ -11,7 +11,13 @@ var simple_melee_scene: PackedScene = load("uid://vdp42k0mrf4n")
 var hurtbox: Hurtbox
 var facing: FacingComponent
 
+var d: Texture2D = load("uid://b51ktvi2yydv5") # attack_icon.png
+var n: String = "Attack"
+
 func initialize() -> void:
+	display_name = n
+	display_icon = d
+	
 	hurtbox = Hurtbox.new(damage)
 	hurtbox.create_circular_collision_shape(radius, offset)
 	
@@ -21,7 +27,8 @@ func initialize() -> void:
 	facing = entity.get_component(FacingComponent)
 
 func _physics_process(delta: float) -> void:
-	hurtbox.set_rotation(facing.get_direction_angle())
+	if facing:
+		hurtbox.set_rotation(facing.get_direction_angle())
 	
 ## actually execute the ability
 ## this is where custom logic for the ability will go

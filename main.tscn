@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
+[ext_resource type="PackedScene" uid="uid://cvm5fr4ckdci4" path="res://scenes/systems/ui/character_selector_hud.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="5_272bh"]
 [ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="6_7mycd"]
 [ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
@@ -53,7 +54,7 @@ layer = 100
 process_mode = 3
 layer = 5
 
-[node name="UI_Screen" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1606049138 instance=ExtResource("5_272bh")]
+[node name="UI_SCREEN" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1606049138 instance=ExtResource("5_272bh")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -68,7 +69,9 @@ offset_top = 360.0
 offset_bottom = 559.9999
 mouse_filter = 1
 
-[node name="UI_Hand" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
+[node name="UI_C_SELECT" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1391793777 instance=ExtResource("4_lquwl")]
+
+[node name="UI_HAND" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
 z_index = 10
 position = Vector2(246.66667, 138.33334)
 

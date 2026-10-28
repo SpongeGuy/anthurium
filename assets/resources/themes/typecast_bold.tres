@@ -1,0 +1,16 @@
+[gd_resource type="Theme" format=3 uid="uid://b5k41evsjp3v5"]
+
+[ext_resource type="FontFile" uid="uid://bm2hef8ebwxl0" path="res://assets/resources/fonts/Typecast-Bold.ttf" id="1_hcx23"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivtm7"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_emcra"]
+
+[resource]
+Label/constants/line_spacing = -3
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_hcx23")
+Panel/styles/panel = SubResource("StyleBoxFlat_ivtm7")
+PanelContainer/styles/panel = SubResource("StyleBoxEmpty_emcra")
+VBoxContainer/constants/separation = 4

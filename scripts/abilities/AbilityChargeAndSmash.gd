@@ -2,7 +2,13 @@ class_name AbilityChargeAndSmash extends Ability
 
 @export var damage: float = 4.0
 
+var n: String = "Charge and Smash"
+var d: Texture2D = load("uid://2a6wqgqiqk6n")
+
 func initialize() -> void:
+	display_name = n
+	display_icon = d
+	
 	if not facing:
 		facing = entity.get_component(FacingComponent)
 	if not physics:
@@ -43,14 +49,14 @@ func _execute() -> void:
 	physics.wall_collision.connect(_on_collision)
 	physics.entity_collision.connect(_on_collision)
 	force_direction = facing.get_direction()
-	hurtbox.activate(0, charge_timer_duration)
+	hurtbox.set_behavior_type(Hurtbox.BehaviorType.CONSTANT)
 	ability_active = true
 	collisions = 0
 	
 	
 
 func _physics_process(delta: float) -> void:
-	if (_timer <= 0.0 or collisions > 5) and ability_active:
+	if (_timer < 0.0 or collisions > 5) and ability_active:
 		finish_ability()
 		return
 	if not ability_active:
@@ -66,10 +72,11 @@ func finish_ability() -> void:
 	if physics and physics.wall_collision.is_connected(_on_collision):
 		physics.wall_collision.disconnect(_on_collision)
 	ability_active = false
+	hurtbox.set_behavior_type(Hurtbox.BehaviorType.DEFAULT)
 	return
 
 func on_pressed(modifier: bool) -> void:
-	if _timer > 0.0:
+	if ability_active:
 		return
 	execute()
 	

@@ -7,12 +7,14 @@ class_name LobePerceiveThreat
 @export_enum("Circular", "Cone") var detection_type: int = 0
 @export var cone_angle: float = 30
 
+## entities will not target other entities that fit these descriptions if these are toggled on
 @export var threat_exceptions: Dictionary = {
-	"same_species": true,
-	"weigh_less": true,
-	"isnt_passive": true,
+	"same_species": false,
+	"weigh_less": false,
+	"is_friends": true,
+	"is_passive": false,
 	"has_brain": true,
-	"has_LOS": true,
+	"no_line_of_sight": true,
 }
 
 
@@ -52,14 +54,17 @@ func _find_nearest_threat(entity: Entity) -> Entity:
 		# don't count entities that weigh less
 		if (e.mass < entity.mass) and threat_exceptions["weigh_less"] == true:
 			continue
+		# don't count entities that are friends
+		if (entity.is_friends_with(e)) and threat_exceptions["is_friends"] == true:
+			continue
 		# don't count passive entities
-		if (e.archetype.behavior_class == CreatureArchetype.BehaviorClass.PASSIVE) and threat_exceptions["isnt_passive"] == true:
+		if (e.archetype.behavior_class == CreatureArchetype.BehaviorClass.PASSIVE) and threat_exceptions["is_passive"] == true:
 			continue
 		# don't count nonliving entities
 		if (not e.has_component(Brain)) and threat_exceptions["has_brain"] == true:
 			continue
 		# don't count entities that aren't in line of sight
-		if (not SpatialUtil.has_los_of(entity, e)) and threat_exceptions["has_LOS"] == true:
+		if (not SpatialUtil.has_los_of(entity, e)) and threat_exceptions["no_line_of_sight"] == true:
 			continue
 		candidates.append(e)
 	

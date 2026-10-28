@@ -29,9 +29,9 @@
               "state": {
                 "file": "for my capstone/job list 9-1-26.canvas",
                 "viewState": {
-                  "x": -6119.007379994278,
-                  "y": -571.1393580120347,
-                  "zoom": 0.39999999999999947
+                  "x": -5032.346218275993,
+                  "y": 56.89859750792711,
+                  "zoom": -1.6000000000000005
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -42,18 +42,21 @@
             "id": "e8b368230a70366d",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "canvas",
               "state": {
-                "file": "Untitled.md",
-                "mode": "source",
-                "source": false
+                "file": "Main.canvas",
+                "viewState": {
+                  "x": -10835.697255542587,
+                  "y": 11733.617218427098,
+                  "zoom": 0.19999999999999996
+                }
               },
-              "icon": "lucide-file",
-              "title": "Untitled"
+              "icon": "lucide-layout-dashboard",
+              "title": "Main"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -125,7 +128,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "56cc21403932d857",
@@ -213,7 +217,7 @@
             }
           },
           {
-            "id": "042c46c59bf9c5ca",
+            "id": "9d7830dfabad0cb1",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -243,18 +247,23 @@
       "word-smith:Open the Word-Smith menu": false
     }
   },
-  "active": "181dfbdcfab63d9d",
+  "active": "e8b368230a70366d",
   "lastOpenFiles": [
-    "for my capstone/anthurium.md",
-    "Main.canvas",
+    "anthurium_mockup-1.png.import",
+    "anthurium_mockup-2.png.import",
+    "anthurium_mockup-2.png",
+    "anthurium_mockup-1.png",
     "for my capstone/job list 9-1-26.canvas",
+    "Main.canvas",
+    "anthurium.canvas",
+    "anthurium.md",
     "Untitled.md",
+    "for my capstone/anthurium.md",
     "Pasted image 20260830012729.png",
     "Word-Smith/ws-settings.md",
     "Word-Smith/ws-structure.md",
     "Word-Smith",
     "for my capstone/plant anthurium design for the plant.canvas",
-    "anthurium.canvas",
     "Creatures.md",
     "worldbuilder/Timeline.md",
     "worldbuilder/Atlas.md",
@@ -273,7 +282,6 @@
     "worldbuilder/Astral Traveller.md",
     "worldbuilder/Rhwnych.md",
     "mappa.png",
-    "anthurium.md",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",
     "worldbuilder/The Unfathomed.md",
@@ -286,7 +294,6 @@
     "Markwhen/Markwhen 9-17-2026 02.02.23.mw",
     "Markwhen",
     "Projects/anthurium/_tasks/give-creatures-point-value.md",
-    "Projects/anthurium/_tasks",
     "Untitled.canvas"
   ]
 }

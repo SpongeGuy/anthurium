@@ -10,16 +10,16 @@ var swipe_animation: SpriteAnimation
 
 var rotator: Node2D
 
-
-var icon_texture: Texture = preload("res://assets/textures/ability_icons/claw_icon.png")
+var n: String = "Swipe"
+var d: Texture = load("uid://cgskihl2d35os") # clow_icon.png
 
 var swipe_texture: Texture = preload("res://assets/textures/misc/swice.png")
 
 var swipe_sound: VoiceProfile = preload("res://assets/resources/voices/swipe.tres")
 
 func initialize() -> void:
-	display_name = "Swipe"
-	icon = icon_texture
+	display_name = n
+	display_icon = d
 	locomotion = entity.get_component(LocomotionHandler)
 		
 

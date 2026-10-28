@@ -17,15 +17,14 @@ class_name Ability
 @export var cast_time: float = 0
 ## When [code]true[/code], [method execute] will not fire.
 @export var disabled: bool = false
-## The icon displayed in the ability HUD slot.
-@export var icon: Texture2D
+
 ## Emitted when the ability has fully resolved; for example, after an animation completes.
 ## [AbilityManager] and [BehaviorState] use this to know when the ability is done.
 signal finished
 
 ## -1 means infinite uses
 @export var uses: int = -1
-@export var use_up_effect: EntityEffect = preload("uid://beo48ab5ks11a")
+@export var use_up_effect: EntityEffect
 
 @export var ichor_cost: float = 0
 @export var ichor_component: IchorComponent
@@ -40,10 +39,12 @@ var entity: Entity
 var manager: AbilityManager
 ## The display name shown in the UI.
 var display_name: String = "AbilityName"
+## The icon displayed in the ability HUD slot.
+var display_icon: Texture2D
 
 func set_metadata(ability_name: String, ability_icon: Texture2D) -> void:
 	display_name = ability_name
-	icon = ability_icon
+	display_icon = ability_icon
 	
 
 ## Nodes created at runtime during [method initialize] that belong to this ability.

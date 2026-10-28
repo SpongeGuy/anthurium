@@ -5,11 +5,13 @@ class_name AbilityDetonate
 @export var blast_radius: float = 3
 @export var damage: float = 25
 @export var self_destruct: bool = true
-var icon_texture: Texture2D = preload("uid://d4ixqeh4puotd")
+
+var n: String = "Detonate"
+var d: Texture2D = preload("uid://d4ixqeh4puotd")
 
 func initialize() -> void:
-	icon = icon_texture
-	display_name = "Detonate"
+	display_icon = d
+	display_name = n
 		
 
 func on_pressed(modifier: bool) -> void:

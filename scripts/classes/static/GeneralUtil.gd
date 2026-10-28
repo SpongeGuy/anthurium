@@ -13,5 +13,5 @@ static func create_dynamic_circle_hurtbox(entity: Entity, damage: float, positio
 	
 	hb.persistence_elapsed.connect(func(): e.queue_free())
 	
-	EntityManager.spawn_entity(e, position, 0, false, false)
+	EntityManager.spawn_entity(e, position, 0, false)
 	return hb

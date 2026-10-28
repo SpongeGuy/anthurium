@@ -4,14 +4,14 @@
 [ext_resource type="Script" uid="uid://chtx3mqkcv3lo" path="res://scripts/classes/ui/UIHud.gd" id="2_n78go"]
 [ext_resource type="Script" uid="uid://co6s7lhvsqgst" path="res://scripts/classes/ui/AbilityHudElement.gd" id="3_1l7tj"]
 [ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="3_4p43q"]
-[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability_icons/frame.png" id="3_dp7nh"]
+[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability/misc/frame.png" id="3_dp7nh"]
 [ext_resource type="Texture2D" uid="uid://ct7pys7lqmnv3" path="res://assets/textures/ui/time_6.png" id="4_5p38b"]
-[ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ability_icons/not_icon.png" id="4_dp7nh"]
+[ext_resource type="Texture2D" uid="uid://cms6ux7a1ypr7" path="res://assets/textures/ability/misc/not_icon.png" id="4_dp7nh"]
 [ext_resource type="FontFile" uid="uid://bnfnnxpb5a004" path="res://assets/resources/fonts/04B_03__.TTF" id="5_5p38b"]
 [ext_resource type="Texture2D" uid="uid://dhhrdcwc6bmrp" path="res://assets/textures/ui/gold_6.png" id="5_u330w"]
 [ext_resource type="Script" uid="uid://ctgpkn0rsicrp" path="res://scripts/classes/ui/toss_zone.gd" id="11_4p43q"]
 [ext_resource type="Script" uid="uid://d315vbgqswj2g" path="res://scripts/ui/misc/blink_visually.gd" id="11_8rlmo"]
-[ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability_icons/toss_icon.png" id="12_8rlmo"]
+[ext_resource type="Texture2D" uid="uid://dx6apn4r2cvnh" path="res://assets/textures/ability/misc/toss_icon.png" id="12_8rlmo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u330w"]
 font = ExtResource("5_5p38b")
@@ -119,7 +119,7 @@ offset_left = -40.0
 offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "P"
+text = "A"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
@@ -162,7 +162,7 @@ offset_left = -40.0
 offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "O"
+text = "B"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
@@ -205,7 +205,7 @@ offset_left = -40.0
 offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "spc"
+text = "X"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 
@@ -247,7 +247,7 @@ offset_left = -40.0
 offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "I"
+text = "Y"
 label_settings = SubResource("LabelSettings_u330w")
 horizontal_alignment = 2
 

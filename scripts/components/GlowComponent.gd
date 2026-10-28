@@ -17,6 +17,7 @@ var _glow_material: ShaderMaterial
 var _active: bool = false
 
 func _ready() -> void:
+	sprite.texture_changed.connect(start_glow)
 	if auto_start:
 		start_glow()
 

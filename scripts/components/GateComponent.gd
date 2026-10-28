@@ -21,7 +21,7 @@ func _physics_process(delta: float) -> void:
 		_check_timer = check_timer
 		var nearby: Array[Entity] = SpatialUtil.get_entities_in_rectangle(entity.get_world_2d().direct_space_state, entity.global_position, Vector2(32, 32), 0, SpatialUtil.PhysicsLayers.CREATURES)
 		for e in nearby:
-			if e != PlayerManager.player:
+			if not PlayerManager.is_entity_player(e):
 				return
 			if e.key:
 				activate_gate(e)

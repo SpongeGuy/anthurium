@@ -60,13 +60,6 @@ script = ExtResource("12_47chc")
 radius = 28.0
 count_same_species = true
 detection_type = 1
-threat_exceptions = {
-"has_LOS": true,
-"has_brain": true,
-"isnt_passive": false,
-"same_species": false,
-"weigh_less": false
-}
 state_name = &"attack"
 blueprint = SubResource("Resource_c7nay")
 boredom_effectivity = 1.0

@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://bf03dtvmldj1"]
+
+[ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_t3s2h"]
+[ext_resource type="Texture2D" uid="uid://62ny1d2q3d1a" path="res://assets/textures/ui/underline_panel.png" id="2_gdtqt"]
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/numeric.tres" id="3_3tk0x"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gyaym"]
+texture = ExtResource("2_gdtqt")
+
+[node name="Records" type="Control" unique_id=1975214078]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_t3s2h")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=253822604]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="VBoxContainer2" unique_id=86531324]
+layout_mode = 2
+text = "RECORDS TODAY"
+horizontal_alignment = 1
+
+[node name="Panel" type="Panel" parent="VBoxContainer2/Label" unique_id=1010839019]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_gyaym")
+
+[node name="RECORDS" type="VBoxContainer" parent="VBoxContainer2" unique_id=1575924144]
+layout_mode = 2
+theme = ExtResource("3_3tk0x")
+
+[node name="RecordEntry" type="HBoxContainer" parent="VBoxContainer2/RECORDS" unique_id=366942020]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry" unique_id=342122888]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BUBLIN"
+
+[node name="SPACER" type="PanelContainer" parent="VBoxContainer2/RECORDS/RecordEntry" unique_id=911904962]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry" unique_id=1627573487]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "96000021"
+horizontal_alignment = 2
+
+[node name="RecordEntry2" type="HBoxContainer" parent="VBoxContainer2/RECORDS" unique_id=1534944018]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry2" unique_id=2070635804]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DMC2FEE"
+
+[node name="SPACER" type="PanelContainer" parent="VBoxContainer2/RECORDS/RecordEntry2" unique_id=1186163170]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry2" unique_id=204024127]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "78004441"
+horizontal_alignment = 2
+
+[node name="RecordEntry3" type="HBoxContainer" parent="VBoxContainer2/RECORDS" unique_id=979521331]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry3" unique_id=513879437]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "JACOB1"
+
+[node name="SPACER" type="PanelContainer" parent="VBoxContainer2/RECORDS/RecordEntry3" unique_id=1714500656]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry3" unique_id=1473956489]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "8008315"
+horizontal_alignment = 2
+
+[node name="RecordEntry4" type="HBoxContainer" parent="VBoxContainer2/RECORDS" unique_id=1185479490]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry4" unique_id=1842237235]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "BOBBY"
+
+[node name="SPACER" type="PanelContainer" parent="VBoxContainer2/RECORDS/RecordEntry4" unique_id=1664812908]
+custom_minimum_size = Vector2(25, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/RECORDS/RecordEntry4" unique_id=1900788236]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "960021"
+horizontal_alignment = 2

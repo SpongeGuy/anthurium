@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://dwax5kri3bg24"]
+
+[ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_d1qtq"]
+[ext_resource type="Texture2D" uid="uid://cxugdwwpu6n8p" path="res://assets/textures/ui/continue_arrow.png" id="2_0upcr"]
+[ext_resource type="Script" uid="uid://dagk4uclh6cc1" path="res://scripts/classes/ui/UIStage.gd" id="2_wa8cq"]
+[ext_resource type="Script" uid="uid://brvkmna4fg78q" path="res://scripts/ui/misc/changing_text.gd" id="3_7gvv4"]
+[ext_resource type="Script" uid="uid://d315vbgqswj2g" path="res://scripts/ui/misc/blink_visually.gd" id="4_wa8cq"]
+
+[node name="ArcadeTitle" type="Control" unique_id=1523717991]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_d1qtq")
+script = ExtResource("2_wa8cq")
+
+[node name="Panel" type="Panel" parent="." unique_id=586007397]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=272082005]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.006
+anchor_right = 0.99500006
+anchor_bottom = 1.0
+offset_left = 0.15999985
+offset_right = 0.19995117
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer" unique_id=871825335]
+modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HERO 1 PRESS START"
+horizontal_alignment = 1
+script = ExtResource("3_7gvv4")
+possibilities = Array[String](["HERO 1", "PRESS START"])
+
+[node name="Label2" type="Label" parent="Panel/HBoxContainer" unique_id=1342635334]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "DRUID 2 PRESS START"
+horizontal_alignment = 1
+script = ExtResource("3_7gvv4")
+possibilities = Array[String](["HERO 2", "PRESS START"])
+
+[node name="Panel2" type="Panel" parent="." unique_id=3010242]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel2" unique_id=1125509104]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.006
+anchor_right = 0.99500006
+anchor_bottom = 1.0
+offset_left = 0.15999985
+offset_right = 0.19995117
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel2/HBoxContainer" unique_id=494972855]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SPONGE MADE"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel2/HBoxContainer" unique_id=1178462840]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPTIONS"
+horizontal_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel2/HBoxContainer/Label2" unique_id=238230810]
+position = Vector2(69, 8)
+texture = ExtResource("2_0upcr")
+script = ExtResource("4_wa8cq")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Panel2/HBoxContainer/Label2" unique_id=1155004991]
+position = Vector2(137, 8)
+texture = ExtResource("2_0upcr")
+script = ExtResource("4_wa8cq")
+
+[node name="Label3" type="Label" parent="Panel2/HBoxContainer" unique_id=1636001833]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SUN TOWER ASKING"
+horizontal_alignment = 1
+script = ExtResource("3_7gvv4")
+timer = 5.1
+possibilities = Array[String](["MASKS AND MYSTERY", "WIZARD BATTLE", "REMEMBER?", "ANTHURIUM", "THE STADIUM CALLS", "WYVERNS AND WYLIES", "FLORAL FOUNDRY", "ENDLESS COLORED WAYS", "MOON GATE CLIMBER", "SUN TOWER ASKING"])
+random = true

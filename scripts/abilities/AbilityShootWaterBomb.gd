@@ -4,7 +4,12 @@ var facing: FacingComponent
 @export var magnitude: float = 60
 @export var power: float = 30
 
+var d: Texture2D = load("uid://upw2415mfccj") # water_drop.png
+var n: String = "Water Bomb"
+
 func initialize() -> void:
+	display_icon = d
+	display_name = n
 	facing = entity.get_component(FacingComponent)
 	
 ## actually execute the ability
@@ -20,7 +25,7 @@ func _execute() -> void:
 	var wb_phys: PhysicsComponent = wb.get_component(PhysicsComponent)
 	var final_magnitude: float = magnitude + rng.randf_range(-5, 5)
 	wb_phys.apply_impulse(direction, magnitude)
-	EntityManager.spawn_entity(wb, entity.global_position, 0, false, false)
+	EntityManager.spawn_entity(wb, entity.global_position, 0, false)
 	finished.emit()
 
 func on_pressed(modifier: bool) -> void:

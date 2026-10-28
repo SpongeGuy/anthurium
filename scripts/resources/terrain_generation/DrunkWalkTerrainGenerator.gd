@@ -15,14 +15,8 @@ func generate(rng: RandomNumberGenerator, ground_type: StringName, wall_type: St
 		var from := Vector2i(rng.randi_range(1, WorldGrid.width - 2), rng.randi_range(1, WorldGrid.height - 2))
 		var to := Vector2i(rng.randi_range(1, WorldGrid.width - 2), rng.randi_range(1, WorldGrid.height - 2))
 		_carve(from, to, rng, ground, directness)
-
-	var border: CellType = CellTypeRegistry.get_cell_type(indestructible_type)
-	for x in WorldGrid.width:
-		WorldGrid.get_cell(Vector2i(x, 0)).type = border
-		WorldGrid.get_cell(Vector2i(x, WorldGrid.height - 1)).type = border
-	for y in WorldGrid.height:
-		WorldGrid.get_cell(Vector2i(0, y)).type = border
-		WorldGrid.get_cell(Vector2i(WorldGrid.width - 1, y)).type = border
+	
+	enforce_border(indestructible_type)
 
 func _carve(from: Vector2i, to: Vector2i, rng: RandomNumberGenerator, ground: CellType, directness: float) -> void:
 	var pos := from

@@ -209,13 +209,13 @@ func set_visibility(to: bool) -> void:
 
 
 
-func _on_cell_hidden(coords: Vector2i) -> void:
+func _on_cell_hidden(_coords: Vector2i) -> void:
 	resolve_visibility(get_current_cell())
 	
-func _on_cell_revealed(coords: Vector2i) -> void:
+func _on_cell_revealed(_coords: Vector2i) -> void:
 	resolve_visibility(get_current_cell())
 	
-func _on_cells_visibled(batch: Dictionary[Vector2i, bool]) -> void:
+func _on_cells_visibled(_batch: Dictionary[Vector2i, bool]) -> void:
 	resolve_visibility(get_current_cell())
 
 func get_current_cell() -> CellData:
@@ -223,6 +223,8 @@ func get_current_cell() -> CellData:
 
 
 func resolve_visibility(cell: CellData) -> void:
+	if not hide_in_invisible_cells:
+		return
 	if not cell:
 		return
 	if cell.invisible and visible == true:
