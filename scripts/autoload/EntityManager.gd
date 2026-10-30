@@ -56,7 +56,7 @@ func attach_key_to_entity(entity: Entity) -> Entity:
 ## takes in an Entity and adds it to the world at a given position and z.
 ## offsets entity very slightly to prevent infinite collisions with other entities.
 ## set safely to false to prevent checking for a valid ground location.
-func spawn_entity(entity: Entity, position: Vector2, z: float, safely: bool = true, player_id: int = -1) -> void:
+func spawn_entity(entity: Entity, position: Vector2, z: float, safely: bool = true) -> void:
 	if not entity.is_initialized:
 		entity.initialize()
 	var spawn_pos: Vector2 = get_safe_spawn_position(position, false) if safely else position
@@ -66,8 +66,6 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, safely: bool = tr
 	entity.global_position = spawn_pos + Vector2(randf_range(-0.5, 0.5), randf_range(-0.5, 0.5))
 	entity.set_z_value(z)
 	active_entities.append(entity)
-	if player_id >= 0:
-		PlayerManager.set_player(player_id, entity)
 	entity.tree_exiting.connect(_on_entity_left_tree.bind(entity), CONNECT_ONE_SHOT)
 	var name_base: String = str(entity.basename) if entity.basename != &"" else entity.get_class()
 	entity.name = "%s_%d" % [name_base, entity.get_instance_id()]
@@ -78,17 +76,17 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, safely: bool = tr
 	entity.entity_spawned.emit.call_deferred()
 	EventBus.entity_spawned.emit.call_deferred(entity)
 
-func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, safely: bool = true, player_id: int = -1) -> void:
-	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, safely, player_id)
+func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, safely: bool = true) -> void:
+	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, safely)
 
-func simple_spawn(entity_type: StringName, position: Vector2, safely: bool = true, player_id: int = -1) -> Entity:
+func simple_spawn(entity_type: StringName, position: Vector2, safely: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
-	spawn_entity(entity, position, 0, safely, player_id)
+	spawn_entity(entity, position, 0, safely)
 	return entity
 
-func simple_spawn_tile(entity_type: StringName, tile: Vector2i, safely: bool = true, player_id: int = -1) -> Entity:
+func simple_spawn_tile(entity_type: StringName, tile: Vector2i, safely: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
-	spawn_entity_at_tile(entity, tile, 0, safely, player_id)
+	spawn_entity_at_tile(entity, tile, 0, safely)
 	return entity
 
 func _on_entity_left_tree(e: Entity) -> void:
@@ -109,6 +107,9 @@ func create_generic_entity() -> Entity:
 
 func detach_entity(e: Entity) -> void:
 	active_entities.erase(e)
+	var cb: Callable = _on_entity_left_tree.bind(e)
+	if e.tree_exiting.is_connected(cb):
+		e.tree_exiting.disconnect(cb)
 	if e.get_parent():
 		e.get_parent().remove_child(e)
 

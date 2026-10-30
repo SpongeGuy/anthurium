@@ -2,8 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://cvm5fr4ckdci4" path="res://scenes/systems/ui/character_selector_hud.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="5_272bh"]
-[ext_resource type="PackedScene" uid="uid://fitw5w0dk6uf" path="res://scenes/systems/ui/hand.tscn" id="6_7mycd"]
-[ext_resource type="PackedScene" uid="uid://x8blmpfejth8" path="res://scenes/systems/ui/hud.tscn" id="12_w48qg"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_272bh"]
@@ -64,16 +62,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="UI_HUD" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=2080876964 instance=ExtResource("12_w48qg")]
-offset_top = 360.0
-offset_bottom = 559.9999
-mouse_filter = 1
-
 [node name="UI_C_SELECT" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1391793777 instance=ExtResource("4_lquwl")]
-
-[node name="UI_HAND" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1172565642 instance=ExtResource("6_7mycd")]
-z_index = 10
-position = Vector2(246.66667, 138.33334)
 
 [node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]
 

@@ -149,6 +149,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if ages:
 		_accumulate_age(delta)
+	_out_of_bounds_check_timer -= delta
 	if _out_of_bounds_check_timer <= 0.0:
 		_out_of_bounds_check_timer = out_of_bounds_check_timer
 		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
@@ -279,6 +280,8 @@ func _accumulate_age(delta: float) -> void:
 		expired.emit()
 
 func die_and_despawn() -> void:
+	if is_queued_for_deletion():
+		return
 	died.emit()
 	queue_free()
 
@@ -372,7 +375,9 @@ func is_friends_with(entity: Entity) -> bool:
 	return friends.has(entity)
 
 func _clean_up_invalid_friends() -> void:
-	for i in range(friends.size() -1, -1, -1):
+	if friends.is_empty():
+		return
+	for i in range(friends.size(), -1, -1):
 		if not is_instance_valid(friends[i]):
 			friends.remove_at(i)
 			continue

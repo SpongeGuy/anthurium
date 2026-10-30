@@ -57,7 +57,11 @@ func _ready() -> void:
 	BloomEventRegistry.scan_all()
 	UiController.retrieve_references(main_viewport)
 	
+	PlayerManager.join_requested.connect(_on_join_requested)
+	PlayerManager.all_players_dead.connect(_on_all_players_dead)
+	
 	switch_app_state(AppStatus.BOOT)
+	
 
 
 func _process(delta: float) -> void:
@@ -68,9 +72,12 @@ func _process(delta: float) -> void:
 		
 	_handle_control_inputs(delta)
 	
+	#if not app_state == AppStatus.BOOT:
+		#PlayerManager.control_selector(delta)
+		#PlayerManager.control_players(delta)
+		
 	if not app_state == AppStatus.BOOT:
-		PlayerManager.control_selector(delta)
-		PlayerManager.control_players(delta)
+		PlayerManager.poll(delta)
 
 
 func _run_boot_sequence() -> void:
@@ -103,6 +110,8 @@ func _initialize_world() -> void:
 	EntityManager.register_ysort_entity_container(world_2d.find_child("YSort", true, false))
 	EntityManager.destroy_all_entities()
 	
+	GameInterface.register_effects_container(container_2d)
+	
 
 func change_active_controller(controller: Controller) -> void:
 	active_controller = controller
@@ -123,14 +132,14 @@ func switch_game_state(status: GameStatus) -> void:
 			_wait_for_ui()
 			change_active_controller(Controller.HAND)
 			get_tree().paused = true
-			UiController.hud.set_state(UIHUD.State.ACTIVE)
-			UiController.hand.switch_stages(UiController.hud)
+			#UiController.hud.set_state(UIHUD.State.ACTIVE)
+			#UiController.hand.switch_stages(UiController.hud)
 		GameStatus.PLAYING:
 			_wait_for_ui()
 			get_tree().paused = false
 			change_active_controller(Controller.PLAYER)
-			UiController.hud.set_state(UIHUD.State.BAR)
-			UiController.hand.go_invisible()
+			#UiController.hud.set_state(UIHUD.State.BAR)
+			#UiController.hand.go_invisible()
 	game_state_changed.emit(game_state)
 
 
@@ -147,7 +156,7 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 	world_ready = false
 	match status:
 		AppStatus.BOOT:
-			UiController.hand.visible = false
+			#UiController.hand.visible = false
 			_run_boot_sequence()
 			switch_game_mode(GameMode.QUEST)
 		AppStatus.MENU:
@@ -160,7 +169,7 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			_fade(0, 1.6)
 			MusicController.load_layer_from_path(MusicController.Layer.MELODY, "uid://d0jg8nqdq5mfp")
 			MusicController.play(true)
-			UiController.hud.set_state(UIHUD.State.INACTIVE)
+			#UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.MENU_DEFAULT)
 			#UiController.hand.switch_stages(UiController.add_stage("title"))
 			UiController.add_stage("arcade_title")
@@ -176,16 +185,18 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			#GameInterface.start_debug_platform()
 			switch_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
-			UiController.hand.go_invisible()
+			#UiController.hand.go_invisible()
 			await _fade(0, 0.5)
 			world_ready = true
 			game_started.emit()
 		AppStatus.GAMEOVER:
+			GameInterface.finish_run()
 			GameInterface.background_mode = true
 			CameraController.set_behavior_mode(CameraController.Behavior.TRACKING_RANDOM, 5.0)
-			UiController.hud.set_state(UIHUD.State.INACTIVE)
+			#UiController.hud.set_state(UIHUD.State.INACTIVE)
 			change_active_controller(Controller.NONE)
-			UiController.hand.visible = false # REPLACE THIS WITH SETTING THE STAGE FOR UI
+			#UiController.hand.visible = false
+			UiController.show_game_over(PlayerManager.run_results, PlayerManager.get_participant_count())
 	
 	
 
@@ -238,12 +249,16 @@ func initialize_main_menu() -> void:
 # -----------------------------------
 # utility stuff
 # -----------------------------------
-
-func _link_player_death() -> void:
-	PlayerManager.player_died.connect(_on_player_death, CONNECT_ONE_SHOT)
-
-func _on_player_death(_slot: int, _e: Entity) -> void:
-	if not PlayerManager.slot_states.values().has(PlayerManager.SlotState.PLAYING):
+		
+func _on_join_requested(slot: int, entity_id: StringName) -> void:
+	if app_state != AppStatus.GAME:
+		await switch_app_state(AppStatus.GAME) # also starts the run
+	elif not world_ready:
+		await game_started # another player already triggered the switch
+	await GameInterface.spawn_player(slot, entity_id)
+	
+func _on_all_players_dead(_results: Array[Dictionary]) -> void:
+	if app_state == AppStatus.GAME:
 		switch_app_state(AppStatus.GAMEOVER)
 	
 func _wait_for_ui() -> void:
@@ -280,8 +295,8 @@ func _fade(target_alpha: float, duration: float) -> void:
 
 func _handle_control_inputs(delta: float) -> void:
 	match active_controller:
-		Controller.HAND:
-			UiController.hand.control(delta)
+		#Controller.HAND:
+			#UiController.hand.control(delta)
 		Controller.CAMERA:
 			CameraController.directly_control(delta)
 

@@ -73,7 +73,7 @@ func _on_activating_unactivateable() -> void:
 
 func _ready() -> void:
 	state_changed.connect(_on_state_changed)
-	PlayerManager.player_set.connect(_on_player_set)
+	#PlayerManager.player_set.connect(_on_player_set)
 
 func _process(delta: float) -> void:
 	var speed: float = 15
