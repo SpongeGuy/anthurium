@@ -46,9 +46,9 @@
               "state": {
                 "file": "Main.canvas",
                 "viewState": {
-                  "x": -10835.697255542587,
-                  "y": 11733.617218427098,
-                  "zoom": 0.19999999999999996
+                  "x": -10637.847597449267,
+                  "y": 11832.18105702696,
+                  "zoom": 0.39999999999999947
                 }
               },
               "icon": "lucide-layout-dashboard",
@@ -128,8 +128,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "56cc21403932d857",
@@ -217,7 +216,7 @@
             }
           },
           {
-            "id": "9d7830dfabad0cb1",
+            "id": "161bfa02d69cada8",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -249,16 +248,16 @@
   },
   "active": "e8b368230a70366d",
   "lastOpenFiles": [
+    "anthurium_mockup-1.png",
+    "anthurium_mockup-2.png",
+    "for my capstone/job list 9-1-26.canvas",
+    "for my capstone/anthurium.md",
+    "Main.canvas",
     "anthurium_mockup-1.png.import",
     "anthurium_mockup-2.png.import",
-    "anthurium_mockup-2.png",
-    "anthurium_mockup-1.png",
-    "for my capstone/job list 9-1-26.canvas",
-    "Main.canvas",
     "anthurium.canvas",
     "anthurium.md",
     "Untitled.md",
-    "for my capstone/anthurium.md",
     "Pasted image 20260830012729.png",
     "Word-Smith/ws-settings.md",
     "Word-Smith/ws-structure.md",
@@ -292,7 +291,6 @@
     "Markwhen/Markwhen 9-17-2026 02.02.16.mw",
     "Markwhen/Markwhen 9-17-2026 02.03.58.mw",
     "Markwhen/Markwhen 9-17-2026 02.02.23.mw",
-    "Markwhen",
     "Projects/anthurium/_tasks/give-creatures-point-value.md",
     "Untitled.canvas"
   ]

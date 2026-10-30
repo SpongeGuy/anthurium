@@ -1,5 +1,7 @@
 extends Node
 
+# autoload PlayerManager
+
 class PlayerSlot:
 	var entity: Entity
 	var input: InputComponent

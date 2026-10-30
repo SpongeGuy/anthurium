@@ -1,10 +1,29 @@
 extends CharacterBody2D
 class_name Entity
 
+
+
+enum VisibleStateFlag {
+	FLEEING = 1 << 0,
+	ALERT = 1 << 1,
+	AGGRESSIVE = 1 << 2,
+	DISPLAYING = 1 << 3,
+	WOUNDED = 1 << 4,
+	HUNTING = 1 << 5,
+	HAPPY = 1 << 6
+}
+
+
+
+signal entity_initialized
+signal died
+signal points_changed
+signal entity_spawned
+signal expired
+
 @export var display_name: String
 @export var visual: Sprite2D
 @export var archetype: CreatureArchetype
-
 
 ## See [method SpatialUtil.z_ranges_overlap], [PhysicsComponent], and [Hitbox]/[Hurtbox]
 @export var height: float = 1.0
@@ -16,22 +35,6 @@ class_name Entity
 @export var show_in_debug: bool = true
 
 var visible_state_flag: int = 0
-enum VisibleStateFlag {
-	FLEEING = 1 << 0,
-	ALERT = 1 << 1,
-	AGGRESSIVE = 1 << 2,
-	DISPLAYING = 1 << 3,
-	WOUNDED = 1 << 4,
-	HUNTING = 1 << 5,
-	HAPPY = 1 << 6
-}
-
-var _components: Dictionary[Script, Array] = {}
-
-signal entity_initialized
-signal died
-signal points_changed
-signal entity_spawned
 
 ## The filename of the scene this entity was instantiated from, without extension.
 ## Useful for identifying entity types at runtime without hardcoding class names.
@@ -39,9 +42,89 @@ var basename: StringName
 var is_initialized: bool = false
 var is_spawned: bool = false
 
-
+var _components: Dictionary[Script, Array] = {}
 
 var key: Entity = null
+
+@export_category("Lifespan")
+@export var ages: bool = true
+@export var age: float = 0.0
+@export var lifespan: float = -1
+@export var out_of_bounds_despawn_timer: float = 5.0
+
+var _out_of_bounds_despawn_timer: float = 0.0
+var out_of_bounds_check_timer: float = 5.0
+var _out_of_bounds_check_timer: float = 0.0
+
+
+@export_category("Points")
+@export var base_point_value: float = 100.0
+var points: float = 100
+
+
+@export_category("Hiding")
+@export var hide_in_invisible_cells: bool = true
+
+## used in resolving attribution chains when trying to determine the causality of events
+## if an entity is spawning a projectile or explosion, set master to that entity
+## it is up to your discretion if you want to set an owner to living entities, this could cause some unintended behavior
+## or it could be funy haha :)))))
+var origin: Entity = null
+
+
+@export_category("ZDrive")
+var s: PackedScene = preload("uid://cimer7u58jm6v")
+
+const GROUND_LEVEL: float = 0
+
+signal z_updated(value: float)
+
+var _z_tracked_nodes: Dictionary = {}
+
+@export var render_shadow: bool = true
+@export var base_z_level: float = 0.0
+@export var collide_with_terrain: bool = true
+@export var nodes_to_translate: Array[Node2D]
+@export var apply_gravity: bool = true
+@export var gravity: float = 300
+@export_range(0, 1) var bounciness: float = 0.0
+@export var min_bounce_velocity: float = 20
+@export var min_z: float = -8
+@export var max_z: float = 32
+
+@export var is_subterranean: bool = false
+
+@export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
+@export var jump_effect: EntityEffect = preload("uid://biw543fd31een")
+@export var land_effect: EntityEffect = preload("uid://dly24jhonlofh")
+@export var go_subterranean_effect: EntityEffect
+@export var is_subterranean_effect: EntityEffect
+
+var z: float = 0.0
+var _vz: float = 0.0
+var _is_on_ground: bool = true
+
+var _last_broadcast_z: float = 0.0
+
+
+var shadow: Shadow
+var shadow_base_size: float
+
+
+# if an entity is friends with this one, then its hurtboxes will not interact with this entity's hitboxes.
+var friends: Array[Entity] = []
+
+
+var flower_collection_sound: VoiceProfile = preload("uid://d0h0hx6hotcbb")
+var flowers_collected: int = 0
+var _flower_combo_timer: float = 0
+var flower_combo_timer: float = 1.5
+var flower_combo_multiplier: int = 1
+
+
+# --------------------------------------------------------------------------------
+# callbacks
+# --------------------------------------------------------------------------------
 
 
 func _ready() -> void:
@@ -62,6 +145,44 @@ func _ready() -> void:
 	is_spawned = true
 	
 	_out_of_bounds_despawn_timer = out_of_bounds_check_timer
+
+func _process(delta: float) -> void:
+	if ages:
+		_accumulate_age(delta)
+	if _out_of_bounds_check_timer <= 0.0:
+		_out_of_bounds_check_timer = out_of_bounds_check_timer
+		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
+	if is_out_of_bounds:
+		_out_of_bounds_despawn_timer -= delta
+	if _out_of_bounds_despawn_timer <= 0.0:
+		die_and_despawn()
+	
+	_tick_flower_cooldown(delta)
+
+func _physics_process(delta: float) -> void:
+	if not _is_on_ground:
+		if apply_gravity and not is_subterranean:
+			_vz -= gravity * delta
+		z += _vz * delta
+
+		if z > GROUND_LEVEL and is_subterranean:
+			is_subterranean = false
+
+		if z <= GROUND_LEVEL and not is_subterranean:
+			z = GROUND_LEVEL
+			if bounciness > 0.0 and absf(_vz) * bounciness >= min_bounce_velocity:
+				_vz = -_vz * bounciness
+				if land_effect:
+					land_effect.execute(self)
+			else:
+				_vz = 0.0
+				_is_on_ground = true
+				if land_effect:
+					land_effect.execute(self)
+
+	z = clamp(z, min_z, max_z)
+	_update_terrain_collision_layers()
+	_apply_z_offset()
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # COMPONENT MANAGEMENT
@@ -140,15 +261,7 @@ func get_basename() -> StringName:
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # age and out of bounds
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@export_category("Lifespan")
-@export var ages: bool = true
-@export var age: float = 0.0
-@export var lifespan: float = -1
-@export var out_of_bounds_despawn_timer: float = 5.0
 
-var _out_of_bounds_despawn_timer: float = 0.0
-var out_of_bounds_check_timer: float = 5.0
-var _out_of_bounds_check_timer: float = 0.0
 
 var is_out_of_bounds: bool = false:
 	set(value):
@@ -156,20 +269,9 @@ var is_out_of_bounds: bool = false:
 		if value == false:
 			_out_of_bounds_despawn_timer = out_of_bounds_check_timer
 
-signal expired
 
-func _process(delta: float) -> void:
-	if ages:
-		_accumulate_age(delta)
-	if _out_of_bounds_check_timer <= 0.0:
-		_out_of_bounds_check_timer = out_of_bounds_check_timer
-		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
-	if is_out_of_bounds:
-		_out_of_bounds_despawn_timer -= delta
-	if _out_of_bounds_despawn_timer <= 0.0:
-		die_and_despawn()
-	
-	_tick_flower_cooldown(delta)
+
+
 
 func _accumulate_age(delta: float) -> void:
 	age += delta
@@ -183,9 +285,7 @@ func die_and_despawn() -> void:
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # points
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-@export_category("Points")
-@export var base_point_value: float = 100.0
-var points: float = 100
+
 
 func transfer_points(to: Entity) -> void:
 	to.points += points
@@ -200,8 +300,6 @@ func add_points(amount: float) -> void:
 # visibility
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-@export_category("Hiding")
-@export var hide_in_invisible_cells: bool = true
 
 func set_visibility(to: bool) -> void:
 	visible = to
@@ -238,11 +336,7 @@ func resolve_visibility(cell: CellData) -> void:
 # master / slave
 # ----------------------------------------------
 
-## used in resolving attribution chains when trying to determine the causality of events
-## if an entity is spawning a projectile or explosion, set master to that entity
-## it is up to your discretion if you want to set an owner to living entities, this could cause some unintended behavior
-## or it could be funy haha :)))))
-var origin: Entity = null
+
 
 func set_origin(entity: Entity) -> void:
 	origin = entity
@@ -259,8 +353,7 @@ func get_ultimate_origin(entity: Entity) -> Entity:
 # friends
 # -------------------------------------------------------------------
 
-# if an entity is friends with this one, then its hurtboxes will not interact with this entity's hitboxes.
-var friends: Array[Entity] = []
+
 
 
 
@@ -289,45 +382,7 @@ func _clean_up_invalid_friends() -> void:
 # z drive
 # --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-@export_category("ZDrive")
-var s: PackedScene = preload("uid://cimer7u58jm6v")
 
-const GROUND_LEVEL: float = 0
-
-signal z_updated(value: float)
-
-var _z_tracked_nodes: Dictionary = {}
-
-@export var render_shadow: bool = true
-@export var base_z_level: float = 0.0
-@export var collide_with_terrain: bool = true
-@export var nodes_to_translate: Array[Node2D]
-@export var apply_gravity: bool = true
-@export var gravity: float = 300
-@export_range(0, 1) var bounciness: float = 0.0
-@export var min_bounce_velocity: float = 20
-@export var min_z: float = -8
-@export var max_z: float = 32
-
-@export var is_subterranean: bool = false
-
-@export var shadow_size_curve: Curve = preload("uid://cfvo42q61korj")
-@export var jump_effect: EntityEffect = preload("uid://biw543fd31een")
-@export var land_effect: EntityEffect = preload("uid://dly24jhonlofh")
-@export var go_subterranean_effect: EntityEffect
-@export var is_subterranean_effect: EntityEffect
-
-var z: float = 0.0
-var _vz: float = 0.0
-var _is_on_ground: bool = true
-
-var _last_broadcast_z: float = 0.0
-
-
-
-
-var shadow: Shadow
-var shadow_base_size: float
 
 func go_subterranean() -> void:
 	set_z_value(-4)
@@ -398,30 +453,7 @@ func jump(velocity: float, do_effect: bool = true) -> void:
 		jump_effect.execute(self)
 	
 	
-func _physics_process(delta: float) -> void:
-	if not _is_on_ground:
-		if apply_gravity and not is_subterranean:
-			_vz -= gravity * delta
-		z += _vz * delta
 
-		if z > GROUND_LEVEL and is_subterranean:
-			is_subterranean = false
-
-		if z <= GROUND_LEVEL and not is_subterranean:
-			z = GROUND_LEVEL
-			if bounciness > 0.0 and absf(_vz) * bounciness >= min_bounce_velocity:
-				_vz = -_vz * bounciness
-				if land_effect:
-					land_effect.execute(self)
-			else:
-				_vz = 0.0
-				_is_on_ground = true
-				if land_effect:
-					land_effect.execute(self)
-
-	z = clamp(z, min_z, max_z)
-	_update_terrain_collision_layers()
-	_apply_z_offset()
 	
 func set_z_value(value: float) -> void:
 	z = clamp(value, min_z, max_z)
@@ -453,11 +485,7 @@ func get_visual() -> CanvasItem:
 # ----------------------------------------
 # flowers
 # ------------------------------------------
-var flower_collection_sound: VoiceProfile = preload("uid://d0h0hx6hotcbb")
-var flowers_collected: int = 0
-var _flower_combo_timer: float = 0
-var flower_combo_timer: float = 1.5
-var flower_combo_multiplier: int = 1
+
 
 func _get_pitch_jump(n: int, max: float, rate: float, start: float) -> float:
 	return (max - start) * (1.0 - exp(-rate * n)) + start

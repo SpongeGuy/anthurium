@@ -84,7 +84,7 @@ func start_level(value: int) -> void:
 	var ground_tile_count: int = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND).size()
 
 
-	_create_new_spawn_director("main", level_def, current_level, ground_tile_count)
+	#_create_new_spawn_director("main", level_def, current_level, ground_tile_count)
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 	spawn_flowers()
 		

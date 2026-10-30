@@ -65,7 +65,6 @@ collision_mask = 3
 script = ExtResource("1_qa0d8")
 visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_4yo1b")
-mass = 5.0
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="HealthPackage" parent="." unique_id=435903770 instance=ExtResource("2_1vom1")]
