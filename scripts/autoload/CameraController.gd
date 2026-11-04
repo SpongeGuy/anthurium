@@ -242,8 +242,22 @@ func _handle_camera_behavior(delta: float) -> void:
 		Behavior.FROZEN:
 			pass
 				
+func get_arena_center() -> Vector2:
+	var first: Vector2 = WorldGrid.tile_to_world(Vector2i.ZERO)
+	var last: Vector2 = WorldGrid.tile_to_world(Vector2i(WorldGrid.width, WorldGrid.height))
+	return (first + last) * 0.5
+
+func center_on_arena() -> void:
+	if delay_tween:
+		delay_tween.kill()
+	behavior = Behavior.FROZEN
+	target = null
+	target_position = get_arena_center()
+	if camera:
+		camera.position = target_position
+
 func _get_center_fallback_position() -> Vector2:
-	return WorldGrid.tile_to_world(WorldGrid.get_safe_coords(WorldGrid.get_center(), CellType.TerrainType.GROUND))
+	return get_arena_center()
 	
 				
 func _handle_screen_shake(delta: float) -> void:

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5b8xajvnv2x"
-path="res://.godot/imported/doorbellchudsoyjak.png-bea4d72508658f832cb331557e4fc47a.ctex"
+uid="uid://cxym0t5t1kgwn"
+path="res://.godot/imported/anthurium_mockup-1.png-e96e3df1e859d5810813dfffad2c2393.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/more bulshit/doorbellchudsoyjak.png"
-dest_files=["res://.godot/imported/doorbellchudsoyjak.png-bea4d72508658f832cb331557e4fc47a.ctex"]
+source_file="res://anthurium_vault/assets/anthurium_mockup-1.png"
+dest_files=["res://.godot/imported/anthurium_mockup-1.png-e96e3df1e859d5810813dfffad2c2393.ctex"]
 
 [params]
 

@@ -179,13 +179,11 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			UiController.clear_stages()
 			MusicController.stop()
 			_initialize_world()
-			#_link_player_death()
 			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
 			GameInterface.start_new_run(0, randi())
 			#GameInterface.start_debug_platform()
 			switch_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
-			#UiController.hand.go_invisible()
 			await _fade(0, 0.5)
 			world_ready = true
 			game_started.emit()

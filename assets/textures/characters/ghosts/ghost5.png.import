@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byad5gl41km00"
-path="res://.godot/imported/doorbellchud.png-151e548fbbd0954d12490e9dae4db7ff.ctex"
+uid="uid://dmcxrsgdqw83q"
+path="res://.godot/imported/ghost5.png-b8f26186616e4a616dce57793e350450.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/more bulshit/doorbellchud.png"
-dest_files=["res://.godot/imported/doorbellchud.png-151e548fbbd0954d12490e9dae4db7ff.ctex"]
+source_file="res://assets/textures/characters/ghosts/ghost5.png"
+dest_files=["res://.godot/imported/ghost5.png-b8f26186616e4a616dce57793e350450.ctex"]
 
 [params]
 

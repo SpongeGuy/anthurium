@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bx8uh7u2v2pwf"
-path="res://.godot/imported/truthnuke.png-34e6c1e33f558fb9b8a0321787d6d3c3.ctex"
+uid="uid://dqqfnb7job1dx"
+path="res://.godot/imported/ghost7.png-3f9ca077c2a6402dfbb954b6776f3400.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/more bulshit/truthnuke.png"
-dest_files=["res://.godot/imported/truthnuke.png-34e6c1e33f558fb9b8a0321787d6d3c3.ctex"]
+source_file="res://assets/textures/characters/ghosts/ghost7.png"
+dest_files=["res://.godot/imported/ghost7.png-3f9ca077c2a6402dfbb954b6776f3400.ctex"]
 
 [params]
 

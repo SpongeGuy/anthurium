@@ -88,7 +88,9 @@ func extract_ability(slot: int) -> Ability:
 	if ability == null:
 		return null
 	abilities[slot] = null
-	ability.finished.disconnect(_on_ability_finished)
+	var cb: Callable = _on_ability_finished.bind(ability)
+	if ability.finished.is_connected(cb):
+		ability.finished.disconnect(cb)
 	ability.clean_up()
 	ability_unregistered.emit(slot)
 	return ability
@@ -193,5 +195,5 @@ func _emit_slot_changed(slot: int, ability: Ability) -> void:
 		ability_unregistered.emit(slot)
 		
 
-func _on_ability_finished(slot: int) -> void:
-	ability_cast_successfully.emit(slot)
+func _on_ability_finished(ability: Ability) -> void:
+	ability_cast_successfully.emit(ability.slot)

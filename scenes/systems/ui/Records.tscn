@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b5k41evsjp3v5" path="res://assets/resources/themes/typecast_bold.tres" id="1_t3s2h"]
 [ext_resource type="Texture2D" uid="uid://62ny1d2q3d1a" path="res://assets/textures/ui/underline_panel.png" id="2_gdtqt"]
-[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/numeric.tres" id="3_3tk0x"]
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/eighties-arcade.tres" id="3_3tk0x"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gyaym"]
 texture = ExtResource("2_gdtqt")

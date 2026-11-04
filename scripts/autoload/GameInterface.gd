@@ -47,6 +47,19 @@ func _process(delta: float) -> void:
 	_tick_flower_quest_runtime(delta)
 	if run_active:
 		time += delta
+
+	# spawn ghosts until we've run out of points in current_ghost_points.
+	# in reset_ghost_quest, current_ghost_points is set to total_ghost_points.
+	# total_ghost_points is not changed except between levels.
+	if spawning_ghosts:
+		_ghost_spawn_timer -= delta
+		if _ghost_spawn_timer <= 0:
+			print("cgp: %s" % current_ghost_points)
+			current_ghost_points -= try_summon_ghost(current_ghost_points)
+
+			if current_ghost_points <= 0:
+				spawning_ghosts = false
+
  
 func register_effects_container(node: Node) -> void:
 	effects_container = node
@@ -104,6 +117,10 @@ func start_level(value: int) -> void:
 	var ground_tile_count: int = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND).size()
 	_create_new_spawn_director(MAIN_POOL, level_def, current_level, ground_tile_count)
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+	print("HEY %s %s" % [ground_tile_count, current_level])
+
+	reset_ghost_quest(ground_tile_count, current_level)
+	spawning_ghosts = true
 	spawn_flowers()
 	process_paused = false
  
@@ -129,6 +146,7 @@ func _reset_world_for_new_level(level_def: LevelDefinition) -> void:
 	WorldGrid.init_grid(level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y), level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y))
 	TerrainManager.generate(level_def.terrain_generator, level_rng, level_def.ground_type, level_def.wall_type, level_def.indestructible_type, level_def.soft_wall_type)
 	WorldGrid.hide_map()
+	CameraController.center_on_arena()
 	level_loaded.emit(current_level)
  
 func _teardown_current_level() -> void:
@@ -165,8 +183,8 @@ func spawn_player(slot: int, entity_id: StringName = &"") -> void:
 	WorldGrid.reveal_from(tile)
 	var fx: ScriptableSprite = ScriptableSprite.new(id, world_pos, SpatialUtil.get_random_offscreen_position(CameraController.camera), SPAWN_FX_TIME, 0)
 	effects_container.add_child(fx)
-	if PlayerManager.slots.is_empty():
-		CameraController.go_instantly_to(world_pos) # first player in snaps the camera; late joiners must not yank it
+	#if PlayerManager.slots.is_empty():
+		#CameraController.go_instantly_to(world_pos) # first player in snaps the camera; late joiners must not yank it
 	await fx.finished_animating
  
 	# the player may have unplugged / been removed while the animation played
@@ -207,6 +225,75 @@ func _warp_out(e: Entity, to: Vector2) -> void:
 	EntityManager.detach_entity(e)
 
 
+# ----------------------------------------------
+# KILL QUEST
+# ----------------------------------------------
+
+# at the start of a level, ghosts will spawn in and begin to wander around or orbit around the map center.
+# ghost points will be calculated and then ghosts will spawn in.
+# the algorithm will always try to spawn in a ghost with the highest amount of points.
+# after the calamity timer elapses, all ghosts will become aggressive.
+var total_ghost_points: int = 0
+var current_ghost_points: int = 0
+var kills: int = 0
+var kill_quest_complete: bool = false
+var ghosts: Array[Entity] = []
+var ghost_values: Dictionary[int, StringName] = {
+	1: "ghost_1",
+	2: "ghost_2",
+	5: "ghost_5",
+	10: "ghost_10",
+	25: "ghost_25",
+	50: "ghost_50",
+	100: "ghost_100",
+}
+
+var spawning_ghosts: bool = false
+
+# timer is set to (ground_tile_count * entities_per_ground_tile + level_value * entities_per_level * 15)
+var _ghost_calamity_timer: float = 0
+
+var _ghost_spawn_timer: float = 0.0
+var ghost_spawn_timer_length: float = 0.5
+
+# ghost points should scale with (level value) and (ground_tile_count)
+func reset_ghost_quest(ground_tile_count: int, level_value: int) -> void:
+	var multiplier: float = max(0.05, level_value * 0.15)
+	total_ghost_points = max(10, multiplier * ground_tile_count)
+	for g in ghosts:
+		g.queue_free()
+	ghosts.clear()
+	kills = 0
+	kill_quest_complete = false
+	current_ghost_points = total_ghost_points
+
+
+func try_summon_ghost(points: int) -> int:
+	var best: int = 0
+	var ghost_index: int = 0
+	for key: int in ghost_values:
+		if key <= points and (best == null or key > best):
+			best = key
+
+	var picking: bool = true
+	while picking:
+		var rng: RandomNumberGenerator = RunRng.get_stream("ghosts")
+		var keys: Array[int] = ghost_values.keys()
+		var index: int = rng.randi_range(0, ghost_values.size() - 1)
+		best = keys[index]
+		if points < best:
+			continue
+		picking = false
+	# var spawn_pos: Vector2 = SpatialUtil.get_random_offscreen_position(CameraController.camera)
+	print("best: %s" % best)
+	
+	if best == 0:
+		return 0
+	var spawn_pos: Vector2 = WorldGrid.tile_to_world(WorldGrid.get_random_coords_of_type(CellType.TerrainType.GROUND, RunRng.get_stream("ghosts")))
+
+	print(ghost_values[best])
+	EntityManager.simple_spawn(ghost_values[best], spawn_pos)
+	return best
 
 
 

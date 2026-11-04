@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvgjupib66adm"
-path="res://.godot/imported/anthurium_mockup-2.png-f48f237ea6b32d77238babbc264d1ce4.ctex"
+uid="uid://bx8uh7u2v2pwf"
+path="res://.godot/imported/truthnuke.png-65b3e5c36cdfde3f01b5ca924ccfee7c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/anthurium_mockup-2.png"
-dest_files=["res://.godot/imported/anthurium_mockup-2.png-f48f237ea6b32d77238babbc264d1ce4.ctex"]
+source_file="res://anthurium_vault/assets/more bulshit/truthnuke.png"
+dest_files=["res://.godot/imported/truthnuke.png-65b3e5c36cdfde3f01b5ca924ccfee7c.ctex"]
 
 [params]
 

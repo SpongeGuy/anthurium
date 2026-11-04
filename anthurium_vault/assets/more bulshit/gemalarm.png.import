@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6c2xmmq5mtdb"
-path="res://.godot/imported/anthurium_mockup-1.png-4efc8ced30226a1559ff4988c48c2d49.ctex"
+uid="uid://dlhpjwvgdypuy"
+path="res://.godot/imported/gemalarm.png-2f74ed723413113ffdc91a91d794ae5e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://anthurium_vault/anthurium_mockup-1.png"
-dest_files=["res://.godot/imported/anthurium_mockup-1.png-4efc8ced30226a1559ff4988c48c2d49.ctex"]
+source_file="res://anthurium_vault/assets/more bulshit/gemalarm.png"
+dest_files=["res://.godot/imported/gemalarm.png-2f74ed723413113ffdc91a91d794ae5e.ctex"]
 
 [params]
 

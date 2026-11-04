@@ -8,55 +8,40 @@
         "type": "tabs",
         "children": [
           {
-            "id": "12afc7c931b135ff",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "for my capstone/anthurium.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "anthurium"
-            }
-          },
-          {
-            "id": "181dfbdcfab63d9d",
-            "type": "leaf",
-            "state": {
-              "type": "canvas",
-              "state": {
-                "file": "for my capstone/job list 9-1-26.canvas",
-                "viewState": {
-                  "x": -5032.346218275993,
-                  "y": 56.89859750792711,
-                  "zoom": -1.6000000000000005
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "job list 9-1-26"
-            }
-          },
-          {
             "id": "e8b368230a70366d",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "Main.canvas",
+                "file": "anthurium/Main.canvas",
                 "viewState": {
-                  "x": -10637.847597449267,
-                  "y": 11832.18105702696,
-                  "zoom": 0.39999999999999947
+                  "x": -9383.6447467769,
+                  "y": 11561.326377570678,
+                  "zoom": -5.551115123125783e-16
                 }
               },
               "icon": "lucide-layout-dashboard",
               "title": "Main"
             }
+          },
+          {
+            "id": "c13607b653bf0ce5",
+            "type": "leaf",
+            "state": {
+              "type": "canvas",
+              "state": {
+                "file": "nvchad motions.canvas",
+                "viewState": {
+                  "x": -28.18627264360758,
+                  "y": -304.93190536223676,
+                  "zoom": -0.41345237698323367
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "nvchad motions"
+            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -216,7 +201,7 @@
             }
           },
           {
-            "id": "161bfa02d69cada8",
+            "id": "b62fc4da8f9e87f8",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -248,22 +233,37 @@
   },
   "active": "e8b368230a70366d",
   "lastOpenFiles": [
-    "anthurium_mockup-1.png",
-    "anthurium_mockup-2.png",
-    "for my capstone/job list 9-1-26.canvas",
-    "for my capstone/anthurium.md",
-    "Main.canvas",
-    "anthurium_mockup-1.png.import",
-    "anthurium_mockup-2.png.import",
+    "nvchad motions.canvas",
+    "anthurium/Main.canvas",
+    "assets/anthurium_mockup-1.png.import",
+    "assets/anthurium_mockup-2.png.import",
+    "assets/Pasted image 20260830012729.png.import",
+    "nvchad motions.md",
+    "anthurium/inspiration bible.md",
+    "anthurium/job list 9-1-26.canvas",
+    "anthurium/loop.md",
+    "anthurium/plant anthurium design for the plant.canvas",
+    "anthurium/anthurium.md",
+    "anthurium/Creatures.md",
+    "assets/Pasted image 20260830012729.png",
+    "merm.md",
+    "old/JUNK/websitelayout.md",
+    "anthurium",
+    "for my capstone/anthurium_tasks/wave man.md",
+    "old/JUNK/shit_ass.md",
+    "old/JUNK/post-fuck.md",
+    "old/JUNK/post-1.md",
+    "old/JUNK/post-2.md",
+    "old/Game loop.md",
+    "assets/anthurium_mockup-1.png",
+    "assets/anthurium_mockup-2.png",
     "anthurium.canvas",
     "anthurium.md",
-    "Untitled.md",
-    "Pasted image 20260830012729.png",
+    "anthurium_mockup-1.png.import",
+    "anthurium_mockup-2.png.import",
     "Word-Smith/ws-settings.md",
     "Word-Smith/ws-structure.md",
     "Word-Smith",
-    "for my capstone/plant anthurium design for the plant.canvas",
-    "Creatures.md",
     "worldbuilder/Timeline.md",
     "worldbuilder/Atlas.md",
     "worldbuilder/Map.canvas",
@@ -274,24 +274,9 @@
     "worldbuilder/Erenor.md",
     "worldbuilder/Nyxis Nimmos.md",
     "worldbuilder/Seanor Ikhor.md",
-    "worldbuilder/Spire Sea.md",
-    "worldbuilder/Emer.md",
-    "worldbuilder/Calamat.md",
-    "worldbuilder/Calamas.md",
-    "worldbuilder/Astral Traveller.md",
-    "worldbuilder/Rhwnych.md",
     "mappa.png",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",
-    "worldbuilder/The Unfathomed.md",
-    "for my capstone/anthurium_tasks/wave man.md",
-    "merm.md",
-    "for my capstone/anthurium_tasks",
-    "Untitled",
-    "Markwhen/Markwhen 9-17-2026 02.02.16.mw",
-    "Markwhen/Markwhen 9-17-2026 02.03.58.mw",
-    "Markwhen/Markwhen 9-17-2026 02.02.23.mw",
-    "Projects/anthurium/_tasks/give-creatures-point-value.md",
-    "Untitled.canvas"
+    "for my capstone/anthurium_tasks"
   ]
 }

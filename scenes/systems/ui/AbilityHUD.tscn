@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://x2slqpem3og1"]
+
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/eighties-arcade.tres" id="1_pa76o"]
+[ext_resource type="Texture2D" uid="uid://dvt6eg4pxqerm" path="res://assets/textures/ability/misc/frame.png" id="2_nb72a"]
+[ext_resource type="FontFile" uid="uid://iwpkl7x7k5dr" path="res://assets/resources/fonts/Picopixel.ttf" id="3_2ffci"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_emcra"]
+font = ExtResource("3_2ffci")
+font_size = 8
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control" unique_id=1036652330]
+texture_filter = 1
+layout_mode = 3
+anchor_right = 0.637
+anchor_bottom = 1.0
+offset_right = -385.68002
+offset_bottom = -255.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_pa76o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=793263216]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=398600514]
+layout_mode = 2
+text = "P1"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=1195960851]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ICON" type="Sprite2D" parent="VBoxContainer/Control" unique_id=962573706]
+
+[node name="FRAME" type="Sprite2D" parent="VBoxContainer/Control" unique_id=2096217082]
+position = Vector2(11, 11)
+texture = ExtResource("2_nb72a")
+
+[node name="Label" type="Label" parent="VBoxContainer/Control" unique_id=2036260628]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 15.0
+offset_right = 45.0
+offset_bottom = 25.0
+text = "A"
+label_settings = SubResource("LabelSettings_emcra")
+
+[node name="Control2" type="Control" parent="VBoxContainer" unique_id=1251952107]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ICON" type="Sprite2D" parent="VBoxContainer/Control2" unique_id=1195032829]
+
+[node name="FRAME" type="Sprite2D" parent="VBoxContainer/Control2" unique_id=1320339336]
+position = Vector2(11, 11)
+texture = ExtResource("2_nb72a")
+
+[node name="Label" type="Label" parent="VBoxContainer/Control2" unique_id=1513400654]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 15.0
+offset_right = 45.0
+offset_bottom = 25.0
+text = "B"
+label_settings = SubResource("LabelSettings_emcra")
+
+[node name="Control3" type="Control" parent="VBoxContainer" unique_id=1162661835]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ICON" type="Sprite2D" parent="VBoxContainer/Control3" unique_id=147955426]
+
+[node name="FRAME" type="Sprite2D" parent="VBoxContainer/Control3" unique_id=1949336001]
+position = Vector2(11, 11)
+texture = ExtResource("2_nb72a")
+
+[node name="Label" type="Label" parent="VBoxContainer/Control3" unique_id=1918791799]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 15.0
+offset_right = 45.0
+offset_bottom = 25.0
+text = "X"
+label_settings = SubResource("LabelSettings_emcra")
+
+[node name="Control4" type="Control" parent="VBoxContainer" unique_id=1039576060]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ICON" type="Sprite2D" parent="VBoxContainer/Control4" unique_id=488190719]
+
+[node name="FRAME" type="Sprite2D" parent="VBoxContainer/Control4" unique_id=1094648697]
+position = Vector2(11, 11)
+texture = ExtResource("2_nb72a")
+
+[node name="Label" type="Label" parent="VBoxContainer/Control4" unique_id=1451765652]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 15.0
+offset_right = 45.0
+offset_bottom = 25.0
+text = "Y"
+label_settings = SubResource("LabelSettings_emcra")
