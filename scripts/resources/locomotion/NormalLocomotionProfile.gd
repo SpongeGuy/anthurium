@@ -6,8 +6,9 @@ class_name NormalLocomotionProfile
 ## the handler's own per-entity fields. handler is never shared so mutating it
 ## here is always safe to do.
 ## velocity = direction * speed!
-func move(handler: LocomotionHandler, delta: float) -> Vector2:
+func move(handler: LocomotionHandler, _delta: float) -> Vector2:
 	return handler.speed * handler.input.move_input_direction
 
-func handle_step(handler: LocomotionHandler) -> void:
+
+func handle_step(_handler: LocomotionHandler) -> void:
 	pass

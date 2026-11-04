@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BSBOrbitAround" format=3 uid="uid://6cygr5mh3edh"]
+
+[ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="1_8ndos"]
+[ext_resource type="Script" uid="uid://rsfhfbve1y3b" path="res://scripts/brain/blueprint/BSBOrbitAround.gd" id="2_e5q8f"]
+
+[resource]
+script = ExtResource("2_e5q8f")
+mode = 1
+radius = 150.0
+radius_range = 10.72
+orbit_speed = 0.255
+orbit_speed_range = 0.555
+metadata/_custom_type_script = "uid://rsfhfbve1y3b"

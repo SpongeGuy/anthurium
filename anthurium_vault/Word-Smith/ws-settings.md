@@ -6,7 +6,7 @@ reinstall — or a vault restored from a backup that kept the notes and
 not the plugin folder — can get everything back.
 
 - vault: anthurium_vault
-- written: 2026-10-16 20:57:28
+- written: 2026-11-04 12:23:56
 
 ```json
 {
@@ -593,7 +593,8 @@ not the plugin folder — can get everything back.
     "footnotePlace": "foot",
     "highlights": false,
     "paperId": "letter"
-  }
+  },
+  "oldInstallerSaid": 112
 }
 ```
 <!-- wordsmith:settings:end -->

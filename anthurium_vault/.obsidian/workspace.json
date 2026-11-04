@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "anthurium/Main.canvas",
+                "file": "nvchad motions.canvas",
                 "viewState": {
-                  "x": -9383.6447467769,
-                  "y": 11561.326377570678,
-                  "zoom": -5.551115123125783e-16
+                  "x": 94.99314397649363,
+                  "y": -363.1067580803134,
+                  "zoom": -0.27101938981709983
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "Main"
+              "title": "nvchad motions"
             }
           },
           {
@@ -201,7 +201,7 @@
             }
           },
           {
-            "id": "b62fc4da8f9e87f8",
+            "id": "d9c026b340b0a954",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -233,8 +233,8 @@
   },
   "active": "e8b368230a70366d",
   "lastOpenFiles": [
-    "nvchad motions.canvas",
     "anthurium/Main.canvas",
+    "nvchad motions.canvas",
     "assets/anthurium_mockup-1.png.import",
     "assets/anthurium_mockup-2.png.import",
     "assets/Pasted image 20260830012729.png.import",

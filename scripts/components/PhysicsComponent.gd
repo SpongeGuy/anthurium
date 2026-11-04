@@ -50,6 +50,8 @@ func physics_update(delta: float) -> void:
 
 	# raw locomotion output before any terrain effect
 	var locomotion_velocity: Vector2 = locomotion.velocity if locomotion else Vector2.ZERO
+	# if entity.basename == "ghost_1":
+	# 	print(locomotion_velocity)
 
 	if entity.is_on_ground():
 		_apply_friction(delta)

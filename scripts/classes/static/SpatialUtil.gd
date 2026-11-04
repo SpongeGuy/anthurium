@@ -69,7 +69,7 @@ static func get_entities_in_rectangle(space_state: PhysicsDirectSpaceState2D, po
 			entities.append(entity)
 	return entities
 	
-static func get_random_offscreen_position(camera: Camera2D, margin: float = 20) -> Vector2:
+static func get_random_offscreen_position(camera: Camera2D, rng: RandomNumberGenerator, margin: float = 20) -> Vector2:
 	var viewport_size: Vector2 = camera.get_viewport_rect().size
 	var half_extent: Vector2 = (viewport_size * 0.5) / camera.zoom
 	var center: Vector2 = camera.get_screen_center_position()
@@ -77,15 +77,15 @@ static func get_random_offscreen_position(camera: Camera2D, margin: float = 20) 
 	var min_pos: Vector2 = center - half_extent - Vector2(margin, margin)
 	var max_pos: Vector2 = center + half_extent + Vector2(margin, margin)
 	
-	match randi() % 4:
+	match rng.randi() % 4:
 		0: # top
-			return Vector2(randf_range(min_pos.x, max_pos.x), min_pos.y)
+			return Vector2(rng.randf_range(min_pos.x, max_pos.x), min_pos.y)
 		1: # bottom
-			return Vector2(randf_range(min_pos.x, max_pos.x), max_pos.y)
+			return Vector2(rng.randf_range(min_pos.x, max_pos.x), max_pos.y)
 		2: # left
-			return Vector2(min_pos.x, randf_range(min_pos.y, max_pos.y))
+			return Vector2(min_pos.x, rng.randf_range(min_pos.y, max_pos.y))
 		_: # right
-			return Vector2(max_pos.x, randf_range(min_pos.y, max_pos.y))
+			return Vector2(max_pos.x, rng.randf_range(min_pos.y, max_pos.y))
 
 ## Returns whether two vertical spans overlap, where each span runs from
 ## its given bottom ([param z_min_a]/[param z_min_b]) up to bottom + height.

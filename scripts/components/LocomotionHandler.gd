@@ -46,6 +46,8 @@ func set_speed(value: float) -> void:
 var last_velocity: Vector2 = Vector2.ZERO
 
 func handle_locomotion(delta: float) -> Vector2:
+	if entity.basename == "ghost_1":
+		print("handling %s" % profile)
 	if move_timer > 0:
 		_move_timer -= delta
 		if _move_timer <= 0.0:

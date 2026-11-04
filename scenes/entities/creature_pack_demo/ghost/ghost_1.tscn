@@ -3,13 +3,17 @@
 [ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_kon01"]
 [ext_resource type="Script" uid="uid://dfvnbi3cahln7" path="res://scripts/resources/CreatureArchetype.gd" id="2_d0nnj"]
 [ext_resource type="PackedScene" uid="uid://britq7hc1nr0f" path="res://scenes/systems/health_and_ichor_package.tscn" id="2_qvv0c"]
+[ext_resource type="Script" uid="uid://bqgp3u5tkqomg" path="res://scripts/resources/ai/BrainLobe.gd" id="6_0xypy"]
 [ext_resource type="PackedScene" uid="uid://dqo7ynomdlqrv" path="res://scenes/systems/movement_and_behavior_package.tscn" id="6_hltkm"]
+[ext_resource type="Resource" uid="uid://6cygr5mh3edh" path="res://assets/resources/state_blueprints/ghost_orbit.tres" id="7_1ygcu"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="7_m0j38"]
+[ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="9_f61ri"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="13_j1k24"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="15_3n2ua"]
 [ext_resource type="Script" uid="uid://b63eu1n601g33" path="res://scripts/components/GhostComponent.gd" id="16_40cpy"]
 [ext_resource type="Texture2D" uid="uid://bpsjfk2vre8oi" path="res://assets/textures/characters/ghosts/ghost1.png" id="17_eu3cl"]
 [ext_resource type="Script" uid="uid://0rj4epk85ywh" path="res://scripts/resources/GhostResource.gd" id="19_d0lgp"]
+[ext_resource type="Texture2D" uid="uid://dqqfnb7job1dx" path="res://assets/textures/characters/ghosts/ghost7.png" id="20_3g3me"]
 [ext_resource type="Texture2D" uid="uid://b3nu3bkbrphp1" path="res://assets/textures/characters/ghosts/ghost2.png" id="20_owa61"]
 [ext_resource type="Texture2D" uid="uid://vkhtqtqpbttp" path="res://assets/textures/characters/ghosts/ghost3.png" id="21_4qx0m"]
 [ext_resource type="Texture2D" uid="uid://b6fgs2dh7o3oa" path="res://assets/textures/characters/ghosts/ghost4.png" id="22_triub"]
@@ -29,7 +33,14 @@ radius = 2.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_foxj7"]
 size = Vector2(5, 5)
 
-[sub_resource type="Resource" id="Resource_h1tuk"]
+[sub_resource type="Resource" id="Resource_emcra"]
+script = ExtResource("9_f61ri")
+priority = 0.1
+state_name = &"orbit"
+blueprint = ExtResource("7_1ygcu")
+metadata/_custom_type_script = "uid://jjlkhibelmw5"
+
+[sub_resource type="Resource" id="Resource_6imn8"]
 script = ExtResource("7_m0j38")
 metadata/_custom_type_script = "uid://c4d730vfuwdfd"
 
@@ -45,6 +56,11 @@ script = ExtResource("1_kon01")
 display_name = "Ghost 1"
 visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_gxl02")
+ages = false
+despawn_if_out_of_bounds = false
+out_of_bounds_despawn_timer = -1.0
+hide_in_invisible_cells = false
+collide_with_terrain = false
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=712631035]
@@ -67,13 +83,18 @@ shape = SubResource("RectangleShape2D_foxj7")
 
 [node name="HealthComponent" parent="HealthPackage" index="0" unique_id=879424821 node_paths=PackedStringArray("hitbox", "ichor")]
 hitbox = NodePath("../../Hitbox")
+god_mode = true
 ichor = NodePath("../IchorComponent")
+ichor_starvation = false
 
 [node name="DamageAnimationComponent" parent="HealthPackage" index="2" unique_id=873897815 node_paths=PackedStringArray("health_component", "sprite")]
 health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 
 [node name="BehaviorPackage" parent="." unique_id=543663287 instance=ExtResource("6_hltkm")]
+
+[node name="Brain" parent="BehaviorPackage" index="0" unique_id=619245698]
+lobes = Array[ExtResource("6_0xypy")]([SubResource("Resource_emcra")])
 
 [node name="PhysicsComponent" parent="BehaviorPackage" index="1" unique_id=908570387 node_paths=PackedStringArray("locomotion")]
 locomotion = NodePath("../LocomotionHandler")
@@ -83,7 +104,7 @@ navigation = NodePath("../../NavigationHelper")
 facing = NodePath("../FacingComponent")
 input = NodePath("../InputComponent")
 brain = NodePath("../Brain")
-profile = SubResource("Resource_h1tuk")
+profile = SubResource("Resource_6imn8")
 
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")

@@ -50,6 +50,7 @@ var key: Entity = null
 @export var ages: bool = true
 @export var age: float = 0.0
 @export var lifespan: float = -1
+@export var despawn_if_out_of_bounds: bool = true
 @export var out_of_bounds_despawn_timer: float = 5.0
 
 var _out_of_bounds_despawn_timer: float = 0.0
@@ -149,16 +150,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if ages:
 		_accumulate_age(delta)
-	_out_of_bounds_check_timer -= delta
-	if _out_of_bounds_check_timer <= 0.0:
-		_out_of_bounds_check_timer = out_of_bounds_check_timer
-		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
-	if is_out_of_bounds:
-		_out_of_bounds_despawn_timer -= delta
-	if _out_of_bounds_despawn_timer <= 0.0:
-		die_and_despawn()
 	
 	_tick_flower_cooldown(delta)
+	_tick_out_of_bounds(delta)
+
 
 func _physics_process(delta: float) -> void:
 	if not _is_on_ground:
@@ -270,7 +265,18 @@ var is_out_of_bounds: bool = false:
 		if value == false:
 			_out_of_bounds_despawn_timer = out_of_bounds_check_timer
 
-
+func _tick_out_of_bounds(delta: float) -> void:
+	if not despawn_if_out_of_bounds:
+		return
+	_out_of_bounds_check_timer -= delta
+	if _out_of_bounds_check_timer <= 0.0:
+		_out_of_bounds_check_timer = out_of_bounds_check_timer
+		is_out_of_bounds = WorldGrid.is_entity_out_of_bounds(self)
+	if is_out_of_bounds:
+		_out_of_bounds_despawn_timer -= delta
+	if _out_of_bounds_despawn_timer <= 0.0:
+		die_and_despawn()
+	
 
 
 
