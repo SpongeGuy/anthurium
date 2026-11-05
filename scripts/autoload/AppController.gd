@@ -1,4 +1,5 @@
 extends Node
+# autoload AppController, highest level of control over the application
 
 var logo_scenes: Array[PackedScene] = [
 	load("uid://cs4i88vmrey4p")

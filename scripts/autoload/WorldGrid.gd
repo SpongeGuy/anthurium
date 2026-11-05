@@ -405,7 +405,6 @@ func hide_map() -> void:
 	for y in height:
 		for x in width:
 			hide_cell(Vector2i(x, y))
-	Log.info("Map hidden.")
 	
 ## Hides every currently visible tile and clears [member _visible_cells].
 func hide_visible_cells() -> void:

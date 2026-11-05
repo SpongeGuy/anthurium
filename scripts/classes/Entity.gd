@@ -46,6 +46,9 @@ var _components: Dictionary[Script, Array] = {}
 
 var key: Entity = null
 
+## this is set in EntityManager.simple_spawn() and determines if the entity broadcasts if it died or not
+var artificially_spawned: bool = false
+
 @export_category("Lifespan")
 @export var ages: bool = true
 @export var age: float = 0.0
@@ -61,6 +64,8 @@ var _out_of_bounds_check_timer: float = 0.0
 @export_category("Points")
 @export var base_point_value: float = 100.0
 var points: float = 100
+@export var base_ghost_value: int = 1
+var ghost_value: int = 1
 
 
 @export_category("Hiding")
@@ -143,6 +148,7 @@ func _ready() -> void:
 	resolve_visibility(WorldGrid.safe_get_cell(WorldGrid.world_to_tile(global_position)))
 	
 	points = base_point_value
+	ghost_value = base_ghost_value
 	is_spawned = true
 	
 	_out_of_bounds_despawn_timer = out_of_bounds_check_timer
@@ -289,6 +295,8 @@ func die_and_despawn() -> void:
 	if is_queued_for_deletion():
 		return
 	died.emit()
+	if not artificially_spawned:
+		EventBus.entity_died.emit(self)
 	queue_free()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

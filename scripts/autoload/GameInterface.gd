@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 	if spawning_ghosts:
 		_ghost_spawn_timer -= delta
 		if _ghost_spawn_timer <= 0:
-			current_ghost_points -= try_summon_ghost(current_ghost_points)
+			current_ghost_points -= _try_summon_ghost(current_ghost_points)
 
 			if current_ghost_points <= 0:
 				spawning_ghosts = false
@@ -79,6 +79,7 @@ func start_new_run(at_level: int, seed: int) -> void:
 	current_level = at_level
 	PlayerManager.reset_run_records()
 	RunRng.start_run(seed)
+	EventBus.entity_died.connect(_on_entity_death)
 	if not EventBus.gate_activated.is_connected(_on_gate_activated):
 		EventBus.gate_activated.connect(_on_gate_activated)
 	start_level(current_level)
@@ -96,6 +97,8 @@ func finish_run() -> void:
 	run_active = false
 	if EventBus.gate_activated.is_connected(_on_gate_activated):
 		EventBus.gate_activated.disconnect(_on_gate_activated)
+	if EventBus.entity_died.is_connected(_on_entity_death):
+		EventBus.entity_died.disconnect(_on_entity_death)
 
 
 ## Builds level [param value]. Gameplay processing is paused while it builds.
@@ -103,7 +106,7 @@ func start_level(value: int) -> void:
 	process_paused = true
 	current_level = value
 	_teardown_current_level()
-	reset_flower_quest()
+	_reset_flower_quest()
 	RunRng.start_level(current_level)
  
 	if not active_level_gen or not active_spawn_cfg:
@@ -117,9 +120,9 @@ func start_level(value: int) -> void:
 	_create_new_spawn_director(MAIN_POOL, level_def, current_level, ground_tile_count)
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 
-	reset_ghost_quest(ground_tile_count, current_level)
+	_reset_ghost_quest(ground_tile_count, current_level)
 	spawning_ghosts = true
-	spawn_flowers()
+	_spawn_flowers()
 	process_paused = false
  
 func start_debug_platform() -> void:
@@ -134,14 +137,15 @@ func start_debug_platform() -> void:
 	l.indestructible_type = "wall_indestructible"
 	l.soft_wall_type = "wall_blick_block"
 	l.terrain_generator = EmptyTerrainGenerator.new()
-	l.world_size_range = Vector2i(40, 22)
+	l.world_size_x_range = Vector2i(40, 40)
+	l.world_size_y_range = Vector2i(22, 22)
 	_reset_world_for_new_level(l)
  
 func _reset_world_for_new_level(level_def: LevelDefinition) -> void:
 	EntityManager.destroy_all_entities()
 	CameraController.target = null
 	var level_rng: RandomNumberGenerator = RunRng.get_stream("level_%d" % current_level)
-	WorldGrid.init_grid(level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y), level_rng.randi_range(level_def.world_size_range.x, level_def.world_size_range.y))
+	WorldGrid.init_grid(level_rng.randi_range(level_def.world_size_x_range.x, level_def.world_size_x_range.y), level_rng.randi_range(level_def.world_size_y_range.x, level_def.world_size_y_range.y))
 	TerrainManager.generate(level_def.terrain_generator, level_rng, level_def.ground_type, level_def.wall_type, level_def.indestructible_type, level_def.soft_wall_type)
 	WorldGrid.hide_map()
 	CameraController.center_on_arena()
@@ -247,6 +251,7 @@ var ghost_values: Dictionary[int, StringName] = {
 }
 
 var spawning_ghosts: bool = false
+var target_ghost: Entity
 
 # timer is set to (ground_tile_count * entities_per_ground_tile + level_value * entities_per_level * 15)
 var _ghost_calamity_timer: float = 0
@@ -254,9 +259,13 @@ var _ghost_calamity_timer: float = 0
 var _ghost_spawn_timer: float = 0.0
 var ghost_spawn_timer_length: float = 0.5
 
+# entities should send out a signal when they are killed (on HealthComponent cuz im lazy).
+# when an entity dies, that signal is intercepted by the target ghost and their ghost points are decremented based on how many points that entity was worth.
+# when the ghost runs out of ghost points, it despawns and sends out a signal. this signal is intercepted here and a new target ghost is chosen.
+
 # ghost points should scale with (level value) and (ground_tile_count)
-func reset_ghost_quest(ground_tile_count: int, level_value: int) -> void:
-	var multiplier: float = max(0.05, level_value * 0.15)
+func _reset_ghost_quest(ground_tile_count: int, level_value: int) -> void:
+	var multiplier: float = max(0.05, level_value * 1.15)
 	total_ghost_points = max(10, multiplier * ground_tile_count)
 	if ghosts.size() > 0:
 		for g in ghosts:
@@ -267,7 +276,36 @@ func reset_ghost_quest(ground_tile_count: int, level_value: int) -> void:
 	current_ghost_points = total_ghost_points
 
 
-func try_summon_ghost(points: int) -> int:
+func _on_entity_death(entity: Entity) -> void:
+	if entity.has_component(GhostComponent):
+		return
+	Log.debug("entity %s died!" % entity)
+	if not target_ghost:
+		_choose_new_ghost_target()
+	if not target_ghost:
+		return
+	var ghost_component: GhostComponent = target_ghost.get_component(GhostComponent)
+	ghost_component.decrement_ghost_points(entity.ghost_value)
+
+func _on_ghost_evaporation(entity: Entity) -> void:
+	ghosts.erase(entity)
+	if entity == target_ghost:
+		_choose_new_ghost_target()
+
+func _choose_new_ghost_target() -> void:
+	if ghosts.size() <= 0:
+		target_ghost = null
+		return
+	var rng: RandomNumberGenerator = RunRng.get_stream("ghosts")
+	var index: int = rng.randi_range(0, ghosts.size() - 1)
+	_set_ghost_target_to(ghosts[index])
+
+func _set_ghost_target_to(entity: Entity) -> void:
+	target_ghost = entity
+	target_ghost.modulate = Color(1, 0, 0, 0.5)
+	Log.debug("New ghost target targeted! %s" % target_ghost)
+
+func _try_summon_ghost(points: int) -> int:
 	var rng: RandomNumberGenerator = RunRng.get_stream("ghosts")
 	var best: int = 0
 	for key: int in ghost_values:
@@ -287,10 +325,17 @@ func try_summon_ghost(points: int) -> int:
 		return 0
 
 	var spawn_pos: Vector2 = SpatialUtil.get_random_offscreen_position(CameraController.camera, rng)
-	# var spawn_pos: Vector2 = WorldGrid.tile_to_world(WorldGrid.get_random_coords_of_type(CellType.TerrainType.GROUND, RunRng.get_stream("ghosts")))
 
 	var ghost: Entity = EntityManager.simple_spawn(ghost_values[best], spawn_pos)
+	ghost.modulate = Color(1, 1, 1, 0.3)
+	var g_component: GhostComponent = ghost.get_component(GhostComponent)
+	g_component.ghost_points_exhausted.connect(_on_ghost_evaporation)
+	g_component.ghost_points = best
+
 	ghosts.append(ghost)
+
+	if not target_ghost:
+		_set_ghost_target_to(ghost)
 	return best
 
 
@@ -304,7 +349,7 @@ var flower_quest_complete: bool = false
 var flower_quest_ratio: float = 0.1
 var flowers: Array[Entity] = []
  
-func reset_flower_quest() -> void:
+func _reset_flower_quest() -> void:
 	total_flowers = 0
 	current_flowers = 0
 	flower_quest_complete = false
@@ -313,7 +358,7 @@ func reset_flower_quest() -> void:
 			f.queue_free()
 	flowers.clear()
  
-func spawn_flowers() -> void:
+func _spawn_flowers() -> void:
 	var coordinates: Array[Vector2i] = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND)
 	for c in coordinates:
 		var flower: Entity = EntityManager.simple_spawn_tile("collectible_flower", c)
@@ -321,9 +366,9 @@ func spawn_flowers() -> void:
 		flowers.append(flower)
 		current_flowers += 1
 		total_flowers += 1
-		comp.collected.connect(collect_flower, CONNECT_ONE_SHOT)
+		comp.collected.connect(_collect_flower, CONNECT_ONE_SHOT)
  
-func collect_flower(flower: Entity) -> void:
+func _collect_flower(flower: Entity) -> void:
 	flowers.erase(flower)
 	current_flowers -= 1
  
@@ -331,9 +376,9 @@ func _tick_flower_quest_runtime(_delta: float) -> void:
 	if flower_quest_complete or total_flowers == 0:
 		return
 	if float(current_flowers) / float(total_flowers) <= flower_quest_ratio:
-		complete_flower_quest()
+		_complete_flower_quest()
  
-func complete_flower_quest() -> void:
+func _complete_flower_quest() -> void:
 	flower_quest_complete = true
 	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 

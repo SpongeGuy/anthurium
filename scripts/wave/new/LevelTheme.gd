@@ -9,7 +9,8 @@ class_name LevelTheme extends Resource
 @export var terrain_generators: Array[TerrainGenerator]
 ## one is picked at random (by weight) per level
 @export var palettes: Array[TilePalette] = []
-@export var world_size_range: Vector2i = Vector2i(8, 32)
+@export var world_size_x_range: Vector2i = Vector2i(8, 40)
+@export var world_size_y_range: Vector2i = Vector2i(8, 22)
 ## tag -> spawn weight multiplier for entities with that tag. [br]
 ## 1.0 = unchanged, 0 = never spawns, 3.0 = three times likely. missing tags = 1.0
 @export var tag_weight_multipliers: Dictionary[StringName, float] = {}

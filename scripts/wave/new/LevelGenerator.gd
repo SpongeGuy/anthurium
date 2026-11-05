@@ -24,6 +24,7 @@ func generate_level(level_value: int) -> LevelDefinition:
 	def.wall_type = palette.wall_type
 	def.indestructible_type = palette.indestructible_type
 	def.tag_weight_multipliers = theme.tag_weight_multipliers # shared, read-only
-	def.world_size_range = theme.world_size_range
+	def.world_size_x_range = theme.world_size_x_range
+	def.world_size_y_range = theme.world_size_y_range
 	return def
 	

@@ -13,7 +13,6 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="16_v7tyf"]
 [ext_resource type="Script" uid="uid://bolv5v2qg2xl0" path="res://scripts/components/FacingComponent.gd" id="17_o1xgh"]
 [ext_resource type="Script" uid="uid://b2i2svq4b2ia2" path="res://scripts/components/rotator.gd" id="18_oduj7"]
-[ext_resource type="Script" uid="uid://duajgedj0nkus" path="res://scripts/components/hand_component.gd" id="19_vifq1"]
 [ext_resource type="Script" uid="uid://c87rertjxrdl2" path="res://scripts/abilities/AbilitySummonLilShrooms.gd" id="21_0ansf"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="25_xoj7o"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="26_s02rk"]
@@ -181,12 +180,6 @@ shape = SubResource("RectangleShape2D_jurdk")
 
 [node name="HandMarker" type="Node2D" parent="Animation/Rotator" unique_id=1776970813]
 position = Vector2(14, 0)
-
-[node name="HandComponent" type="Node" parent="." unique_id=802843656 node_paths=PackedStringArray("pickup_area", "picked_location")]
-script = ExtResource("19_vifq1")
-pickup_area = NodePath("../Animation/Rotator/HandArea")
-picked_location = NodePath("../Animation/Rotator/HandMarker")
-metadata/_custom_type_script = "uid://duajgedj0nkus"
 
 [node name="InputComponent" type="Node" parent="." unique_id=648358057]
 script = ExtResource("25_xoj7o")

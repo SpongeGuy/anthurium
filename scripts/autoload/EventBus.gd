@@ -11,13 +11,9 @@ signal cells_visibled(batch: Dictionary[Vector2i, bool])
 signal spawn_requested(entity_type: StringName, pos: Vector2)
 signal entity_spawned(entity: Node2D)
 signal player_died()
-signal entity_killed(entity: Node2D)
-signal entity_destroyed(entity: Node2D)
+signal entity_died(entity: Entity)
+signal entity_left_tree(entity: Entity)
 
-signal anthurium_core_spawned(entity: Node2D)
-signal anthurium_core_died()
-
-signal item_put_into_inventory(item: Entity)
 signal camera_target_changed(target: Node2D)
 
 signal behavior_stimulus_event(event_name: GameEvent.Stimulus, context: Dictionary)

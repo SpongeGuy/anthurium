@@ -5,6 +5,7 @@ class_name GhostComponent extends Component
 @export var ghost_resource: GhostResource 
 
 
+signal ghost_points_exhausted(entity: Entity)
 
 func _on_registered() -> void:
 	ghost_resource = GhostResource.new()
@@ -16,8 +17,13 @@ func _on_entity_spawned() -> void:
 	pass
 
 
-func decrement_ghost_points() -> void:
-	ghost_points -= 1
+func decrement_ghost_points(by: int) -> void:
+	ghost_points -= by
+	print(ghost_points)
+
+	if ghost_points <= 0:
+		ghost_points_exhausted.emit(entity)
+		entity.die_and_despawn()
 	update_form()
 
 func update_form() -> void:

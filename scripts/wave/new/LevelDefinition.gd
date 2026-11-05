@@ -6,4 +6,5 @@ var soft_wall_type: StringName
 var wall_type: StringName
 var indestructible_type: StringName
 var tag_weight_multipliers: Dictionary[StringName, float] = {}
-var world_size_range: Vector2i
+var world_size_x_range: Vector2i
+var world_size_y_range: Vector2i

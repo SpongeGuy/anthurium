@@ -6,8 +6,10 @@
 [resource]
 script = ExtResource("2_e5q8f")
 mode = 1
-radius = 150.0
-radius_range = 10.72
 orbit_speed = 0.255
 orbit_speed_range = 0.555
+radius = 150.0
+radius_range = 10.72
+screen_fill = 0.5900000000000001
+screen_fill_range = 0.14
 metadata/_custom_type_script = "uid://rsfhfbve1y3b"

@@ -75,23 +75,28 @@ func spawn_entity(entity: Entity, position: Vector2, z: float, safely: bool = tr
 		entity.spawn_effect.execute(entity)
 	entity.entity_spawned.emit.call_deferred()
 	EventBus.entity_spawned.emit.call_deferred(entity)
+	
 
 func spawn_entity_at_tile(entity: Entity, tile: Vector2i, z: float, safely: bool = true) -> void:
 	spawn_entity(entity, WorldGrid.tile_to_world(tile), z, safely)
 
-func simple_spawn(entity_type: StringName, position: Vector2, safely: bool = true) -> Entity:
+func simple_spawn(entity_type: StringName, position: Vector2, safely: bool = true, artificial: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
+	if artificial:
+		entity.artificially_spawned = true
 	spawn_entity(entity, position, 0, safely)
 	return entity
 
-func simple_spawn_tile(entity_type: StringName, tile: Vector2i, safely: bool = true) -> Entity:
+func simple_spawn_tile(entity_type: StringName, tile: Vector2i, safely: bool = true, artificial: bool = true) -> Entity:
 	var entity: Entity = create_entity(entity_type)
+	if artificial:
+		entity.artificially_spawned = true
 	spawn_entity_at_tile(entity, tile, 0, safely)
 	return entity
 
 func _on_entity_left_tree(e: Entity) -> void:
 	active_entities.erase(e)
-	EventBus.entity_destroyed.emit(e)
+	EventBus.entity_left_tree.emit(e)
 
 func create_generic_entity() -> Entity:
 	var e: Entity = Entity.new()
