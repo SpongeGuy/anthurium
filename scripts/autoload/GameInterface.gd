@@ -225,6 +225,10 @@ func _warp_out(e: Entity, to: Vector2) -> void:
 	var fx: ScriptableSprite = ScriptableSprite.new(e.basename, to, e.global_position, WARP_FX_TIME, 1)
 	effects_container.add_child(fx)
 	EntityManager.detach_entity(e)
+	
+func spawn_gate() -> void:
+	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+
 
 
 # ----------------------------------------------
@@ -237,6 +241,7 @@ func _warp_out(e: Entity, to: Vector2) -> void:
 # after the calamity timer elapses, all ghosts will become aggressive.
 var total_ghost_points: int = 0
 var current_ghost_points: int = 0
+var ghost_quest_complete: bool = false
 var kills: int = 0
 var kill_quest_complete: bool = false
 var ghosts: Array[Entity] = []
@@ -289,8 +294,15 @@ func _on_entity_death(entity: Entity) -> void:
 
 func _on_ghost_evaporation(entity: Entity) -> void:
 	ghosts.erase(entity)
+	_recalculate_total_ghost_points()
 	if entity == target_ghost:
 		_choose_new_ghost_target()
+
+func _recalculate_total_ghost_points() -> void:
+	total_ghost_points = 0
+	for g in ghosts:
+		var ghost_component: GhostComponent = g.get_component(GhostComponent)
+		total_ghost_points += ghost_component.ghost_points
 
 func _choose_new_ghost_target() -> void:
 	if ghosts.size() <= 0:
@@ -337,6 +349,11 @@ func _try_summon_ghost(points: int) -> int:
 	if not target_ghost:
 		_set_ghost_target_to(ghost)
 	return best
+	
+func _complete_ghost_quest() -> void:
+	ghost_quest_complete = true
+	spawn_gate()
+	
 
 
 
@@ -377,17 +394,14 @@ func _tick_flower_quest_runtime(_delta: float) -> void:
 		return
 	if float(current_flowers) / float(total_flowers) <= flower_quest_ratio:
 		_complete_flower_quest()
+
+func _tick_ghost_quest_runtime(_delta: float) -> void:
+	if ghost_quest_complete:
+		return
+	 
  
 func _complete_flower_quest() -> void:
 	flower_quest_complete = true
-	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
-
+	spawn_gate()
 
 	
-
-
-
-
-
-
-
