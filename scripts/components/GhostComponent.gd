@@ -3,6 +3,7 @@ class_name GhostComponent extends Component
 @export var ghost_points: int = 0
 @export var sprite: Sprite2D
 @export var ghost_resource: GhostResource 
+@export var damage_animation: DamageAnimationComponent
 
 
 signal ghost_points_exhausted(entity: Entity)
@@ -16,10 +17,14 @@ func _on_entity_initialized() -> void:
 func _on_entity_spawned() -> void:
 	pass
 
+func set_ghost_points(to: int) -> void:
+	ghost_points = to
+	update_form()
 
 func decrement_ghost_points(by: int) -> void:
 	ghost_points -= by
-	print(ghost_points)
+	damage_animation._play_hit_flash()
+	damage_animation._play_hit_shake(Vector2.RIGHT)
 
 	if ghost_points <= 0:
 		ghost_points_exhausted.emit(entity)

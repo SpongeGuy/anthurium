@@ -1,9 +1,11 @@
 class_name AbilityChargeAndSmash extends Ability
 
-@export var damage: float = 4.0
+@export var damage: float = 3.0
 
 var n: String = "Charge and Smash"
 var d: Texture2D = load("uid://2a6wqgqiqk6n")
+
+@export var usage_effect: EntityEffect = preload("uid://dmf1c7kgwsiil") # portal warping effect TODO TEMPORARY
 
 func initialize() -> void:
 	display_name = n
@@ -43,11 +45,12 @@ var hurtbox: Hurtbox
 var ability_active: bool = false
 
 var collisions: int = 0
+var max_collisions: int = 5
 
 func _execute() -> void:
 	_timer = charge_timer_duration
 	physics.wall_collision.connect(_on_collision)
-	physics.entity_collision.connect(_on_collision)
+	physics.entity_collision.connect(_on_entity_collision)
 	force_direction = facing.get_direction()
 	hurtbox.set_behavior_type(Hurtbox.BehaviorType.CONSTANT)
 	ability_active = true
@@ -56,7 +59,7 @@ func _execute() -> void:
 	
 
 func _physics_process(delta: float) -> void:
-	if (_timer < 0.0 or collisions > 5) and ability_active:
+	if (_timer < 0.0 or collisions > max_collisions) and ability_active:
 		finish_ability()
 		return
 	if not ability_active:
@@ -91,3 +94,6 @@ func on_released(hold_duration: float, modifier: bool) -> void:
 func _on_collision(node: Node) -> void:
 	WorldGrid.damage_circle(WorldGrid.world_to_tile(entity.global_position), 1, 25)
 	collisions += 1
+
+func _on_entity_collision(node: Node) -> void:
+	collisions += max_collisions

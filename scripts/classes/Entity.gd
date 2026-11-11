@@ -42,6 +42,10 @@ var basename: StringName
 var is_initialized: bool = false
 var is_spawned: bool = false
 
+## this is supposed to be set to true if one entity spawns in another entity.
+## AbilityManager uses this to reduce chances of dropping an ability if this is true.
+var was_spawned_by_entity: bool = false
+
 var _components: Dictionary[Script, Array] = {}
 
 var key: Entity = null

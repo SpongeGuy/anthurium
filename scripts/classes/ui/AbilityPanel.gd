@@ -60,6 +60,7 @@ func _build() -> void:
 	add_child(title)
 
 	for i in SLOT_COUNT:
+		print("building %d" % i)
 		var y: float = _slot_y(i)
 
 		var bg: ColorRect = ColorRect.new()

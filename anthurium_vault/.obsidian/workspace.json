@@ -11,17 +11,14 @@
             "id": "e8b368230a70366d",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "markdown",
               "state": {
-                "file": "nvchad motions.canvas",
-                "viewState": {
-                  "x": 94.99314397649363,
-                  "y": -363.1067580803134,
-                  "zoom": -0.27101938981709983
-                }
+                "file": "programs (switching to cachyos).md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "nvchad motions"
+              "icon": "lucide-file",
+              "title": "programs (switching to cachyos)"
             }
           },
           {
@@ -201,7 +198,7 @@
             }
           },
           {
-            "id": "d9c026b340b0a954",
+            "id": "79a2bd93ee8af208",
             "type": "leaf",
             "state": {
               "type": "system3-sync-status",
@@ -220,6 +217,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "word-smith:Open the Word-Smith menu": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -227,14 +225,14 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
-      "system3-relay:Relay": false,
-      "word-smith:Open the Word-Smith menu": false
+      "system3-relay:Relay": false
     }
   },
   "active": "e8b368230a70366d",
   "lastOpenFiles": [
-    "anthurium/Main.canvas",
     "nvchad motions.canvas",
+    "programs (switching to cachyos).md",
+    "anthurium/Main.canvas",
     "assets/anthurium_mockup-1.png.import",
     "assets/anthurium_mockup-2.png.import",
     "assets/Pasted image 20260830012729.png.import",
@@ -273,7 +271,6 @@
     "worldbuilder/Khazuur-Na.md",
     "worldbuilder/Erenor.md",
     "worldbuilder/Nyxis Nimmos.md",
-    "worldbuilder/Seanor Ikhor.md",
     "mappa.png",
     "anthurium.canvas.before-empty.bak",
     "Untitled.base",

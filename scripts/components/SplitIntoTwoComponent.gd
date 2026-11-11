@@ -51,6 +51,7 @@ func _spawn_clone(basename: StringName, pos: Vector2, hp: float, max_hp: float, 
 	if not clone.is_initialized:
 		await clone.entity_initialized
 		
+	clone.was_spawned_by_entity = true
 	var h: HealthComponent = clone.get_component(HealthComponent)
 	var i: IchorComponent = clone.get_component(IchorComponent)
 	if h:

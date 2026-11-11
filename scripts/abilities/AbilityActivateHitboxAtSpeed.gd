@@ -24,18 +24,19 @@ func initialize() -> void:
 func _execute() -> void:
 	pass
 
-func on_pressed(modifier: bool) -> void:
+func on_pressed(_modifier: bool) -> void:
 	pass
 	
-func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
+func on_held(_hold_duration: float, _delta: float, _modifier: bool) -> void:
 	pass
 	
-func on_released(hold_duration: float, modifier: bool) -> void:
+func on_released(_hold_duration: float, _modifier: bool) -> void:
 	pass
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	if not is_instance_valid(entity):
+		return
 	if entity.velocity.length() > 100:
 		hurtbox.set_behavior_type(Hurtbox.BehaviorType.CONSTANT)
 	else:
 		hurtbox.set_behavior_type(Hurtbox.BehaviorType.DEFAULT)
-

@@ -44,7 +44,8 @@ func _process(delta: float) -> void:
 		return
 	for d: SpawnDirector in spawn_directors.values():
 		d.process(delta)
-	_tick_flower_quest_runtime(delta)
+	# _tick_flower_quest_runtime(delta)
+	_tick_ghost_quest_runtime(delta)
 	if run_active:
 		time += delta
 
@@ -54,10 +55,7 @@ func _process(delta: float) -> void:
 	if spawning_ghosts:
 		_ghost_spawn_timer -= delta
 		if _ghost_spawn_timer <= 0:
-			current_ghost_points -= _try_summon_ghost(current_ghost_points)
-
-			if current_ghost_points <= 0:
-				spawning_ghosts = false
+			_try_summon_ghost()
 
  
 func register_effects_container(node: Node) -> void:
@@ -120,8 +118,8 @@ func start_level(value: int) -> void:
 	_create_new_spawn_director(MAIN_POOL, level_def, current_level, ground_tile_count)
 	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 
+
 	_reset_ghost_quest(ground_tile_count, current_level)
-	spawning_ghosts = true
 	_spawn_flowers()
 	process_paused = false
  
@@ -137,6 +135,7 @@ func start_debug_platform() -> void:
 	l.indestructible_type = "wall_indestructible"
 	l.soft_wall_type = "wall_blick_block"
 	l.terrain_generator = EmptyTerrainGenerator.new()
+
 	l.world_size_x_range = Vector2i(40, 40)
 	l.world_size_y_range = Vector2i(22, 22)
 	_reset_world_for_new_level(l)
@@ -239,9 +238,15 @@ func spawn_gate() -> void:
 # ghost points will be calculated and then ghosts will spawn in.
 # the algorithm will always try to spawn in a ghost with the highest amount of points.
 # after the calamity timer elapses, all ghosts will become aggressive.
+
+## set when the quest is reset. allocated budget
 var total_ghost_points: int = 0
-var current_ghost_points: int = 0
+## part of the budget not yet turned into ghosts
+var unspent_ghost_points: int = 0
+## sum of the values of all alive ghosts
+var current_ghost_energy: int = 0
 var ghost_quest_complete: bool = false
+var ghost_quest_ratio: float = 0.1
 var kills: int = 0
 var kill_quest_complete: bool = false
 var ghosts: Array[Entity] = []
@@ -270,21 +275,23 @@ var ghost_spawn_timer_length: float = 0.5
 
 # ghost points should scale with (level value) and (ground_tile_count)
 func _reset_ghost_quest(ground_tile_count: int, level_value: int) -> void:
-	var multiplier: float = max(0.05, level_value * 1.15)
+	var multiplier: float = max(0.05, level_value * 0.15)
 	total_ghost_points = max(10, multiplier * ground_tile_count)
+	unspent_ghost_points = total_ghost_points
 	if ghosts.size() > 0:
 		for g in ghosts:
 			g.queue_free()
 	ghosts.clear()
 	kills = 0
 	kill_quest_complete = false
-	current_ghost_points = total_ghost_points
+	ghost_quest_complete = false
+	current_ghost_energy = 0
+	spawning_ghosts = true
 
 
 func _on_entity_death(entity: Entity) -> void:
 	if entity.has_component(GhostComponent):
 		return
-	Log.debug("entity %s died!" % entity)
 	if not target_ghost:
 		_choose_new_ghost_target()
 	if not target_ghost:
@@ -294,15 +301,15 @@ func _on_entity_death(entity: Entity) -> void:
 
 func _on_ghost_evaporation(entity: Entity) -> void:
 	ghosts.erase(entity)
-	_recalculate_total_ghost_points()
+	_recalculate_ghost_energy()
 	if entity == target_ghost:
 		_choose_new_ghost_target()
 
-func _recalculate_total_ghost_points() -> void:
-	total_ghost_points = 0
+func _recalculate_ghost_energy() -> void:
+	current_ghost_energy = 0
 	for g in ghosts:
 		var ghost_component: GhostComponent = g.get_component(GhostComponent)
-		total_ghost_points += ghost_component.ghost_points
+		current_ghost_energy += ghost_component.ghost_points
 
 func _choose_new_ghost_target() -> void:
 	if ghosts.size() <= 0:
@@ -317,38 +324,47 @@ func _set_ghost_target_to(entity: Entity) -> void:
 	target_ghost.modulate = Color(1, 0, 0, 0.5)
 	Log.debug("New ghost target targeted! %s" % target_ghost)
 
-func _try_summon_ghost(points: int) -> int:
+func _try_summon_ghost() -> int:
+	print("%d %d" % [unspent_ghost_points, total_ghost_points])
+	if unspent_ghost_points <= 0:
+		spawning_ghosts = false
+		return 0
 	var rng: RandomNumberGenerator = RunRng.get_stream("ghosts")
 	var best: int = 0
-	for key: int in ghost_values:
-		if key <= points and (best == null or key > best):
-			best = key
 
 	var picking: bool = true
 	while picking:
 		var keys: Array[int] = ghost_values.keys()
 		var index: int = rng.randi_range(0, ghost_values.size() - 1)
 		best = keys[index]
-		if points < best:
+		if unspent_ghost_points < best:
 			continue
 		picking = false
 	
-	if best == 0:
-		return 0
-
 	var spawn_pos: Vector2 = SpatialUtil.get_random_offscreen_position(CameraController.camera, rng)
 
 	var ghost: Entity = EntityManager.simple_spawn(ghost_values[best], spawn_pos)
 	ghost.modulate = Color(1, 1, 1, 0.3)
 	var g_component: GhostComponent = ghost.get_component(GhostComponent)
 	g_component.ghost_points_exhausted.connect(_on_ghost_evaporation)
-	g_component.ghost_points = best
+	g_component.set_ghost_points(best)
 
 	ghosts.append(ghost)
+	unspent_ghost_points -= best
+	_recalculate_ghost_energy()
 
 	if not target_ghost:
 		_set_ghost_target_to(ghost)
 	return best
+	
+func _tick_ghost_quest_runtime(_delta: float) -> void:
+	if ghost_quest_complete:
+		return
+	if unspent_ghost_points > 0:
+		return
+	_recalculate_ghost_energy()
+	if float(current_ghost_energy) / float(total_ghost_points) <= ghost_quest_ratio:
+		_complete_ghost_quest()
 	
 func _complete_ghost_quest() -> void:
 	ghost_quest_complete = true
@@ -395,10 +411,7 @@ func _tick_flower_quest_runtime(_delta: float) -> void:
 	if float(current_flowers) / float(total_flowers) <= flower_quest_ratio:
 		_complete_flower_quest()
 
-func _tick_ghost_quest_runtime(_delta: float) -> void:
-	if ghost_quest_complete:
-		return
-	 
+ 
  
 func _complete_flower_quest() -> void:
 	flower_quest_complete = true

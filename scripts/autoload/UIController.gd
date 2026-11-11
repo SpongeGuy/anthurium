@@ -55,6 +55,8 @@ func _ready() -> void:
 	PlayerManager.slot_state_changed.connect(_on_slot_state_changed)
 	PlayerManager.selector_navigated.connect(_on_selector_navigated)
 	PlayerManager.selection_confirm_requested.connect(_on_selection_confirm_requested)
+	PlayerManager.player_bound.connect(_bind_player)
+	PlayerManager.player_unbound.connect(_unbind_player)
 	PlayerManager.menu_input.connect(_on_menu_input)
 
 	
@@ -159,6 +161,7 @@ func _get_panel(slot: int) -> AbilityPanel:
 	return _panels[slot]
 
 func _bind_player(slot: int, entity: Entity) -> void:
+	print("binding player")
 	PlayerOverlay.attach(entity, slot)
 	_get_panel(slot).bind_entity(entity)
 

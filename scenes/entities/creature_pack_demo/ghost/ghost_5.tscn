@@ -116,11 +116,12 @@ input = NodePath("../InputComponent")
 script = ExtResource("17_5mcxm")
 navigation = NodePath("../NavigationAgent2D")
 
-[node name="GhostComponent" type="Node" parent="." unique_id=2111726107 node_paths=PackedStringArray("sprite")]
+[node name="GhostComponent" type="Node" parent="." unique_id=2111726107 node_paths=PackedStringArray("sprite", "damage_animation")]
 script = ExtResource("18_oknv2")
 ghost_points = 1
 sprite = NodePath("../Sprite2D")
 ghost_resource = SubResource("Resource_d0nnj")
+damage_animation = NodePath("../HealthPackage/DamageAnimationComponent")
 metadata/_custom_type_script = "uid://b63eu1n601g33"
 
 [editable path="Hitbox"]
