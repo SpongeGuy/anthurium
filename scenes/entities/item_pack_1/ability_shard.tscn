@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="19_4txoy"]
 [ext_resource type="Script" uid="uid://bfeyy2elbrj4b" path="res://scripts/components/DamageAnimationComponent.gd" id="20_gbc8y"]
 [ext_resource type="Script" uid="uid://bkky2iu1meoku" path="res://scripts/components/JumpOnTimerComponent.gd" id="20_r3st6"]
+[ext_resource type="Script" uid="uid://c8cpsu4nblstq" path="res://scripts/components/DisappearInTimeComponent.gd" id="22_gbc8y"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="22_mvwcn"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_73w5w"]
 
@@ -160,3 +161,7 @@ glow_width = 2.0
 
 [node name="JumpOnTimer" type="Node" parent="." unique_id=1794882641]
 script = ExtResource("20_r3st6")
+
+[node name="DisappearInTimeComponent" type="Node" parent="." unique_id=2112877714]
+script = ExtResource("22_gbc8y")
+metadata/_custom_type_script = "uid://c8cpsu4nblstq"

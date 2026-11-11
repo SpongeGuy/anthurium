@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ba8ho4y42uola"
 path.s3tc="res://.godot/imported/rickle.png-64821a18185f73c5a7e203e728bcb8ed.s3tc.ctex"
+path.etc2="res://.godot/imported/rickle.png-64821a18185f73c5a7e203e728bcb8ed.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://scenes/title_screen/assets/rickle.png"
-dest_files=["res://.godot/imported/rickle.png-64821a18185f73c5a7e203e728bcb8ed.s3tc.ctex"]
+dest_files=["res://.godot/imported/rickle.png-64821a18185f73c5a7e203e728bcb8ed.s3tc.ctex", "res://.godot/imported/rickle.png-64821a18185f73c5a7e203e728bcb8ed.etc2.ctex"]
 
 [params]
 

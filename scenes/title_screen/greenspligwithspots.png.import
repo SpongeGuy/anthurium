@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://emko8or8xhrb"
 path.s3tc="res://.godot/imported/greenspligwithspots.png-9c16e0d148b83d2b7fad2da8e4a2c45e.s3tc.ctex"
+path.etc2="res://.godot/imported/greenspligwithspots.png-9c16e0d148b83d2b7fad2da8e4a2c45e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://scenes/title_screen/greenspligwithspots.png"
-dest_files=["res://.godot/imported/greenspligwithspots.png-9c16e0d148b83d2b7fad2da8e4a2c45e.s3tc.ctex"]
+dest_files=["res://.godot/imported/greenspligwithspots.png-9c16e0d148b83d2b7fad2da8e4a2c45e.s3tc.ctex", "res://.godot/imported/greenspligwithspots.png-9c16e0d148b83d2b7fad2da8e4a2c45e.etc2.ctex"]
 
 [params]
 

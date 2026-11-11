@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cl0mmyj30lrck"
 path.s3tc="res://.godot/imported/starbox.png-c110616976928baf68ade70533c40c41.s3tc.ctex"
+path.etc2="res://.godot/imported/starbox.png-c110616976928baf68ade70533c40c41.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://scenes/title_screen/starbox.png"
-dest_files=["res://.godot/imported/starbox.png-c110616976928baf68ade70533c40c41.s3tc.ctex"]
+dest_files=["res://.godot/imported/starbox.png-c110616976928baf68ade70533c40c41.s3tc.ctex", "res://.godot/imported/starbox.png-c110616976928baf68ade70533c40c41.etc2.ctex"]
 
 [params]
 
