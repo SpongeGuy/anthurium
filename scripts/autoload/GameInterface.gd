@@ -76,7 +76,9 @@ func start_new_run(at_level: int, seed_value: int) -> void:
 	run_active = true
 	time = 0.0
 	current_level = at_level
-	level_mode = LevelMode.ONBOARDING
+
+	level_mode = LevelMode.QUEST
+
 	PlayerManager.reset_run_records()
 	RunRng.start_run(seed_value)
 	if not EventBus.gate_activated.is_connected(_on_gate_activated):

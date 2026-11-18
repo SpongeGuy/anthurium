@@ -15,7 +15,8 @@
 [ext_resource type="Script" uid="uid://c8mluv6scljeu" path="res://scripts/brain/blueprint/BSBStopAndAttack.gd" id="13_jjk4s"]
 [ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="14_vqwx3"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="15_t5p6d"]
-[ext_resource type="Script" uid="uid://ysc88eihci7p" path="res://scripts/abilities/AbilitySimpleMelee.gd" id="16_vr3oo"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="16_yg2a0"]
+[ext_resource type="Resource" uid="uid://bdyremgv2i82i" path="res://assets/resources/abilities/simple_melee.tres" id="17_0gbme"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="17_a3hul"]
 [ext_resource type="Script" uid="uid://d30f4je5cetgk" path="res://scripts/components/SplitIntoTwoComponent.gd" id="18_2cbxc"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="19_moocc"]
@@ -134,10 +135,9 @@ profile = SubResource("Resource_lkpdy")
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilitySimpleMelee" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=1368156628]
-script = ExtResource("16_vr3oo")
-metadata/_custom_type_script = "uid://ysc88eihci7p"
+ability_template = Dictionary[int, ExtResource("16_yg2a0")]({
+0: ExtResource("17_0gbme")
+})
 
 [node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("physics") instance=ExtResource("17_a3hul")]
 physics = NodePath("../BehaviorPackage/PhysicsComponent")

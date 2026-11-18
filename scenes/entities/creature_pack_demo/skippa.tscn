@@ -16,8 +16,9 @@
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="15_o1hvi"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="15_wg1nk"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="16_fhcxy"]
-[ext_resource type="Script" uid="uid://ca55u3oxwnad4" path="res://scripts/abilities/AbilityDamageAoE.gd" id="16_y7v1v"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="17_f8w06"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="18_71yc4"]
+[ext_resource type="Resource" uid="uid://bdei03yw33fof" path="res://assets/resources/abilities/damage_aoe.tres" id="19_h0mke"]
 
 [sub_resource type="Resource" id="Resource_4wl2l"]
 script = ExtResource("2_aijup")
@@ -130,13 +131,9 @@ input = NodePath("../BehaviorPackage/InputComponent")
 script = ExtResource("15_o1hvi")
 ichor_component = NodePath("../HealthPackage/IchorComponent")
 input = NodePath("../BehaviorPackage/InputComponent")
-
-[node name="AbilityDamageAoE" type="Node" parent="AbilityManager" unique_id=1382874480 node_paths=PackedStringArray("ichor_component")]
-script = ExtResource("16_y7v1v")
-radius = 20.0
-damage = 0.5
-ichor_component = NodePath("../../HealthPackage/IchorComponent")
-metadata/_custom_type_script = "uid://ca55u3oxwnad4"
+ability_template = Dictionary[int, ExtResource("18_71yc4")]({
+0: ExtResource("19_h0mke")
+})
 
 [editable path="Hitbox"]
 [editable path="HealthPackage"]

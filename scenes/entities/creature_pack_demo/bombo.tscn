@@ -12,13 +12,14 @@
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="10_5jy1q"]
 [ext_resource type="Script" uid="uid://bcrii7x5jinec" path="res://scripts/brain/blueprint/BSBContainer.gd" id="10_r6k1o"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="11_vf10k"]
-[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/deprecated/detonate.gd" id="12_0md4n"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="12_4xrl1"]
 [ext_resource type="Script" uid="uid://clbof20js1smo" path="res://scripts/brain/blueprint/BSBStopAndCastAbility.gd" id="12_jtcli"]
 [ext_resource type="Script" uid="uid://3rahci53su3r" path="res://scripts/resources/entity_effect/EntityEffectChangeSpeed.gd" id="13_4xrl1"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="13_35noe"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="14_uwg5e"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="16_4vcgw"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="16_vf10k"]
+[ext_resource type="Resource" uid="uid://c31jgs11fygsj" path="res://assets/resources/abilities/self-destruct.tres" id="17_lfti0"]
 
 [sub_resource type="Resource" id="Resource_bv3ws"]
 script = ExtResource("2_0md4n")
@@ -124,12 +125,9 @@ profile = SubResource("Resource_fc06j")
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilityDetonate" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=303991255 node_paths=PackedStringArray("ichor_component")]
-script = ExtResource("12_0md4n")
-damage = 10000.0
-ichor_component = NodePath("../../../HealthPackage/IchorComponent")
-metadata/_custom_type_script = "uid://tda3ohuci2fd"
+ability_template = Dictionary[int, ExtResource("16_4vcgw")]({
+0: ExtResource("17_lfti0")
+})
 
 [node name="Interactor" type="Node" parent="." unique_id=1732196511 node_paths=PackedStringArray("input")]
 script = ExtResource("12_4xrl1")

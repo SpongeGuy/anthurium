@@ -10,10 +10,11 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="7_xpqok"]
 [ext_resource type="Script" uid="uid://1ywf387jau87" path="res://scripts/components/AbilityContainer.gd" id="9_vqng3"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="10_6afsf"]
-[ext_resource type="Script" uid="uid://b420r8tw5oyu6" path="res://scripts/abilities/AbilityShardUse.gd" id="10_xpqok"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="11_4sxbx"]
 [ext_resource type="Script" uid="uid://dqikotd5sv8r6" path="res://scripts/components/RecentlyInteracted.gd" id="11_5fcyu"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="11_mvwcn"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="12_5fcyu"]
+[ext_resource type="Resource" uid="uid://dcmh1dk3pf0es" path="res://assets/resources/abilities/shard_use.tres" id="12_73w5w"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="15_eer0l"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="18_r3st6"]
 [ext_resource type="Script" uid="uid://dqvhy2uty2seb" path="res://scripts/components/GlowComponent.gd" id="19_4txoy"]
@@ -96,13 +97,10 @@ metadata/_custom_type_script = "uid://1ywf387jau87"
 [node name="AbilityManager" type="Node" parent="." unique_id=595066811 node_paths=PackedStringArray("input")]
 script = ExtResource("10_6afsf")
 input = NodePath("../InputComponent")
+ability_template = Dictionary[int, ExtResource("11_mvwcn")]({
+0: ExtResource("12_73w5w")
+})
 metadata/_custom_type_script = "uid://byeskwmhfllnd"
-
-[node name="AbilityShardUse" type="Node" parent="AbilityManager" unique_id=1217008420 node_paths=PackedStringArray("recently_interacted", "ability_container")]
-script = ExtResource("10_xpqok")
-recently_interacted = NodePath("../../RecentlyInteracted")
-ability_container = NodePath("../../AbilityContainer")
-metadata/_custom_type_script = "uid://b420r8tw5oyu6"
 
 [node name="InputComponent" type="Node" parent="." unique_id=1295419246]
 script = ExtResource("11_4sxbx")

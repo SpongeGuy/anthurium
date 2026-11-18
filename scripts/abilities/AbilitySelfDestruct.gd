@@ -5,12 +5,9 @@ extends Ability
 @export var damage: float = 25
 @export var self_destruct: bool = true
 
-var n: String = "Detonate"
-var d: Texture2D = preload("uid://d4ixqeh4puotd")
 
 func initialize() -> void:
-	display_icon = d
-	display_name = n
+	pass
 		
 
 func on_pressed(modifier: bool) -> void:

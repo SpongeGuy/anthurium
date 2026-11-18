@@ -7,7 +7,7 @@ class_name AbilityManager
 
 ## The acting force behind [InputComponent]. Inputs are driven through here for every [Entity] and if an ability exists, its functions will be cast. See [Ability] for more information.
 
-@export var abilities: Array[Ability] = [null, null, null, null]
+var abilities: Array[Ability] = [null, null, null, null]
 var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
 @export var input: InputComponent
@@ -21,34 +21,26 @@ signal ability_cast_successfully(slot: int)
 @export var drop_abilities_on_death: bool = true
 @export var ability_drop_multiplier: float = 0.1
 
-
-func _on_death() -> void:
-	if entity.was_spawned_by_entity:
-		return
-	for i in range(abilities.size()):
-
-		if not abilities.get(i):
-			continue
-		var rng: RandomNumberGenerator = RunRng.get_stream("loot")
-		if rng.randf() < ability_drop_multiplier:
-			drop_to_shard(i, entity.global_position)
-
-
-		
+var first_initialization: bool = true		
 
 
 func _on_entity_spawned() -> void:
 	input.input_just_pressed.connect(_on_input_just_pressed)
 	input.input_just_released.connect(_on_input_just_released)
-	# initialize any abilities already present as children in the scene tree
-	abilities = [null, null, null, null]
 
-	for i in range(abilities.size() - 1):
-		if abilities.get(i) != null:
-			_initialize_ability(abilities[i], i)
-	for child in get_children():
-		if child is Ability:
-			_register_ability_to_first_slot(child)
+	# register abilities from template if this is the first time the entity is initialized
+	# persistent entities that need to be stored and spawned again in the exact same state
+	if first_initialization:
+		abilities = [null, null, null, null]
+		
+		for id in ability_template:
+			var ability: Ability = AbilityRegistry.make_ability_from_definition(ability_template[id])
+			add_ability(ability, id)
+		first_initialization = false
+	else:
+		for child in get_children():
+			if child is Ability:
+				_register_ability_to_first_slot(child)
 	
 	entity.died.connect(_on_death)
 
@@ -72,6 +64,19 @@ func has_ability(slot: int) -> bool:
 func get_ability(slot: int) -> Ability:
 	return abilities.get(slot)
 	
+
+
+func _on_death() -> void:
+	if entity.was_spawned_by_entity:
+		return
+	for i in range(abilities.size()):
+
+		if not abilities.get(i):
+			continue
+		var rng: RandomNumberGenerator = RunRng.get_stream("loot")
+		if rng.randf() < ability_drop_multiplier:
+			drop_to_shard(i, entity.global_position)
+
 
 
 

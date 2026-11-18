@@ -9,8 +9,9 @@
 [ext_resource type="Script" uid="uid://c8mluv6scljeu" path="res://scripts/brain/blueprint/BSBStopAndAttack.gd" id="9_v4e8o"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="10_irct3"]
 [ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="10_qa0d8"]
-[ext_resource type="Script" uid="uid://y1m6acghhwfb" path="res://scripts/abilities/AbilityChargeAndSmash.gd" id="12_1vom1"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="12_ndc45"]
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="12_ts6fo"]
+[ext_resource type="Resource" uid="uid://5p3cnkj6hle7" path="res://assets/resources/abilities/charge_smash.tres" id="13_bddfy"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="13_hclo3"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="15_pbsi7"]
 [ext_resource type="Texture2D" uid="uid://djq7l3e556dbc" path="res://assets/textures/characters/bestguys/porcule.png" id="15_um2x1"]
@@ -96,11 +97,9 @@ profile = SubResource("Resource_jr1t0")
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilityChargeAndSmash" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=148901752]
-script = ExtResource("12_1vom1")
-cooldown = 5.0
-metadata/_custom_type_script = "uid://y1m6acghhwfb"
+ability_template = Dictionary[int, ExtResource("12_ndc45")]({
+0: ExtResource("13_bddfy")
+})
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1894774079]
 position = Vector2(0, -8)

@@ -35,6 +35,10 @@ func get_all_types() -> Array[StringName]:
 
 func make_ability_from_id(id: StringName) -> Ability:
 	var def: AbilityDefinition = get_ability_defn(id)
+	return make_ability_from_definition(def)
+	
+
+func make_ability_from_definition(def: AbilityDefinition) -> Ability:
 	var a: Ability = def.definition.new()
 	a.set_display(def.display_name, def.icon)
 	for key in def.properties:

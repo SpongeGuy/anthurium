@@ -11,8 +11,9 @@
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="9_alpp8"]
 [ext_resource type="Script" uid="uid://carvudot6oer3" path="res://scripts/components/SpriteAnimator.gd" id="10_rd8j4"]
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="11_34fpa"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="13_arvoa"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="13_s1go3"]
-[ext_resource type="Script" uid="uid://ca55u3oxwnad4" path="res://scripts/abilities/AbilityDamageAoE.gd" id="14_arvoa"]
+[ext_resource type="Resource" uid="uid://bdei03yw33fof" path="res://assets/resources/abilities/damage_aoe.tres" id="14_alpp8"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="15_arvoa"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="16_alpp8"]
 
@@ -94,10 +95,9 @@ default_animation = SubResource("Resource_5uhuo")
 script = ExtResource("13_s1go3")
 ichor_component = NodePath("../IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilityDamageAoE" type="Node" parent="AbilityManager" unique_id=2084321791]
-script = ExtResource("14_arvoa")
-metadata/_custom_type_script = "uid://ca55u3oxwnad4"
+ability_template = Dictionary[int, ExtResource("13_arvoa")]({
+0: ExtResource("14_alpp8")
+})
 
 [node name="InputComponent" type="Node" parent="." unique_id=797960804]
 script = ExtResource("15_arvoa")

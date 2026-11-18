@@ -9,16 +9,12 @@ var swipe_animation: SpriteAnimation
 
 var rotator: Node2D
 
-var n: String = "Swipe"
-var d: Texture = load("uid://cgskihl2d35os") # clow_icon.png
 
 var swipe_texture: Texture = preload("res://assets/textures/misc/swice.png")
 
 var swipe_sound: VoiceProfile = preload("res://assets/resources/voices/swipe.tres")
 
 func initialize() -> void:
-	display_name = n
-	display_icon = d
 	locomotion = entity.get_component(LocomotionHandler)
 		
 
@@ -62,11 +58,11 @@ func initialize() -> void:
 	
 	facing = entity.get_component(FacingComponent)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if rotator:
 		rotator.rotation = facing.get_direction_angle()
 
-func on_pressed(modifier: bool) -> void:
+func on_pressed(_modifier: bool) -> void:
 	execute()
 	
 func _execute() -> void:

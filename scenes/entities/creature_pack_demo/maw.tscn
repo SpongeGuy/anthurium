@@ -14,8 +14,9 @@
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="13_m5w7m"]
 [ext_resource type="Script" uid="uid://c8mluv6scljeu" path="res://scripts/brain/blueprint/BSBStopAndAttack.gd" id="13_y5v5o"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="15_d7j76"]
-[ext_resource type="Script" uid="uid://ysc88eihci7p" path="res://scripts/abilities/AbilitySimpleMelee.gd" id="17_m5w7m"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="17_thpu1"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="18_b3nxo"]
+[ext_resource type="Resource" uid="uid://bdyremgv2i82i" path="res://assets/resources/abilities/simple_melee.tres" id="18_wyfbx"]
 [ext_resource type="Script" uid="uid://bcbkki6gbrkma" path="res://scripts/components/NavigationHelper.gd" id="21_6xx87"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="22_b3nxo"]
 
@@ -125,10 +126,9 @@ profile = SubResource("Resource_lkpdy")
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilitySimpleMelee" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=1368156628]
-script = ExtResource("17_m5w7m")
-metadata/_custom_type_script = "uid://ysc88eihci7p"
+ability_template = Dictionary[int, ExtResource("17_thpu1")]({
+0: ExtResource("18_wyfbx")
+})
 
 [node name="Hitbox" parent="." unique_id=530098828 node_paths=PackedStringArray("physics") instance=ExtResource("15_d7j76")]
 physics = NodePath("../BehaviorPackage/PhysicsComponent")

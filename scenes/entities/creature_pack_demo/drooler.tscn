@@ -14,7 +14,8 @@
 [ext_resource type="Script" uid="uid://c8mluv6scljeu" path="res://scripts/brain/blueprint/BSBStopAndAttack.gd" id="12_87jpy"]
 [ext_resource type="Script" uid="uid://b3nsolua7qeea" path="res://scripts/lobes/LobePerceiveThreat.gd" id="13_a020d"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="14_l7jwe"]
-[ext_resource type="Script" uid="uid://da417qi4wy7f" path="res://scripts/abilities/AbilityShootWaterBomb.gd" id="15_4sk5e"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="15_ak2hr"]
+[ext_resource type="Resource" uid="uid://csx2ptscch61j" path="res://assets/resources/abilities/water_bomb.tres" id="16_cvg01"]
 [ext_resource type="PackedScene" uid="uid://bs06n3lj8bn1s" path="res://scenes/systems/hitbox.tscn" id="16_ejhln"]
 
 [sub_resource type="Resource" id="Resource_5ec7a"]
@@ -111,10 +112,9 @@ profile = SubResource("Resource_uyvcu")
 [node name="AbilityManager" parent="BehaviorPackage" index="4" unique_id=163530709 node_paths=PackedStringArray("ichor_component", "input")]
 ichor_component = NodePath("../../HealthPackage/IchorComponent")
 input = NodePath("../InputComponent")
-
-[node name="AbilityShootWaterBomb" type="Node" parent="BehaviorPackage/AbilityManager" index="0" unique_id=1340578065]
-script = ExtResource("15_4sk5e")
-metadata/_custom_type_script = "uid://da417qi4wy7f"
+ability_template = Dictionary[int, ExtResource("15_ak2hr")]({
+0: ExtResource("16_cvg01")
+})
 
 [node name="Hitbox" parent="." unique_id=530098828 instance=ExtResource("16_ejhln")]
 damage_response = Dictionary[int, int]({
