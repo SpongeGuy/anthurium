@@ -26,3 +26,5 @@ signal part_destroyed(name: StringName)
 signal gate_activated(position: Vector2)
 
 signal clearing_grid()
+
+signal ghost_calamity_triggered()

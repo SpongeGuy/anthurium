@@ -18,6 +18,7 @@ enum VisibleStateFlag {
 signal entity_initialized
 signal died
 signal points_changed
+signal score_changed
 signal entity_spawned
 signal expired
 
@@ -68,6 +69,10 @@ var _out_of_bounds_check_timer: float = 0.0
 @export_category("Points")
 @export var base_point_value: float = 100.0
 var points: float = 100
+var score: float = 0
+
+
+
 @export var base_ghost_value: int = 1
 var ghost_value: int = 1
 
@@ -190,9 +195,9 @@ func _physics_process(delta: float) -> void:
 	_update_terrain_collision_layers()
 	_apply_z_offset()
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------
 # COMPONENT MANAGEMENT
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------------------
 
 func initialize() -> void:
 	if is_initialized:
@@ -264,9 +269,9 @@ func get_basename() -> StringName:
 
 		
 
-# ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------
 # age and out of bounds
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------
 
 
 var is_out_of_bounds: bool = false:
@@ -303,9 +308,9 @@ func die_and_despawn() -> void:
 		EventBus.entity_died.emit(self)
 	queue_free()
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------
 # points
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# --------------------------------
 
 
 func transfer_points(to: Entity) -> void:
@@ -317,9 +322,21 @@ func add_points(amount: float) -> void:
 	points += amount
 	points_changed.emit()
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+func remove_points(amount: float) -> void:
+	points -= amount
+	points_changed.emit()
+
+func add_score(amount: float) -> void:
+	score += amount
+	score_changed.emit()
+
+func remove_score(amount: float) -> void:
+	score -= amount
+	score_changed.emit()
+
+# ------------------------------------------
 # visibility
-# -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------
 
 
 func set_visibility(to: bool) -> void:
@@ -401,9 +418,9 @@ func _clean_up_invalid_friends() -> void:
 			continue
 
 
-# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------
 # z drive
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------
 
 
 
@@ -516,12 +533,13 @@ func _get_pitch_jump(n: int, max: float, rate: float, start: float) -> float:
 func flower_collected() -> void:
 	flowers_collected += 1
 	flower_combo_multiplier += 1
-	_flower_combo_timer = 1.5
+	_flower_combo_timer = 0.8
 	AudioManager.play_voice(flower_collection_sound, self, false, true, 0.0, 1.0, AudioManager.AudioBus.SFX, 400, 2.0, {"frequency_start": _get_pitch_jump(flowers_collected, 0.65, 0.015, 0.2)})
 	
 func flower_collection_complete() -> void:
 	var point_value: float = flowers_collected * flower_combo_multiplier
 	add_points(point_value) 
+	add_score(point_value)
 	ParticleManager.spawn_number(point_value, global_position)
 	flowers_collected = 0
 	flower_combo_timer = 0

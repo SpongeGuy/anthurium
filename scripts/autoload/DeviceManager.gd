@@ -33,6 +33,20 @@ const JOY_BUTTONS: Dictionary = {
 	"down": JOY_BUTTON_DPAD_DOWN,
 	"right": JOY_BUTTON_DPAD_RIGHT,
 }
+
+const JOY_LABELS: Dictionary = {
+	JOY_BUTTON_A: "A",
+	JOY_BUTTON_B: "B",
+	JOY_BUTTON_X: "X",
+	JOY_BUTTON_Y: "Y",
+	JOY_BUTTON_RIGHT_SHOULDER: "RB",
+	JOY_BUTTON_START: "St",
+	JOY_BUTTON_BACK: "Sl",
+	JOY_BUTTON_DPAD_UP: "Up",
+	JOY_BUTTON_DPAD_DOWN: "Dn",
+	JOY_BUTTON_DPAD_LEFT: "Lt",
+	JOY_BUTTON_DPAD_RIGHT: "Rt",
+	}
  
 const JOY_STICK: Dictionary = {
 	"up": [JOY_AXIS_LEFT_Y, -1.0],
@@ -47,11 +61,11 @@ const KEYBOARD_KEYS: Dictionary = {
 	"left": [KEY_A, KEY_LEFT],
 	"down": [KEY_S, KEY_DOWN],
 	"right": [KEY_D, KEY_RIGHT],
-	"action_primary": [KEY_Z],
-	"action_secondary": [KEY_X],
-	"action_ternary": [KEY_C],
-	"action_quaternary": [KEY_V],
-	"action_interact": [KEY_Q],
+	"action_primary": [KEY_U],
+	"action_secondary": [KEY_I],
+	"action_ternary": [KEY_O],
+	"action_quaternary": [KEY_P],
+	"action_interact": [KEY_SPACE],
 	"start": [KEY_ENTER, KEY_KP_ENTER],
 	"select": [KEY_BACKSPACE],
 }
@@ -87,6 +101,22 @@ func get_free_slot() -> int:
 		if not player_devices.has(slot):
 			return slot
 	return -1
+
+## short display label for [param action] (e.g. "action_primary") on 
+## [param slot]'s device read from the slot's p%d_* InputMap events
+func get_action_label(slot: int, action: String) -> String:
+	var action_name: String = "p%d_%s" % [slot, action]
+	if not InputMap.has_action(action_name):
+		return ""
+	for ev in InputMap.action_get_events(action_name):
+		if ev is InputEventKey:
+			var code: Key = DisplayServer.keyboard_get_keycode_from_physical(ev.physical_keycode)
+			return OS.get_keycode_string(code)
+		if ev is InputEventJoypadButton:
+			return JOY_LABELS.get(ev.button_index, "?")
+		if ev is InputEventJoypadMotion:
+			return "Stick"
+	return ""
 
 # ----------------------------------------------
 # claiming / releasing

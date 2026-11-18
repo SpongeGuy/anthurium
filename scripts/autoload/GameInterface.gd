@@ -88,6 +88,7 @@ func start_new_run(at_level: int, seed_value: int) -> void:
 
 
 func continue_with_new_board() -> void:
+	clear_quests()
 	match level_mode:
 		LevelMode.QUEST:
 			start_level(current_level + 1)
@@ -260,7 +261,8 @@ func _warp_out(e: Entity, to: Vector2) -> void:
 	
 func spawn_gate() -> void:
 	_gate_spawned = true
-	EntityManager.simple_spawn_tile("gate", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+	var random_pos: Vector2i = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")) 
+	EntityManager.simple_spawn_tile("gate", random_pos)
 
 # --------------------------------------------------------------------------------------
 # quest
@@ -286,9 +288,13 @@ func _on_quest_completed(q: Quest) -> void:
 		return
 	match q.get_script():
 		GhostQuest:
-			spawn_gate()
+			if q.result == Quest.QuestResult.SUCCESS:
+				spawn_gate()
 
-
+func clear_quests() -> void:
+	for q in quests:
+		q.shutdown()
+	quests.clear()
 
 
 

@@ -11,7 +11,7 @@ var flower_quest_ratio: float = 0.1
 var flowers: Array[Entity] = []
 
  
-func start(ctx: Dictionary) -> void:
+func start(_ctx: Dictionary) -> void:
 	total_flowers = 0
 	current_flowers = 0
 	is_complete = false
@@ -44,4 +44,4 @@ func _collect_flower(flower: Entity) -> void:
  
  
 func _complete_flower_quest() -> void:
-	finish()
+	finish(QuestResult.SUCCESS)

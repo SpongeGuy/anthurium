@@ -40,6 +40,7 @@ var target_ghost: Entity
 
 # timer is set to (ground_tile_count * entities_per_ground_tile + level_value * entities_per_level * 15)
 var _ghost_calamity_timer: float = 0
+var ghost_calamity_timer_length: float = 100
 
 var _ghost_spawn_timer: float = 0.0
 var ghost_spawn_timer_length: float = 0.5
@@ -59,6 +60,7 @@ var ghost_spawn_timer_length: float = 0.5
 func start(ctx: Dictionary) -> void:
 	var ground_tile_count: int = ctx.ground_tile_count
 	var level_value: int = ctx.level_value
+	# ghost_calamity_timer_length = ctx.get(ghost_calamity_timer_length)
 
 	var multiplier: float = max(0.05, level_value * 0.15)
 	total_ghost_points = max(10, multiplier * ground_tile_count)
@@ -71,9 +73,6 @@ func start(ctx: Dictionary) -> void:
 	kill_quest_complete = false
 	current_ghost_energy = 0
 
-	if EventBus.entity_died.is_connected(_on_entity_death):
-		EventBus.entity_died.disconnect(_on_entity_death)
-	EventBus.entity_died.connect(_on_entity_death)
 
 	spawning_ghosts = true
 
@@ -95,11 +94,13 @@ func tick(delta: float) -> void:
 		return
 	_recalculate_ghost_energy()
 	if float(current_ghost_energy) / float(total_ghost_points) <= ghost_quest_ratio:
-		_complete_ghost_quest()
-
-func shutdown() ->  void:
-	if EventBus.entity_died.is_connected(_on_entity_death):
-		EventBus.entity_died.disconnect(_on_entity_death)
+		finish(QuestResult.SUCCESS)
+	_ghost_calamity_timer += delta
+	
+	# GHOST CALAMITY
+	if _ghost_calamity_timer >= ghost_calamity_timer_length:
+		# change all the behavior of the ghosts to be aggressive
+		EventBus.ghost_calamity_triggered.emit()
 
 func _try_summon_ghost() -> int:
 	if unspent_ghost_points <= 0:
@@ -126,6 +127,8 @@ func _try_summon_ghost() -> int:
 	unspent_ghost_points -= best
 	_recalculate_ghost_energy()
 
+	ghost.died.connect(_on_entity_death)
+
 	if not target_ghost:
 		_set_ghost_target_to(ghost)
 	return best
@@ -133,10 +136,6 @@ func _try_summon_ghost() -> int:
 	
 
 	
-func _complete_ghost_quest() -> void:
-	if EventBus.entity_died.is_connected(_on_entity_death):
-		EventBus.entity_died.disconnect(_on_entity_death)
-	finish()
 
 func _recalculate_ghost_energy() -> void:
 	current_ghost_energy = 0

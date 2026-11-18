@@ -30,6 +30,7 @@ var is_open: bool = false
 
 var _frame_texture: Texture2D = load("uid://dvt6eg4pxqerm")
 var _icons: Array[TextureRect] = []
+var _hints: Array[Label] = []
 var _hidden_slot: int = -1
 var _manager: AbilityManager
 var _tween: Tween
@@ -47,6 +48,8 @@ func setup(slot_index: int) -> void:
 	position = Vector2(_hidden_x(), PANEL_Y[slot % PANEL_Y.size()])
 	visible = false
 	_build()
+	DeviceManager.slot_connected.connect(_on_device_changed)
+	DeviceManager.slot_disconnected.connect(_on_device_changed)
 
 
 func _build() -> void:
@@ -80,6 +83,17 @@ func _build() -> void:
 		icon.visible = false
 		add_child(icon)
 		_icons.append(icon)
+
+		var hint: Label = Label.new()
+		hint.position = Vector2(0, y)
+		hint.size = Vector2(FRAME_SIZE - 1.0, FRAME_SIZE)
+		hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		hint.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		hint.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		hint.add_theme_color_override("font_outline_color", Color.BLACK)
+		hint.add_theme_constant_override("outline_size", 4)
+		add_child(hint)
+		_hints.append(hint)
 
 	cursor = AbilityCursor.new()
 	cursor.setup(self)
@@ -208,6 +222,9 @@ func clear_hidden_slot() -> void:
 	_hidden_slot = -1
 	refresh_icons()
 
+func _on_device_changed(_a: int = 0, _b: int = 0) -> void:
+	refresh_icons()
+
 func refresh_icons() -> void:
 	var valid: bool = _manager != null and is_instance_valid(_manager)
 	for i in SLOT_COUNT:
@@ -216,5 +233,9 @@ func refresh_icons() -> void:
 			ability = _manager.get_ability(i)
 		_icons[i].texture = ability.display_icon if ability else null
 		_icons[i].visible = ability != null and i != _hidden_slot
+		var text: String = ""
+		if valid and _manager.input and i < _manager.input.actions.size():
+			text = DeviceManager.get_action_label(slot, _manager.input.actions[i])
+		_hints[i].text = text
 	if cursor:
 		cursor.validate_held()

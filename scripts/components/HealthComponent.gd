@@ -80,6 +80,8 @@ func die(source: Entity) -> void:
 	if source and PlayerManager.is_entity_player(source) and show_points_on_death_effect:
 		show_points_on_death_effect.execute(entity)
 	if source:
+		var current_points: float = entity.points
+		source.add_score(current_points)
 		entity.transfer_points(source)
 	
 	entity.die_and_despawn()
