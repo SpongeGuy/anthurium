@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://b1o6ytfflxtwx"]
+
+[ext_resource type="Script" uid="uid://cw37lvtvfj1fl" path="res://scripts/abilities/AbilityActivateHitboxAtSpeed.gd" id="1_wv3nv"]
+[ext_resource type="Texture2D" uid="uid://cd1spxd0tcr81" path="res://assets/textures/ability/icons/damage_at_speed.png" id="2_aggxg"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="3_2ttx5"]
+
+[resource]
+script = ExtResource("3_2ttx5")
+display_name = "Velocity Smash"
+icon = ExtResource("2_aggxg")
+definition = ExtResource("1_wv3nv")
+metadata/_custom_type_script = "uid://bcoageewbckti"

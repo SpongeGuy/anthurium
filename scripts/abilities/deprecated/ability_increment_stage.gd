@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityIncrementStage
 
 @export var stage_manager: ItemStageManager
 

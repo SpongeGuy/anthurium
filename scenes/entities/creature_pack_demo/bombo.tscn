@@ -12,7 +12,7 @@
 [ext_resource type="Script" uid="uid://jjlkhibelmw5" path="res://scripts/lobes/LobeDefault.gd" id="10_5jy1q"]
 [ext_resource type="Script" uid="uid://bcrii7x5jinec" path="res://scripts/brain/blueprint/BSBContainer.gd" id="10_r6k1o"]
 [ext_resource type="Script" uid="uid://c4d730vfuwdfd" path="res://scripts/resources/locomotion/NormalLocomotionProfile.gd" id="11_vf10k"]
-[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/detonate.gd" id="12_0md4n"]
+[ext_resource type="Script" uid="uid://tda3ohuci2fd" path="res://scripts/abilities/deprecated/detonate.gd" id="12_0md4n"]
 [ext_resource type="Script" uid="uid://cpjm187a6ashx" path="res://scripts/components/InteractorComponent.gd" id="12_4xrl1"]
 [ext_resource type="Script" uid="uid://clbof20js1smo" path="res://scripts/brain/blueprint/BSBStopAndCastAbility.gd" id="12_jtcli"]
 [ext_resource type="Script" uid="uid://3rahci53su3r" path="res://scripts/resources/entity_effect/EntityEffectChangeSpeed.gd" id="13_4xrl1"]

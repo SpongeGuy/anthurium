@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityDetonate
 
 
 @export var blast_radius: float = 3

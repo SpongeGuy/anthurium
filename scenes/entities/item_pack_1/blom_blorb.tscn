@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="9_nus1x"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="10_8qodc"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="11_p3ycl"]
-[ext_resource type="Script" uid="uid://buy6ml70p0806" path="res://scripts/abilities/food_consumed.gd" id="12_3g0uh"]
+[ext_resource type="Script" uid="uid://buy6ml70p0806" path="res://scripts/abilities/deprecated/food_consumed.gd" id="12_3g0uh"]
 [ext_resource type="Script" uid="uid://cqfik1k3sk2jr" path="res://scripts/resources/entity_effect/EntityEffectScreenShake.gd" id="13_vqm7m"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="14_vwlqu"]
 [ext_resource type="Resource" uid="uid://7h5cwokaxdwi" path="res://assets/resources/voices/chomp.tres" id="15_yti1s"]

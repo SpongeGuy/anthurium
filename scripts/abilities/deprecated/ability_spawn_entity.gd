@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilitySpawnEntity
 
 @export var entity_name: StringName
 @export var spawn_effect: EntityEffect

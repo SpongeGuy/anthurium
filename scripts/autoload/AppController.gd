@@ -56,8 +56,8 @@ func _ready() -> void:
 	CellTypeRegistry.scan_all()
 	AccessoryArchetypeRegistry.scan_all()
 	BloomEventRegistry.scan_all()
+	AbilityRegistry.scan_all()
 	UiController.retrieve_references(main_viewport)
-	
 	PlayerManager.join_requested.connect(_on_join_requested)
 	PlayerManager.all_players_dead.connect(_on_all_players_dead)
 	

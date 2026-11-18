@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilitySwipe
 
 var locomotion: LocomotionHandler
 var animator: SpriteAnimator

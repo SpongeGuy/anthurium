@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityMeleeHit
 
 @export var hurtbox: Hurtbox
 @export var active_start: float

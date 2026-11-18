@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityChangeBehaviorState
 
 @export var behavior_state: BehaviorState
 @export var state_machine: StateMachine

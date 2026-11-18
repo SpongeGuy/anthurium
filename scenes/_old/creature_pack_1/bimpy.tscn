@@ -30,7 +30,7 @@
 [ext_resource type="Script" uid="uid://cu81acdifmvso" path="res://scripts/classes/Memory.gd" id="34_5vf4p"]
 [ext_resource type="Script" uid="uid://camguuycnoqcu" path="res://scripts/lobes/deprecated/default_lobe.gd" id="34_pgwxf"]
 [ext_resource type="Script" uid="uid://7o5jm15ato3e" path="res://scripts/components/pickupable_component.gd" id="35_nsyko"]
-[ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/melee_hit.gd" id="35_qvp6n"]
+[ext_resource type="Script" uid="uid://dmj5t57v7kvmh" path="res://scripts/abilities/deprecated/melee_hit.gd" id="35_qvp6n"]
 [ext_resource type="Script" uid="uid://bbr47xrtnv1ac" path="res://scripts/components/random_texture_selector.gd" id="37_83mm5"]
 [ext_resource type="Texture2D" uid="uid://c3rm4rh01tt2r" path="res://assets/textures/characters/bimpy1.png" id="38_8ane4"]
 [ext_resource type="Texture2D" uid="uid://5rvyhh80roc3" path="res://assets/textures/characters/bimpy2.png" id="39_6wds5"]

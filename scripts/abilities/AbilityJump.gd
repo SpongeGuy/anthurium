@@ -1,22 +1,18 @@
 extends Ability
-class_name AbilityJump
 
-var d: Texture2D = load("uid://bs0ft6kynohxb")
-var n: String = "Jump"
 @export var power: float = 60.0
 
 func initialize() -> void:
-	display_name = n
-	display_icon = d
-	
-
-func on_pressed(modifier: bool) -> void:
-	execute()
-	
-func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
 	pass
 	
-func on_released(hold_duration: float, modifier: bool) -> void:
+
+func on_pressed(_modifier: bool) -> void:
+	execute()
+	
+func on_held(_hold_duration: float, _delta: float, _modifier: bool) -> void:
+	pass
+	
+func on_released(_hold_duration: float, _modifier: bool) -> void:
 	pass
 
 ## actually execute the ability

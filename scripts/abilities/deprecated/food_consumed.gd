@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityFoodConsumed
 
 @export var ichor: IchorComponent
 @export var interactable: InteractableComponent

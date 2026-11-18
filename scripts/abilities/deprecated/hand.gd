@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityHand
 
 @export var hand: HandComponent
 @export var facing: FacingComponent

@@ -1,15 +1,9 @@
-class_name AbilityActivateHitboxAtSpeed extends Ability
+extends Ability
 
 var hurtbox: Hurtbox
 
-var d: Texture2D = load("uid://f4uvgttmu56k")
-var n: String = "Velocity Smash"
 
 func initialize() -> void:
-	display_name = n
-	display_icon = d
-	
-	
 	hurtbox = Hurtbox.new()
 	hurtbox.create_circular_collision_shape(10, 0)
 	hurtbox.position = entity.visual.position

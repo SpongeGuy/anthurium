@@ -11,6 +11,7 @@ class_name AbilityManager
 var _disabled: Array[bool] = [false, false, false, false]
 @export var ichor_component: IchorComponent
 @export var input: InputComponent
+@export var ability_template: Dictionary[int, AbilityDefinition]
 
 signal ability_registered(slot: int, ability: Ability)
 signal ability_unregistered(slot: int)

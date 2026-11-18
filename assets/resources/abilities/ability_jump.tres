@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://c8pe51q878dpq"]
+
+[ext_resource type="Script" uid="uid://ckl5wy0pud2yy" path="res://scripts/abilities/AbilityJump.gd" id="1_dqkhn"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="1_q2j08"]
+[ext_resource type="Texture2D" uid="uid://bs0ft6kynohxb" path="res://assets/textures/ability/icons/jump.png" id="2_6y5p5"]
+
+[resource]
+script = ExtResource("1_q2j08")
+id = &"jump"
+display_name = "Jump"
+icon = ExtResource("2_6y5p5")
+definition = ExtResource("1_dqkhn")
+metadata/_custom_type_script = "uid://bcoageewbckti"

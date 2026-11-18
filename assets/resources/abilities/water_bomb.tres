@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://csx2ptscch61j"]
+
+[ext_resource type="Script" uid="uid://da417qi4wy7f" path="res://scripts/abilities/AbilityShootWaterBomb.gd" id="1_xi6d6"]
+[ext_resource type="Texture2D" uid="uid://upw2415mfccj" path="res://assets/textures/ability/icons/water_drop.png" id="2_8f1jy"]
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="3_js674"]
+
+[resource]
+script = ExtResource("3_js674")
+display_name = "Water Bomb"
+icon = ExtResource("2_8f1jy")
+definition = ExtResource("1_xi6d6")
+metadata/_custom_type_script = "uid://bcoageewbckti"

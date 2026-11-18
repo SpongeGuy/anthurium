@@ -42,7 +42,7 @@ var display_name: String = "AbilityName"
 ## The icon displayed in the ability HUD slot.
 var display_icon: Texture2D
 
-func set_metadata(ability_name: String, ability_icon: Texture2D) -> void:
+func set_display(ability_name: String, ability_icon: Texture2D) -> void:
 	display_name = ability_name
 	display_icon = ability_icon
 	
@@ -98,19 +98,19 @@ func _ready() -> void:
 
 ## Called when the ability's input is first pressed.[br]
 ## [param modifier] reflects whether the modifier input was held at the time of the press.
-func on_pressed(modifier: bool) -> void:
+func on_pressed(_modifier: bool) -> void:
 	pass
 
 ## Called every frame while the ability's input is held.[br]
 ## [param hold_duration] is the total time in seconds the input has been held.[br]
 ## [param modifier] reflects the current state of the modifier input.
-func on_held(hold_duration: float, delta: float, modifier: bool) -> void:
+func on_held(_hold_duration: float, _delta: float, _modifier: bool) -> void:
 	pass
 
 ## Called when the ability's input is released.[br]
 ## [param hold_duration] is the total time in seconds the input was held.[br]
 ## [param modifier] reflects whether the modifier input was held at the time of release.
-func on_released(hold_duration: float, modifier: bool) -> void:
+func on_released(_hold_duration: float, _modifier: bool) -> void:
 	pass
 
 func _process(delta: float) -> void:

@@ -46,6 +46,7 @@ RunRng="*uid://dtogeyftd4ovl"
 CollisionResolutionTracker="*uid://dauakwttssnwo"
 DebugOverlay="*uid://bjcltnmlky4ve"
 DeviceManager="*uid://bokfjyxh26vgt"
+AbilityRegistry="*uid://vxvtgfa2j1gm"
 
 [display]
 

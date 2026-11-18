@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="7_wlwrk"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="8_50qpg"]
 [ext_resource type="Script" uid="uid://bm176fnqfiea6" path="res://scripts/components/PhysicsComponent.gd" id="9_v2rrg"]
-[ext_resource type="Script" uid="uid://buy6ml70p0806" path="res://scripts/abilities/food_consumed.gd" id="10_e13nj"]
+[ext_resource type="Script" uid="uid://buy6ml70p0806" path="res://scripts/abilities/deprecated/food_consumed.gd" id="10_e13nj"]
 [ext_resource type="Script" uid="uid://rhl072pc6k5q" path="res://scripts/components/HealthComponent.gd" id="10_y4kfh"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="11_6wri1"]
 [ext_resource type="Script" uid="uid://dk6vro3btpxyj" path="res://scripts/components/Hitbox.gd" id="11_67mhi"]

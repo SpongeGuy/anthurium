@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AbilityDefinition" format=3 uid="uid://bdei03yw33fof"]
+
+[ext_resource type="Script" uid="uid://bcoageewbckti" path="res://scripts/resources/AbilityDefinition.gd" id="1_73jm3"]
+[ext_resource type="Script" uid="uid://ca55u3oxwnad4" path="res://scripts/abilities/AbilityDamageAoE.gd" id="1_hdbfh"]
+[ext_resource type="Texture2D" uid="uid://d4ixqeh4puotd" path="res://assets/textures/ability/icons/detonate.png" id="2_0tjib"]
+
+[resource]
+script = ExtResource("1_73jm3")
+display_name = "Earthquake"
+icon = ExtResource("2_0tjib")
+definition = ExtResource("1_hdbfh")
+metadata/_custom_type_script = "uid://bcoageewbckti"

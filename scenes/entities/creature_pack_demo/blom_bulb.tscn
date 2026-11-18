@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://d6cq0g5ot4oc" path="res://scripts/resources/entity_effect/EntityEffectAnimation.gd" id="9_mkwxs"]
 [ext_resource type="Script" uid="uid://cfrmrclnx8ldt" path="res://scripts/components/IchorComponent.gd" id="9_qicmm"]
 [ext_resource type="Script" uid="uid://byeskwmhfllnd" path="res://scripts/components/AbilityManager.gd" id="10_ppatb"]
-[ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/ability_spawn_entity.gd" id="11_vvi4s"]
+[ext_resource type="Script" uid="uid://yatksxan7xhj" path="res://scripts/abilities/deprecated/ability_spawn_entity.gd" id="11_vvi4s"]
 [ext_resource type="Script" uid="uid://ddwyn6ohgrj2h" path="res://scripts/resources/entity_effect/EntityEffect.gd" id="13_h8iho"]
 [ext_resource type="Script" uid="uid://dmr1e3ur3lqop" path="res://scripts/components/InputComponent.gd" id="13_vvi4s"]
 [ext_resource type="Script" uid="uid://bwr5nnuoec6r2" path="res://scripts/resources/entity_effect/EntityEffectVoice.gd" id="14_c1yd2"]

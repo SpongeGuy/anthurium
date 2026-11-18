@@ -1,5 +1,4 @@
 extends Ability
-class_name AbilityDungeonCubeRush
 
 @export var locomotion: LocomotionHandler
 #@export var obstruction: ObstructionDetector
