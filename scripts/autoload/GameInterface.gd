@@ -17,6 +17,8 @@ signal player_spawn_started(slot: int)
 signal player_spawned(slot: int, entity: Entity)
 ## Emitted when a gate transition has finished and the new level is live.
 signal transition_finished
+
+signal run_started
  
 const MAIN_POOL: StringName = &"main"
 const SPAWN_FX_TIME: float = 2.5
@@ -85,6 +87,7 @@ func start_new_run(at_level: int, seed_value: int, first_mode: LevelMode = Level
 
 	PlayerManager.reset_run_records()
 	RunRng.start_run(seed_value)
+	run_started.emit()
 	if not EventBus.gate_activated.is_connected(_on_gate_activated):
 		EventBus.gate_activated.connect(_on_gate_activated)
 	

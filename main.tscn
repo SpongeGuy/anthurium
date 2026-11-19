@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b5tywkohv6dpv"]
 
-[ext_resource type="PackedScene" uid="uid://cvm5fr4ckdci4" path="res://scenes/systems/ui/character_selector_hud.tscn" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://dgd1134afbd6k" path="res://scenes/systems/ui/PlayerScoreHud.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cvm5fr4ckdci4" path="res://scenes/systems/ui/CharacterSelectorHud.tscn" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://c0lhjlvaxvoce" path="res://scenes/systems/ui/screen.tscn" id="5_272bh"]
 [ext_resource type="Shader" uid="uid://b7fav5cdhceky" path="res://assets/resources/shaders/harrison_allen_crt.gdshader" id="17_yaehf"]
 
@@ -63,6 +64,8 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="UI_C_SELECT" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1391793777 instance=ExtResource("4_lquwl")]
+
+[node name="UI_P_SCORE" parent="SubViewportContainer/MainViewport/UI_Layer" unique_id=1013178294 instance=ExtResource("4_1bvp3")]
 
 [node name="Container2D" type="Node" parent="SubViewportContainer/MainViewport" unique_id=788291549]
 

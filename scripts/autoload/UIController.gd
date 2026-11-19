@@ -18,6 +18,7 @@ var _panels: Dictionary[int, AbilityPanel] = {}
 var screen: UIScreen
 var c_selector: UICharacterSelector
 var ui_canvas_layer: CanvasLayer
+var score_hud: UIPlayerScore
 
 ## Named [PackedScene]s that can be instantiated as [UIStage]s via
 ## [method add_stage].
@@ -59,6 +60,7 @@ func _ready() -> void:
 	PlayerManager.player_unbound.connect(_unbind_player)
 	PlayerManager.menu_input.connect(_on_menu_input)
 	GameInterface.player_spawned.connect(_on_player_spawned)
+	GameInterface.run_started.connect(_on_run_started)
 
 	
 	
@@ -147,6 +149,11 @@ func retrieve_references(starting_point: Node) -> void:
 		Log.error("Could not find c_selector element while retrieving!")
 		return
 	
+	score_hud = starting_point.find_child("UI_P_SCORE", true, false)
+	if not score_hud:
+		Log.error("Could not find score hud element while retrieving!")
+		return
+
 	is_ready = true
 	ui_ready.emit()
 	
@@ -165,10 +172,14 @@ func _bind_player(slot: int, entity: Entity) -> void:
 	print("binding player")
 	PlayerOverlay.attach(entity, slot)
 	_get_panel(slot).bind_entity(entity)
+	if score_hud:
+		score_hud.bind(slot, entity)
 
 func _unbind_player(slot: int, _entity: Entity) -> void:
 	if _panels.has(slot):
 		_panels[slot].unbind()
+	if score_hud:
+		score_hud.unbind(slot)
 	
 func _on_menu_input(slot: int, action: StringName) -> void:
 	_get_panel(slot).handle_input(action)
@@ -178,6 +189,10 @@ func _on_player_spawned(slot: int, _entity: Entity) -> void:
 	if _ability_ui_open.get(slot, false):
 		return
 	_get_panel(slot).peek(ABILITY_PANEL_PEEK_SECONDS)
+
+func _on_run_started() -> void:
+	if score_hud:
+		score_hud.reset_all()
 
 	
 

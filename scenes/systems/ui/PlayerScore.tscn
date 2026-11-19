@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://biwtjip4gpueg"]
+
+[ext_resource type="Theme" uid="uid://bvh1budw06kq6" path="res://assets/resources/themes/eighties-arcade.tres" id="1_1sn1a"]
+[ext_resource type="Script" uid="uid://chve8vu7okgro" path="res://scripts/classes/ui/PlayerScore.gd" id="2_tkmum"]
+
+[node name="PlayerScore" type="VBoxContainer" unique_id=1104473098]
+offset_right = 56.0
+offset_bottom = 16.0
+theme = ExtResource("1_1sn1a")
+script = ExtResource("2_tkmum")
+metadata/_custom_type_script = "uid://chve8vu7okgro"
+
+[node name="PLAYER_LABEL" type="Label" parent="." unique_id=1691433138]
+layout_mode = 2
+text = "P1"
+horizontal_alignment = 1
+
+[node name="SCORE" type="RichTextLabel" parent="." unique_id=1504347456]
+layout_mode = 2
+text = "0000321"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1

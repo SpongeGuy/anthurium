@@ -1,9 +1,8 @@
 class_name UICharacterSelector extends Control
-## Pure view: one slide-down selector per player slot. It owns the cycling and the idle timeout
-## but knows nothing about game state. UiController feeds it input from PlayerManager and
-## reads the chosen character back out.
+## this hud is active when new players press START on their gamepad.
+## the hud scales with DeviceManager.MAX_PLAYERS
 
-## The selector for [param slot] sat open too long. UiController answers with PlayerManager.cancel_selection.
+## The selector for [param slot] sat open too long. UiController hooks this with PlayerManager.cancel_selection.
 signal selector_timed_out(slot: int)
 
 const ACTIVE_POS: Vector2 = Vector2(0, 14)
