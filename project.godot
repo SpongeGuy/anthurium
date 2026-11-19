@@ -74,6 +74,7 @@ folder_colors={
 "res://assets/resources/": "red",
 "res://assets/sounds/": "green",
 "res://assets/textures/": "blue",
+"res://scenes/_old/": "gray",
 "res://scenes/entities/": "red",
 "res://scenes/systems/": "green",
 "res://scenes/title_screen/": "blue",

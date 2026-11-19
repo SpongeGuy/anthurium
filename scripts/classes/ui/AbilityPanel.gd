@@ -172,6 +172,23 @@ func _slide_to(x: float, hide_after: bool) -> void:
 	if hide_after:
 		_tween.tween_callback(func() -> void: visible = false)
 
+## slides in, holds for [param seconds], then slides out
+## does nothing if panel is already open for management
+func peek(seconds: float = 2.0) -> void:
+	if is_open:
+		return
+	visible = true
+	_ensure_bound()
+	refresh_icons()
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_tween = create_tween()
+	_tween.set_trans(Tween.TRANS_CUBIC)
+	_tween.tween_property(self, "position:x", _shown_x(), SLIDE_TIME).set_ease(Tween.EASE_OUT)
+	_tween.tween_interval(seconds)
+	_tween.tween_property(self, "position:x", _hidden_x(), SLIDE_TIME).set_ease(Tween.EASE_IN)
+	_tween.tween_callback(func() -> void: visible = false)
+
 
 # ----------------------------------------------
 # binding to the player's abilities

@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://c8cpsu4nblstq" path="res://scripts/components/DisappearInTimeComponent.gd" id="22_gbc8y"]
 [ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="22_mvwcn"]
 [ext_resource type="Script" uid="uid://q8oievajpib8" path="res://scripts/resources/entity_effect/EntityEffectUseAbility.gd" id="23_73w5w"]
+[ext_resource type="Script" uid="uid://nwyvfjr3qm8n" path="res://scripts/components/AbilityDisplayComponent.gd" id="24_73w5w"]
 
 [sub_resource type="Resource" id="Resource_h8wos"]
 script = ExtResource("2_r3st6")
@@ -43,7 +44,7 @@ metadata/_custom_type_script = "uid://cym0ubd2tvsch"
 script = ExtResource("23_73w5w")
 metadata/_custom_type_script = "uid://q8oievajpib8"
 
-[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931 node_paths=PackedStringArray("visual", "nodes_to_translate")]
+[node name="AbilityShard" type="CharacterBody2D" unique_id=1223954931 node_paths=PackedStringArray("visual")]
 texture_filter = 1
 collision_layer = 2
 collision_mask = 3
@@ -52,7 +53,6 @@ display_name = "Ability Shard"
 visual = NodePath("Sprite2D")
 archetype = SubResource("Resource_h8wos")
 mass = 0.1
-nodes_to_translate = [NodePath("AbilityIconVisual")]
 jump_effect = null
 land_effect = null
 metadata/_custom_type_script = "uid://8lowpdf5nvix"
@@ -61,9 +61,6 @@ metadata/_custom_type_script = "uid://8lowpdf5nvix"
 position = Vector2(0, -8)
 texture = ExtResource("2_8keq8")
 hframes = 4
-
-[node name="AbilityIconVisual" type="Sprite2D" parent="." unique_id=1729035825]
-position = Vector2(0, -9)
 
 [node name="PickupableComponent" type="Node" parent="." unique_id=355918229 node_paths=PackedStringArray("components_to_disable")]
 script = ExtResource("5_4sxbx")
@@ -89,9 +86,8 @@ script = ExtResource("4_6afsf")
 physics = NodePath("../PhysicsComponent")
 metadata/_custom_type_script = "uid://caol2ehx8v66d"
 
-[node name="AbilityContainer" type="Node" parent="." unique_id=435915172 node_paths=PackedStringArray("ability_icon_visual")]
+[node name="AbilityContainer" type="Node" parent="." unique_id=435915172]
 script = ExtResource("9_vqng3")
-ability_icon_visual = NodePath("../AbilityIconVisual")
 metadata/_custom_type_script = "uid://1ywf387jau87"
 
 [node name="AbilityManager" type="Node" parent="." unique_id=595066811 node_paths=PackedStringArray("input")]
@@ -140,13 +136,6 @@ health_component = NodePath("../HealthComponent")
 sprite = NodePath("../../Sprite2D")
 metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
 
-[node name="DamageAnimationComponent2" type="Node" parent="Health&Damage" unique_id=1698139525 node_paths=PackedStringArray("health_component", "sprite")]
-script = ExtResource("20_gbc8y")
-health_component = NodePath("../HealthComponent")
-sprite = NodePath("../../AbilityIconVisual")
-damage_voice = null
-metadata/_custom_type_script = "uid://bfeyy2elbrj4b"
-
 [node name="InteractableComponent" type="Node" parent="." unique_id=1922570257]
 script = ExtResource("22_mvwcn")
 effect = SubResource("Resource_emcra")
@@ -154,7 +143,7 @@ metadata/_custom_type_script = "uid://dfj8s4mm1ck6t"
 
 [node name="CosmeticGlow" type="Node" parent="." unique_id=619304158 node_paths=PackedStringArray("sprite")]
 script = ExtResource("19_4txoy")
-sprite = NodePath("../AbilityIconVisual")
+sprite = NodePath("../Sprite2D")
 glow_width = 2.0
 
 [node name="JumpOnTimer" type="Node" parent="." unique_id=1794882641]
@@ -163,3 +152,7 @@ script = ExtResource("20_r3st6")
 [node name="DisappearInTimeComponent" type="Node" parent="." unique_id=2112877714]
 script = ExtResource("22_gbc8y")
 metadata/_custom_type_script = "uid://c8cpsu4nblstq"
+
+[node name="AbilityDisplayComponent" type="Node" parent="." unique_id=285830696]
+script = ExtResource("24_73w5w")
+metadata/_custom_type_script = "uid://nwyvfjr3qm8n"

@@ -439,6 +439,8 @@ func _initialize_z_drive() -> void:
 		shadow.set_shadow_alpha(0.65)
 
 	for node in nodes_to_translate:
+		if not node:
+			continue
 		register_z_node(node)
 	_update_terrain_collision_layers()
 

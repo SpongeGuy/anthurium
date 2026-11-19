@@ -19,7 +19,11 @@ func add_ability(ability: Ability) -> void:
 	else:
 		add_child(ability)
 	populate_abilities()
-	ability_icon_visual.texture = ability.display_icon
+	# ability_icon_visual.texture = ability.display_icon
+	var d: AbilityDisplayComponent = entity.get_component(AbilityDisplayComponent)
+	if d and ability.id != &"":
+		d.set_ability(ability.id)
+	
 	
 func populate_abilities() -> void:
 	abilities = [null, null, null, null]

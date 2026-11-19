@@ -195,24 +195,24 @@ func _build_actions(slot: int, device: int) -> void:
  
 func _erase_actions(slot: int) -> void:
 	for a in ACTIONS:
-		var name: String = "p%d_%s" % [slot, a]
-		if InputMap.has_action(name):
-			InputMap.erase_action(name)
+		var a_name: String = "p%d_%s" % [slot, a]
+		if InputMap.has_action(a_name):
+			InputMap.erase_action(a_name)
  
 func _add_axis(action: String, axis: int, value: float, device: int) -> void:
 	var ev: InputEventJoypadMotion = InputEventJoypadMotion.new()
-	ev.axis = axis
+	ev.axis = axis as JoyAxis
 	ev.axis_value = value
 	ev.device = device
 	InputMap.action_add_event(action, ev)
  
 func _add_button(action: String, button: int, device: int) -> void:
 	var ev: InputEventJoypadButton = InputEventJoypadButton.new()
-	ev.button_index = button
+	ev.button_index = button as JoyButton
 	ev.device = device
 	InputMap.action_add_event(action, ev)
  
 func _add_key(action: StringName, key: int) -> void:
 	var ev: InputEventKey = InputEventKey.new()
-	ev.physical_keycode = key
+	ev.physical_keycode = key as Key
 	InputMap.action_add_event(action, ev)

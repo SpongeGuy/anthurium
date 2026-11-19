@@ -7,7 +7,7 @@
 ## the HUD.
 extends Node
 
-
+const ABILITY_PANEL_PEEK_SECONDS: float = 2.5
 
 var _selector_open: Dictionary[int, bool] = {}
 var _ability_ui_open: Dictionary[int, bool] = {}
@@ -58,6 +58,7 @@ func _ready() -> void:
 	PlayerManager.player_bound.connect(_bind_player)
 	PlayerManager.player_unbound.connect(_unbind_player)
 	PlayerManager.menu_input.connect(_on_menu_input)
+	GameInterface.player_spawned.connect(_on_player_spawned)
 
 	
 	
@@ -173,6 +174,10 @@ func _on_menu_input(slot: int, action: StringName) -> void:
 	_get_panel(slot).handle_input(action)
 
 
+func _on_player_spawned(slot: int, _entity: Entity) -> void:
+	if _ability_ui_open.get(slot, false):
+		return
+	_get_panel(slot).peek(ABILITY_PANEL_PEEK_SECONDS)
 
 	
 

@@ -3,6 +3,8 @@ class_name LevelTheme extends Resource
 ## which terrain algorithms and tile palettes the generator can use and which entity tags it favors.[br]
 ## the [LevelGenerator] rolls one of each at random
 
+## this script mirrors [LevelDefinition]
+
 @export var theme_name: StringName
 @export var weight: float = 1.0
 ## one is picked at random (uniformly) per level
@@ -15,6 +17,10 @@ class_name LevelTheme extends Resource
 ## 1.0 = unchanged, 0 = never spawns, 3.0 = three times likely. missing tags = 1.0
 @export var tag_weight_multipliers: Dictionary[StringName, float] = {}
 @export var level_modifiers: Array[Resource] = []
+
+@export var quest_scripts: Array[Script] = [GhostQuest, FlowerQuest]
+@export var spawn_random_key: bool = true
+@export var prefab: Prefab
 
 
 func pick_palette(rng: RandomNumberGenerator) -> TilePalette:

@@ -22,12 +22,16 @@ const MAIN_POOL: StringName = &"main"
 const SPAWN_FX_TIME: float = 2.5
 const WARP_FX_TIME: float = 1.0
 
-enum LevelMode{ QUEST, ONBOARDING, SHOP }
+const SHOP_INTERVAL: int = 5
+enum LevelMode { QUEST, ONBOARDING, SHOP }
+var current_level_mode: LevelMode = LevelMode.QUEST
+var next_level_mode: LevelMode = LevelMode.QUEST
 
-var level_mode: LevelMode
+
 
 var active_spawn_cfg: SpawnDirectorConfig
 var active_level_gen: LevelGenerator
+var onboarding_level_gen: LevelGenerator
 var spawn_directors: Dictionary[StringName, SpawnDirector] = {}
 
 var current_level: int = 0
@@ -70,14 +74,14 @@ func register_effects_container(node: Node) -> void:
  
 ## A "run" is a sequence of levels that play one after another.
 ## Needs [member active_level_gen] and [member active_spawn_cfg] (set by AppController.switch_game_mode).
-func start_new_run(at_level: int, seed_value: int) -> void:
+func start_new_run(at_level: int, seed_value: int, first_mode: LevelMode = LevelMode.QUEST) -> void:
 	if run_active:
 		finish_run()
 	run_active = true
 	time = 0.0
 	current_level = at_level
 
-	level_mode = LevelMode.QUEST
+	next_level_mode = first_mode
 
 	PlayerManager.reset_run_records()
 	RunRng.start_run(seed_value)
@@ -89,13 +93,16 @@ func start_new_run(at_level: int, seed_value: int) -> void:
 
 func continue_with_new_board() -> void:
 	clear_quests()
-	match level_mode:
-		LevelMode.QUEST:
-			start_level(current_level + 1)
-		LevelMode.ONBOARDING:
-			pass
-		LevelMode.SHOP:
-			pass
+	current_level_mode = next_level_mode
+	# only quest boards advance the level number
+	var level: int = current_level + 1 if current_level_mode == LevelMode.QUEST else current_level
+	next_level_mode = _mode_after(current_level, level)
+	start_level(level, current_level_mode)
+
+func _mode_after(mode: LevelMode, level: int) -> LevelMode:
+	if mode == LevelMode.QUEST and level % SHOP_INTERVAL == 0 and level != 0:
+		return LevelMode.SHOP
+	return LevelMode.QUEST
 
 func start_daily_run() -> void:
 	start_new_run(0, daily_seed())
@@ -111,49 +118,61 @@ func finish_run() -> void:
 
 
 ## Builds level [param value]. Gameplay processing is paused while it builds.
-func start_level(value: int) -> void:
+func start_level(value: int, mode: LevelMode) -> void:
 	process_paused = true
 	current_level = value
 	_teardown_current_level()
 	_gate_spawned = false
 	RunRng.start_level(current_level)
  
-	if not active_level_gen or not active_spawn_cfg:
-		Log.error("Game mode not set properly! See AppController to fix issue.", true)
+ 
+	# -------- level generator -------------
+
+	var gen: LevelGenerator
+	match mode:
+		LevelMode.ONBOARDING:
+			gen = onboarding_level_gen
+		_:
+			gen = active_level_gen
+	
+	if not gen:
+		Log.error("Game mode not set properly! See AppController to fix issue; generator must be set there.", true)
 		return
- 
-	var level_def: LevelDefinition = active_level_gen.generate_level(current_level)
-	_reset_world_for_new_level(level_def)
- 
+
+	var level_def: LevelDefinition = gen.generate_level(current_level)
+	_reset_world_for_new_level(level_def, current_level)
+	if level_def.prefab:
+		var p: Prefab = level_def.prefab
+		var origin: Vector2i = Vector2i((level_def.world_size_x_range.x - p.width) / 2, (level_def.world_size_y_range.x - p.height) / 2)
+		p.stamp(origin)
+	
 	var ground_tile_count: int = TerrainManager.query_for_tile_type(CellType.TerrainType.GROUND).size()
-	_create_new_spawn_director(MAIN_POOL, level_def, current_level, ground_tile_count)
-	EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
 
+	# ---------- level entities ----------------
+ 
+	if mode == LevelMode.QUEST:
+		_create_new_spawn_director(MAIN_POOL, level_def, current_level, ground_tile_count)
 
-	# quest stuff 
+	# ------------ level definition configuration -------------------
 
-	var ghost_quest: GhostQuest = GhostQuest.new()
-	var ghost_q_ctx: Dictionary = {
-		ground_tile_count = ground_tile_count,
-		level_value = current_level,
-		}
-	start_quest(ghost_quest, ghost_q_ctx)
-
-	var flower_quest: FlowerQuest = FlowerQuest.new()
-	start_quest(flower_quest, {})
+	if level_def.spawn_random_key:
+		EntityManager.simple_spawn_tile("key", WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")))
+	var ctx: Dictionary = {ground_tile_count = ground_tile_count, level_value = current_level}
+	for s in level_def.quest_scripts:
+		start_quest(s.new(), ctx)
 
 	process_paused = false
 
 
-func _reset_world_for_new_level(level_def: LevelDefinition) -> void:
+func _reset_world_for_new_level(level_def: LevelDefinition, level: int) -> void:
 	EntityManager.destroy_all_entities()
 	CameraController.target = null
-	var level_rng: RandomNumberGenerator = RunRng.get_stream("level_%d" % current_level)
+	var level_rng: RandomNumberGenerator = RunRng.get_stream("level_%d" % level)
 	WorldGrid.init_grid(level_rng.randi_range(level_def.world_size_x_range.x, level_def.world_size_x_range.y), level_rng.randi_range(level_def.world_size_y_range.x, level_def.world_size_y_range.y))
 	TerrainManager.generate(level_def.terrain_generator, level_rng, level_def.ground_type, level_def.wall_type, level_def.indestructible_type, level_def.soft_wall_type)
 	WorldGrid.hide_map()
 	CameraController.center_on_arena()
-	level_loaded.emit(current_level)
+	level_loaded.emit(level)
  
 func _teardown_current_level() -> void:
 	spawn_directors.clear()
@@ -187,7 +206,7 @@ func start_debug_platform() -> void:
 
 	l.world_size_x_range = Vector2i(40, 40)
 	l.world_size_y_range = Vector2i(22, 22)
-	_reset_world_for_new_level(l)
+	_reset_world_for_new_level(l, current_level)
  
 
 
@@ -227,11 +246,12 @@ func spawn_player(slot: int, entity_id: StringName = &"") -> void:
 		if is_instance_valid(carried):
 			carried.queue_free()
 		return
- 
+	
 	var e: Entity = carried if carried else EntityManager.create_entity(id)
 	_carried_players.erase(slot)
 	EntityManager.spawn_entity_at_tile(e, tile, 1, true)
 	PlayerManager.bind_entity(slot, e)
+	e.set_visibility(true)
 	player_spawned.emit(slot, e)
  
 # gate has been activated, so transport players and start new level
@@ -259,10 +279,11 @@ func _warp_out(e: Entity, to: Vector2) -> void:
 	effects_container.add_child(fx)
 	EntityManager.detach_entity(e)
 	
-func spawn_gate() -> void:
+func spawn_gate(tile: Vector2i = Vector2i(-1, -1)) -> void:
 	_gate_spawned = true
-	var random_pos: Vector2i = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")) 
-	EntityManager.simple_spawn_tile("gate", random_pos)
+	if tile == Vector2i(-1, -1):
+		tile = WorldGrid.random_spawn_tile(RunRng.get_stream("dungeon")) 
+	EntityManager.simple_spawn_tile("gate", tile)
 
 # --------------------------------------------------------------------------------------
 # quest
@@ -287,7 +308,7 @@ func _on_quest_completed(q: Quest) -> void:
 	if _gate_spawned:
 		return
 	match q.get_script():
-		GhostQuest:
+		GhostQuest, OnboardingQuest:
 			if q.result == Quest.QuestResult.SUCCESS:
 				spawn_gate()
 
@@ -295,8 +316,3 @@ func clear_quests() -> void:
 	for q in quests:
 		q.shutdown()
 	quests.clear()
-
-
-
-
-

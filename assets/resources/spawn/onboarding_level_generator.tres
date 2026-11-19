@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="LevelGenerator" format=3 uid="uid://bup4e47vf67r7"]
+
+[ext_resource type="Script" uid="uid://bai2jrflbugl" path="res://scripts/wave/new/LevelGenerator.gd" id="1_mittv"]
+[ext_resource type="Script" uid="uid://cu0ahwcs8ptq8" path="res://scripts/wave/new/LevelThemeSet.gd" id="2_tfhac"]
+[ext_resource type="Script" uid="uid://cfuo6d2t7toqp" path="res://scripts/wave/new/LevelTheme.gd" id="3_nknbe"]
+[ext_resource type="Script" uid="uid://bnba2svv11gy3" path="res://scripts/wave/new/TilePalette.gd" id="4_b5amm"]
+[ext_resource type="Script" uid="uid://dqgyk1bo2nd3" path="res://scripts/resources/PrefabCell.gd" id="5_8p1q6"]
+[ext_resource type="Script" uid="uid://tbfketdnjret" path="res://scripts/resources/Prefab.gd" id="6_m6btq"]
+[ext_resource type="Script" uid="uid://b5eox1todxio6" path="res://scripts/quests/OnboardingQuest.gd" id="7_8jvax"]
+[ext_resource type="Script" uid="uid://ce3jw6ms60t7o" path="res://scripts/resources/terrain_generation/TerrainGenerator.gd" id="9_t050x"]
+[ext_resource type="Script" uid="uid://btsuceptsjqua" path="res://scripts/resources/terrain_generation/EmptyTerrainGenerator.gd" id="10_2ch4a"]
+
+[sub_resource type="Resource" id="Resource_tja58"]
+script = ExtResource("4_b5amm")
+palette_name = &"default"
+ground_type = &"ground_sandy"
+soft_wall_type = &"wall_stone"
+wall_type = &"wall_stone"
+indestructible_type = &"wall_indestructible"
+metadata/_custom_type_script = "uid://bnba2svv11gy3"
+
+[sub_resource type="Resource" id="Resource_3e63s"]
+script = ExtResource("5_8p1q6")
+cell_type = &"ground_soil"
+entities = Array[StringName]([&"pedestal", &"gnawlfy"])
+metadata/_custom_type_script = "uid://dqgyk1bo2nd3"
+
+[sub_resource type="Resource" id="Resource_qiscc"]
+script = ExtResource("6_m6btq")
+cells = Array[ExtResource("5_8p1q6")]([SubResource("Resource_3e63s")])
+metadata/_custom_type_script = "uid://tbfketdnjret"
+
+[sub_resource type="Resource" id="Resource_20uav"]
+script = ExtResource("10_2ch4a")
+metadata/_custom_type_script = "uid://btsuceptsjqua"
+
+[sub_resource type="Resource" id="Resource_yfs3m"]
+script = ExtResource("3_nknbe")
+theme_name = &"onboard"
+terrain_generators = Array[ExtResource("9_t050x")]([SubResource("Resource_20uav")])
+palettes = Array[ExtResource("4_b5amm")]([SubResource("Resource_tja58")])
+world_size_x_range = Vector2i(10, 10)
+world_size_y_range = Vector2i(8, 8)
+quest_scripts = Array[Script]([ExtResource("7_8jvax")])
+prefab = SubResource("Resource_qiscc")
+metadata/_custom_type_script = "uid://cfuo6d2t7toqp"
+
+[sub_resource type="Resource" id="Resource_miqdn"]
+script = ExtResource("2_tfhac")
+themes = Array[ExtResource("3_nknbe")]([SubResource("Resource_yfs3m")])
+metadata/_custom_type_script = "uid://cu0ahwcs8ptq8"
+
+[resource]
+script = ExtResource("1_mittv")
+theme_set = SubResource("Resource_miqdn")
+metadata/_custom_type_script = "uid://bai2jrflbugl"

@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://ds3udk8njfox"]
+
+[ext_resource type="Script" uid="uid://8lowpdf5nvix" path="res://scripts/classes/Entity.gd" id="1_ylo5q"]
+[ext_resource type="Texture2D" uid="uid://c82f35jhfrpex" path="res://assets/textures/characters/objects/pedestal.png" id="2_yywgl"]
+[ext_resource type="Script" uid="uid://dfj8s4mm1ck6t" path="res://scripts/components/InteractableComponent.gd" id="3_sfsyp"]
+[ext_resource type="Script" uid="uid://cli1wmempp60g" path="res://scripts/components/PedestalComponent.gd" id="4_yywgl"]
+[ext_resource type="Script" uid="uid://nwyvfjr3qm8n" path="res://scripts/components/AbilityDisplayComponent.gd" id="5_sfsyp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emcra"]
+size = Vector2(10, 3)
+
+[node name="Entity" type="CharacterBody2D" unique_id=352921372 node_paths=PackedStringArray("visual")]
+texture_filter = 1
+collision_layer = 4
+script = ExtResource("1_ylo5q")
+display_name = "Pedestal"
+visual = NodePath("Sprite2D")
+mass = 100.0
+metadata/_custom_type_script = "uid://8lowpdf5nvix"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997567127]
+position = Vector2(0, -5)
+texture = ExtResource("2_yywgl")
+
+[node name="Interactable" type="Node" parent="." unique_id=2077211398]
+script = ExtResource("3_sfsyp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=674985785]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_emcra")
+
+[node name="PedestalComponent" type="Node" parent="." unique_id=1527904551 node_paths=PackedStringArray("interactable", "ability_display")]
+script = ExtResource("4_yywgl")
+interactable = NodePath("../Interactable")
+ability_display = NodePath("../AbilityDisplayComponent")
+ability_id = &"simple_melee"
+metadata/_custom_type_script = "uid://cli1wmempp60g"
+
+[node name="AbilityDisplayComponent" type="Node" parent="." unique_id=90167982]
+script = ExtResource("5_sfsyp")
+icon_offset = Vector2(0, -14)
+metadata/_custom_type_script = "uid://nwyvfjr3qm8n"

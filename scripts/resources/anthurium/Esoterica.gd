@@ -14,11 +14,11 @@ class_name Esoterica
 ## an inevitable recalling to memory
 @export var anamnesis: float
 
-func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, tr: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:
+func _init(fe: float = 0.0, fu: float = 0.0, la: float = 0.0, te: float = 0.0, ac: float = 0.0, an: float = 0.0) -> void:
 	felicity = fe
 	furor = fu
 	lacuna = la
-	tremendum = tr
+	tremendum = te
 	acedia = ac
 	anamnesis = an
 

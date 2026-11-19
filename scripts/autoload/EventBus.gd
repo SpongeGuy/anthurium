@@ -28,3 +28,5 @@ signal gate_activated(position: Vector2)
 signal clearing_grid()
 
 signal ghost_calamity_triggered()
+
+signal pedestal_purchased(buyer: Entity, ability_id: StringName)

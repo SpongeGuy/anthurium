@@ -30,6 +30,8 @@ signal finished
 @export var ichor_component: IchorComponent
 
 var slot: int = -1
+var id: StringName = &""
+var description: String = ""
 
 var _cd: float = 0
 
@@ -42,9 +44,10 @@ var display_name: String = "AbilityName"
 ## The icon displayed in the ability HUD slot.
 var display_icon: Texture2D
 
-func set_display(ability_name: String, ability_icon: Texture2D) -> void:
+func set_display(ability_name: String, ability_icon: Texture2D, desc: String) -> void:
 	display_name = ability_name
 	display_icon = ability_icon
+	description = desc
 	
 
 ## Nodes created at runtime during [method initialize] that belong to this ability.

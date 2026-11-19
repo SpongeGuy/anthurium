@@ -181,7 +181,7 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 			MusicController.stop()
 			_initialize_world()
 			CameraController.set_behavior_mode(CameraController.Behavior.CENTERED, 0.0, true)
-			GameInterface.start_new_run(0, randi())
+			GameInterface.start_new_run(0, randi(), GameInterface.LevelMode.ONBOARDING)
 			#GameInterface.start_debug_platform()
 			switch_game_state(GameStatus.PLAYING)
 			change_active_controller(Controller.PLAYER)
@@ -203,8 +203,9 @@ func switch_app_state(status: AppStatus, forcing: bool = false) -> void:
 func switch_game_mode(to: GameMode) -> void:
 	match to:
 		GameMode.QUEST:
-			GameInterface.active_level_gen = load("uid://bmt0fkah08ra7") # default_level_generator
-			GameInterface.active_spawn_cfg = load("uid://ber8fdp8shydu") # default_spawn_director_config
+			GameInterface.active_level_gen = load("uid://bmt0fkah08ra7") # default_level_generator.tres
+			GameInterface.active_spawn_cfg = load("uid://ber8fdp8shydu") # default_spawn_director_config.tres
+			GameInterface.onboarding_level_gen = load("uid://bup4e47vf67r7") # onboarding_level_generator.tres
 
 func toggle_pause() -> void:
 	if game_state == GameStatus.PLAYING:

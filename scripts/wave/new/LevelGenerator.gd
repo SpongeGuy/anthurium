@@ -26,5 +26,9 @@ func generate_level(level_value: int) -> LevelDefinition:
 	def.tag_weight_multipliers = theme.tag_weight_multipliers # shared, read-only
 	def.world_size_x_range = theme.world_size_x_range
 	def.world_size_y_range = theme.world_size_y_range
+
+	def.quest_scripts = theme.quest_scripts
+	def.spawn_random_key = theme.spawn_random_key
+	def.prefab = theme.prefab
 	return def
 	

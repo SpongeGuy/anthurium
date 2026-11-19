@@ -16,7 +16,7 @@ signal all_abilities_registered
 # ----------------------- public api -----------------------
 # ------------------------------------------------------------
 
-func get_ability_defn(ability_name: StringName) -> AbilityDefinition:
+func get_ability_definition(ability_name: StringName) -> AbilityDefinition:
 	if not registry.has(ability_name):
 		Log.error("Unknown type '%s'" % ability_name)
 		return null
@@ -34,16 +34,17 @@ func get_all_types() -> Array[StringName]:
 	return types
 
 func make_ability_from_id(id: StringName) -> Ability:
-	var def: AbilityDefinition = get_ability_defn(id)
+	var def: AbilityDefinition = get_ability_definition(id)
 	return make_ability_from_definition(def)
 	
 
 func make_ability_from_definition(def: AbilityDefinition) -> Ability:
 	var a: Ability = def.definition.new()
-	a.set_display(def.display_name, def.icon)
+	a.set_display(def.display_name, def.icon, def.description)
 	for key in def.properties:
 		a.set(key, def.properties[key])
 	return a
+
 
 
 
