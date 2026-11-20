@@ -54,15 +54,15 @@ func physics_process(delta: float) -> void:
 	_angle += orbit_direction * orbit_speed * delta
 	_float_time += delta * _unique_float_value * 5
 
+	entity.set_z_value(5 + sin(_float_time))
+
 	if input.player_controlled:
 		locomotion.handle_locomotion(delta)
 		return
-
-	entity.set_z_value(5 + sin(_float_time))
-
-	var desired: Vector2 = _ellipse_point(_angle)
-	var weight: float = 1.0 - exp(-CATCH_UP_SPEED * delta)
-	entity.global_position = lerp(entity.global_position, desired, weight)
+	else:
+		var desired: Vector2 = _ellipse_point(_angle)
+		var weight: float = 1.0 - exp(-CATCH_UP_SPEED * delta)
+		entity.global_position = lerp(entity.global_position, desired, weight)
 
 func handle_ai_movement(_delta: float) -> void:
 	var desired: Vector2 = _ellipse_point(_angle)

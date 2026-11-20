@@ -5,6 +5,8 @@ class_name GhostComponent extends Component
 @export var ghost_resource: GhostResource 
 @export var damage_animation: DamageAnimationComponent
 
+var exhausted: bool = false
+
 
 signal ghost_points_exhausted(entity: Entity)
 
@@ -28,6 +30,8 @@ func decrement_ghost_points(by: int) -> void:
 
 	if ghost_points <= 0:
 		ghost_points_exhausted.emit(entity)
+		exhausted = true
+		await get_tree().create_timer(5).timeout
 		entity.die_and_despawn()
 	update_form()
 

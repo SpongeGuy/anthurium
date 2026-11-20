@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ParticleProfile" format=3 uid="uid://40st4xhgjgri"]
+
+[ext_resource type="Script" uid="uid://cym0ubd2tvsch" path="res://scripts/resources/SpriteAnimation.gd" id="1_4fiyg"]
+[ext_resource type="Script" uid="uid://mcpcxayympjv" path="res://scripts/resources/ParticleProfile.gd" id="1_x6l23"]
+[ext_resource type="Texture2D" uid="uid://dcthdx7n1twtj" path="res://assets/textures/ui/anthur_runes.png" id="3_cdqht"]
+
+[sub_resource type="Resource" id="Resource_8nepv"]
+script = ExtResource("1_4fiyg")
+name = &"animate"
+frames = 52
+metadata/_custom_type_script = "uid://cym0ubd2tvsch"
+
+[resource]
+script = ExtResource("1_x6l23")
+texture = ExtResource("3_cdqht")
+animation = SubResource("Resource_8nepv")
+metadata/_custom_type_script = "uid://mcpcxayympjv"

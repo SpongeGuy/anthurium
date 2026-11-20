@@ -114,6 +114,7 @@ script = ExtResource("4_jwlga")
 max_health = 8.0
 health = 8.0
 hitbox = NodePath("../../HitDetection/Hitbox")
+god_mode = true
 ichor = NodePath("../Ichor")
 metadata/_custom_type_script = "uid://rhl072pc6k5q"
 

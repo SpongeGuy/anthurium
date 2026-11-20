@@ -26,13 +26,13 @@ var kill_quest_complete: bool = false
 
 var ghosts: Array[Entity] = []
 var ghost_values: Dictionary[int, StringName] = {
-	1: "ghost_1",
-	2: "ghost_2",
-	5: "ghost_5",
-	10: "ghost_10",
-	25: "ghost_25",
-	50: "ghost_50",
-	100: "ghost_100",
+	1: "ghost",
+	2: "ghost",
+	5: "ghost",
+	10: "ghost",
+	25: "ghost",
+	50: "ghost",
+	100: "ghost",
 }
 
 var spawning_ghosts: bool = false
@@ -73,6 +73,9 @@ func start(ctx: Dictionary) -> void:
 	kill_quest_complete = false
 	current_ghost_energy = 0
 
+	if not EventBus.entity_died.is_connected(_on_entity_death):
+		EventBus.entity_died.connect(_on_entity_death)
+
 
 	spawning_ghosts = true
 
@@ -102,6 +105,11 @@ func tick(delta: float) -> void:
 		# change all the behavior of the ghosts to be aggressive
 		EventBus.ghost_calamity_triggered.emit()
 
+func shutdown() ->  void:
+	if EventBus.entity_died.is_connected(_on_entity_death):
+		EventBus.entity_died.disconnect(_on_entity_death)
+
+
 func _try_summon_ghost() -> int:
 	if unspent_ghost_points <= 0:
 		spawning_ghosts = false
@@ -120,14 +128,14 @@ func _try_summon_ghost() -> int:
 	var ghost: Entity = EntityManager.simple_spawn(ghost_values[best], spawn_pos)
 	ghost.modulate = Color(1, 1, 1, 0.3)
 	var g_component: GhostComponent = ghost.get_component(GhostComponent)
-	g_component.ghost_points_exhausted.connect(_on_ghost_evaporation)
+	g_component.ghost_points_exhausted.connect(_on_ghost_exhausted)
 	g_component.set_ghost_points(best)
+	ghost.tree_exiting.connect(_on_ghost_leaving.bind(ghost))
 
 	ghosts.append(ghost)
 	unspent_ghost_points -= best
 	_recalculate_ghost_energy()
 
-	ghost.died.connect(_on_entity_death)
 
 	if not target_ghost:
 		_set_ghost_target_to(ghost)
@@ -135,16 +143,21 @@ func _try_summon_ghost() -> int:
 
 	
 
-	
+func _on_ghost_leaving(ghost: Entity) -> void:
+	ghosts.erase(ghost)
+	if ghost == target_ghost:
+		target_ghost = null
+	_recalculate_ghost_energy()
 
 func _recalculate_ghost_energy() -> void:
+	ghosts = ghosts.filter(func(g: Entity) -> bool: return is_instance_valid(g))
 	current_ghost_energy = 0
 	for g in ghosts:
 		var ghost_component: GhostComponent = g.get_component(GhostComponent)
 		current_ghost_energy += ghost_component.ghost_points
 
 
-func _on_ghost_evaporation(entity: Entity) -> void:
+func _on_ghost_exhausted(entity: Entity) -> void:
 	ghosts.erase(entity)
 	_recalculate_ghost_energy()
 	if entity == target_ghost:
@@ -152,6 +165,7 @@ func _on_ghost_evaporation(entity: Entity) -> void:
 
 
 func _choose_new_ghost_target() -> void:
+	ghosts = ghosts.filter(func(g: Entity) -> bool: return is_instance_valid(g))
 	if ghosts.size() <= 0:
 		target_ghost = null
 		return
@@ -169,9 +183,9 @@ func _set_ghost_target_to(entity: Entity) -> void:
 func _on_entity_death(entity: Entity) -> void:
 	if entity.has_component(GhostComponent):
 		return
-	if not target_ghost:
+	if not is_instance_valid(target_ghost):
 		_choose_new_ghost_target()
-	if not target_ghost:
+	if not is_instance_valid(target_ghost):
 		return
 	var ghost_component: GhostComponent = target_ghost.get_component(GhostComponent)
 	ghost_component.decrement_ghost_points(entity.ghost_value)
